@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>537131372504-4vo3f6762hmb4k00dcke02tah8d1u26m.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.537131372504-4vo3f6762hmb4k00dcke02tah8d1u26m</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAPZO3l7YxeN96altWKdWhkFBne-krvKPM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>537131372504</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.whenScarsBecomeArt</string>
+	<key>PROJECT_ID</key>
+	<string>scars-d81cd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>scars-d81cd.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:537131372504:ios:d8ba4849dd09db3103acad</string>
+	<key>DATABASE_URL</key>
+	<string>https://scars-d81cd-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

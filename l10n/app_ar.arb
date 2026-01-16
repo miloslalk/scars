@@ -1,0 +1,57 @@
+{
+  "appTitle": "تطبيق سكارز",
+  "loginWith": "تسجيل الدخول باستخدام:",
+  "loginWithGoogle": "تسجيل الدخول باستخدام Google",
+  "loginWithApple": "تسجيل الدخول باستخدام Apple",
+  "loginWithFacebook": "تسجيل الدخول باستخدام Facebook",
+  "orLoginWithUsernameAndPassword": "أو سجّل الدخول باسم المستخدم وكلمة المرور",
+  "usernameLabel": "اسم المستخدم",
+  "passwordLabel": "كلمة المرور",
+  "loginButton": "تسجيل الدخول",
+  "loadingCredentials": "جارٍ تحميل بيانات تسجيل الدخول...",
+  "unableToLoadCredentials": "تعذر تحميل بيانات تسجيل الدخول",
+  "invalidCredentials": "بيانات تسجيل دخول غير صحيحة",
+  "homeLabel": "الرئيسية",
+  "profileLabel": "الملف الشخصي",
+  "galleryLabel": "المعرض",
+  "settingsLabel": "الإعدادات",
+  "helpLabel": "المساعدة",
+  "profilePageTitle": "صفحة الملف الشخصي",
+  "profilePageBody": "يمكنك عرض معلومات ملفك الشخصي وتعديلها هنا.",
+  "galleryTitle": "المعرض",
+  "galleryBody": "تصفح معرض الصور الخاص بك هنا.",
+  "settingsTitle": "الإعدادات",
+  "settingsBody": "أدر إعدادات التطبيق هنا.",
+  "helpTitle": "المساعدة والدعم",
+  "helpBody": "احصل على المساعدة والدعم هنا.",
+  "settingsPreferencesTitle": "التفضيلات",
+  "settingsPreferencesBody": "خصّص تجربتك في التطبيق.",
+  "settingsNotificationsTitle": "الإشعارات",
+  "settingsNotificationsBody": "اختر كيفية إشعارك.",
+  "settingsLanguageTitle": "اللغة",
+  "settingsLanguageBody": "اختر لغة التطبيق.",
+  "settingsLanguageSystem": "إعدادات النظام",
+  "languageEnglish": "🇬🇧 الإنجليزية",
+  "languageSerbianLatin": "🇷🇸 الصربية (لاتينية)",
+  "languageMacedonian": "🇲🇰 المقدونية",
+  "languageGerman": "🇩🇪 الألمانية",
+  "languageGreek": "🇬🇷 اليونانية",
+  "languageRomanian": "🇷🇴 الرومانية",
+  "languageArabic": "🇸🇦 العربية",
+  "languageRomani": "🟦🟩🟨🔴 الروماني",
+  "languageTurkish": "🇹🇷 التركية",
+  "registrationTitle": "Create your account",
+  "registrationSubtitle": "Fill in your details to get started.",
+  "fullNameLabel": "Full name",
+  "emailLabel": "Email",
+  "confirmPasswordLabel": "Confirm password",
+  "registerButton": "Register",
+  "registerLink": "Register",
+  "noAccountPrompt": "Don't have an account?",
+  "alreadyHaveAccount": "Already have an account?",
+  "fieldRequired": "This field is required.",
+  "invalidEmail": "Enter a valid email address.",
+  "passwordTooShort": "Password must be at least 6 characters.",
+  "passwordsDoNotMatch": "Passwords do not match.",
+  "registerSuccess": "Registration completed."
+}

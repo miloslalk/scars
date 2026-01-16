@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "537131372504",
+    "firebase_url": "https://scars-d81cd-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "scars-d81cd",
+    "storage_bucket": "scars-d81cd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537131372504:android:48f548c8e4827ce003acad",
+        "android_client_info": {
+          "package_name": "com.example.when_scars_become_art"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "537131372504-41ntjb4i94uve5k7nits7ohl89rdjf6g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.when_scars_become_art",
+            "certificate_hash": "fd8f3344aad430d2a7129d033abec8000d606cb1"
+          }
+        },
+        {
+          "client_id": "537131372504-s9jffblg6jio1h6ve21d403deeblbok6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6BNU8UiXReWuTWThehW_CCBqrhxocTnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "537131372504-s9jffblg6jio1h6ve21d403deeblbok6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "537131372504-4vo3f6762hmb4k00dcke02tah8d1u26m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.whenScarsBecomeArt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
