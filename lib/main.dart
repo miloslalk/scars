@@ -1,7 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
@@ -50,18 +47,18 @@ class _MyAppState extends State<MyApp> {
   static const _darkSurface = Color(0xFF262133);
 
   ThemeData _buildLightTheme() {
-    final colorScheme = const ColorScheme(
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: _primary,
       brightness: Brightness.light,
+    ).copyWith(
       primary: _primary,
       onPrimary: Colors.white,
       secondary: _accent,
       onSecondary: Colors.white,
-      error: Color(0xFFD14D4D),
+      error: const Color(0xFFD14D4D),
       onError: Colors.white,
-      background: _lightBackground,
-      onBackground: Color(0xFF1C1A22),
       surface: _lightSurface,
-      onSurface: Color(0xFF1C1A22),
+      onSurface: const Color(0xFF1C1A22),
     );
 
     return ThemeData(
@@ -116,18 +113,18 @@ class _MyAppState extends State<MyApp> {
   }
 
   ThemeData _buildDarkTheme() {
-    final colorScheme = const ColorScheme(
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: _accent,
       brightness: Brightness.dark,
+    ).copyWith(
       primary: _accent,
-      onPrimary: Color(0xFF1A1624),
+      onPrimary: const Color(0xFF1A1624),
       secondary: _primarySoft,
       onSecondary: Colors.white,
-      error: Color(0xFFE07070),
-      onError: Color(0xFF1A1624),
-      background: _darkBackground,
-      onBackground: Color(0xFFF2EEF8),
+      error: const Color(0xFFE07070),
+      onError: const Color(0xFF1A1624),
       surface: _darkSurface,
-      onSurface: Color(0xFFF2EEF8),
+      onSurface: const Color(0xFFF2EEF8),
     );
 
     return ThemeData(

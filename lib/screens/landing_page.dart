@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'home_page.dart';
-import '../widgets/app_top_bar.dart';
 import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
 import 'registration_page.dart';
 
@@ -118,8 +117,7 @@ class _LandingPageState extends State<LandingPage> {
             });
             expires = newExpires;
           }
-          final expiryText =
-              expires?.toLocal().toString().split('.').first ?? 'in 5 days';
+          final expiryText = expires.toLocal().toString().split('.').first;
           await FirebaseAuth.instance.signOut();
           _showSnackBar(
             'Please verify your email ${user.email} until $expiryText.',
@@ -137,6 +135,7 @@ class _LandingPageState extends State<LandingPage> {
           ? (user.displayName ?? loginName)
           : loginName;
 
+      if (!mounted) return;
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -211,6 +210,7 @@ class _LandingPageState extends State<LandingPage> {
         });
       }
 
+      if (!mounted) return;
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -407,7 +407,7 @@ class _LandingPageState extends State<LandingPage> {
               SizedBox(height: 20),
               Text(l10n.orLoginWithUsernameAndPassword),
               SizedBox(height: 10),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: TextField(
                   controller: _usernameController,
@@ -415,7 +415,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
               SizedBox(height: 12),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: TextField(
                   controller: _passwordController,

@@ -30,6 +30,9 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     final String? initial = userInitial?.trim().isNotEmpty == true
         ? userInitial!.trim().substring(0, 1).toUpperCase()
         : null;
+    final trimmedAvatarUrl = userAvatarUrl?.trim();
+    final hasAvatar = trimmedAvatarUrl != null && trimmedAvatarUrl.isNotEmpty;
+    final safeInitial = initial ?? '?';
 
     return AppBar(
       toolbarHeight: 72,
@@ -59,8 +62,6 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
                 final displayName = userName?.trim().isNotEmpty == true
                     ? userName!.trim()
                     : 'Account';
-                final avatarUrl =
-                    userAvatarUrl?.trim().isNotEmpty == true ? userAvatarUrl : null;
                 return [
                   PopupMenuItem<_UserMenuAction>(
                     enabled: false,
@@ -71,14 +72,15 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
                           backgroundColor: Colors.blue.shade100,
                           foregroundColor: Colors.blue.shade900,
                           backgroundImage:
-                              avatarUrl != null ? NetworkImage(avatarUrl) : null,
-                          child: avatarUrl == null
-                              ? Text(
-                                  initial ?? '?',
-                                  style:
-                                      const TextStyle(fontWeight: FontWeight.bold),
-                                )
-                              : null,
+                              hasAvatar ? NetworkImage(trimmedAvatarUrl) : null,
+                          child: hasAvatar
+                              ? null
+                              : Text(
+                                  safeInitial,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                         ),
                         const SizedBox(width: 8),
                         Expanded(
@@ -117,13 +119,12 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
                 radius: 20,
                 backgroundColor: Colors.blue.shade100,
                 foregroundColor: Colors.blue.shade900,
-                backgroundImage: userAvatarUrl?.trim().isNotEmpty == true
-                    ? NetworkImage(userAvatarUrl!.trim())
-                    : null,
-                child: userAvatarUrl?.trim().isNotEmpty == true
+                backgroundImage:
+                    hasAvatar ? NetworkImage(trimmedAvatarUrl) : null,
+                child: hasAvatar
                     ? null
                     : Text(
-                        initial,
+                        safeInitial,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
               ),

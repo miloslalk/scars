@@ -80,5 +80,15 @@
 
 ## Messages (Balloons)
 - Messages tab shows a continuous stream of animated balloons.
-- Balloons are tinted variants of `assets/images/balloon_heart.svg`.
+- Balloons are tinted variants of `assets/images/balloon-heart-fill_1.svg`.
 - Balloons pop on tap with a brief burst animation.
+ - TODO: Replace RTDB-only reports with Cloud Functions email + approve/reject links.
+- TODO: Limit popping to 1 balloon per day, reset at 00:00 CET (keep unlimited for testing).
+- TODO: Decide whether messages expire after a fixed time if not popped.
+- TODO: Re-enable DB-backed global messages with per-user "pop once" tracking; currently using mock pool.
+
+## Care Corner
+- Care Corner is a standalone page with 7 flag bubbles (Romania, Serbia, Greece, North Macedonia, Germany, Turkey, EU).
+- Tapping a flag centers it and reveals 3 inner bubbles: Wellbeing, Support & Services, Education.
+- Inner bubbles open mock content lists; content will be wired to Firebase later.
+- TODO: Add admin roles (6 partners) with countryCode to manage Care Corner content per country; restrict access by rules and show admin-only page.

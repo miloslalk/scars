@@ -112,10 +112,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
       debugPrint('Registration failed: $error');
       _showSnackBar('Registration failed: $error');
     } finally {
-      if (!mounted) return;
-      setState(() {
-        _isSubmitting = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
     }
   }
 
