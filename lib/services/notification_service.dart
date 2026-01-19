@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -50,7 +48,7 @@ class NotificationService {
       null,
       scheduled,
       _defaultDetails(),
-      androidAllowWhileIdle: true,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
@@ -66,7 +64,7 @@ class NotificationService {
       null,
       scheduled,
       _defaultDetails(),
-      androidAllowWhileIdle: true,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
@@ -86,7 +84,7 @@ class NotificationService {
     await cancelInactiveReminder();
     await scheduleInactiveReminder(now);
   }
- 
+
   tz.TZDateTime _nextInstanceOfTime(
     tz.TZDateTime now, {
     required int hour,
@@ -117,5 +115,4 @@ class NotificationService {
     const ios = DarwinNotificationDetails();
     return const NotificationDetails(android: android, iOS: ios);
   }
-
 }

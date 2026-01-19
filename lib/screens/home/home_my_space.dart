@@ -216,7 +216,7 @@ class _MySpaceCalendarPickerSheetState
       if (bodySnap.exists && bodySnap.value is Map) {
         final data = Map<String, dynamic>.from(bodySnap.value as Map);
         for (final key in data.keys) {
-          if (key is String && key.length == 8) {
+          if (key.length == 8) {
             keys.add(key);
           }
         }

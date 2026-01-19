@@ -795,28 +795,6 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
-class _HelpContent extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(Icons.help, size: 80, color: Colors.purple),
-          SizedBox(height: 20),
-          Text(
-            l10n.helpTitle,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20),
-          Text(l10n.helpBody),
-        ],
-      ),
-    );
-  }
-}
-
 class _BodyAwarenessContent extends StatefulWidget {
   @override
   State<_BodyAwarenessContent> createState() => _BodyAwarenessContentState();

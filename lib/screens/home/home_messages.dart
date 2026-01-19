@@ -11,7 +11,6 @@ class _MessagesContentState extends State<_MessagesContent>
   List<_BalloonSpec> _balloons = [];
   String? _balloonSvg;
   final Map<String, DateTime> _poppedAt = {};
-  List<_MessageSpec> _messagePool = const [];
   String? _loadedLocaleCode;
   Set<String> _poppedMessageIds = {};
 
@@ -60,7 +59,6 @@ class _MessagesContentState extends State<_MessagesContent>
     final poppedIds = await _loadPoppedMessageIds();
     if (!mounted) return;
     setState(() {
-      _messagePool = messages;
       _poppedMessageIds = poppedIds;
       _balloons = _buildBalloons(messages, poppedIds);
       _poppedAt.clear();

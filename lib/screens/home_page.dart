@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:math';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:firebase_auth/firebase_auth.dart';

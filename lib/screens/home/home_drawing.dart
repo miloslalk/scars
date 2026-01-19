@@ -78,35 +78,6 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
     });
   }
 
-  void _setStrokeColor(Color color) {
-    setState(() {
-      _strokeColor = color;
-    });
-  }
-
-  void _setStrokeWidth(double value) {
-    setState(() {
-      _strokeWidth = value;
-    });
-  }
-
-  void _setTool(bool isEraser) {
-    setState(() {
-      _isEraser = isEraser;
-      _isTextTool = false;
-      _isBucketTool = false;
-    });
-  }
-
-  void _setTextTool() {
-    setState(() {
-      _isTextTool = true;
-      _isEraser = false;
-      _isBucketTool = false;
-      _activeTextIndex = null;
-    });
-  }
-
   String? _resolvedFontFamily(String family) {
     if (family == 'Serif') return 'serif';
     if (family == 'Mono') return 'monospace';
@@ -464,10 +435,11 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
         _fillLayer = filled;
       });
     } finally {
-      if (!mounted) return;
-      setState(() {
-        _isFilling = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isFilling = false;
+        });
+      }
     }
   }
 
@@ -487,7 +459,12 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
   }
 
   List<int> _colorToRgba(Color color) {
-    return [color.red, color.green, color.blue, color.alpha];
+    return [
+      (color.r * 255).round().clamp(0, 255),
+      (color.g * 255).round().clamp(0, 255),
+      (color.b * 255).round().clamp(0, 255),
+      (color.a * 255).round().clamp(0, 255),
+    ];
   }
 
   Future<ui.Image> _imageFromPixels(
