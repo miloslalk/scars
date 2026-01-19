@@ -79,6 +79,8 @@
 - Body outline asset: `assets/images/Human_body_outline.svg`.
 
 ## Messages (Balloons)
+- Once a user pops a balloon message, it must never be shown again to that user.
+- The number of visible balloons equals the number of messages the user has not popped.
 - Messages tab shows a continuous stream of animated balloons.
 - Balloons are tinted variants of `assets/images/balloon-heart-fill_1.svg`.
 - Balloons pop on tap with a brief burst animation.
@@ -86,6 +88,7 @@
 - TODO: Limit popping to 1 balloon per day, reset at 00:00 CET (keep unlimited for testing).
 - TODO: Decide whether messages expire after a fixed time if not popped.
 - TODO: Re-enable DB-backed global messages with per-user "pop once" tracking; currently using mock pool.
+- TODO: Add 365 localized messages per language when provided by client (current list is for testing) using `{id,text}` entries with stable IDs across locales.
 
 ## Care Corner
 - Care Corner is a standalone page with 7 flag bubbles (Romania, Serbia, Greece, North Macedonia, Germany, Turkey, EU).

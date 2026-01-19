@@ -8,10 +8,12 @@ class _MessagesContent extends StatefulWidget {
 class _MessagesContentState extends State<_MessagesContent>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final List<_BalloonSpec> _balloons;
+  List<_BalloonSpec> _balloons = [];
   String? _balloonSvg;
-  final Map<int, DateTime> _poppedAt = {};
-  late final List<String> _messagePool;
+  final Map<String, DateTime> _poppedAt = {};
+  List<_MessageSpec> _messagePool = const [];
+  String? _loadedLocaleCode;
+  Set<String> _poppedMessageIds = {};
 
   @override
   void initState() {
@@ -21,46 +23,16 @@ class _MessagesContentState extends State<_MessagesContent>
       duration: const Duration(seconds: 22),
     )..repeat();
 
-    final random = Random(24);
-    final palette = [
-      const Color(0xFF6B539D),
-      const Color(0xFF745CA3),
-      const Color(0xFFBB9FC8),
-      const Color(0xFF8E6FB8),
-      const Color(0xFF5C4A87),
-      const Color(0xFFB06FA8),
-      const Color(0xFF7B5FA2),
-    ];
-
-    _messagePool = const [
-      'You are doing better than you think.',
-      'Take a deep breath. You are safe right now.',
-      'Small steps still move you forward.',
-      'Your feelings are valid and important.',
-      'You are allowed to take up space.',
-      'Be gentle with yourself today.',
-      'You are stronger than this moment.',
-      'Let today be enough.',
-      'You deserve kindness, especially from yourself.',
-      'It is okay to pause and rest.',
-      'You are not alone.',
-      'Keep going. You are growing.',
-    ];
-
-    _balloons = List.generate(30, (index) {
-      final messageText = _messagePool[random.nextInt(_messagePool.length)];
-      return _BalloonSpec(
-        x: random.nextDouble(),
-        size: 36 + random.nextDouble() * 60,
-        speed: 0.08 + random.nextDouble() * 0.5,
-        offset: random.nextDouble() * 2,
-        drift: (random.nextDouble() - 0.5) * 0.08,
-        color: palette[index % palette.length],
-        message: _MessageSpec(id: 'msg_$index', text: messageText),
-      );
-    });
-
     _loadBalloonSvg();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final localeCode = Localizations.localeOf(context).languageCode;
+    if (_loadedLocaleCode == localeCode) return;
+    _loadedLocaleCode = localeCode;
+    _loadMessagesForLocale(localeCode);
   }
 
   Future<void> _loadBalloonSvg() async {
@@ -79,6 +51,86 @@ class _MessagesContentState extends State<_MessagesContent>
     } catch (_) {}
   }
 
+  Future<void> _loadMessagesForLocale(String localeCode) async {
+    final messages =
+        await _readMessageList(localeCode) ??
+        (localeCode == 'en' ? <_MessageSpec>[] : await _readMessageList('en')) ??
+        <_MessageSpec>[];
+    if (!mounted) return;
+    final poppedIds = await _loadPoppedMessageIds();
+    if (!mounted) return;
+    setState(() {
+      _messagePool = messages;
+      _poppedMessageIds = poppedIds;
+      _balloons = _buildBalloons(messages, poppedIds);
+      _poppedAt.clear();
+    });
+  }
+
+  Future<List<_MessageSpec>?> _readMessageList(String localeCode) async {
+    try {
+      final raw = await rootBundle.loadString(
+        'assets/messages/messages_$localeCode.json',
+      );
+      final decoded = jsonDecode(raw);
+      if (decoded is List) {
+        final messages = <_MessageSpec>[];
+        for (var i = 0; i < decoded.length; i++) {
+          final item = decoded[i];
+          if (item is Map) {
+            final id = item['id'];
+            final text = item['text'];
+            if (id is String && text is String) {
+              messages.add(_MessageSpec(id: id, text: text));
+            }
+          } else if (item is String) {
+            messages.add(_MessageSpec(id: 'msg_$i', text: item));
+          }
+        }
+        return messages;
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  List<_BalloonSpec> _buildBalloons(
+    List<_MessageSpec> messages,
+    Set<String> poppedIds,
+  ) {
+    if (messages.isEmpty) return [];
+    final random = Random(24);
+    final palette = [
+      const Color(0xFF6B539D),
+      const Color(0xFF745CA3),
+      const Color(0xFFBB9FC8),
+      const Color(0xFF8E6FB8),
+      const Color(0xFF5C4A87),
+      const Color(0xFFB06FA8),
+      const Color(0xFF7B5FA2),
+    ];
+
+    final availableMessages = <_MessageSpec>[];
+    for (final message in messages) {
+      if (!poppedIds.contains(message.id)) {
+        availableMessages.add(message);
+      }
+    }
+    availableMessages.shuffle(random);
+
+    return List.generate(availableMessages.length, (index) {
+      final message = availableMessages[index];
+      return _BalloonSpec(
+        x: random.nextDouble(),
+        size: 36 + random.nextDouble() * 60,
+        speed: 0.08 + random.nextDouble() * 0.5,
+        offset: random.nextDouble() * 2,
+        drift: (random.nextDouble() - 0.5) * 0.08,
+        color: palette[index % palette.length],
+        message: message,
+      );
+    });
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -86,11 +138,21 @@ class _MessagesContentState extends State<_MessagesContent>
   }
 
   void _popBalloon(int index) {
-    if (_poppedAt.containsKey(index)) return;
+    final messageId = _balloons[index].message.id;
+    if (_poppedAt.containsKey(messageId)) return;
     final balloon = _balloons[index];
     _showMessageDialog(balloon);
     setState(() {
-      _poppedAt[index] = DateTime.now();
+      _poppedAt[messageId] = DateTime.now();
+      _poppedMessageIds.add(messageId);
+    });
+    _markMessagePopped(messageId);
+    Future.delayed(const Duration(milliseconds: 320), () {
+      if (!mounted) return;
+      setState(() {
+        _balloons.removeWhere((item) => item.message.id == messageId);
+        _poppedAt.remove(messageId);
+      });
     });
   }
 
@@ -165,6 +227,31 @@ class _MessagesContentState extends State<_MessagesContent>
     }
   }
 
+  Future<Set<String>> _loadPoppedMessageIds() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return <String>{};
+    try {
+      final snapshot = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/popped_messages')
+          .get();
+      final value = snapshot.value;
+      if (value is Map) {
+        return value.keys.whereType<String>().toSet();
+      }
+    } catch (_) {}
+    return <String>{};
+  }
+
+  Future<void> _markMessagePopped(String messageId) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    try {
+      await FirebaseDatabase.instance
+          .ref('users/${user.uid}/popped_messages/$messageId')
+          .set(DateTime.now().toIso8601String());
+    } catch (_) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -213,7 +300,7 @@ class _MessagesContentState extends State<_MessagesContent>
   }
 
   Widget _buildBalloon(_BalloonSpec balloon, int index) {
-    final popStart = _poppedAt[index];
+    final popStart = _poppedAt[balloon.message.id];
     if (popStart != null) {
       final elapsed = DateTime.now().difference(popStart).inMilliseconds / 320;
       if (elapsed >= 1) {
