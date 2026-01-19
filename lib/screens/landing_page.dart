@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:when_scars_become_art/services/notification_service.dart';
 
 import 'home_page.dart';
 import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
@@ -135,6 +136,8 @@ class _LandingPageState extends State<LandingPage> {
           ? (user.displayName ?? loginName)
           : loginName;
 
+      await NotificationService.instance.onLogin(user.uid);
+
       if (!mounted) return;
       Navigator.push(
         context,
@@ -210,6 +213,8 @@ class _LandingPageState extends State<LandingPage> {
         });
       }
 
+      await NotificationService.instance.onLogin(user.uid);
+
       if (!mounted) return;
       Navigator.push(
         context,
@@ -223,6 +228,7 @@ class _LandingPageState extends State<LandingPage> {
         ),
       );
     } catch (error) {
+      debugPrint('Google sign-in failed: $error');
       _showSnackBar('Google sign-in failed.');
     } finally {
       if (mounted) {

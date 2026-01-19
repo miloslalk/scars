@@ -57,7 +57,8 @@
 - Settings are opened from the avatar menu; bottom nav settings tab removed.
 - Theme selector added (System/Light/Dark).
 - Users can update display name; stored in Auth displayName and RTDB `users/{uid}/fullName`.
-- Notifications: pending design/discussion for scheduling and preferences.
+- Notifications: Good morning ☀️ daily at 09:00 local time and inactivity reminder every 7 days after last login.
+- TODO: Review notification time (currently 09:00 local) with client.
 - Re-authenticate action added for password users before sensitive changes.
 - Email change sends verification; unchanged email does not re-send.
 - Email/password changes locked for non-password providers.
@@ -98,3 +99,4 @@
 
 ## Drawing
 - TODO: Add more font families to the text tool dropdown.
+- TODO: Use real timezone detection for notifications to handle DST shifts.

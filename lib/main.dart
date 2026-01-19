@@ -3,13 +3,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
 import 'package:when_scars_become_art/firebase_options.dart';
+import 'package:when_scars_become_art/services/notification_service.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz_data;
 import 'screens/landing_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  tz_data.initializeTimeZones();
+  final offset = DateTime.now().timeZoneOffset;
+  final sign = offset.isNegative ? '-' : '+';
+  final absOffset = offset.abs();
+  final hours = absOffset.inHours.toString().padLeft(2, '0');
+  final minutes = (absOffset.inMinutes % 60).toString().padLeft(2, '0');
+  final tzName = 'GMT$sign$hours:$minutes';
+  final local = tz.Location(
+    tzName,
+    const <int>[],
+    const <int>[],
+    [
+      tz.TimeZone(
+        offset.inMilliseconds,
+        isDst: false,
+        abbreviation: tzName,
+      ),
+    ],
+  );
+  tz.setLocalLocation(local);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await NotificationService.instance.initialize();
 
   runApp(const MyApp());
 }
