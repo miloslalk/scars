@@ -95,3 +95,6 @@
 - Tapping a flag centers it and reveals 3 inner bubbles: Wellbeing, Support & Services, Education.
 - Inner bubbles open mock content lists; content will be wired to Firebase later.
 - TODO: Add admin roles (6 partners) with countryCode to manage Care Corner content per country; restrict access by rules and show admin-only page.
+
+## Drawing
+- TODO: Add more font families to the text tool dropdown.
