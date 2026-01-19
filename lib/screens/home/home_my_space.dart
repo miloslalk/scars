@@ -7,20 +7,13 @@ class _MySpaceContent extends StatefulWidget {
 
 class _MySpaceContentState extends State<_MySpaceContent> {
   Future<void> _openCalendar() async {
-    final selected = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2022),
-      lastDate: DateTime(DateTime.now().year + 1),
-    );
-    if (selected == null || !mounted) return;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
       builder: (context) => SizedBox(
         height: MediaQuery.of(context).size.height,
-        child: _MySpaceCalendarSheet(date: selected),
+        child: const _MySpaceCalendarPickerSheet(),
       ),
     );
   }
@@ -142,6 +135,241 @@ class _MySpaceCalendarSheet extends StatefulWidget {
 
   @override
   State<_MySpaceCalendarSheet> createState() => _MySpaceCalendarSheetState();
+}
+
+class _MySpaceCalendarPickerSheet extends StatefulWidget {
+  const _MySpaceCalendarPickerSheet();
+
+  @override
+  State<_MySpaceCalendarPickerSheet> createState() =>
+      _MySpaceCalendarPickerSheetState();
+}
+
+class _MySpaceCalendarPickerSheetState
+    extends State<_MySpaceCalendarPickerSheet> {
+  late final DateTime _lastDay =
+      DateTime(DateTime.now().year + 1, 12, 31);
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  bool _isLoading = true;
+  Set<String> _entryKeys = {};
+  DateTime _minSelectableDay = DateTime(2022, 1, 1);
+
+  @override
+  void initState() {
+    super.initState();
+    _minSelectableDay = DateUtils.dateOnly(
+      FirebaseAuth.instance.currentUser?.metadata.creationTime ??
+          DateTime(2022, 1, 1),
+    );
+    _focusedDay = DateUtils.dateOnly(DateTime.now());
+    _loadEntryDates();
+  }
+
+  Future<void> _loadEntryDates() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+
+    try {
+      final drawingsSnap = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/drawings')
+          .get();
+      final journalSnap = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/journal')
+          .get();
+      final bodySnap = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/body_awareness')
+          .get();
+
+      final keys = <String>{};
+      if (drawingsSnap.exists && drawingsSnap.value is Map) {
+        final data = Map<String, dynamic>.from(drawingsSnap.value as Map);
+        for (final entry in data.values) {
+          if (entry is! Map) continue;
+          final map = Map<String, dynamic>.from(entry);
+          final createdAt = map['createdAt'] as String?;
+          if (createdAt == null) continue;
+          final parsed = DateTime.tryParse(createdAt);
+          if (parsed == null) continue;
+          keys.add(_dateKey(parsed));
+        }
+      }
+
+      if (journalSnap.exists && journalSnap.value is Map) {
+        final data = Map<String, dynamic>.from(journalSnap.value as Map);
+        for (final entry in data.values) {
+          if (entry is! Map) continue;
+          final map = Map<String, dynamic>.from(entry);
+          final createdAt = map['createdAt'] as String?;
+          if (createdAt == null) continue;
+          final parsed = DateTime.tryParse(createdAt);
+          if (parsed == null) continue;
+          keys.add(_dateKey(parsed));
+        }
+      }
+
+      if (bodySnap.exists && bodySnap.value is Map) {
+        final data = Map<String, dynamic>.from(bodySnap.value as Map);
+        for (final key in data.keys) {
+          if (key is String && key.length == 8) {
+            keys.add(key);
+          }
+        }
+      }
+
+      if (!mounted) return;
+      setState(() {
+        _entryKeys = keys;
+        _isLoading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  String _dateKey(DateTime date) {
+    final yyyy = date.year.toString();
+    final mm = date.month.toString().padLeft(2, '0');
+    final dd = date.day.toString().padLeft(2, '0');
+    return '$yyyy$mm$dd';
+  }
+
+  void _openDaySheet(DateTime date) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (context) => SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: _MySpaceCalendarSheet(date: date),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Calendar',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            if (_isLoading)
+              const Expanded(
+                child: Center(child: CircularProgressIndicator()),
+              )
+            else
+              TableCalendar(
+                firstDay: _minSelectableDay,
+                lastDay: _lastDay,
+                focusedDay: _focusedDay,
+                calendarFormat: CalendarFormat.month,
+                availableCalendarFormats: const {
+                  CalendarFormat.month: 'Month',
+                },
+                enabledDayPredicate: (day) {
+                  final today = DateUtils.dateOnly(DateTime.now());
+                  final candidate = DateUtils.dateOnly(day);
+                  if (candidate.isBefore(_minSelectableDay)) return false;
+                  return !candidate.isAfter(today);
+                },
+                selectedDayPredicate: (day) =>
+                    _selectedDay != null && isSameDay(_selectedDay, day),
+                onDaySelected: (selectedDay, focusedDay) {
+                  final today = DateUtils.dateOnly(DateTime.now());
+                  final candidate = DateUtils.dateOnly(selectedDay);
+                  if (candidate.isBefore(_minSelectableDay)) return;
+                  if (candidate.isAfter(today)) return;
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay = focusedDay;
+                  });
+                  _openDaySheet(selectedDay);
+                },
+                onPageChanged: (focusedDay) {
+                  final normalized = DateUtils.dateOnly(focusedDay);
+                  if (normalized.isBefore(_minSelectableDay)) {
+                    _focusedDay = _minSelectableDay;
+                  } else {
+                    _focusedDay = focusedDay;
+                  }
+                },
+                calendarBuilders: CalendarBuilders(
+                  defaultBuilder: (context, day, focusedDay) {
+                    final hasEntry = _entryKeys.contains(_dateKey(day));
+                    if (!hasEntry) return null;
+                    return Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.blue, width: 2),
+                      ),
+                      child: Text('${day.day}'),
+                    );
+                  },
+                  todayBuilder: (context, day, focusedDay) {
+                    final hasEntry = _entryKeys.contains(_dateKey(day));
+                    return Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue.shade50,
+                        border: hasEntry
+                            ? Border.all(color: Colors.blue, width: 2)
+                            : null,
+                      ),
+                      child: Text(
+                        '${day.day}',
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    );
+                  },
+                  selectedBuilder: (context, day, focusedDay) {
+                    final hasEntry = _entryKeys.contains(_dateKey(day));
+                    return Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                        border: hasEntry
+                            ? Border.all(color: Colors.blue.shade900, width: 2)
+                            : null,
+                      ),
+                      child: Text(
+                        '${day.day}',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    );
+                  },
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
