@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "scars-d81cd"
-  }
+    "default": "scars-d81cd",
+    "scars": "scars-d81cd"
+  },
+  "targets": {},
+  "etags": {}
 }

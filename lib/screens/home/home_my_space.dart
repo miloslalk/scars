@@ -147,8 +147,7 @@ class _MySpaceCalendarPickerSheet extends StatefulWidget {
 
 class _MySpaceCalendarPickerSheetState
     extends State<_MySpaceCalendarPickerSheet> {
-  late final DateTime _lastDay =
-      DateTime(DateTime.now().year + 1, 12, 31);
+  late final DateTime _lastDay = DateTime(DateTime.now().year + 1, 12, 31);
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   bool _isLoading = true;
@@ -185,16 +184,20 @@ class _MySpaceCalendarPickerSheetState
       final bodySnap = await FirebaseDatabase.instance
           .ref('users/${user.uid}/body_awareness')
           .get();
+      final savedMessagesSnap = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/saved_messages')
+          .get();
+      final drawingsStorageList = await FirebaseStorage.instance
+          .ref('users/${user.uid}/drawings')
+          .listAll();
 
       final keys = <String>{};
       if (drawingsSnap.exists && drawingsSnap.value is Map) {
         final data = Map<String, dynamic>.from(drawingsSnap.value as Map);
-        for (final entry in data.values) {
-          if (entry is! Map) continue;
-          final map = Map<String, dynamic>.from(entry);
-          final createdAt = map['createdAt'] as String?;
-          if (createdAt == null) continue;
-          final parsed = DateTime.tryParse(createdAt);
+        for (final entry in data.entries) {
+          if (entry.value is! Map) continue;
+          final map = Map<String, dynamic>.from(entry.value as Map);
+          final parsed = _extractEntryDate(map, fallbackKey: entry.key);
           if (parsed == null) continue;
           keys.add(_dateKey(parsed));
         }
@@ -202,12 +205,10 @@ class _MySpaceCalendarPickerSheetState
 
       if (journalSnap.exists && journalSnap.value is Map) {
         final data = Map<String, dynamic>.from(journalSnap.value as Map);
-        for (final entry in data.values) {
-          if (entry is! Map) continue;
-          final map = Map<String, dynamic>.from(entry);
-          final createdAt = map['createdAt'] as String?;
-          if (createdAt == null) continue;
-          final parsed = DateTime.tryParse(createdAt);
+        for (final entry in data.entries) {
+          if (entry.value is! Map) continue;
+          final map = Map<String, dynamic>.from(entry.value as Map);
+          final parsed = _extractEntryDate(map, fallbackKey: entry.key);
           if (parsed == null) continue;
           keys.add(_dateKey(parsed));
         }
@@ -220,6 +221,23 @@ class _MySpaceCalendarPickerSheetState
             keys.add(key);
           }
         }
+      }
+
+      if (savedMessagesSnap.exists && savedMessagesSnap.value is Map) {
+        final data = Map<String, dynamic>.from(savedMessagesSnap.value as Map);
+        for (final entry in data.entries) {
+          if (entry.value is! Map) continue;
+          final map = Map<String, dynamic>.from(entry.value as Map);
+          final parsed = _parseDynamicDate(map['savedAt']);
+          if (parsed == null) continue;
+          keys.add(_dateKey(parsed));
+        }
+      }
+
+      for (final item in drawingsStorageList.items) {
+        final parsed = _extractDateFromDrawingFileName(item.name);
+        if (parsed == null) continue;
+        keys.add(_dateKey(parsed));
       }
 
       if (!mounted) return;
@@ -236,10 +254,104 @@ class _MySpaceCalendarPickerSheetState
   }
 
   String _dateKey(DateTime date) {
-    final yyyy = date.year.toString();
-    final mm = date.month.toString().padLeft(2, '0');
-    final dd = date.day.toString().padLeft(2, '0');
+    final local = date.toLocal();
+    final yyyy = local.year.toString();
+    final mm = local.month.toString().padLeft(2, '0');
+    final dd = local.day.toString().padLeft(2, '0');
     return '$yyyy$mm$dd';
+  }
+
+  DateTime? _extractEntryDate(Map<String, dynamic> map, {String? fallbackKey}) {
+    final parsed = _parseDynamicDate(map['createdAt']);
+    if (parsed != null) return parsed;
+    if (fallbackKey == null) return null;
+    if (RegExp(r'^\d{8}$').hasMatch(fallbackKey)) {
+      final year = int.tryParse(fallbackKey.substring(0, 4));
+      final month = int.tryParse(fallbackKey.substring(4, 6));
+      final day = int.tryParse(fallbackKey.substring(6, 8));
+      if (year != null && month != null && day != null) {
+        return DateTime(year, month, day);
+      }
+    }
+    if (RegExp(r'^\d{10,13}$').hasMatch(fallbackKey)) {
+      final raw = int.tryParse(fallbackKey);
+      if (raw != null) {
+        final millis = fallbackKey.length == 10 ? raw * 1000 : raw;
+        return DateTime.fromMillisecondsSinceEpoch(millis).toLocal();
+      }
+    }
+    return null;
+  }
+
+  DateTime? _parseDynamicDate(dynamic value) {
+    if (value is String) {
+      return DateTime.tryParse(value)?.toLocal();
+    }
+    if (value is int) {
+      return DateTime.fromMillisecondsSinceEpoch(value).toLocal();
+    }
+    if (value is num) {
+      return DateTime.fromMillisecondsSinceEpoch(value.toInt()).toLocal();
+    }
+    return null;
+  }
+
+  DateTime? _extractDateFromDrawingFileName(String fileName) {
+    final match = RegExp(r'(\d{8})_(\d{6})').firstMatch(fileName);
+    if (match == null) return null;
+    final datePart = match.group(1)!;
+    final timePart = match.group(2)!;
+    final year = int.tryParse(datePart.substring(0, 4));
+    final month = int.tryParse(datePart.substring(4, 6));
+    final day = int.tryParse(datePart.substring(6, 8));
+    final hour = int.tryParse(timePart.substring(0, 2));
+    final minute = int.tryParse(timePart.substring(2, 4));
+    final second = int.tryParse(timePart.substring(4, 6));
+    if (year == null ||
+        month == null ||
+        day == null ||
+        hour == null ||
+        minute == null ||
+        second == null) {
+      return null;
+    }
+    return DateTime(year, month, day, hour, minute, second);
+  }
+
+  bool _hasInputForDay(DateTime day) {
+    return _entryKeys.contains(_dateKey(day));
+  }
+
+  Widget _buildCalendarDayCell(
+    DateTime day, {
+    required bool isSelected,
+    required bool isToday,
+    bool isOutside = false,
+  }) {
+    final hasInput = _hasInputForDay(day);
+    final textColor = isSelected
+        ? Colors.white
+        : (isOutside ? Colors.grey.shade500 : null);
+
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isSelected
+            ? Colors.blue
+            : (isToday ? Colors.blue.shade50 : null),
+        border: hasInput
+            ? Border.all(color: Colors.blue.shade800, width: 3)
+            : null,
+      ),
+      child: Text(
+        '${day.day}',
+        style: TextStyle(
+          color: textColor,
+          fontWeight: isToday ? FontWeight.w600 : FontWeight.normal,
+        ),
+      ),
+    );
   }
 
   void _openDaySheet(DateTime date) {
@@ -277,18 +389,14 @@ class _MySpaceCalendarPickerSheetState
             ),
             const SizedBox(height: 12),
             if (_isLoading)
-              const Expanded(
-                child: Center(child: CircularProgressIndicator()),
-              )
+              const Expanded(child: Center(child: CircularProgressIndicator()))
             else
               TableCalendar(
                 firstDay: _minSelectableDay,
                 lastDay: _lastDay,
                 focusedDay: _focusedDay,
                 calendarFormat: CalendarFormat.month,
-                availableCalendarFormats: const {
-                  CalendarFormat.month: 'Month',
-                },
+                availableCalendarFormats: const {CalendarFormat.month: 'Month'},
                 enabledDayPredicate: (day) {
                   final today = DateUtils.dateOnly(DateTime.now());
                   final candidate = DateUtils.dateOnly(day);
@@ -318,49 +426,34 @@ class _MySpaceCalendarPickerSheetState
                 },
                 calendarBuilders: CalendarBuilders(
                   defaultBuilder: (context, day, focusedDay) {
-                    final hasEntry = _entryKeys.contains(_dateKey(day));
-                    if (!hasEntry) return null;
-                    return Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.blue, width: 2),
-                      ),
-                      child: Text('${day.day}'),
+                    if (!_hasInputForDay(day)) return null;
+                    return _buildCalendarDayCell(
+                      day,
+                      isSelected: false,
+                      isToday: false,
                     );
                   },
                   todayBuilder: (context, day, focusedDay) {
-                    final hasEntry = _entryKeys.contains(_dateKey(day));
-                    return Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue.shade50,
-                        border: hasEntry
-                            ? Border.all(color: Colors.blue, width: 2)
-                            : null,
-                      ),
-                      child: Text(
-                        '${day.day}',
-                        style: const TextStyle(fontWeight: FontWeight.w600),
-                      ),
+                    return _buildCalendarDayCell(
+                      day,
+                      isSelected: false,
+                      isToday: true,
                     );
                   },
                   selectedBuilder: (context, day, focusedDay) {
-                    final hasEntry = _entryKeys.contains(_dateKey(day));
-                    return Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue,
-                        border: hasEntry
-                            ? Border.all(color: Colors.blue.shade900, width: 2)
-                            : null,
-                      ),
-                      child: Text(
-                        '${day.day}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
+                    return _buildCalendarDayCell(
+                      day,
+                      isSelected: true,
+                      isToday: false,
+                    );
+                  },
+                  outsideBuilder: (context, day, focusedDay) {
+                    if (!_hasInputForDay(day)) return null;
+                    return _buildCalendarDayCell(
+                      day,
+                      isSelected: false,
+                      isToday: false,
+                      isOutside: true,
                     );
                   },
                 ),
@@ -374,12 +467,15 @@ class _MySpaceCalendarPickerSheetState
 
 class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
   final PageController _controller = PageController();
+  static const String _frontSide = 'front';
+  static const String _backSide = 'back';
   int _pageIndex = 0;
+  String _selectedBodySide = _frontSide;
   bool _isLoading = true;
   List<_DayDrawing> _dayDrawings = [];
   String? _noteText;
   String? _quoteText;
-  _BodyAwarenessPoint? _bodyPoint;
+  Map<String, _BodyAwarenessPoint> _bodyPoints = {};
 
   @override
   void initState() {
@@ -412,6 +508,12 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
       final bodySnap = await FirebaseDatabase.instance
           .ref('users/${user.uid}/body_awareness/${_dateKey(widget.date)}')
           .get();
+      final savedMessagesSnap = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/saved_messages')
+          .get();
+      final drawingsStorageList = await FirebaseStorage.instance
+          .ref('users/${user.uid}/drawings')
+          .listAll();
 
       final drawingsForDay = <_DayDrawing>[];
       if (drawingsSnap.exists && drawingsSnap.value is Map) {
@@ -420,10 +522,9 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
           final value = entry.value;
           if (value is! Map) continue;
           final map = Map<String, dynamic>.from(value);
-          final createdAt = map['createdAt'] as String?;
           final storagePath = map['storagePath'] as String?;
-          if (createdAt == null || storagePath == null) continue;
-          final parsed = DateTime.tryParse(createdAt);
+          if (storagePath == null) continue;
+          final parsed = _extractEntryDate(map, fallbackKey: entry.key);
           if (parsed == null) continue;
           if (!_isSameDay(parsed, widget.date)) continue;
           drawingsForDay.add(
@@ -441,13 +542,12 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
       DateTime? latestNoteTime;
       if (journalSnap.exists && journalSnap.value is Map) {
         final data = Map<String, dynamic>.from(journalSnap.value as Map);
-        for (final entry in data.values) {
-          if (entry is! Map) continue;
-          final map = Map<String, dynamic>.from(entry);
-          final createdAt = map['createdAt'] as String?;
+        for (final entry in data.entries) {
+          if (entry.value is! Map) continue;
+          final map = Map<String, dynamic>.from(entry.value as Map);
           final text = map['text'] as String?;
-          if (createdAt == null || text == null) continue;
-          final parsed = DateTime.tryParse(createdAt);
+          if (text == null) continue;
+          final parsed = _extractEntryDate(map, fallbackKey: entry.key);
           if (parsed == null) continue;
           if (!_isSameDay(parsed, widget.date)) continue;
           if (latestNoteTime == null || parsed.isAfter(latestNoteTime)) {
@@ -455,6 +555,43 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
             latestNoteText = text;
           }
         }
+      }
+
+      String? latestQuoteText;
+      DateTime? latestQuoteTime;
+      if (savedMessagesSnap.exists && savedMessagesSnap.value is Map) {
+        final data = Map<String, dynamic>.from(savedMessagesSnap.value as Map);
+        for (final entry in data.values) {
+          if (entry is! Map) continue;
+          final map = Map<String, dynamic>.from(entry);
+          final text = map['text'] as String?;
+          if (text == null || text.trim().isEmpty) continue;
+          final parsed = _parseDynamicDate(map['savedAt']);
+          if (parsed == null) continue;
+          if (!_isSameDay(parsed, widget.date)) continue;
+          if (latestQuoteTime == null || parsed.isAfter(latestQuoteTime)) {
+            latestQuoteTime = parsed;
+            latestQuoteText = text;
+          }
+        }
+      }
+
+      final existingStoragePaths = drawingsForDay
+          .map((drawing) => drawing.storagePath)
+          .toSet();
+      for (final item in drawingsStorageList.items) {
+        final parsed = _extractDateFromDrawingFileName(item.name);
+        if (parsed == null || !_isSameDay(parsed, widget.date)) continue;
+        if (existingStoragePaths.contains(item.fullPath)) continue;
+        drawingsForDay.add(
+          _DayDrawing(
+            key: item.name,
+            storagePath: item.fullPath,
+            createdAt: parsed,
+            downloadUrl: null,
+          ),
+        );
+        existingStoragePaths.add(item.fullPath);
       }
 
       drawingsForDay.sort((a, b) => b.createdAt.compareTo(a.createdAt));
@@ -470,18 +607,22 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
         }
       }
 
-      _BodyAwarenessPoint? bodyPoint;
+      final bodyPoints = <String, _BodyAwarenessPoint>{};
       if (bodySnap.exists && bodySnap.value is Map) {
         final data = Map<String, dynamic>.from(bodySnap.value as Map);
-        final x = data['x'];
-        final y = data['y'];
-        final colorValue = data['color'];
-        if (x is num && y is num && colorValue is int) {
-          bodyPoint = _BodyAwarenessPoint(
-            x: x.toDouble(),
-            y: y.toDouble(),
-            color: Color(colorValue),
-          );
+        final frontPoint = _parseBodyPoint(data[_frontSide]);
+        final backPoint = _parseBodyPoint(data[_backSide]);
+        if (frontPoint != null) {
+          bodyPoints[_frontSide] = frontPoint;
+        }
+        if (backPoint != null) {
+          bodyPoints[_backSide] = backPoint;
+        }
+        if (bodyPoints.isEmpty) {
+          final legacyPoint = _parseBodyPoint(data);
+          if (legacyPoint != null) {
+            bodyPoints[_frontSide] = legacyPoint;
+          }
         }
       }
 
@@ -489,8 +630,15 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
       setState(() {
         _dayDrawings = drawingsForDay;
         _noteText = latestNoteText;
-        _quoteText = null;
-        _bodyPoint = bodyPoint;
+        _quoteText = latestQuoteText;
+        _bodyPoints = bodyPoints;
+        if (!_bodyPoints.containsKey(_selectedBodySide) &&
+            _bodyPoints.containsKey(_frontSide)) {
+          _selectedBodySide = _frontSide;
+        } else if (!_bodyPoints.containsKey(_selectedBodySide) &&
+            _bodyPoints.containsKey(_backSide)) {
+          _selectedBodySide = _backSide;
+        }
         _isLoading = false;
       });
     } catch (_) {
@@ -502,14 +650,90 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
   }
 
   bool _isSameDay(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
+    final al = a.toLocal();
+    final bl = b.toLocal();
+    return al.year == bl.year && al.month == bl.month && al.day == bl.day;
   }
 
   String _dateKey(DateTime date) {
-    final yyyy = date.year.toString();
-    final mm = date.month.toString().padLeft(2, '0');
-    final dd = date.day.toString().padLeft(2, '0');
+    final local = date.toLocal();
+    final yyyy = local.year.toString();
+    final mm = local.month.toString().padLeft(2, '0');
+    final dd = local.day.toString().padLeft(2, '0');
     return '$yyyy$mm$dd';
+  }
+
+  DateTime? _extractEntryDate(Map<String, dynamic> map, {String? fallbackKey}) {
+    final parsed = _parseDynamicDate(map['createdAt']);
+    if (parsed != null) return parsed;
+    if (fallbackKey == null) return null;
+    if (RegExp(r'^\d{8}$').hasMatch(fallbackKey)) {
+      final year = int.tryParse(fallbackKey.substring(0, 4));
+      final month = int.tryParse(fallbackKey.substring(4, 6));
+      final day = int.tryParse(fallbackKey.substring(6, 8));
+      if (year != null && month != null && day != null) {
+        return DateTime(year, month, day);
+      }
+    }
+    if (RegExp(r'^\d{10,13}$').hasMatch(fallbackKey)) {
+      final raw = int.tryParse(fallbackKey);
+      if (raw != null) {
+        final millis = fallbackKey.length == 10 ? raw * 1000 : raw;
+        return DateTime.fromMillisecondsSinceEpoch(millis).toLocal();
+      }
+    }
+    return null;
+  }
+
+  DateTime? _parseDynamicDate(dynamic value) {
+    if (value is String) {
+      return DateTime.tryParse(value)?.toLocal();
+    }
+    if (value is int) {
+      return DateTime.fromMillisecondsSinceEpoch(value).toLocal();
+    }
+    if (value is num) {
+      return DateTime.fromMillisecondsSinceEpoch(value.toInt()).toLocal();
+    }
+    return null;
+  }
+
+  DateTime? _extractDateFromDrawingFileName(String fileName) {
+    final match = RegExp(r'(\d{8})_(\d{6})').firstMatch(fileName);
+    if (match == null) return null;
+    final datePart = match.group(1)!;
+    final timePart = match.group(2)!;
+    final year = int.tryParse(datePart.substring(0, 4));
+    final month = int.tryParse(datePart.substring(4, 6));
+    final day = int.tryParse(datePart.substring(6, 8));
+    final hour = int.tryParse(timePart.substring(0, 2));
+    final minute = int.tryParse(timePart.substring(2, 4));
+    final second = int.tryParse(timePart.substring(4, 6));
+    if (year == null ||
+        month == null ||
+        day == null ||
+        hour == null ||
+        minute == null ||
+        second == null) {
+      return null;
+    }
+    return DateTime(year, month, day, hour, minute, second);
+  }
+
+  _BodyAwarenessPoint? _parseBodyPoint(dynamic value) {
+    if (value is! Map) return null;
+    final data = Map<String, dynamic>.from(value);
+    final x = data['x'];
+    final y = data['y'];
+    final colorValue = data['color'];
+    if (x is num && y is num && colorValue is int) {
+      return _BodyAwarenessPoint(
+        x: x.toDouble(),
+        y: y.toDouble(),
+        color: Color(colorValue),
+      );
+    }
+    return null;
   }
 
   Future<void> _confirmDeleteDrawing(_DayDrawing drawing) async {
@@ -583,13 +807,55 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
   }
 
   Widget _buildBodyContent() {
-    if (_bodyPoint == null) {
+    if (_bodyPoints.isEmpty) {
       return const Center(child: Text('No body map saved for this day.'));
     }
-    return _BodyAwarenessView(
-      point: _bodyPoint,
-      interactive: false,
-      outlineColor: Colors.grey.shade500,
+    final selectedPoint = _bodyPoints[_selectedBodySide];
+    return Column(
+      children: [
+        const SizedBox(height: 8),
+        Expanded(
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: _BodyFlipSwitcher(
+                  side: _selectedBodySide,
+                  child: KeyedSubtree(
+                    key: ValueKey(_selectedBodySide),
+                    child: selectedPoint == null
+                        ? Center(
+                            child: Text(
+                              'No ${_selectedBodySide == _frontSide ? 'front' : 'back'} map saved for this day.',
+                            ),
+                          )
+                        : _BodyAwarenessView(
+                            point: selectedPoint,
+                            interactive: false,
+                            outlineColor: Colors.grey.shade500,
+                          ),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 8,
+                bottom: 8,
+                child: _BodySideToggleButton(
+                  label: _selectedBodySide == _frontSide
+                      ? 'Show back'
+                      : 'Show front',
+                  onTap: () {
+                    setState(() {
+                      _selectedBodySide = _selectedBodySide == _frontSide
+                          ? _backSide
+                          : _frontSide;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -692,11 +958,6 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
                           body: _quoteText ?? 'No quote saved for this day.',
                           icon: Icons.format_quote,
                         ),
-                        _MySpaceCarouselPage(
-                          title: 'Note',
-                          body: _noteText ?? 'No note saved for this day.',
-                          icon: Icons.sticky_note_2_outlined,
-                        ),
                       ],
                     ),
             ),
@@ -704,7 +965,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                4,
+                3,
                 (index) => Container(
                   width: 8,
                   height: 8,
@@ -870,7 +1131,7 @@ class _BodyAwarenessView extends StatelessWidget {
           child: Stack(
             children: [
               Positioned.fill(
-                child: SvgPicture.asset(
+                child: svg.SvgPicture.asset(
                   'assets/images/Human_body_outline.svg',
                   fit: BoxFit.contain,
                   colorFilter: ColorFilter.mode(outlineColor, BlendMode.srcIn),
@@ -883,6 +1144,89 @@ class _BodyAwarenessView extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _BodyFlipSwitcher extends StatelessWidget {
+  const _BodyFlipSwitcher({required this.side, required this.child});
+
+  final String side;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 320),
+      switchInCurve: Curves.easeInOut,
+      switchOutCurve: Curves.easeInOut,
+      transitionBuilder: (child, animation) {
+        return AnimatedBuilder(
+          animation: animation,
+          child: child,
+          builder: (context, child) {
+            final angle = (1 - animation.value) * pi;
+            return Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.001)
+                ..rotateY(angle),
+              child: child,
+            );
+          },
+        );
+      },
+      child: child,
+    );
+  }
+}
+
+class _BodySideToggleButton extends StatelessWidget {
+  const _BodySideToggleButton({
+    required this.label,
+    required this.onTap,
+    this.icon = Icons.flip,
+  });
+
+  final String label;
+  final VoidCallback onTap;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Material(
+      color: colorScheme.primary.withValues(alpha: 0.92),
+      shape: const CircleBorder(),
+      elevation: 3,
+      child: InkWell(
+        onTap: onTap,
+        customBorder: const CircleBorder(),
+        child: SizedBox(
+          width: 82,
+          height: 82,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, size: 16, color: colorScheme.onPrimary),
+                const SizedBox(height: 4),
+                Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: colorScheme.onPrimary,
+                    fontSize: 10,
+                    height: 1.1,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -1001,7 +1345,13 @@ class _MySpaceJournalPageState extends State<_MySpaceJournalPage> {
     );
     if (entry == null) return;
     final saved = await _saveEntryToDatabase(entry);
-    if (saved == null) return;
+    if (saved == null) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to save journal entry.')),
+      );
+      return;
+    }
     if (!mounted) return;
     setState(() {
       _entries.insert(0, saved);
@@ -1013,22 +1363,32 @@ class _MySpaceJournalPageState extends State<_MySpaceJournalPage> {
     if (user == null) return null;
     final ref = FirebaseDatabase.instance.ref('users/${user.uid}/journal');
     final id = DateTime.now().millisecondsSinceEpoch.toString();
-    await ref.child(id).set({
-      'text': entry.body,
-      'createdAt': entry.date.toIso8601String(),
-      'fontFamily': entry.fontFamily,
-      'isBold': entry.isBold,
-      'isItalic': entry.isItalic,
-    });
-    return _JournalEntry(
-      id: id,
-      title: _formattedDate(entry.date),
-      body: entry.body,
-      date: entry.date,
-      fontFamily: entry.fontFamily,
-      isBold: entry.isBold,
-      isItalic: entry.isItalic,
-    );
+    try {
+      await ref.child(id).set({
+        'text': entry.body,
+        'createdAt': entry.date.toIso8601String(),
+        'fontFamily': entry.fontFamily,
+        'isBold': entry.isBold,
+        'isItalic': entry.isItalic,
+      });
+      return _JournalEntry(
+        id: id,
+        title: _formattedDate(entry.date),
+        body: entry.body,
+        date: entry.date,
+        fontFamily: entry.fontFamily,
+        isBold: entry.isBold,
+        isItalic: entry.isItalic,
+      );
+    } on FirebaseException catch (error) {
+      debugPrint(
+        'Failed to save journal entry: ${error.code} ${error.message ?? ''}',
+      );
+      return null;
+    } catch (error) {
+      debugPrint('Failed to save journal entry: $error');
+      return null;
+    }
   }
 
   String _formattedDate(DateTime date) {
@@ -1123,7 +1483,9 @@ class _MySpaceJournalEditorPageState extends State<_MySpaceJournalEditorPage> {
   void _saveEntry() {
     final text = _controller.text.trim();
     if (text.isEmpty) {
-      Navigator.pop(context);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Entry cannot be empty.')));
       return;
     }
     final entry = _JournalEntry(

@@ -1,0 +1,331 @@
+{
+  "version": "v1",
+  "storagePrefix": "cookie-monster/v1",
+  "background": {
+    "localAsset": "assets/monster/colored_moving_background.mp4",
+    "storagePath": "cookie-monster/v1/00_colored_moving_background/colored_moving_background.mp4"
+  },
+  "clips": {
+    "00_intro": {
+      "type": "single",
+      "android": "cookie-monster/v1/00_intro/android/intro.webm",
+      "ios": "cookie-monster/v1/00_intro/ios/intro.mov"
+    },
+    "01_hello": {
+      "type": "single",
+      "android": "cookie-monster/v1/01_hello/android/hello.webm",
+      "ios": "cookie-monster/v1/01_hello/ios/hello.mov"
+    },
+    "02_loop_animations": {
+      "type": "pool",
+      "android": [
+        "cookie-monster/v1/02_loop_animations/android/1_loop.webm",
+        "cookie-monster/v1/02_loop_animations/android/2_loop.webm",
+        "cookie-monster/v1/02_loop_animations/android/3_loop.webm"
+      ],
+      "ios": [
+        "cookie-monster/v1/02_loop_animations/ios/1_loop.mov",
+        "cookie-monster/v1/02_loop_animations/ios/2_loop.mov",
+        "cookie-monster/v1/02_loop_animations/ios/3_loop.mov"
+      ]
+    },
+    "03_body_scan": {
+      "type": "single",
+      "android": "cookie-monster/v1/03_body_scan/android/body_scan.webm",
+      "ios": "cookie-monster/v1/03_body_scan/ios/body_scan.mov"
+    },
+    "04_guided_meditation": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/04_guided_meditation/android/1_guided_meditation.webm",
+        "loop": "cookie-monster/v1/04_guided_meditation/android/2_guided_meditation.webm",
+        "outro": "cookie-monster/v1/04_guided_meditation/android/3_guided_meditation.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/04_guided_meditation/ios/1_guided_meditation.mov",
+        "loop": "cookie-monster/v1/04_guided_meditation/ios/2_guided_meditation.mov",
+        "outro": "cookie-monster/v1/04_guided_meditation/ios/3_guided_meditation.mov"
+      }
+    },
+    "05_location_in_the_body": {
+      "type": "single",
+      "android": "cookie-monster/v1/05_location_in_the_body/android/location_in_the_body.webm",
+      "ios": "cookie-monster/v1/05_location_in_the_body/ios/location_in_the_body.mov"
+    },
+    "06_will_you_join": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/06_will_you_join/android/1_will_you_join.webm",
+        "loop": "cookie-monster/v1/06_will_you_join/android/2_will_you_join.webm",
+        "outro": "cookie-monster/v1/06_will_you_join/android/3_will_you_join.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/06_will_you_join/ios/1_will_you_join.mov",
+        "loop": "cookie-monster/v1/06_will_you_join/ios/2_will_you_join.mov",
+        "outro": "cookie-monster/v1/06_will_you_join/ios/3_will_you_join.mov"
+      }
+    },
+    "07_outside_the_body": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/07_outside_the_body/android/1_outside_the_body.webm",
+        "loop": "cookie-monster/v1/07_outside_the_body/android/2_outside_the_body.webm",
+        "outro": "cookie-monster/v1/07_outside_the_body/android/3_outside_the_body.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/07_outside_the_body/ios/1_outside_the_body.mov",
+        "loop": "cookie-monster/v1/07_outside_the_body/ios/2_outside_the_body.mov",
+        "outro": "cookie-monster/v1/07_outside_the_body/ios/3_outside_the_body.mov"
+      }
+    },
+    "08_forehead_contact": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/08_forehead_contact/android/1_forehead_contact.webm",
+        "loop": "cookie-monster/v1/08_forehead_contact/android/2_forehead_contact.webm",
+        "outro": "cookie-monster/v1/08_forehead_contact/android/3_forehead_contact.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/08_forehead_contact/ios/1_forehead_contact.mov",
+        "loop": "cookie-monster/v1/08_forehead_contact/ios/2_forehead_contact.mov",
+        "outro": "cookie-monster/v1/08_forehead_contact/ios/3_forehead_contact.mov"
+      }
+    },
+    "09_slow_breathing": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/09_slow_breathing/android/1_slow_breathing.webm",
+        "loop": "cookie-monster/v1/09_slow_breathing/android/2_slow_breathing.webm",
+        "outro": "cookie-monster/v1/09_slow_breathing/android/3_slow_breathing.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/09_slow_breathing/ios/1_slow_breathing.mov",
+        "loop": "cookie-monster/v1/09_slow_breathing/ios/2_slow_breathing.mov",
+        "outro": "cookie-monster/v1/09_slow_breathing/ios/3_slow_breathing.mov"
+      }
+    },
+    "10_weight_of_the_head": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/10_weight_of_the_head/android/1_weight_of_the_head.webm",
+        "loop": "cookie-monster/v1/10_weight_of_the_head/android/2_weight_of_the_head.webm",
+        "outro": "cookie-monster/v1/10_weight_of_the_head/android/3_weight_of_the_head.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/10_weight_of_the_head/ios/1_weight_of_the_head.mov",
+        "loop": "cookie-monster/v1/10_weight_of_the_head/ios/2_weight_of_the_head.mov",
+        "outro": "cookie-monster/v1/10_weight_of_the_head/ios/3_weight_of_the_head.mov"
+      }
+    },
+    "11_breathing": {
+      "type": "variant",
+      "variants": {
+        "with_balloon_timer": {
+          "type": "triple",
+          "android": {
+            "intro": "cookie-monster/v1/11_breathing/with_balloon_timer/android/1_breathing.webm",
+            "loop": "cookie-monster/v1/11_breathing/with_balloon_timer/android/2_breathing.webm",
+            "outro": "cookie-monster/v1/11_breathing/with_balloon_timer/android/3_breathing.webm"
+          },
+          "ios": {
+            "intro": "cookie-monster/v1/11_breathing/with_balloon_timer/ios/1_breathing.mov",
+            "loop": "cookie-monster/v1/11_breathing/with_balloon_timer/ios/2_breathing.mov",
+            "outro": "cookie-monster/v1/11_breathing/with_balloon_timer/ios/3_breathing.mov"
+          }
+        },
+        "without_balloon_timer": {
+          "type": "triple",
+          "android": {
+            "intro": "cookie-monster/v1/11_breathing/without_balloon_timer/android/1_breathing.webm",
+            "loop": "cookie-monster/v1/11_breathing/without_balloon_timer/android/2_breathing.webm",
+            "outro": "cookie-monster/v1/11_breathing/without_balloon_timer/android/3_breathing.webm"
+          },
+          "ios": {
+            "intro": "cookie-monster/v1/11_breathing/without_balloon_timer/ios/1_breathing.mov",
+            "loop": "cookie-monster/v1/11_breathing/without_balloon_timer/ios/2_breathing.mov",
+            "outro": "cookie-monster/v1/11_breathing/without_balloon_timer/ios/3_breathing.mov"
+          }
+        }
+      }
+    },
+    "12_abdominal_awareness": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/12_abdominal_awareness/android/1_abdominal_awareness.webm",
+        "loop": "cookie-monster/v1/12_abdominal_awareness/android/2_abdominal_awareness.webm",
+        "outro": "cookie-monster/v1/12_abdominal_awareness/android/3_abdominal_awareness.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/12_abdominal_awareness/ios/1_abdominal_awareness.mov",
+        "loop": "cookie-monster/v1/12_abdominal_awareness/ios/2_abdominal_awareness.mov",
+        "outro": "cookie-monster/v1/12_abdominal_awareness/ios/3_abdominal_awareness.mov"
+      }
+    },
+    "13_heart_center": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/13_heart_center/android/1_heart_center.webm",
+        "loop": "cookie-monster/v1/13_heart_center/android/2_heart_center.webm",
+        "outro": "cookie-monster/v1/13_heart_center/android/3_heart_center.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/13_heart_center/ios/1_heart_center.mov",
+        "loop": "cookie-monster/v1/13_heart_center/ios/2_heart_center.mov",
+        "outro": "cookie-monster/v1/13_heart_center/ios/3_heart_center.mov"
+      }
+    },
+    "14_ball_squeezing": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/14_ball_squeezing/android/1_ball_squeezing.webm",
+        "loop": "cookie-monster/v1/14_ball_squeezing/android/2_ball_squeezing.webm",
+        "outro": "cookie-monster/v1/14_ball_squeezing/android/3_ball_squeezing.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/14_ball_squeezing/ios/1_ball_squeezing.mov",
+        "loop": "cookie-monster/v1/14_ball_squeezing/ios/2_ball_squeezing.mov",
+        "outro": "cookie-monster/v1/14_ball_squeezing/ios/3_ball_squeezing.mov"
+      }
+    },
+    "15_finger_meditation": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/15_finger_meditation/android/1_finger_meditation.webm",
+        "loop": "cookie-monster/v1/15_finger_meditation/android/2_finger_meditation.webm",
+        "outro": "cookie-monster/v1/15_finger_meditation/android/3_finger_meditation.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/15_finger_meditation/ios/1_finger_meditation.mov",
+        "loop": "cookie-monster/v1/15_finger_meditation/ios/2_finger_meditation.mov",
+        "outro": "cookie-monster/v1/15_finger_meditation/ios/3_finger_meditation.mov"
+      }
+    },
+    "16_hand_massage": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/16_hand_massage/android/1_hand_massage.webm",
+        "loop": "cookie-monster/v1/16_hand_massage/android/2_hand_massage.webm",
+        "outro": "cookie-monster/v1/16_hand_massage/android/3_hand_massage.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/16_hand_massage/ios/1_hand_massage.mov",
+        "loop": "cookie-monster/v1/16_hand_massage/ios/2_hand_massage.mov",
+        "outro": "cookie-monster/v1/16_hand_massage/ios/3_hand_massage.mov"
+      }
+    },
+    "17_shoulder_drop": {
+      "type": "single",
+      "android": "cookie-monster/v1/17_shoulder_drop/android/shoulder_drop.webm",
+      "ios": "cookie-monster/v1/17_shoulder_drop/ios/shoulder_drop.mov"
+    },
+    "18_back_opening": {
+      "type": "single",
+      "android": "cookie-monster/v1/18_back_opening/android/back_opening.webm",
+      "ios": "cookie-monster/v1/18_back_opening/ios/back_opening.mov"
+    },
+    "19_releasing_burden": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/19_releasing_burden/android/1_releasing_burden.webm",
+        "loop": "cookie-monster/v1/19_releasing_burden/android/2_releasing_burden.webm",
+        "outro": "cookie-monster/v1/19_releasing_burden/android/3_releasing_burden.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/19_releasing_burden/ios/1_releasing_burden.mov",
+        "loop": "cookie-monster/v1/19_releasing_burden/ios/2_releasing_burden.mov",
+        "outro": "cookie-monster/v1/19_releasing_burden/ios/3_releasing_burden.mov"
+      }
+    },
+    "20_relaxing_facial_muscles": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/20_relaxing_facial_muscles/android/1_relaxing_facial_muscles.webm",
+        "loop": "cookie-monster/v1/20_relaxing_facial_muscles/android/2_relaxing_facial_muscles.webm",
+        "outro": "cookie-monster/v1/20_relaxing_facial_muscles/android/3_relaxing_facial_muscles.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/20_relaxing_facial_muscles/ios/1_relaxing_facial_muscles.mov",
+        "loop": "cookie-monster/v1/20_relaxing_facial_muscles/ios/2_relaxing_facial_muscles.mov",
+        "outro": "cookie-monster/v1/20_relaxing_facial_muscles/ios/3_relaxing_facial_muscles.mov"
+      }
+    },
+    "21_jaw_drop": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/21_jaw_drop/android/1_jaw_drop.webm",
+        "loop": "cookie-monster/v1/21_jaw_drop/android/2_jaw_drop.webm",
+        "outro": "cookie-monster/v1/21_jaw_drop/android/3_jaw_drop.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/21_jaw_drop/ios/1_jaw_drop.mov",
+        "loop": "cookie-monster/v1/21_jaw_drop/ios/2_jaw_drop.mov",
+        "outro": "cookie-monster/v1/21_jaw_drop/ios/3_jaw_drop.mov"
+      }
+    },
+    "22_smile_to_yourself": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/22_smile_to_yourself/android/1_smile_to_yourself.webm",
+        "loop": "cookie-monster/v1/22_smile_to_yourself/android/2_smile_to_yourself.webm",
+        "outro": "cookie-monster/v1/22_smile_to_yourself/android/3_smile_to_yourself.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/22_smile_to_yourself/ios/1_smile_to_yourself.mov",
+        "loop": "cookie-monster/v1/22_smile_to_yourself/ios/2_smile_to_yourself.mov",
+        "outro": "cookie-monster/v1/22_smile_to_yourself/ios/3_smile_to_yourself.mov"
+      }
+    },
+    "23_eft_tapping_points": {
+      "type": "single",
+      "android": "cookie-monster/v1/23_eft_tapping_points/android/eft_tapping_points.webm",
+      "ios": "cookie-monster/v1/23_eft_tapping_points/ios/eft_tapping_points.mov"
+    },
+    "24_rising_on_tiptoes": {
+      "type": "triple",
+      "android": {
+        "intro": "cookie-monster/v1/24_rising_on_tiptoes/android/1_rising_on_tiptoes.webm",
+        "loop": "cookie-monster/v1/24_rising_on_tiptoes/android/2_rising_on_tiptoes.webm",
+        "outro": "cookie-monster/v1/24_rising_on_tiptoes/android/3_rising_on_tiptoes.webm"
+      },
+      "ios": {
+        "intro": "cookie-monster/v1/24_rising_on_tiptoes/ios/1_rising_on_tiptoes.mov",
+        "loop": "cookie-monster/v1/24_rising_on_tiptoes/ios/2_rising_on_tiptoes.mov",
+        "outro": "cookie-monster/v1/24_rising_on_tiptoes/ios/3_rising_on_tiptoes.mov"
+      }
+    },
+    "25_feedback": {
+      "type": "feedback",
+      "prompt": {
+        "android": "cookie-monster/v1/25_feedback/android/1_feedback.webm",
+        "ios": "cookie-monster/v1/25_feedback/ios/1_feedback.mov"
+      },
+      "choices": {
+        "very_good": {
+          "android": "cookie-monster/v1/25_feedback/android/2_very_good.webm",
+          "ios": "cookie-monster/v1/25_feedback/ios/2_very_good.mov"
+        },
+        "good": {
+          "android": "cookie-monster/v1/25_feedback/android/3_good.webm",
+          "ios": "cookie-monster/v1/25_feedback/ios/3_good.mov"
+        },
+        "meh": {
+          "android": "cookie-monster/v1/25_feedback/android/4_meh.webm",
+          "ios": "cookie-monster/v1/25_feedback/ios/4_meh.mov"
+        },
+        "not_good": {
+          "android": "cookie-monster/v1/25_feedback/android/5_not_good.webm",
+          "ios": "cookie-monster/v1/25_feedback/ios/5_not_good.mov"
+        },
+        "awful": {
+          "android": "cookie-monster/v1/25_feedback/android/6_awful.webm",
+          "ios": "cookie-monster/v1/25_feedback/ios/6_awful.mov"
+        }
+      }
+    },
+    "26_outro": {
+      "type": "single",
+      "android": "cookie-monster/v1/26_outro/android/outro.webm",
+      "ios": "cookie-monster/v1/26_outro/ios/outro.mov"
+    }
+  }
+}

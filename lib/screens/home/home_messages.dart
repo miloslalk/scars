@@ -53,7 +53,9 @@ class _MessagesContentState extends State<_MessagesContent>
   Future<void> _loadMessagesForLocale(String localeCode) async {
     final messages =
         await _readMessageList(localeCode) ??
-        (localeCode == 'en' ? <_MessageSpec>[] : await _readMessageList('en')) ??
+        (localeCode == 'en'
+            ? <_MessageSpec>[]
+            : await _readMessageList('en')) ??
         <_MessageSpec>[];
     if (!mounted) return;
     final poppedIds = await _loadPoppedMessageIds();
@@ -66,28 +68,81 @@ class _MessagesContentState extends State<_MessagesContent>
   }
 
   Future<List<_MessageSpec>?> _readMessageList(String localeCode) async {
+    final fromDatabase = await _readMessageListFromDatabase(localeCode);
+    if (fromDatabase != null && fromDatabase.isNotEmpty) {
+      return fromDatabase;
+    }
+    return _readMessageListFromAssets(localeCode);
+  }
+
+  Future<List<_MessageSpec>?> _readMessageListFromDatabase(
+    String localeCode,
+  ) async {
+    try {
+      final snapshot = await FirebaseDatabase.instance
+          .ref('messages/$localeCode')
+          .get();
+      final value = snapshot.value;
+      return _parseMessageValue(value);
+    } catch (_) {}
+    return null;
+  }
+
+  Future<List<_MessageSpec>?> _readMessageListFromAssets(
+    String localeCode,
+  ) async {
     try {
       final raw = await rootBundle.loadString(
         'assets/messages/messages_$localeCode.json',
       );
-      final decoded = jsonDecode(raw);
-      if (decoded is List) {
-        final messages = <_MessageSpec>[];
-        for (var i = 0; i < decoded.length; i++) {
-          final item = decoded[i];
-          if (item is Map) {
-            final id = item['id'];
-            final text = item['text'];
-            if (id is String && text is String) {
-              messages.add(_MessageSpec(id: id, text: text));
-            }
-          } else if (item is String) {
-            messages.add(_MessageSpec(id: 'msg_$i', text: item));
+      return _parseMessageValue(jsonDecode(raw));
+    } catch (_) {}
+    return null;
+  }
+
+  List<_MessageSpec>? _parseMessageValue(Object? value) {
+    if (value is List) {
+      final messages = <_MessageSpec>[];
+      for (var i = 0; i < value.length; i++) {
+        final item = value[i];
+        if (item is Map) {
+          final id = item['id'];
+          final text = item['text'];
+          final enabled = item['enabled'];
+          if (enabled is bool && !enabled) continue;
+          if (id is String && text is String && text.trim().isNotEmpty) {
+            messages.add(_MessageSpec(id: id, text: text.trim()));
+          }
+        } else if (item is String && item.trim().isNotEmpty) {
+          messages.add(_MessageSpec(id: 'msg_$i', text: item.trim()));
+        }
+      }
+      return messages;
+    }
+
+    if (value is Map) {
+      final entries = value.entries.toList()
+        ..sort((a, b) => a.key.toString().compareTo(b.key.toString()));
+      final messages = <_MessageSpec>[];
+      for (final entry in entries) {
+        final key = entry.key.toString();
+        final item = entry.value;
+        if (item is String && item.trim().isNotEmpty) {
+          messages.add(_MessageSpec(id: key, text: item.trim()));
+          continue;
+        }
+        if (item is Map) {
+          final text = item['text'];
+          final enabled = item['enabled'];
+          if (enabled is bool && !enabled) continue;
+          if (text is String && text.trim().isNotEmpty) {
+            messages.add(_MessageSpec(id: key, text: text.trim()));
           }
         }
-        return messages;
       }
-    } catch (_) {}
+      return messages;
+    }
+
     return null;
   }
 
@@ -174,13 +229,6 @@ class _MessagesContentState extends State<_MessagesContent>
               },
               child: const Text('Save'),
             ),
-            TextButton(
-              onPressed: () async {
-                Navigator.pop(dialogContext);
-                await _reportMessage(message);
-              },
-              child: const Text('Report'),
-            ),
           ],
         );
       },
@@ -201,28 +249,6 @@ class _MessagesContentState extends State<_MessagesContent>
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text('Saved to My Space.')));
-  }
-
-  Future<void> _reportMessage(_MessageSpec message) async {
-    final user = FirebaseAuth.instance.currentUser;
-    try {
-      await FirebaseDatabase.instance.ref('message_reports').push().set({
-        'messageId': message.id,
-        'messageText': message.text,
-        'reporterUid': user?.uid,
-        'createdAt': DateTime.now().toIso8601String(),
-        'status': 'pending',
-      });
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Reported. Thank you.')));
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Report failed. Please try again.')),
-      );
-    }
   }
 
   Future<Set<String>> _loadPoppedMessageIds() async {
@@ -320,13 +346,13 @@ class _MessagesContentState extends State<_MessagesContent>
     }
 
     final widget = _balloonSvg == null
-        ? SvgPicture.asset(
+        ? svg.SvgPicture.asset(
             'assets/images/balloon-heart-fill_1.svg',
             width: balloon.size,
             height: balloon.size,
             colorFilter: ColorFilter.mode(balloon.color, BlendMode.srcIn),
           )
-        : SvgPicture.string(
+        : svg.SvgPicture.string(
             _balloonSvg!,
             width: balloon.size,
             height: balloon.size,
