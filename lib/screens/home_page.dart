@@ -10,7 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart' as svg;
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'care_corner_page.dart';
@@ -46,15 +46,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  static const bool _showCareCorner = false;
 
   List<Widget> _buildPages(String displayName) {
-    return [
+    final pages = <Widget>[
       _HomeContent(displayName: displayName),
       _BodyAwarenessContent(),
-      const CareCornerPage(),
       _MySpaceContent(),
       _MessagesContent(),
     ];
+    if (_showCareCorner) {
+      pages.insert(2, const CareCornerPage());
+    }
+    return pages;
   }
 
   void _onItemTapped(int index) {
@@ -96,6 +100,31 @@ class _HomePageState extends State<HomePage> {
     final initial = displayName.trim().isNotEmpty
         ? displayName.trim().substring(0, 1).toUpperCase()
         : null;
+    final pages = _buildPages(displayName);
+    final safeSelectedIndex = _selectedIndex >= pages.length
+        ? pages.length - 1
+        : _selectedIndex;
+    final navItems = <BottomNavigationBarItem>[
+      BottomNavigationBarItem(icon: Icon(Icons.home), label: l10n.homeLabel),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.accessibility_new),
+        label: 'Body awareness',
+      ),
+      const BottomNavigationBarItem(icon: Icon(Icons.lock), label: 'My Space'),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.emoji_emotions),
+        label: 'Messages',
+      ),
+    ];
+    if (_showCareCorner) {
+      navItems.insert(
+        2,
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.park_outlined),
+          label: 'Care Corner',
+        ),
+      );
+    }
 
     return Scaffold(
       appBar: AppTopBar(
@@ -105,28 +134,10 @@ class _HomePageState extends State<HomePage> {
         onSettingsTap: _openSettings,
         onLogoutTap: _logout,
       ),
-      body: _buildPages(displayName)[_selectedIndex],
+      body: pages[safeSelectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: l10n.homeLabel,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.accessibility_new),
-            label: 'Body awareness',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.park_outlined),
-            label: 'Care Corner',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.lock), label: 'My Space'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.emoji_emotions),
-            label: 'Messages',
-          ),
-        ],
-        currentIndex: _selectedIndex,
+        items: navItems,
+        currentIndex: safeSelectedIndex,
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,

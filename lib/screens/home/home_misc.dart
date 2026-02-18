@@ -19,35 +19,35 @@ class _SettingsContentState extends State<_SettingsContent> {
   final ImagePicker _picker = ImagePicker();
   bool _isAvatarBusy = false;
 
-  String _languageLabel(Locale locale, AppLocalizations l10n) {
+  String _languageLabel(Locale locale) {
     if (locale.languageCode == 'en') {
-      return l10n.languageEnglish;
+      return 'English';
     }
     if (locale.languageCode == 'sr' && locale.scriptCode == 'Latn') {
-      return l10n.languageSerbianLatin;
+      return 'Srpski';
     }
     if (locale.languageCode == 'mk') {
-      return l10n.languageMacedonian;
+      return 'Македонски';
     }
     if (locale.languageCode == 'de') {
-      return l10n.languageGerman;
+      return 'Deutsch';
     }
     if (locale.languageCode == 'el') {
-      return l10n.languageGreek;
+      return 'Ελληνικά';
     }
     if (locale.languageCode == 'ro') {
-      return l10n.languageRomanian;
+      return 'Română';
     }
     if (locale.languageCode == 'ar') {
-      return l10n.languageArabic;
+      return 'العربية';
     }
     if (locale.languageCode == 'rom') {
-      return l10n.languageRomani;
+      return 'Romani';
     }
     if (locale.languageCode == 'tr') {
-      return l10n.languageTurkish;
+      return 'Türkçe';
     }
-    return locale.languageCode;
+    return locale.toLanguageTag();
   }
 
   Future<void> _pickAvatar(ImageSource source) async {
@@ -753,7 +753,7 @@ class _SettingsContentState extends State<_SettingsContent> {
                         ...widget.supportedLocales.map(
                           (supportedLocale) => DropdownMenuItem(
                             value: supportedLocale,
-                            child: Text(_languageLabel(supportedLocale, l10n)),
+                            child: Text(_languageLabel(supportedLocale)),
                           ),
                         ),
                       ],
@@ -801,55 +801,151 @@ class _BodyAwarenessContent extends StatefulWidget {
 }
 
 class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
-  final List<Color> _palette = const [
-    Color(0xFF1D5C7A),
-    Color(0xFF2E8AA6),
-    Color(0xFF52B0B8),
-    Color(0xFF7FC6B6),
-    Color(0xFFAEDB9D),
-    Color(0xFFE7E27A),
-    Color(0xFFF3C562),
-    Color(0xFFF2A55A),
-    Color(0xFFE67C5A),
-    Color(0xFFD65B6E),
-    Color(0xFFB14E8D),
-    Color(0xFF7A4CA0),
-  ];
-
-  _BodyAwarenessPoint? _point;
+  final Map<String, _BodyAwarenessPoint> _pointsBySide = {};
+  final Map<String, String> _regionsBySide = {};
+  String _selectedSide = 'front';
   Color _selectedColor = const Color(0xFFF2A55A);
   bool _isSaving = false;
+  _BodyRegionMask? _bodyRegionMask;
 
-  void _setPoint(Offset localPosition, Size size) {
+  _BodyAwarenessPoint? get _point => _pointsBySide[_selectedSide];
+  String? get _selectedRegion => _regionsBySide[_selectedSide];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadExistingForToday();
+    _initBodyRegionMask();
+  }
+
+  Future<void> _loadExistingForToday() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    try {
+      final todayKey = _dateKey(DateTime.now());
+      final snap = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/body_awareness/$todayKey')
+          .get();
+      if (!snap.exists || snap.value is! Map) return;
+      final data = Map<String, dynamic>.from(snap.value as Map);
+      final loaded = <String, _BodyAwarenessPoint>{};
+      final loadedRegions = <String, String>{};
+      final front = _parsePoint(data['front']);
+      final back = _parsePoint(data['back']);
+      if (front != null) loaded['front'] = front;
+      if (back != null) loaded['back'] = back;
+      final frontRegion = _parseRegion(data['front']);
+      final backRegion = _parseRegion(data['back']);
+      if (frontRegion != null) loadedRegions['front'] = frontRegion;
+      if (backRegion != null) loadedRegions['back'] = backRegion;
+      if (loaded.isEmpty) {
+        final legacy = _parsePoint(data);
+        if (legacy != null) {
+          loaded['front'] = legacy;
+        }
+        final legacyRegion = _parseRegion(data);
+        if (legacyRegion != null) {
+          loadedRegions['front'] = legacyRegion;
+        }
+      }
+
+      if (!mounted || loaded.isEmpty) return;
+      setState(() {
+        _pointsBySide.addAll(loaded);
+        _regionsBySide.addAll(loadedRegions);
+      });
+    } catch (_) {}
+  }
+
+  Future<void> _initBodyRegionMask() async {
+    final mask = await _BodyRegionMask.load();
+    if (!mounted || mask == null) return;
+    setState(() {
+      _bodyRegionMask = mask;
+    });
+  }
+
+  _BodyAwarenessPoint? _parsePoint(dynamic value) {
+    if (value is! Map) return null;
+    final data = Map<String, dynamic>.from(value);
+    final x = data['x'];
+    final y = data['y'];
+    final colorValue = data['color'];
+    if (x is num && y is num && colorValue is int) {
+      return _BodyAwarenessPoint(
+        x: x.toDouble(),
+        y: y.toDouble(),
+        color: Color(colorValue),
+      );
+    }
+    return null;
+  }
+
+  String? _parseRegion(dynamic value) {
+    if (value is! Map) return null;
+    final data = Map<String, dynamic>.from(value);
+    return _normalizeRegion(data['region']);
+  }
+
+  String? _normalizeRegion(dynamic value) {
+    if (value is! String) return null;
+    final key = value.trim().toLowerCase();
+    const aliases = {
+      'body': 'torso',
+      'chest': 'torso',
+      'stomach': 'torso',
+      'hips': 'torso',
+      'back': 'back',
+      'left shoulder': 'shoulders',
+      'right shoulder': 'shoulders',
+      'left arm': 'arms',
+      'right arm': 'arms',
+      'left hand': 'hands',
+      'right hand': 'hands',
+      'left leg': 'legs',
+      'right leg': 'legs',
+      'left knee': 'legs',
+      'right knee': 'legs',
+      'left foot': 'feet',
+      'right foot': 'feet',
+    };
+    const allowed = {
+      'head',
+      'neck',
+      'shoulders',
+      'arms',
+      'hands',
+      'torso',
+      'back',
+      'legs',
+      'feet',
+      'outside',
+    };
+    final normalized = aliases[key] ?? key;
+    return allowed.contains(normalized) ? normalized : null;
+  }
+
+  void _setPoint(Offset localPosition, Size size, {required String region}) {
     final x = (localPosition.dx / size.width).clamp(0.0, 1.0);
     final y = (localPosition.dy / size.height).clamp(0.0, 1.0);
     setState(() {
-      _point = _BodyAwarenessPoint(x: x, y: y, color: _selectedColor);
+      _pointsBySide[_selectedSide] = _BodyAwarenessPoint(
+        x: x,
+        y: y,
+        color: _selectedColor,
+      );
+      _regionsBySide[_selectedSide] = region;
     });
   }
 
   String _detectBodyRegion(Offset localPosition, Size size) {
-    final x = (localPosition.dx / size.width).clamp(0.0, 1.0);
-    final y = (localPosition.dy / size.height).clamp(0.0, 1.0);
-
-    if (y < 0.18 && x > 0.35 && x < 0.65) return 'Head';
-    if (y >= 0.18 && y < 0.25 && x > 0.40 && x < 0.60) return 'Neck';
-    if (y >= 0.25 && y < 0.35 && x <= 0.30) return 'Left shoulder';
-    if (y >= 0.25 && y < 0.35 && x >= 0.70) return 'Right shoulder';
-    if (y >= 0.25 && y < 0.45 && x > 0.30 && x < 0.70) return 'Chest';
-    if (y >= 0.45 && y < 0.58 && x > 0.35 && x < 0.65) return 'Stomach';
-    if (y >= 0.60 && y < 0.85 && x <= 0.22) return 'Left hand';
-    if (y >= 0.60 && y < 0.85 && x >= 0.78) return 'Right hand';
-    if (y >= 0.35 && y < 0.60 && x <= 0.30) return 'Left arm';
-    if (y >= 0.35 && y < 0.60 && x >= 0.70) return 'Right arm';
-    if (y >= 0.58 && y < 0.78 && x > 0.35 && x < 0.65) return 'Hips';
-    if (y >= 0.70 && y < 0.80 && x > 0.30 && x < 0.45) return 'Left knee';
-    if (y >= 0.70 && y < 0.80 && x > 0.55 && x < 0.70) return 'Right knee';
-    if (y >= 0.80 && y < 0.92 && x > 0.30 && x < 0.45) return 'Left leg';
-    if (y >= 0.80 && y < 0.92 && x > 0.55 && x < 0.70) return 'Right leg';
-    if (y >= 0.92 && x < 0.50) return 'Left foot';
-    if (y >= 0.92 && x >= 0.50) return 'Right foot';
-    return 'Body';
+    final exact = _bodyRegionMask?.regionAt(
+      localPosition,
+      size,
+      side: _selectedSide,
+    );
+    if (exact != null) return exact;
+    return 'outside';
   }
 
   String _dateKey(DateTime date) {
@@ -857,6 +953,81 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
     final mm = date.month.toString().padLeft(2, '0');
     final dd = date.day.toString().padLeft(2, '0');
     return '$yyyy$mm$dd';
+  }
+
+  Future<void> _openColorPicker() async {
+    var pendingColor = _selectedColor;
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (sheetContext) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return SafeArea(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(
+                  16,
+                  16,
+                  16,
+                  16 + MediaQuery.of(sheetContext).viewInsets.bottom,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Text(
+                          'Color',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          onPressed: () => Navigator.pop(sheetContext),
+                          icon: const Icon(Icons.close),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    ColorPicker(
+                      pickerColor: pendingColor,
+                      onColorChanged: (color) => setModalState(() {
+                        pendingColor = color.withValues(alpha: 1.0);
+                      }),
+                      paletteType: PaletteType.hsvWithHue,
+                      enableAlpha: false,
+                      displayThumbColor: true,
+                      labelTypes: const [],
+                    ),
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (!mounted) return;
+                          setState(() {
+                            _selectedColor = pendingColor;
+                            if (_point != null) {
+                              _pointsBySide[_selectedSide] =
+                                  _BodyAwarenessPoint(
+                                    x: _point!.x,
+                                    y: _point!.y,
+                                    color: _selectedColor,
+                                  );
+                            }
+                          });
+                          Navigator.pop(sheetContext);
+                        },
+                        child: const Text('Use this color'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   Future<void> _save() async {
@@ -877,17 +1048,32 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
     try {
       final now = DateTime.now();
       await FirebaseDatabase.instance
-          .ref('users/${user.uid}/body_awareness/${_dateKey(now)}')
+          .ref(
+            'users/${user.uid}/body_awareness/${_dateKey(now)}/$_selectedSide',
+          )
           .set({
             'x': point.x,
             'y': point.y,
             'color': point.color.toARGB32(),
+            'region': _selectedRegion ?? 'outside',
             'createdAt': now.toIso8601String(),
           });
       if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Body awareness saved (${_selectedSide == 'front' ? 'Front' : 'Back'}).',
+          ),
+        ),
+      );
+    } on FirebaseException catch (error) {
+      if (!mounted) return;
+      final message = error.code.isNotEmpty
+          ? 'Failed to save body awareness: ${error.code}.'
+          : 'Failed to save body awareness.';
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Body awareness saved.')));
+      ).showSnackBar(SnackBar(content: Text(message)));
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -909,9 +1095,6 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
         ? const [Color(0xFF2E2940), Color(0xFF1A1624)]
         : const [Color(0xFF745CA3), Color(0xFFBBA6D6)];
     final textColor = isDark ? const Color(0xFFF2EEF8) : Colors.white;
-    final panelColor = isDark
-        ? const Color(0xFF2E2940)
-        : Colors.white.withValues(alpha: 0.9);
     final outlineColor = isDark ? const Color(0xFFD9CFEA) : Colors.white;
     return Container(
       decoration: BoxDecoration(
@@ -938,74 +1121,79 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                 ),
               ),
               const SizedBox(height: 16),
+              const SizedBox(height: 8),
               Expanded(
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return _BodyAwarenessView(
-                      point: _point,
-                      interactive: true,
-                      outlineColor: outlineColor,
-                      onTap: (offset) {
-                        final region = _detectBodyRegion(
-                          offset,
-                          constraints.biggest,
-                        );
-                        debugPrint('Body awareness tap: $region');
-                        _setPoint(offset, constraints.biggest);
-                      },
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: panelColor,
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: _palette.map((color) {
-                      final selected = color == _selectedColor;
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedColor = color;
-                            if (_point != null) {
-                              _point = _BodyAwarenessPoint(
-                                x: _point!.x,
-                                y: _point!.y,
-                                color: _selectedColor,
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: _BodyFlipSwitcher(
+                        side: _selectedSide,
+                        child: KeyedSubtree(
+                          key: ValueKey(_selectedSide),
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              return _BodyAwarenessView(
+                                point: _point,
+                                interactive: _bodyRegionMask != null,
+                                outlineColor: outlineColor,
+                                onTap: (offset) {
+                                  final region = _detectBodyRegion(
+                                    offset,
+                                    constraints.biggest,
+                                  );
+                                  debugPrint('Body awareness tap: $region');
+                                  _setPoint(
+                                    offset,
+                                    constraints.biggest,
+                                    region: region,
+                                  );
+                                },
                               );
-                            }
-                          });
-                        },
-                        child: Container(
-                          width: 28,
-                          height: 28,
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          decoration: BoxDecoration(
-                            color: color,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: selected
-                                  ? const Color(0xFF6B539D)
-                                  : Colors.transparent,
-                              width: 2,
-                            ),
+                            },
                           ),
                         ),
-                      );
-                    }).toList(),
-                  ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 8,
+                      bottom: 8,
+                      child: _BodySideToggleButton(
+                        label: 'Color',
+                        icon: Icons.palette_outlined,
+                        onTap: _openColorPicker,
+                      ),
+                    ),
+                    Positioned(
+                      right: 8,
+                      bottom: 8,
+                      child: _BodySideToggleButton(
+                        label: _selectedSide == 'front'
+                            ? 'Show back'
+                            : 'Show front',
+                        onTap: () {
+                          setState(() {
+                            _selectedSide = _selectedSide == 'front'
+                                ? 'back'
+                                : 'front';
+                          });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 16),
+              Text(
+                _bodyRegionMask == null
+                    ? 'Preparing body map...'
+                    : 'Selected area: ${_selectedRegion ?? 'none'}',
+                style: TextStyle(
+                  color: textColor.withValues(alpha: 0.92),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 8),
               ElevatedButton(
                 onPressed: _isSaving ? null : _save,
                 child: Text(_isSaving ? 'Saving...' : 'Save'),
@@ -1015,5 +1203,165 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
         ),
       ),
     );
+  }
+}
+
+class _BodyRegionMask {
+  const _BodyRegionMask._({
+    required this.width,
+    required this.height,
+    required this.pixels,
+  });
+
+  static const int _svgWidth = 500;
+  static const int _svgHeight = 901;
+  static const Map<int, String> _colorToRegion = {
+    0xFF0000: 'feet',
+    0x000080: 'legs',
+    0xFFE680: 'torso',
+    0x00FF00: 'head',
+    0x800080: 'hands',
+    0x2B0000: 'arms',
+    0x999999: 'shoulders',
+    0xFF00FF: 'neck',
+  };
+
+  final int width;
+  final int height;
+  final Uint8List pixels;
+
+  static Future<_BodyRegionMask?> load() async {
+    try {
+      final raw = await rootBundle.loadString(
+        'assets/images/Human_body_outline_colored.svg',
+      );
+      final filtered = _buildMaskSvg(raw);
+      final pictureInfo = await svg.vg.loadPicture(
+        svg.SvgStringLoader(filtered),
+        null,
+      );
+      final image = await pictureInfo.picture.toImage(_svgWidth, _svgHeight);
+      final data = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+      pictureInfo.picture.dispose();
+      image.dispose();
+      if (data == null) return null;
+      return _BodyRegionMask._(
+        width: _svgWidth,
+        height: _svgHeight,
+        pixels: data.buffer.asUint8List(),
+      );
+    } catch (error) {
+      debugPrint('Body region mask load failed: $error');
+      return null;
+    }
+  }
+
+  String? regionAt(Offset localPosition, Size size, {required String side}) {
+    final fitted = _fittedRect(size);
+    if (!fitted.contains(localPosition)) return 'outside';
+    final nx = ((localPosition.dx - fitted.left) / fitted.width).clamp(
+      0.0,
+      1.0,
+    );
+    final ny = ((localPosition.dy - fitted.top) / fitted.height).clamp(
+      0.0,
+      1.0,
+    );
+    final px = (nx * (width - 1)).round();
+    final py = (ny * (height - 1)).round();
+    final baseRegion = _sampleRegion(px, py) ?? 'outside';
+    if (baseRegion == 'torso' && side == 'back') return 'back';
+    return baseRegion;
+  }
+
+  Rect _fittedRect(Size size) {
+    final scale = min(size.width / _svgWidth, size.height / _svgHeight);
+    final w = _svgWidth * scale;
+    final h = _svgHeight * scale;
+    final left = (size.width - w) / 2;
+    final top = (size.height - h) / 2;
+    return Rect.fromLTWH(left, top, w, h);
+  }
+
+  String? _sampleRegion(int x, int y) {
+    final score = <String, int>{};
+    for (var dy = -1; dy <= 1; dy++) {
+      for (var dx = -1; dx <= 1; dx++) {
+        final sx = (x + dx).clamp(0, width - 1);
+        final sy = (y + dy).clamp(0, height - 1);
+        final idx = (sy * width + sx) * 4;
+        final alpha = pixels[idx + 3];
+        if (alpha < 16) continue;
+
+        var r = pixels[idx];
+        var g = pixels[idx + 1];
+        var b = pixels[idx + 2];
+
+        if (alpha < 255) {
+          r = ((r * 255) / alpha).round().clamp(0, 255);
+          g = ((g * 255) / alpha).round().clamp(0, 255);
+          b = ((b * 255) / alpha).round().clamp(0, 255);
+        }
+
+        final region = _closestRegion(r, g, b);
+        if (region == null) continue;
+        score[region] = (score[region] ?? 0) + alpha;
+      }
+    }
+
+    if (score.isEmpty) return null;
+    return score.entries.reduce((a, b) => a.value >= b.value ? a : b).key;
+  }
+
+  String? _closestRegion(int r, int g, int b) {
+    String? bestRegion;
+    var bestDistance = 1 << 30;
+    for (final entry in _colorToRegion.entries) {
+      final target = entry.key;
+      final tr = (target >> 16) & 0xFF;
+      final tg = (target >> 8) & 0xFF;
+      final tb = target & 0xFF;
+      final dr = r - tr;
+      final dg = g - tg;
+      final db = b - tb;
+      final distance = dr * dr + dg * dg + db * db;
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestRegion = entry.value;
+      }
+    }
+    // Allows anti-aliased edges while rejecting unrelated colors.
+    if (bestDistance > 1400) return null;
+    return bestRegion;
+  }
+
+  static String _buildMaskSvg(String raw) {
+    const keep = {
+      '#ff0000',
+      '#000080',
+      '#ffe680',
+      '#00ff00',
+      '#800080',
+      '#2b0000',
+      '#999999',
+      '#ff00ff',
+    };
+
+    var output = raw.replaceAllMapped(RegExp(r'fill="(#[0-9a-fA-F]{6})"'), (
+      match,
+    ) {
+      final color = match.group(1)!.toLowerCase();
+      return keep.contains(color) ? 'fill="$color"' : 'fill="none"';
+    });
+
+    output = output.replaceAllMapped(
+      RegExp(r'fill:#[0-9a-fA-F]{6}', caseSensitive: false),
+      (match) {
+        final color = match.group(0)!.substring(5).toLowerCase();
+        return keep.contains(color) ? 'fill:$color' : 'fill:none';
+      },
+    );
+
+    return output;
   }
 }
