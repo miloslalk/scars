@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:when_scars_become_art/services/notification_service.dart';
 
@@ -362,50 +363,52 @@ class _LandingPageState extends State<LandingPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
               const SizedBox(height: 32),
-              Image.asset(
-                'assets/images/logo_horizontal.png',
-                width: 320,
-                height: 128,
-                fit: BoxFit.contain,
+              SizedBox(
+                width: (constraints.maxWidth * 0.58).clamp(240.0, 360.0),
+                child: const AspectRatio(
+                  aspectRatio: 14440 / 6892,
+                  child: Image(
+                    image: AssetImage('assets/images/logo_horizontal.png'),
+                    fit: BoxFit.contain,
+                    filterQuality: FilterQuality.high,
+                  ),
+                ),
               ),
               const SizedBox(height: 16),
               OutlinedButton(
                 onPressed: _isGoogleSigningIn ? null : _loginWithGoogle,
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.white,
-                  foregroundColor: Colors.black87,
-                  side: const BorderSide(color: Color(0xFFDADCE0)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                  foregroundColor: const Color(0xFF1F1F1F),
+                  side: const BorderSide(color: Color(0xFF747775)),
+                  minimumSize: const Size(240, 40),
+                  maximumSize: const Size(400, 40),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 20,
                       height: 20,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: const Color(0xFFDADCE0)),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'G',
-                          style: TextStyle(
-                            color: Color(0xFF4285F4),
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                      child: SvgPicture.asset(
+                        'assets/images/google_g_logo.svg',
+                        width: 20,
+                        height: 20,
                       ),
                     ),
                     const SizedBox(width: 12),
                     Text(
                       _isGoogleSigningIn ? 'Signing in...' : l10n.loginWithGoogle,
-                      style: const TextStyle(fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.25,
+                      ),
                     ),
                   ],
                 ),

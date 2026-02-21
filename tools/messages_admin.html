@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Messages Admin</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      :root {
+        --bg: #f7f5fa;
+        --card: #ffffff;
+        --text: #241f33;
+        --muted: #6f6882;
+        --primary: #6b539d;
+        --border: #ddd7e4;
+        --ok: #1f7a43;
+        --err: #b42318;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 940px;
+        margin: 24px auto;
+        padding: 0 16px 40px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 24px;
+      }
+      h2 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+      p.note {
+        margin: 0 0 10px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .grid {
+        display: grid;
+        gap: 10px;
+      }
+      .grid.two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      @media (max-width: 760px) {
+        .grid.two {
+          grid-template-columns: 1fr;
+        }
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+      input,
+      textarea,
+      button {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        font-size: 15px;
+      }
+      textarea {
+        min-height: 72px;
+        resize: vertical;
+      }
+      button {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button.secondary {
+        background: #fff;
+        color: var(--text);
+      }
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+      }
+      .status {
+        margin-top: 8px;
+        font-size: 14px;
+        min-height: 20px;
+      }
+      .status.ok {
+        color: var(--ok);
+      }
+      .status.err {
+        color: var(--err);
+      }
+      code {
+        background: #f2eff8;
+        padding: 2px 6px;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>Messages Admin</h1>
+        <p class="note">
+          Add one message in English (required) and at least one national language.
+          Data is written to <code>messages/{locale}/{messageId}</code> in Firebase Realtime Database.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>1) Login</h2>
+        <p class="note">Use Google sign-in (same account you use in the app).</p>
+        <div class="grid two">
+          <div>
+            <label for="apiKey">Firebase API key</label>
+            <input id="apiKey" value="AIzaSyD6BNU8UiXReWuTWThehW_CCBqrhxocTnI" />
+          </div>
+          <div>
+            <label for="authDomain">Auth domain</label>
+            <input id="authDomain" value="scars-d81cd.firebaseapp.com" />
+          </div>
+          <div>
+            <label for="projectId">Project ID</label>
+            <input id="projectId" value="scars-d81cd" />
+          </div>
+          <div>
+            <label for="googleClientId">Google Web Client ID</label>
+            <input id="googleClientId" value="537131372504-s9jffblg6jio1h6ve21d403deeblbok6.apps.googleusercontent.com" />
+          </div>
+          <div>
+            <label for="dbUrl">Realtime DB URL</label>
+            <input id="dbUrl" value="https://scars-d81cd-default-rtdb.europe-west1.firebasedatabase.app" />
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+          <div id="googleBtnMount" style="width:100%; min-height:44px;"></div>
+          <button id="logoutBtn" class="secondary" disabled>Logout</button>
+        </div>
+        <div id="authStatus" class="status"></div>
+      </div>
+
+      <div class="card">
+        <h2>2) Add Message</h2>
+        <div class="grid two">
+          <div>
+            <label for="messageId">Message ID (optional)</label>
+            <input id="messageId" placeholder="msg_013 (auto if empty)" />
+          </div>
+          <div>
+            <label for="enabled">Enabled</label>
+            <input id="enabled" type="checkbox" checked style="width:auto; transform: scale(1.2); margin-top:10px;" />
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:10px;">
+          <div>
+            <label for="msg_en">English (required)</label>
+            <textarea id="msg_en"></textarea>
+          </div>
+          <div class="grid two">
+            <div>
+              <label for="msg_sr">Serbian (sr)</label>
+              <textarea id="msg_sr"></textarea>
+            </div>
+            <div>
+              <label for="msg_mk">Macedonian (mk)</label>
+              <textarea id="msg_mk"></textarea>
+            </div>
+            <div>
+              <label for="msg_de">German (de)</label>
+              <textarea id="msg_de"></textarea>
+            </div>
+            <div>
+              <label for="msg_el">Greek (el)</label>
+              <textarea id="msg_el"></textarea>
+            </div>
+            <div>
+              <label for="msg_ro">Romanian (ro)</label>
+              <textarea id="msg_ro"></textarea>
+            </div>
+            <div>
+              <label for="msg_ar">Arabic (ar)</label>
+              <textarea id="msg_ar"></textarea>
+            </div>
+            <div>
+              <label for="msg_rom">Romani (rom)</label>
+              <textarea id="msg_rom"></textarea>
+            </div>
+            <div>
+              <label for="msg_tr">Turkish (tr)</label>
+              <textarea id="msg_tr"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <button id="saveBtn" disabled>Save Message</button>
+          <button id="clearBtn" class="secondary">Clear Form</button>
+        </div>
+        <div id="saveStatus" class="status"></div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+      import {
+        getAuth,
+        GoogleAuthProvider,
+        signInWithCredential,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+      import { getDatabase, ref, update } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+      const state = {
+        app: null,
+        auth: null,
+        db: null,
+        user: null,
+      };
+
+      const locales = ["sr", "mk", "de", "el", "ro", "ar", "rom", "tr"];
+      const $ = (id) => document.getElementById(id);
+
+      function setStatus(el, message, type = "") {
+        el.className = `status ${type}`;
+        el.textContent = message;
+      }
+
+      function buildMessageId() {
+        const d = new Date();
+        const pad = (n) => String(n).padStart(2, "0");
+        return `msg_${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`;
+      }
+
+      function ensureFirebase() {
+        if (state.app) return;
+        const apiKey = $("apiKey").value.trim();
+        const authDomain = $("authDomain").value.trim();
+        const projectId = $("projectId").value.trim();
+        const databaseURL = $("dbUrl").value.trim();
+        if (!apiKey || !authDomain || !projectId || !databaseURL) {
+          throw new Error("Missing Firebase config values.");
+        }
+
+        state.app = initializeApp({
+          apiKey,
+          authDomain,
+          projectId,
+          databaseURL,
+        });
+        state.auth = getAuth(state.app);
+        state.db = getDatabase(state.app);
+      }
+
+      async function handleGoogleCredentialResponse(response) {
+        if (!response || !response.credential) {
+          setStatus($("authStatus"), "Google login failed: missing credential.", "err");
+          return;
+        }
+        try {
+          ensureFirebase();
+        } catch (err) {
+          setStatus($("authStatus"), err.message, "err");
+          return;
+        }
+
+        setStatus($("authStatus"), "Signing in...");
+        try {
+          const credential = GoogleAuthProvider.credential(response.credential);
+          const result = await signInWithCredential(state.auth, credential);
+          state.user = result.user;
+          $("saveBtn").disabled = false;
+          $("logoutBtn").disabled = false;
+          setStatus($("authStatus"), `Signed in as ${state.user.email || "Google user"}.`, "ok");
+        } catch (err) {
+          setStatus($("authStatus"), `Google login failed: ${err.message}`, "err");
+        }
+      }
+
+      function renderGoogleButton() {
+        const mount = $("googleBtnMount");
+        mount.innerHTML = "";
+        const clientId = $("googleClientId").value.trim();
+        if (!clientId) {
+          setStatus($("authStatus"), "Missing Google Web Client ID.", "err");
+          return;
+        }
+        if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+          setStatus($("authStatus"), "Google script not loaded. Refresh page.", "err");
+          return;
+        }
+
+        window.google.accounts.id.initialize({
+          client_id: clientId,
+          callback: handleGoogleCredentialResponse,
+          ux_mode: "popup",
+        });
+        window.google.accounts.id.renderButton(mount, {
+          theme: "outline",
+          size: "large",
+          type: "standard",
+          text: "signin_with",
+          shape: "rectangular",
+          logo_alignment: "left",
+          width: 360,
+        });
+      }
+
+      async function logout() {
+        if (state.auth) {
+          try {
+            await signOut(state.auth);
+          } catch (_) {}
+        }
+        state.user = null;
+        $("saveBtn").disabled = true;
+        $("logoutBtn").disabled = true;
+        setStatus($("authStatus"), "Signed out.");
+      }
+
+      function collectPayload() {
+        const enabled = $("enabled").checked;
+        const explicitId = $("messageId").value.trim();
+        const messageId = explicitId || buildMessageId();
+
+        const en = $("msg_en").value.trim();
+        if (!en) {
+          throw new Error("English message is required.");
+        }
+
+        const national = {};
+        for (const lc of locales) {
+          const text = $(`msg_${lc}`).value.trim();
+          if (text) national[lc] = text;
+        }
+        if (Object.keys(national).length === 0) {
+          throw new Error("At least one national language message is required.");
+        }
+
+        const now = new Date().toISOString();
+        const updates = {};
+        updates[`messages/en/${messageId}`] = {
+          id: messageId,
+          text: en,
+          enabled,
+          updatedAt: now,
+        };
+
+        for (const [lc, text] of Object.entries(national)) {
+          updates[`messages/${lc}/${messageId}`] = {
+            id: messageId,
+            text,
+            enabled,
+            updatedAt: now,
+          };
+        }
+
+        return { messageId, updates };
+      }
+
+      async function saveMessage() {
+        if (!state.user || !state.db) {
+          setStatus($("saveStatus"), "Login first.", "err");
+          return;
+        }
+
+        let payload;
+        try {
+          payload = collectPayload();
+        } catch (err) {
+          setStatus($("saveStatus"), err.message, "err");
+          return;
+        }
+
+        setStatus($("saveStatus"), "Saving...");
+        $("saveBtn").disabled = true;
+        try {
+          await update(ref(state.db), payload.updates);
+          $("messageId").value = payload.messageId;
+          setStatus($("saveStatus"), `Saved message "${payload.messageId}".`, "ok");
+        } catch (err) {
+          setStatus($("saveStatus"), `Save failed: ${err.message}`, "err");
+        } finally {
+          $("saveBtn").disabled = false;
+        }
+      }
+
+      function clearForm() {
+        $("messageId").value = "";
+        $("enabled").checked = true;
+        $("msg_en").value = "";
+        for (const lc of locales) {
+          $(`msg_${lc}`).value = "";
+        }
+        setStatus($("saveStatus"), "");
+      }
+
+      window.addEventListener("load", () => {
+        setTimeout(renderGoogleButton, 120);
+      });
+      $("googleClientId").addEventListener("change", renderGoogleButton);
+      $("logoutBtn").addEventListener("click", logout);
+      $("saveBtn").addEventListener("click", saveMessage);
+      $("clearBtn").addEventListener("click", clearForm);
+    </script>
+  </body>
+</html>

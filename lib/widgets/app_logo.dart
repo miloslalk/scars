@@ -9,10 +9,12 @@ class AppLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: height,
-      child: Center(
+      child: Align(
+        alignment: Alignment.centerLeft,
         child: Image.asset(
           'assets/images/logo_horizontal.png',
-          fit: BoxFit.contain,
+          height: height * 0.9,
+          fit: BoxFit.fitHeight,
         ),
       ),
     );

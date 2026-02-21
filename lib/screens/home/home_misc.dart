@@ -806,6 +806,7 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
   String _selectedSide = 'front';
   Color _selectedColor = const Color(0xFFF2A55A);
   bool _isSaving = false;
+  bool _isOpeningMonster = false;
   _BodyRegionMask? _bodyRegionMask;
 
   _BodyAwarenessPoint? get _point => _pointsBySide[_selectedSide];
@@ -814,47 +815,7 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
   @override
   void initState() {
     super.initState();
-    _loadExistingForToday();
     _initBodyRegionMask();
-  }
-
-  Future<void> _loadExistingForToday() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
-    try {
-      final todayKey = _dateKey(DateTime.now());
-      final snap = await FirebaseDatabase.instance
-          .ref('users/${user.uid}/body_awareness/$todayKey')
-          .get();
-      if (!snap.exists || snap.value is! Map) return;
-      final data = Map<String, dynamic>.from(snap.value as Map);
-      final loaded = <String, _BodyAwarenessPoint>{};
-      final loadedRegions = <String, String>{};
-      final front = _parsePoint(data['front']);
-      final back = _parsePoint(data['back']);
-      if (front != null) loaded['front'] = front;
-      if (back != null) loaded['back'] = back;
-      final frontRegion = _parseRegion(data['front']);
-      final backRegion = _parseRegion(data['back']);
-      if (frontRegion != null) loadedRegions['front'] = frontRegion;
-      if (backRegion != null) loadedRegions['back'] = backRegion;
-      if (loaded.isEmpty) {
-        final legacy = _parsePoint(data);
-        if (legacy != null) {
-          loaded['front'] = legacy;
-        }
-        final legacyRegion = _parseRegion(data);
-        if (legacyRegion != null) {
-          loadedRegions['front'] = legacyRegion;
-        }
-      }
-
-      if (!mounted || loaded.isEmpty) return;
-      setState(() {
-        _pointsBySide.addAll(loaded);
-        _regionsBySide.addAll(loadedRegions);
-      });
-    } catch (_) {}
   }
 
   Future<void> _initBodyRegionMask() async {
@@ -863,66 +824,6 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
     setState(() {
       _bodyRegionMask = mask;
     });
-  }
-
-  _BodyAwarenessPoint? _parsePoint(dynamic value) {
-    if (value is! Map) return null;
-    final data = Map<String, dynamic>.from(value);
-    final x = data['x'];
-    final y = data['y'];
-    final colorValue = data['color'];
-    if (x is num && y is num && colorValue is int) {
-      return _BodyAwarenessPoint(
-        x: x.toDouble(),
-        y: y.toDouble(),
-        color: Color(colorValue),
-      );
-    }
-    return null;
-  }
-
-  String? _parseRegion(dynamic value) {
-    if (value is! Map) return null;
-    final data = Map<String, dynamic>.from(value);
-    return _normalizeRegion(data['region']);
-  }
-
-  String? _normalizeRegion(dynamic value) {
-    if (value is! String) return null;
-    final key = value.trim().toLowerCase();
-    const aliases = {
-      'body': 'torso',
-      'chest': 'torso',
-      'stomach': 'torso',
-      'hips': 'torso',
-      'back': 'back',
-      'left shoulder': 'shoulders',
-      'right shoulder': 'shoulders',
-      'left arm': 'arms',
-      'right arm': 'arms',
-      'left hand': 'hands',
-      'right hand': 'hands',
-      'left leg': 'legs',
-      'right leg': 'legs',
-      'left knee': 'legs',
-      'right knee': 'legs',
-      'left foot': 'feet',
-      'right foot': 'feet',
-    };
-    const allowed = {
-      'head',
-      'neck',
-      'shoulders',
-      'arms',
-      'hands',
-      'torso',
-      'back',
-      'legs',
-      'feet',
-      'outside',
-    };
-    final normalized = aliases[key] ?? key;
-    return allowed.contains(normalized) ? normalized : null;
   }
 
   void _setPoint(Offset localPosition, Size size, {required String region}) {
@@ -953,6 +854,131 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
     final mm = date.month.toString().padLeft(2, '0');
     final dd = date.day.toString().padLeft(2, '0');
     return '$yyyy$mm$dd';
+  }
+
+  String _selectedActivityKey() {
+    return MonsterManifestService.mapRegionToActivity(
+      _selectedRegion ?? 'outside',
+    );
+  }
+
+  bool _requiresJoinPrompt(String? region) {
+    return region != null && region != 'outside';
+  }
+
+  Future<bool> _confirmJoinExercise() async {
+    final shouldJoin = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Short exercise'),
+          content: const Text(
+            'Would you like to join Cookie Monster for a short exercise?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Not now'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Join'),
+            ),
+          ],
+        );
+      },
+    );
+    return shouldJoin ?? false;
+  }
+
+  Future<void> _playSelectedMonster({
+    String? overrideActivityKey,
+    bool requireSelection = true,
+  }) async {
+    if (_isOpeningMonster) return;
+    final region = _selectedRegion;
+    if (requireSelection && region == null) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Select a body area first.')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isOpeningMonster = true;
+    });
+
+    try {
+      final activityKey = overrideActivityKey ?? _selectedActivityKey();
+      final plan = await MonsterManifestService.instance.resolvePlaybackPlan(
+        activityKey,
+        platform: Theme.of(context).platform,
+      );
+      if (plan == null) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No clip found for "$activityKey".')),
+        );
+        return;
+      }
+
+      final urls = await _resolvePlaybackUrls(plan);
+      if (!mounted) return;
+      await Navigator.of(context, rootNavigator: true).push(
+        MaterialPageRoute(
+          fullscreenDialog: false,
+          builder: (context) => _MonsterPlaybackPage(
+            activityKey: activityKey,
+            plan: plan,
+            urls: urls,
+          ),
+        ),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load monster clip: $error')),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isOpeningMonster = false;
+        });
+      }
+    }
+  }
+
+  Future<_MonsterPlaybackUrls> _resolvePlaybackUrls(
+    MonsterPlaybackPlan plan,
+  ) async {
+    if (plan.type == MonsterPlaybackType.single) {
+      final singlePath = plan.singlePath;
+      if (singlePath == null) {
+        throw StateError(
+          'Single clip path is missing for ${plan.activityKey}.',
+        );
+      }
+      final singleUrl = await MonsterManifestService.instance
+          .downloadUrlForStoragePath(singlePath);
+      return _MonsterPlaybackUrls(single: singleUrl);
+    }
+
+    final introPath = plan.introPath;
+    final loopPath = plan.loopPath;
+    final outroPath = plan.outroPath;
+    if (introPath == null || loopPath == null || outroPath == null) {
+      throw StateError(
+        'Triple clip paths are missing for ${plan.activityKey}.',
+      );
+    }
+    final intro = await MonsterManifestService.instance
+        .downloadUrlForStoragePath(introPath);
+    final loop = await MonsterManifestService.instance
+        .downloadUrlForStoragePath(loopPath);
+    final outro = await MonsterManifestService.instance
+        .downloadUrlForStoragePath(outroPath);
+    return _MonsterPlaybackUrls(intro: intro, loop: loop, outro: outro);
   }
 
   Future<void> _openColorPicker() async {
@@ -1056,16 +1082,22 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
             'y': point.y,
             'color': point.color.toARGB32(),
             'region': _selectedRegion ?? 'outside',
+            'activityKey': MonsterManifestService.mapRegionToActivity(
+              _selectedRegion ?? 'outside',
+            ),
             'createdAt': now.toIso8601String(),
           });
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Body awareness saved (${_selectedSide == 'front' ? 'Front' : 'Back'}).',
-          ),
-        ),
-      );
+      if (_requiresJoinPrompt(_selectedRegion)) {
+        final shouldJoin = await _confirmJoinExercise();
+        if (!mounted) return;
+        if (!shouldJoin) return;
+        await _playSelectedMonster(
+          overrideActivityKey: '06_will_you_join',
+          requireSelection: false,
+        );
+      }
+      await _playSelectedMonster();
     } on FirebaseException catch (error) {
       if (!mounted) return;
       final message = error.code.isNotEmpty
@@ -1141,7 +1173,13 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                                     offset,
                                     constraints.biggest,
                                   );
-                                  debugPrint('Body awareness tap: $region');
+                                  final activityKey =
+                                      MonsterManifestService.mapRegionToActivity(
+                                        region,
+                                      );
+                                  debugPrint(
+                                    'Body awareness tap: $region -> $activityKey',
+                                  );
                                   _setPoint(
                                     offset,
                                     constraints.biggest,
@@ -1183,20 +1221,11 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
-                _bodyRegionMask == null
-                    ? 'Preparing body map...'
-                    : 'Selected area: ${_selectedRegion ?? 'none'}',
-                style: TextStyle(
-                  color: textColor.withValues(alpha: 0.92),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 8),
               ElevatedButton(
-                onPressed: _isSaving ? null : _save,
-                child: Text(_isSaving ? 'Saving...' : 'Save'),
+                onPressed: (_isSaving || _isOpeningMonster) ? null : _save,
+                child: Text(
+                  (_isSaving || _isOpeningMonster) ? 'Loading...' : 'Save',
+                ),
               ),
             ],
           ),
@@ -1363,5 +1392,325 @@ class _BodyRegionMask {
     );
 
     return output;
+  }
+}
+
+class _MonsterPlaybackUrls {
+  const _MonsterPlaybackUrls({this.single, this.intro, this.loop, this.outro});
+
+  final String? single;
+  final String? intro;
+  final String? loop;
+  final String? outro;
+}
+
+class _MonsterPlaybackPage extends StatefulWidget {
+  const _MonsterPlaybackPage({
+    required this.activityKey,
+    required this.plan,
+    required this.urls,
+  });
+
+  final String activityKey;
+  final MonsterPlaybackPlan plan;
+  final _MonsterPlaybackUrls urls;
+
+  @override
+  State<_MonsterPlaybackPage> createState() => _MonsterPlaybackPageState();
+}
+
+class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
+  static const Map<String, String> _exerciseInstructions = {
+    '06_will_you_join':
+        'Would you like to join Cookie Monster for a short exercise?',
+    '07_outside_the_body':
+        'When you imagine a place where you feel at ease, what physical sensations do you notice in your body?',
+    '08_forehead_contact':
+        'Forehead Contact:\nPlace your palm on your forehead, hold for a few seconds, and relax with your breath.',
+    '09_slow_breathing':
+        'Close Eyes - Breath Tracking:\nClose your eyes, inhale slowly through your nose, and exhale in 4 seconds (repeat 5 times).',
+    '10_weight_of_the_head':
+        'Feel the Weight of Your Head:\nGently tilt your head forward, notice neck tension, and relax it.',
+    '11_breathing':
+        '4-7-8 Breathing:\nInhale for 4 seconds, hold for 7, exhale for 8 (3 cycles).',
+    '12_abdominal_awareness':
+        'Abdominal Awareness:\nPlace your hand on your abdomen and feel it rise and fall with each breath.',
+    '13_heart_center':
+        'Heart Center Opening:\nMove your chest forward, pull shoulders back, and breathe deeply.',
+    '14_ball_squeezing':
+        'Ball Squeezing:\nSlowly squeeze and release your palm (10 repetitions).',
+    '15_finger_meditation':
+        'Finger Meditation:\nTouch each finger with your thumb one by one, exhaling with every touch.',
+    '16_hand_massage':
+        'Hand Massage:\nMassage the center of your palm with your thumb in small circles (30 seconds each hand).',
+    '17_shoulder_drop':
+        'Shoulder Drop:\nRaise shoulders toward ears, then release (5 repetitions).',
+    '18_back_opening':
+        'Back Opening:\nClasp hands behind you, open the chest, and take a deep breath.',
+    '19_releasing_burden':
+        'Releasing Burdens:\nWith eyes closed, imagine a warm light flowing down from your shoulders.',
+    '20_relaxing_facial_muscles':
+        'Relaxing Facial Muscles:\nClose eyes, tighten facial muscles, then release (3 repetitions).',
+    '21_jaw_drop':
+        'Jaw Drop:\nSlightly open your mouth, relax jaw for 5 seconds, then close it.',
+    '22_smile_to_yourself':
+        'Smile to Yourself:\nHold a gentle smile for 30 seconds.',
+    '23_eft_tapping_points':
+        'EFT Tapping Points:\nTap each point 5-7 times: eyebrow start, side of eye, under eye, under nose, chin, collarbone, under arm, top of head.',
+    '24_rising_on_tiptoes':
+        'Rising on Tiptoes:\nLift heels as you exhale, hold 3-5 seconds, lower slowly, and repeat 5-10 times.',
+  };
+
+  VideoPlayerController? _monsterController;
+  VideoPlayerController? _backgroundController;
+  bool _isBusy = true;
+  bool _showFinish = false;
+  bool _finishing = false;
+  bool _closed = false;
+
+  String? get _instructionText => _exerciseInstructions[widget.activityKey];
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(_start());
+  }
+
+  @override
+  void dispose() {
+    _closed = true;
+    _disposeController();
+    super.dispose();
+  }
+
+  Future<void> _disposeController() async {
+    final monster = _monsterController;
+    final background = _backgroundController;
+    _monsterController = null;
+    _backgroundController = null;
+    if (monster != null) {
+      await monster.dispose();
+    }
+    if (background != null) {
+      await background.dispose();
+    }
+  }
+
+  Future<void> _ensureBackgroundVideo() async {
+    if (_backgroundController != null) return;
+    try {
+      final bg = VideoPlayerController.asset(
+        'assets/monster/colored_moving_background.mp4',
+      );
+      _backgroundController = bg;
+      await bg.initialize();
+      await bg.setLooping(true);
+      await bg.play();
+      if (!mounted || _closed) return;
+      setState(() {});
+    } catch (error) {
+      debugPrint('Background video failed to initialize: $error');
+    }
+  }
+
+  Future<void> _start() async {
+    try {
+      await _ensureBackgroundVideo();
+      if (widget.plan.type == MonsterPlaybackType.single) {
+        final single = widget.urls.single;
+        if (single == null) {
+          _closeWithError('Single clip URL is missing.');
+          return;
+        }
+        await _playUrl(single, looping: true);
+        if (!mounted || _closed) return;
+        setState(() {
+          _isBusy = false;
+          _showFinish = true;
+        });
+        return;
+      }
+      final loop = widget.urls.loop;
+      if (loop == null) {
+        _closeWithError('Exercise clips are missing.');
+        return;
+      }
+      await _playUrl(loop, looping: true);
+      if (!mounted || _closed) return;
+      setState(() {
+        _isBusy = false;
+        _showFinish = true;
+      });
+    } catch (error) {
+      _closeWithError(
+        'Video player failed to initialize. Please fully restart the app.',
+      );
+      debugPrint('Monster playback start failed: $error');
+    }
+  }
+
+  Future<void> _playUrl(
+    String url, {
+    required bool looping,
+    Future<void> Function()? onEnded,
+  }) async {
+    final previous = _monsterController;
+    _monsterController = null;
+    if (previous != null) {
+      await previous.dispose();
+    }
+    final viewType = Platform.isIOS
+        ? VideoViewType.platformView
+        : VideoViewType.textureView;
+    final controller = VideoPlayerController.networkUrl(
+      Uri.parse(url),
+      viewType: viewType,
+    );
+    _monsterController = controller;
+    await controller.initialize();
+    await controller.setLooping(looping);
+    if (onEnded != null) {
+      var endedCalled = false;
+      controller.addListener(() {
+        if (!controller.value.isInitialized) return;
+        if (_closed) return;
+        if (controller.value.isPlaying) return;
+        if (endedCalled) return;
+        if (controller.value.position >= controller.value.duration) {
+          endedCalled = true;
+          onEnded();
+        }
+      });
+    }
+    await controller.play();
+    if (!mounted || _closed) return;
+    setState(() {});
+  }
+
+  Future<void> _finishExercise() async {
+    if (_finishing) return;
+    _finishing = true;
+    final outro = widget.urls.outro;
+    if (outro == null) {
+      if (mounted && Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+      return;
+    }
+    try {
+      await _playUrl(
+        outro,
+        looping: false,
+        onEnded: () async {
+          if (!mounted || _closed) return;
+          if (Navigator.of(context).canPop()) {
+            Navigator.of(context).pop();
+          }
+        },
+      );
+      if (!mounted || _closed) return;
+      setState(() {
+        _isBusy = false;
+        _showFinish = false;
+      });
+    } catch (error) {
+      _finishing = false;
+      _closeWithError('Failed to play outro clip.');
+      debugPrint('Monster playback outro failed: $error');
+    }
+  }
+
+  void _closeWithError(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
+      if (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final monster = _monsterController;
+    final background = _backgroundController;
+    final monsterReady = monster?.value.isInitialized ?? false;
+    final backgroundReady = background?.value.isInitialized ?? false;
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: backgroundReady
+                  ? FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: background!.value.size.width,
+                        height: background.value.size.height,
+                        child: VideoPlayer(background),
+                      ),
+                    )
+                  : const DecoratedBox(
+                      decoration: BoxDecoration(color: Color(0xFF1A1624)),
+                    ),
+            ),
+            Positioned.fill(
+              child: monsterReady
+                  ? FittedBox(
+                      fit: BoxFit.contain,
+                      child: SizedBox(
+                        width: monster!.value.size.width,
+                        height: monster.value.size.height,
+                        child: VideoPlayer(monster),
+                      ),
+                    )
+                  : const Center(child: CircularProgressIndicator()),
+            ),
+            if (_showFinish)
+              Positioned(
+                left: 16,
+                right: 16,
+                bottom: 24,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (_instructionText != null) ...[
+                      Container(
+                        width: double.infinity,
+                        constraints: const BoxConstraints(maxHeight: 220),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.45),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.2),
+                          ),
+                        ),
+                        child: SingleChildScrollView(
+                          child: Text(
+                            _instructionText!,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              height: 1.3,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                    ElevatedButton(
+                      onPressed: _isBusy ? null : _finishExercise,
+                      child: const Text('Finish exercise'),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 }
