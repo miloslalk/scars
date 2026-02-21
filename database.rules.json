@@ -14,6 +14,10 @@
       ".read": "auth != null",
       ".write": "auth != null"
     },
+    "guided_audio": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
     "message_reports": {
       ".read": false,
       ".write": "auth != null"

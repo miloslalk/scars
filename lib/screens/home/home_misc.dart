@@ -796,6 +796,11 @@ class SettingsPage extends StatelessWidget {
 }
 
 class _BodyAwarenessContent extends StatefulWidget {
+  const _BodyAwarenessContent({this.onCompleted, this.onSkipped});
+
+  final Future<void> Function()? onCompleted;
+  final Future<void> Function()? onSkipped;
+
   @override
   State<_BodyAwarenessContent> createState() => _BodyAwarenessContentState();
 }
@@ -871,14 +876,12 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Short exercise'),
-          content: const Text(
-            'Would you like to join Cookie Monster for a short exercise?',
-          ),
+          title: const Text('Cookie Monster'),
+          content: const Text('Join me, would you?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Not now'),
+              child: const Text('Skip'),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(true),
@@ -889,6 +892,66 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
       },
     );
     return shouldJoin ?? false;
+  }
+
+  Future<bool> _confirmOutsidePrompt() async {
+    final choice = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: const Text(
+            'When you imagine a place where you feel at ease, what physical sensations do you notice in your body?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Skip'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Reflect'),
+            ),
+          ],
+        );
+      },
+    );
+    return choice ?? false;
+  }
+
+  Future<String?> _askExperienceFeedback() async {
+    return showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('How was this experience for you?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop('positive'),
+              child: const Text('Positive: dance'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop('neutral'),
+              child: const Text('Neutral: meeeehhhhhh'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop('negative'),
+              child: const Text('Negative: fall down'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _recordExperienceFeedback(
+    String uid,
+    DateTime now,
+    String? feedback,
+  ) async {
+    if (feedback == null || feedback.isEmpty) return;
+    await FirebaseDatabase.instance
+        .ref('users/$uid/body_awareness/${_dateKey(now)}/feedback')
+        .set({'value': feedback, 'createdAt': now.toIso8601String()});
   }
 
   Future<void> _playSelectedMonster({
@@ -1087,17 +1150,40 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
             ),
             'createdAt': now.toIso8601String(),
           });
+      await FirebaseDatabase.instance
+          .ref('users/${user.uid}/body_awareness_history/${_dateKey(now)}')
+          .push()
+          .set({
+            'x': point.x,
+            'y': point.y,
+            'color': point.color.toARGB32(),
+            'region': _selectedRegion ?? 'outside',
+            'side': _selectedSide,
+            'activityKey': MonsterManifestService.mapRegionToActivity(
+              _selectedRegion ?? 'outside',
+            ),
+            'createdAt': now.toIso8601String(),
+          });
       if (!mounted) return;
       if (_requiresJoinPrompt(_selectedRegion)) {
         final shouldJoin = await _confirmJoinExercise();
         if (!mounted) return;
-        if (!shouldJoin) return;
-        await _playSelectedMonster(
-          overrideActivityKey: '06_will_you_join',
-          requireSelection: false,
-        );
+        if (shouldJoin) {
+          await _playSelectedMonster(
+            overrideActivityKey: '06_will_you_join',
+            requireSelection: false,
+          );
+          if (!mounted) return;
+          await _playSelectedMonster();
+        }
       }
-      await _playSelectedMonster();
+      if (!mounted) return;
+      final feedback = await _askExperienceFeedback();
+      if (!mounted) return;
+      await _recordExperienceFeedback(user.uid, now, feedback);
+      if (widget.onCompleted != null) {
+        await widget.onCompleted!.call();
+      }
     } on FirebaseException catch (error) {
       if (!mounted) return;
       final message = error.code.isNotEmpty
@@ -1118,6 +1204,17 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
         });
       }
     }
+  }
+
+  Future<void> _skipStep() async {
+    if (widget.onSkipped != null) {
+      await widget.onSkipped!.call();
+      return;
+    }
+    if (!mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Step skipped.')));
   }
 
   @override
@@ -1143,7 +1240,7 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Where does this feeling seem in rest in your body?\n'
+                'Where does this feeling seem to rest in your body?\n'
                 'Please touch that spot and select a color that feels true '
                 'to the sensation.',
                 style: TextStyle(
@@ -1173,6 +1270,17 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                                     offset,
                                     constraints.biggest,
                                   );
+                                  if (region == 'outside') {
+                                    _confirmOutsidePrompt().then((
+                                      reflect,
+                                    ) async {
+                                      if (!mounted) return;
+                                      if (!reflect) {
+                                        await _skipStep();
+                                      }
+                                    });
+                                    return;
+                                  }
                                   final activityKey =
                                       MonsterManifestService.mapRegionToActivity(
                                         region,
@@ -1221,10 +1329,39 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                 ),
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: (_isSaving || _isOpeningMonster) ? null : _save,
-                child: Text(
-                  (_isSaving || _isOpeningMonster) ? 'Loading...' : 'Save',
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: (_isSaving || _isOpeningMonster)
+                          ? null
+                          : _skipStep,
+                      child: const Text('Skip'),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: (_isSaving || _isOpeningMonster)
+                          ? null
+                          : _save,
+                      child: Text(
+                        (_isSaving || _isOpeningMonster)
+                            ? 'Loading...'
+                            : 'Save',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: (_isSaving || _isOpeningMonster)
+                      ? null
+                      : _skipStep,
+                  child: const Text('Skip to quote'),
                 ),
               ),
             ],

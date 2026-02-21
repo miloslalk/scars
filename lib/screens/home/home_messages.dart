@@ -12,7 +12,7 @@ class _MessagesContentState extends State<_MessagesContent>
   String? _balloonSvg;
   final Map<String, DateTime> _poppedAt = {};
   String? _loadedLocaleCode;
-  Set<String> _poppedMessageIds = {};
+  String? _todayPoppedMessageId;
 
   @override
   void initState() {
@@ -50,19 +50,42 @@ class _MessagesContentState extends State<_MessagesContent>
     } catch (_) {}
   }
 
+  String _todayKey() {
+    final now = DateTime.now();
+    final yyyy = now.year.toString();
+    final mm = now.month.toString().padLeft(2, '0');
+    final dd = now.day.toString().padLeft(2, '0');
+    return '$yyyy$mm$dd';
+  }
+
   Future<void> _loadMessagesForLocale(String localeCode) async {
-    final messages =
+    final localized =
         await _readMessageList(localeCode) ??
         (localeCode == 'en'
             ? <_MessageSpec>[]
             : await _readMessageList('en')) ??
         <_MessageSpec>[];
-    if (!mounted) return;
-    final poppedIds = await _loadPoppedMessageIds();
+
+    final english = localeCode == 'en'
+        ? localized
+        : await _readMessageList('en') ?? <_MessageSpec>[];
+    final englishById = <String, String>{
+      for (final message in english) message.id: message.text,
+    };
+    final merged = localized
+        .map(
+          (message) => _MessageSpec(
+            id: message.id,
+            text: message.text,
+            englishText: localeCode == 'en' ? null : englishById[message.id],
+          ),
+        )
+        .toList();
+    final poppedToday = await _loadTodayPoppedMessageId();
     if (!mounted) return;
     setState(() {
-      _poppedMessageIds = poppedIds;
-      _balloons = _buildBalloons(messages, poppedIds);
+      _todayPoppedMessageId = poppedToday;
+      _balloons = _buildBalloons(merged);
       _poppedAt.clear();
     });
   }
@@ -146,10 +169,7 @@ class _MessagesContentState extends State<_MessagesContent>
     return null;
   }
 
-  List<_BalloonSpec> _buildBalloons(
-    List<_MessageSpec> messages,
-    Set<String> poppedIds,
-  ) {
+  List<_BalloonSpec> _buildBalloons(List<_MessageSpec> messages) {
     if (messages.isEmpty) return [];
     final random = Random(24);
     final palette = [
@@ -162,14 +182,7 @@ class _MessagesContentState extends State<_MessagesContent>
       const Color(0xFF7B5FA2),
     ];
 
-    final availableMessages = <_MessageSpec>[];
-    for (final message in messages) {
-      if (!poppedIds.contains(message.id)) {
-        availableMessages.add(message);
-      }
-    }
-    availableMessages.shuffle(random);
-
+    final availableMessages = List<_MessageSpec>.of(messages)..shuffle(random);
     return List.generate(availableMessages.length, (index) {
       final message = availableMessages[index];
       return _BalloonSpec(
@@ -190,16 +203,53 @@ class _MessagesContentState extends State<_MessagesContent>
     super.dispose();
   }
 
+  Future<String?> _loadTodayPoppedMessageId() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return null;
+    try {
+      final snapshot = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/daily_popped_messages/${_todayKey()}')
+          .get();
+      if (!snapshot.exists || snapshot.value is! Map) return null;
+      final map = Map<String, dynamic>.from(snapshot.value as Map);
+      final id = map['messageId'];
+      return id is String && id.isNotEmpty ? id : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> _markMessagePoppedToday(String messageId) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    try {
+      await FirebaseDatabase.instance
+          .ref('users/${user.uid}/daily_popped_messages/${_todayKey()}')
+          .set({
+            'messageId': messageId,
+            'poppedAt': DateTime.now().toIso8601String(),
+          });
+    } catch (_) {}
+  }
+
   void _popBalloon(int index) {
+    if (_todayPoppedMessageId != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('You can pop one balloon per day. Come back tomorrow.'),
+        ),
+      );
+      return;
+    }
     final messageId = _balloons[index].message.id;
     if (_poppedAt.containsKey(messageId)) return;
     final balloon = _balloons[index];
     _showMessageDialog(balloon);
     setState(() {
       _poppedAt[messageId] = DateTime.now();
-      _poppedMessageIds.add(messageId);
+      _todayPoppedMessageId = messageId;
     });
-    _markMessagePopped(messageId);
+    _markMessagePoppedToday(messageId);
     Future.delayed(const Duration(milliseconds: 320), () {
       if (!mounted) return;
       setState(() {
@@ -209,6 +259,28 @@ class _MessagesContentState extends State<_MessagesContent>
     });
   }
 
+  Widget _buildDialogContent(_MessageSpec message) {
+    final english = message.englishText;
+    if (english == null ||
+        english.trim().isEmpty ||
+        english.trim() == message.text.trim()) {
+      return Text(message.text);
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(message.text),
+        const SizedBox(height: 12),
+        const Divider(height: 1),
+        const SizedBox(height: 12),
+        const Text('English', style: TextStyle(fontWeight: FontWeight.w600)),
+        const SizedBox(height: 6),
+        Text(english),
+      ],
+    );
+  }
+
   Future<void> _showMessageDialog(_BalloonSpec balloon) async {
     final message = balloon.message;
     await showDialog<void>(
@@ -216,7 +288,7 @@ class _MessagesContentState extends State<_MessagesContent>
       builder: (dialogContext) {
         return AlertDialog(
           title: const Text('Message'),
-          content: Text(message.text),
+          content: _buildDialogContent(message),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
@@ -243,37 +315,14 @@ class _MessagesContentState extends State<_MessagesContent>
         .push()
         .set({
           'text': message.text,
+          'textEn': message.englishText ?? message.text,
+          'locale': _loadedLocaleCode ?? 'en',
           'savedAt': DateTime.now().toIso8601String(),
         });
     if (!mounted) return;
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text('Saved to My Space.')));
-  }
-
-  Future<Set<String>> _loadPoppedMessageIds() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return <String>{};
-    try {
-      final snapshot = await FirebaseDatabase.instance
-          .ref('users/${user.uid}/popped_messages')
-          .get();
-      final value = snapshot.value;
-      if (value is Map) {
-        return value.keys.whereType<String>().toSet();
-      }
-    } catch (_) {}
-    return <String>{};
-  }
-
-  Future<void> _markMessagePopped(String messageId) async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
-    try {
-      await FirebaseDatabase.instance
-          .ref('users/${user.uid}/popped_messages/$messageId')
-          .set(DateTime.now().toIso8601String());
-    } catch (_) {}
   }
 
   @override
@@ -312,6 +361,24 @@ class _MessagesContentState extends State<_MessagesContent>
                           _controller.value,
                         ),
                         child: _buildBalloon(_balloons[i], i),
+                      ),
+                    if (_todayPoppedMessageId != null)
+                      Positioned(
+                        left: 16,
+                        right: 16,
+                        bottom: 16,
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.45),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Text(
+                            'You already opened today\'s message. Come back tomorrow for a new balloon.',
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       ),
                   ],
                 );
@@ -396,8 +463,9 @@ class _BalloonSpec {
 }
 
 class _MessageSpec {
-  const _MessageSpec({required this.id, required this.text});
+  const _MessageSpec({required this.id, required this.text, this.englishText});
 
   final String id;
   final String text;
+  final String? englishText;
 }
