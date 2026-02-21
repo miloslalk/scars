@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>When Scars Become Art</string>
+	<string>When Scars (!) Become Art</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,15 +15,13 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>when_scars_become_art</string>
+	<string>When Scars (!) Become Art</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -35,10 +33,12 @@
 			</array>
 		</dict>
 	</array>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>GIDClientID</key>
 	<string>537131372504-4vo3f6762hmb4k00dcke02tah8d1u26m.apps.googleusercontent.com</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow access to the camera to set your avatar.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

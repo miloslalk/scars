@@ -25,6 +25,7 @@ dependencies:
   flutter_colorpicker: ^1.1.0
   flutter_local_notifications: ^17.2.2
   timezone: ^0.9.4
+  video_player: ^2.11.0
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +44,7 @@ flutter:
   generate: true
   assets:
     - assets/images/
+    - assets/monster/
     - assets/music/
     - assets/images/flags/
     - assets/messages/

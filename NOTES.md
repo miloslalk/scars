@@ -18,6 +18,7 @@
 - Google sign-in is supported; new users get a generated unique username.
 - Logout clears session and returns to landing page.
 - Login password field has an eye toggle for visibility.
+- TODO (before production): finalize Google OAuth consent screen branding in Google Cloud so Google sign-in shows `When Scars (!) Become Art` instead of `project-537...`.
 
 ## Drawings
 - Canvas supports brush, eraser, undo, and text tool (draggable).
