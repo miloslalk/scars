@@ -184,8 +184,8 @@ class _MySpaceCalendarPickerSheetState
       final bodySnap = await FirebaseDatabase.instance
           .ref('users/${user.uid}/body_awareness')
           .get();
-      final savedMessagesSnap = await FirebaseDatabase.instance
-          .ref('users/${user.uid}/saved_messages')
+      final quoteSnap = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/daily_quotes')
           .get();
       final drawingsStorageList = await FirebaseStorage.instance
           .ref('users/${user.uid}/drawings')
@@ -223,14 +223,20 @@ class _MySpaceCalendarPickerSheetState
         }
       }
 
-      if (savedMessagesSnap.exists && savedMessagesSnap.value is Map) {
-        final data = Map<String, dynamic>.from(savedMessagesSnap.value as Map);
+      if (quoteSnap.exists && quoteSnap.value is Map) {
+        final data = Map<String, dynamic>.from(quoteSnap.value as Map);
         for (final entry in data.entries) {
+          final key = entry.key;
+          if (key.length == 8) {
+            keys.add(key);
+            continue;
+          }
           if (entry.value is! Map) continue;
           final map = Map<String, dynamic>.from(entry.value as Map);
-          final parsed = _parseDynamicDate(map['savedAt']);
-          if (parsed == null) continue;
-          keys.add(_dateKey(parsed));
+          final parsed = _parseDynamicDate(map['createdAt']);
+          if (parsed != null) {
+            keys.add(_dateKey(parsed));
+          }
         }
       }
 
@@ -508,8 +514,8 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
       final bodySnap = await FirebaseDatabase.instance
           .ref('users/${user.uid}/body_awareness/${_dateKey(widget.date)}')
           .get();
-      final savedMessagesSnap = await FirebaseDatabase.instance
-          .ref('users/${user.uid}/saved_messages')
+      final quoteSnap = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/daily_quotes/${_dateKey(widget.date)}')
           .get();
       final drawingsStorageList = await FirebaseStorage.instance
           .ref('users/${user.uid}/drawings')
@@ -558,21 +564,11 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
       }
 
       String? latestQuoteText;
-      DateTime? latestQuoteTime;
-      if (savedMessagesSnap.exists && savedMessagesSnap.value is Map) {
-        final data = Map<String, dynamic>.from(savedMessagesSnap.value as Map);
-        for (final entry in data.values) {
-          if (entry is! Map) continue;
-          final map = Map<String, dynamic>.from(entry);
-          final text = map['text'] as String?;
-          if (text == null || text.trim().isEmpty) continue;
-          final parsed = _parseDynamicDate(map['savedAt']);
-          if (parsed == null) continue;
-          if (!_isSameDay(parsed, widget.date)) continue;
-          if (latestQuoteTime == null || parsed.isAfter(latestQuoteTime)) {
-            latestQuoteTime = parsed;
-            latestQuoteText = text;
-          }
+      if (quoteSnap.exists && quoteSnap.value is Map) {
+        final map = Map<String, dynamic>.from(quoteSnap.value as Map);
+        final text = map['text'];
+        if (text is String && text.trim().isNotEmpty) {
+          latestQuoteText = text.trim();
         }
       }
 
@@ -958,6 +954,11 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
                           body: _quoteText ?? 'No quote saved for this day.',
                           icon: Icons.format_quote,
                         ),
+                        _MySpaceCarouselPage(
+                          title: 'Note',
+                          body: _noteText ?? 'No note saved for this day.',
+                          icon: Icons.sticky_note_2_outlined,
+                        ),
                       ],
                     ),
             ),
@@ -965,7 +966,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                3,
+                4,
                 (index) => Container(
                   width: 8,
                   height: 8,

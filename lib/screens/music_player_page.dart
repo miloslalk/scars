@@ -1,15 +1,19 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:when_scars_become_art/services/guided_audio_service.dart';
 
 import '../widgets/app_top_bar.dart';
 
 class MusicPlayerPage extends StatefulWidget {
   const MusicPlayerPage({
     super.key,
-    required this.assetPath,
+    this.localeCode = 'en',
+    required this.fallbackAssetPath,
   });
 
-  final String assetPath;
+  final String localeCode;
+  final String fallbackAssetPath;
 
   @override
   State<MusicPlayerPage> createState() => _MusicPlayerPageState();
@@ -20,6 +24,16 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
   Duration _duration = Duration.zero;
   Duration _position = Duration.zero;
   bool _isPlaying = false;
+  bool _isLoadingTrack = true;
+  bool _playingRemote = false;
+  String? _remoteUrl;
+  String? _loadError;
+  GuidedAudioTrack _track = const GuidedAudioTrack(
+    title: 'Guided Meditation',
+    description: 'Take a moment to breathe and listen.',
+    fallbackAssetPath: 'music/keys-of-moon-white-petals(chosic.com).mp3',
+    storagePath: null,
+  );
 
   @override
   void initState() {
@@ -46,12 +60,33 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
         _isPlaying = false;
       });
     });
+    _loadTrack();
   }
 
   @override
   void dispose() {
     _player.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadTrack() async {
+    try {
+      final resolved = await GuidedAudioService.instance.resolveTrack(
+        localeCode: widget.localeCode,
+        fallbackAssetPath: widget.fallbackAssetPath,
+      );
+      if (!mounted) return;
+      setState(() {
+        _track = resolved;
+        _isLoadingTrack = false;
+      });
+    } catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _loadError = '$error';
+        _isLoadingTrack = false;
+      });
+    }
   }
 
   Future<void> _togglePlay() async {
@@ -62,8 +97,30 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
     if (_position > Duration.zero) {
       await _player.resume();
     } else {
-      await _player.play(AssetSource(widget.assetPath));
+      await _startPlayback();
     }
+  }
+
+  Future<void> _startPlayback() async {
+    if (_track.storagePath != null) {
+      try {
+        _remoteUrl ??= await FirebaseStorage.instance
+            .ref(_track.storagePath!)
+            .getDownloadURL();
+        await _player.play(UrlSource(_remoteUrl!));
+        if (!mounted) return;
+        setState(() {
+          _playingRemote = true;
+        });
+        return;
+      } catch (_) {}
+    }
+
+    await _player.play(AssetSource(_track.fallbackAssetPath));
+    if (!mounted) return;
+    setState(() {
+      _playingRemote = false;
+    });
   }
 
   Future<void> _skip() async {
@@ -81,6 +138,12 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoadingTrack) {
+      return const Scaffold(
+        appBar: AppTopBar(showUserAction: false),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     final max = _duration.inMilliseconds.toDouble();
     final value = _position.inMilliseconds.clamp(0, _duration.inMilliseconds);
 
@@ -92,13 +155,25 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Gentle Music',
+              _track.title,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 8),
             Text(
-              'Take a moment to breathe and listen.',
+              _track.description,
               style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            if (_loadError != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                'Could not load remote track metadata. Playing fallback track.',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+            const SizedBox(height: 8),
+            Text(
+              _playingRemote ? 'Source: Firebase' : 'Source: built-in fallback',
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(height: 24),
             Expanded(
@@ -119,10 +194,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(_format(_position)),
-                Text(_format(_duration)),
-              ],
+              children: [Text(_format(_position)), Text(_format(_duration))],
             ),
             const SizedBox(height: 20),
             Row(

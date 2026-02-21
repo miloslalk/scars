@@ -14,7 +14,6 @@ import 'package:flutter_svg/flutter_svg.dart' as svg;
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:video_player/video_player.dart';
-import 'care_corner_page.dart';
 import 'package:flutter/services.dart';
 import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
 import 'package:when_scars_become_art/services/monster_manifest_service.dart';
@@ -48,19 +47,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  static const bool _showCareCorner = false;
 
   List<Widget> _buildPages(String displayName) {
-    final pages = <Widget>[
+    return <Widget>[
       _HomeContent(displayName: displayName),
-      _BodyAwarenessContent(),
       _MySpaceContent(),
       _MessagesContent(),
     ];
-    if (_showCareCorner) {
-      pages.insert(2, const CareCornerPage());
-    }
-    return pages;
   }
 
   void _onItemTapped(int index) {
@@ -108,25 +101,12 @@ class _HomePageState extends State<HomePage> {
         : _selectedIndex;
     final navItems = <BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(Icons.home), label: l10n.homeLabel),
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.accessibility_new),
-        label: 'Body awareness',
-      ),
       const BottomNavigationBarItem(icon: Icon(Icons.lock), label: 'My Space'),
       const BottomNavigationBarItem(
         icon: Icon(Icons.emoji_emotions),
         label: 'Messages',
       ),
     ];
-    if (_showCareCorner) {
-      navItems.insert(
-        2,
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.park_outlined),
-          label: 'Care Corner',
-        ),
-      );
-    }
 
     return Scaffold(
       appBar: AppTopBar(
