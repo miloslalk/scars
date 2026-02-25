@@ -19,6 +19,12 @@
 - Logout clears session and returns to landing page.
 - Login password field has an eye toggle for visibility.
 - TODO (before production): finalize Google OAuth consent screen branding in Google Cloud so Google sign-in shows `When Scars (!) Become Art` instead of `project-537...`.
+- Android Google Sign-In checklist:
+- Firebase Android app package must be `eu.whenscarsbecomeart.app`.
+- Required SHA-1 fingerprints in Firebase for this app:
+- Debug: `4B:D3:10:70:0E:32:28:F3:FD:4E:09:60:77:2A:DC:AC:3D:61:8C:41`
+- Release/upload: `28:DC:D8:63:D9:20:CB:A4:C4:32:4C:28:86:32:96:6F:08:FF:3F:DC`
+- After adding fingerprints: redownload `android/app/google-services.json`, then run `flutter clean`, `flutter pub get`, uninstall app, and rerun.
 
 ## Drawings
 - Canvas supports brush, eraser, undo, and text tool (draggable).
@@ -58,8 +64,13 @@
 - Settings are opened from the avatar menu; bottom nav settings tab removed.
 - Theme selector added (System/Light/Dark).
 - Users can update display name; stored in Auth displayName and RTDB `users/{uid}/fullName`.
-- Notifications: Good morning ☀️ daily at 09:00 local time and inactivity reminder every 7 days after last login.
-- TODO: Review notification time (currently 09:00 local) with client.
+- Push notifications moved to FCM + Cloud Functions scheduler.
+- Daily push: "Good morning" at 09:00 local (device `utcOffsetMinutes` based).
+- Inactivity push: "We miss you" when `lastLoginAt` is older than 7 days.
+- Device push state stored at `users/{uid}/devices/{tokenKey}` (token/platform/offset/send guards).
+- User notification preferences editable in Settings (daily on/off, time, inactivity on/off) and saved at `users/{uid}/notificationPrefs` + synced to `users/{uid}/devices/*`.
+- TODO: Configure iOS push end-to-end (APNs key/cert in Firebase + Push Notifications capability in Xcode target).
+- TODO: Add push QA checklist and runbook (force-run scheduler, validate `queued/sent`, foreground/background behavior, token cleanup).
 - Re-authenticate action added for password users before sensitive changes.
 - Email change sends verification; unchanged email does not re-send.
 - Email/password changes locked for non-password providers.
@@ -70,7 +81,6 @@
 - Saved per day at `users/{uid}/body_awareness/{yyyyMMdd}` with x/y/color/createdAt.
 - Body awareness screen styled differently in light/dark themes.
 - Body regions are detected with basic hit zones; console logs region name.
-- TODO: Add precise hit-map detection (color-coded mask) to detect body part and outside-body taps.
 
 ## Navigation
 - Bottom nav includes Home, Body Awareness, My Space, Messages, Help.
@@ -79,6 +89,7 @@
 ## Assets & Data
 - Mock data assets/repositories removed; app uses Firebase only.
 - Body outline asset: `assets/images/Human_body_outline.svg`.
+- TODO: Cookie Monster on Android shows gray/noisy artifact in transparent areas (iOS is fine). Likely WebM alpha export/decoder compatibility issue; verify on real Android device and with clip provider (re-encode Android assets if needed).
 
 ## Messages (Balloons)
 - Once a user pops a balloon message, it must never be shown again to that user.
@@ -86,18 +97,15 @@
 - Messages tab shows a continuous stream of animated balloons.
 - Balloons are tinted variants of `assets/images/balloon-heart-fill_1.svg`.
 - Balloons pop on tap with a brief burst animation.
- - TODO: Replace RTDB-only reports with Cloud Functions email + approve/reject links.
+- Balloon messages do not expire.
 - TODO: Limit popping to 1 balloon per day, reset at 00:00 CET (keep unlimited for testing).
-- TODO: Decide whether messages expire after a fixed time if not popped.
-- TODO: Re-enable DB-backed global messages with per-user "pop once" tracking; currently using mock pool.
+- Messages load from RTDB path `messages/{locale}` with assets fallback when DB data is missing.
 - TODO: Add 365 localized messages per language when provided by client (current list is for testing) using `{id,text}` entries with stable IDs across locales.
 
 ## Care Corner
 - Care Corner is a standalone page with 7 flag bubbles (Romania, Serbia, Greece, North Macedonia, Germany, Turkey, EU).
 - Tapping a flag centers it and reveals 3 inner bubbles: Wellbeing, Support & Services, Education.
 - Inner bubbles open mock content lists; content will be wired to Firebase later.
-- TODO: Add admin roles (6 partners) with countryCode to manage Care Corner content per country; restrict access by rules and show admin-only page.
 
 ## Drawing
-- TODO: Add more font families to the text tool dropdown.
-- TODO: Use real timezone detection for notifications to handle DST shifts.
+- Notification timezone handling updated to use device IANA timezone (`timezoneName`) for DST-safe push delivery; UTC offset remains as fallback.

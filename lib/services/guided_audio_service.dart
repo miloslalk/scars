@@ -22,17 +22,27 @@ class GuidedAudioService {
   Future<GuidedAudioTrack> resolveTrack({
     required String localeCode,
     required String fallbackAssetPath,
+    required String defaultTitle,
+    required String defaultDescription,
   }) async {
     final fromLocale = await _readTrackMap(localeCode);
     final fromEnglish = localeCode == 'en' ? null : await _readTrackMap('en');
     final map = fromLocale ?? fromEnglish;
     if (map == null) {
-      return _defaultTrack(fallbackAssetPath);
+      return _defaultTrack(
+        fallbackAssetPath: fallbackAssetPath,
+        defaultTitle: defaultTitle,
+        defaultDescription: defaultDescription,
+      );
     }
 
     final enabled = map['enabled'];
     if (enabled is bool && !enabled) {
-      return _defaultTrack(fallbackAssetPath);
+      return _defaultTrack(
+        fallbackAssetPath: fallbackAssetPath,
+        defaultTitle: defaultTitle,
+        defaultDescription: defaultDescription,
+      );
     }
 
     final title = (map['title'] as String?)?.trim();
@@ -41,9 +51,9 @@ class GuidedAudioService {
     final fallback = (map['fallbackAssetPath'] as String?)?.trim();
 
     return GuidedAudioTrack(
-      title: (title == null || title.isEmpty) ? 'Guided Meditation' : title,
+      title: (title == null || title.isEmpty) ? defaultTitle : title,
       description: (description == null || description.isEmpty)
-          ? 'Take a moment to breathe and listen.'
+          ? defaultDescription
           : description,
       fallbackAssetPath: (fallback == null || fallback.isEmpty)
           ? fallbackAssetPath
@@ -66,10 +76,14 @@ class GuidedAudioService {
     }
   }
 
-  GuidedAudioTrack _defaultTrack(String fallbackAssetPath) {
+  GuidedAudioTrack _defaultTrack({
+    required String fallbackAssetPath,
+    required String defaultTitle,
+    required String defaultDescription,
+  }) {
     return GuidedAudioTrack(
-      title: 'Guided Meditation',
-      description: 'Take a moment to breathe and listen.',
+      title: defaultTitle,
+      description: defaultDescription,
       fallbackAssetPath: fallbackAssetPath,
       storagePath: null,
     );

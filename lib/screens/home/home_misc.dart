@@ -18,6 +18,44 @@ class _SettingsContent extends StatefulWidget {
 class _SettingsContentState extends State<_SettingsContent> {
   final ImagePicker _picker = ImagePicker();
   bool _isAvatarBusy = false;
+  bool _isDeletingAccount = false;
+  bool _dailyNotificationsEnabled = true;
+  bool _inactiveNotificationsEnabled = true;
+  int _dailyNotificationHour = 9;
+  int _dailyNotificationMinute = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNotificationPreferences();
+  }
+
+  Future<void> _loadNotificationPreferences() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+    final snap = await FirebaseDatabase.instance
+        .ref('users/$uid/notificationPrefs')
+        .get();
+    final value = snap.value;
+    if (value is! Map || !mounted) return;
+    final data = Map<String, dynamic>.from(value);
+    final dailyEnabled = data['dailyEnabled'];
+    final inactiveEnabled = data['inactiveEnabled'];
+    final hour = data['dailyHour'];
+    final minute = data['dailyMinute'];
+    setState(() {
+      if (dailyEnabled is bool) _dailyNotificationsEnabled = dailyEnabled;
+      if (inactiveEnabled is bool) {
+        _inactiveNotificationsEnabled = inactiveEnabled;
+      }
+      if (hour is int && hour >= 0 && hour <= 23) {
+        _dailyNotificationHour = hour;
+      }
+      if (minute is int && minute >= 0 && minute <= 59) {
+        _dailyNotificationMinute = minute;
+      }
+    });
+  }
 
   String _languageLabel(Locale locale) {
     if (locale.languageCode == 'en') {
@@ -190,6 +228,65 @@ class _SettingsContentState extends State<_SettingsContent> {
         false;
   }
 
+  Future<bool> _reauthenticatePasswordUser(
+    User user, {
+    String title = 'Confirm password',
+  }) async {
+    final email = user.email?.trim();
+    if (email == null || email.isEmpty) return false;
+
+    final controller = TextEditingController();
+    bool obscure = true;
+    final password = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text(title),
+              content: TextField(
+                controller: controller,
+                obscureText: obscure,
+                textInputAction: TextInputAction.done,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      obscure ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        obscure = !obscure;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () => Navigator.pop(context, controller.text),
+                  child: const Text('Confirm'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+    if (password == null || password.trim().isEmpty) return false;
+
+    final credential = EmailAuthProvider.credential(
+      email: email,
+      password: password.trim(),
+    );
+    await user.reauthenticateWithCredential(credential);
+    return true;
+  }
+
   String? _validatePassword(String value) {
     final trimmed = value.trim();
     if (trimmed.length < 8) return 'Password must be at least 8 characters.';
@@ -202,7 +299,11 @@ class _SettingsContentState extends State<_SettingsContent> {
     return null;
   }
 
-  Future<void> _updateEmail(String email, String? username) async {
+  Future<void> _updateEmail(
+    String email,
+    String? username, {
+    bool allowReauthRetry = true,
+  }) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
     final trimmed = email.trim();
@@ -229,9 +330,30 @@ class _SettingsContentState extends State<_SettingsContent> {
         ),
       );
     } on FirebaseAuthException catch (error) {
-      final message = error.code == 'requires-recent-login'
-          ? 'Please log in again to update your email.'
-          : 'Failed to update email.';
+      if (error.code == 'requires-recent-login' && allowReauthRetry) {
+        try {
+          final reauthed = await _reauthenticatePasswordUser(
+            user,
+            title: 'Re-authenticate to update email',
+          );
+          if (!reauthed) return;
+          await _updateEmail(email, username, allowReauthRetry: false);
+          return;
+        } on FirebaseAuthException {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Re-authentication failed.')),
+          );
+          return;
+        } catch (_) {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Re-authentication failed.')),
+          );
+          return;
+        }
+      }
+      final message = 'Failed to update email.';
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
@@ -274,7 +396,10 @@ class _SettingsContentState extends State<_SettingsContent> {
     await _updateEmail(result, username);
   }
 
-  Future<void> _updatePassword(String value) async {
+  Future<void> _updatePassword(
+    String value, {
+    bool allowReauthRetry = true,
+  }) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
     final validation = _validatePassword(value);
@@ -291,9 +416,30 @@ class _SettingsContentState extends State<_SettingsContent> {
         context,
       ).showSnackBar(const SnackBar(content: Text('Password updated.')));
     } on FirebaseAuthException catch (error) {
-      final message = error.code == 'requires-recent-login'
-          ? 'Please log in again to update your password.'
-          : 'Failed to update password.';
+      if (error.code == 'requires-recent-login' && allowReauthRetry) {
+        try {
+          final reauthed = await _reauthenticatePasswordUser(
+            user,
+            title: 'Re-authenticate to update password',
+          );
+          if (!reauthed) return;
+          await _updatePassword(value, allowReauthRetry: false);
+          return;
+        } on FirebaseAuthException {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Re-authentication failed.')),
+          );
+          return;
+        } catch (_) {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Re-authentication failed.')),
+          );
+          return;
+        }
+      }
+      final message = 'Failed to update password.';
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
@@ -421,79 +567,6 @@ class _SettingsContentState extends State<_SettingsContent> {
     await _updatePassword(result);
   }
 
-  Future<void> _reauthenticate() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
-    final email = user.email?.trim();
-    if (email == null || email.isEmpty) return;
-
-    final controller = TextEditingController();
-    bool obscure = true;
-    final password = await showDialog<String>(
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: const Text('Re-authenticate'),
-              content: TextField(
-                controller: controller,
-                obscureText: obscure,
-                textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      obscure ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        obscure = !obscure;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context, controller.text),
-                  child: const Text('Confirm'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-
-    if (password == null || password.trim().isEmpty) return;
-    try {
-      final credential = EmailAuthProvider.credential(
-        email: email,
-        password: password.trim(),
-      );
-      await user.reauthenticateWithCredential(credential);
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Re-authentication successful.')),
-      );
-    } on FirebaseAuthException {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Re-authentication failed.')),
-      );
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Re-authentication failed.')),
-      );
-    }
-  }
-
   void _openAvatarSheet() {
     showModalBottomSheet(
       context: context,
@@ -545,6 +618,472 @@ class _SettingsContentState extends State<_SettingsContent> {
     return 'U';
   }
 
+  String _safeKey(String value) {
+    if (value.isEmpty) return 'user';
+    final buffer = StringBuffer();
+    for (final codeUnit in value.codeUnits) {
+      final isValid =
+          (codeUnit >= 48 && codeUnit <= 57) ||
+          (codeUnit >= 65 && codeUnit <= 90) ||
+          (codeUnit >= 97 && codeUnit <= 122) ||
+          codeUnit == 45 ||
+          codeUnit == 95;
+      buffer.write(isValid ? String.fromCharCode(codeUnit) : '_');
+    }
+    return buffer.toString();
+  }
+
+  Future<void> _deleteStoragePathRecursively(Reference ref) async {
+    final listed = await ref.listAll();
+    for (final item in listed.items) {
+      try {
+        await item.delete();
+      } catch (_) {}
+    }
+    for (final prefix in listed.prefixes) {
+      await _deleteStoragePathRecursively(prefix);
+    }
+  }
+
+  Future<void> _deleteAccount() async {
+    if (_isDeletingAccount) return;
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    final l10n = AppLocalizations.of(context)!;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.deleteAccountDialogTitle),
+        content: Text(l10n.deleteAccountDialogBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.cancelLabel),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l10n.deleteAccountActionLabel),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+
+    setState(() {
+      _isDeletingAccount = true;
+    });
+
+    try {
+      final providerIds = user.providerData.map((p) => p.providerId).toSet();
+      if (providerIds.contains('password')) {
+        final email = user.email?.trim();
+        if (email == null || email.isEmpty) {
+          throw FirebaseAuthException(code: 'requires-recent-login');
+        }
+        final passwordController = TextEditingController();
+        bool obscure = true;
+        final password = await showDialog<String>(
+          context: context,
+          builder: (context) {
+            return StatefulBuilder(
+              builder: (context, setState) {
+                return AlertDialog(
+                  title: Text(l10n.confirmPasswordLabel),
+                  content: TextField(
+                    controller: passwordController,
+                    obscureText: obscure,
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                      labelText: l10n.passwordLabel,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          obscure ? Icons.visibility : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            obscure = !obscure;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(l10n.cancelLabel),
+                    ),
+                    ElevatedButton(
+                      onPressed: () =>
+                          Navigator.pop(context, passwordController.text),
+                      child: Text(l10n.confirmLabel),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        );
+        if (password == null || password.trim().isEmpty) {
+          return;
+        }
+        final credential = EmailAuthProvider.credential(
+          email: email,
+          password: password.trim(),
+        );
+        await user.reauthenticateWithCredential(credential);
+      }
+
+      final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+      final profileSnap = await userRef.get();
+      String? username;
+      if (profileSnap.exists && profileSnap.value is Map) {
+        final map = Map<String, dynamic>.from(profileSnap.value as Map);
+        final value = map['username'];
+        if (value is String && value.trim().isNotEmpty) {
+          username = value.trim();
+        }
+      }
+
+      try {
+        await _deleteStoragePathRecursively(
+          FirebaseStorage.instance.ref('users/${user.uid}'),
+        );
+      } catch (_) {}
+
+      await userRef.remove();
+      if (username != null) {
+        await FirebaseDatabase.instance
+            .ref('usernames/${_safeKey(username)}')
+            .remove();
+      }
+
+      await user.delete();
+      await FirebaseAuth.instance.signOut();
+
+      if (!mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LandingPage(
+            localeNotifier: widget.localeNotifier,
+            supportedLocales: widget.supportedLocales,
+            themeModeNotifier: widget.themeModeNotifier,
+          ),
+        ),
+        (route) => false,
+      );
+    } on FirebaseAuthException catch (error) {
+      if (!mounted) return;
+      final message = error.code == 'requires-recent-login'
+          ? l10n.deleteAccountRequiresRecentLogin
+          : l10n.deleteAccountFailed;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.deleteAccountFailed)));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isDeletingAccount = false;
+        });
+      }
+    }
+  }
+
+  String _notificationSummary({
+    required bool dailyEnabled,
+    required bool inactiveEnabled,
+    required int dailyHour,
+    required int dailyMinute,
+  }) {
+    if (!dailyEnabled && !inactiveEnabled) {
+      return 'Notifications are turned off.';
+    }
+    final hh = dailyHour.toString().padLeft(2, '0');
+    final mm = dailyMinute.toString().padLeft(2, '0');
+    if (dailyEnabled && inactiveEnabled) {
+      return 'Daily at $hh:$mm and 7-day inactivity reminders.';
+    }
+    if (dailyEnabled) {
+      return 'Daily reminder at $hh:$mm.';
+    }
+    return 'Only 7-day inactivity reminders.';
+  }
+
+  Future<void> _saveNotificationPreferences({
+    required bool dailyEnabled,
+    required bool inactiveEnabled,
+    required int dailyHour,
+    required int dailyMinute,
+  }) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    final now = DateTime.now().toIso8601String();
+    final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+
+    await userRef.child('notificationPrefs').set({
+      'dailyEnabled': dailyEnabled,
+      'inactiveEnabled': inactiveEnabled,
+      'dailyHour': dailyHour,
+      'dailyMinute': dailyMinute,
+      'updatedAt': now,
+    });
+
+    final devicesSnap = await userRef.child('devices').get();
+    final devices = devicesSnap.value;
+    if (devices is Map) {
+      final updates = <String, Object?>{};
+      for (final key in devices.keys) {
+        updates['devices/$key/dailyEnabled'] = dailyEnabled;
+        updates['devices/$key/inactiveEnabled'] = inactiveEnabled;
+        updates['devices/$key/dailyHour'] = dailyHour;
+        updates['devices/$key/dailyMinute'] = dailyMinute;
+        updates['devices/$key/updatedAt'] = now;
+      }
+      if (updates.isNotEmpty) {
+        await userRef.update(updates);
+      }
+    }
+  }
+
+  Future<void> _openNotificationSettings({
+    required bool dailyEnabled,
+    required bool inactiveEnabled,
+    required int dailyHour,
+    required int dailyMinute,
+  }) async {
+    final result = await showModalBottomSheet<_NotificationPrefsDraft>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (context) {
+        var draft = _NotificationPrefsDraft(
+          dailyEnabled: dailyEnabled,
+          inactiveEnabled: inactiveEnabled,
+          dailyHour: dailyHour,
+          dailyMinute: dailyMinute,
+        );
+        return StatefulBuilder(
+          builder: (context, setState) {
+            final timeLabel =
+                '${draft.dailyHour.toString().padLeft(2, '0')}:${draft.dailyMinute.toString().padLeft(2, '0')}';
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Notifications',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 12),
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Daily reminder'),
+                    subtitle: const Text('Send a daily morning push.'),
+                    value: draft.dailyEnabled,
+                    onChanged: (value) {
+                      setState(() {
+                        draft = draft.copyWith(dailyEnabled: value);
+                      });
+                    },
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Reminder time'),
+                    subtitle: Text(timeLabel),
+                    trailing: const Icon(Icons.schedule),
+                    enabled: draft.dailyEnabled,
+                    onTap: !draft.dailyEnabled
+                        ? null
+                        : () async {
+                            final picked = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay(
+                                hour: draft.dailyHour,
+                                minute: draft.dailyMinute,
+                              ),
+                            );
+                            if (picked == null) return;
+                            setState(() {
+                              draft = draft.copyWith(
+                                dailyHour: picked.hour,
+                                dailyMinute: picked.minute,
+                              );
+                            });
+                          },
+                  ),
+                  const SizedBox(height: 8),
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Inactive reminder'),
+                    subtitle: const Text('Send a reminder after 7 days away.'),
+                    value: draft.inactiveEnabled,
+                    onChanged: (value) {
+                      setState(() {
+                        draft = draft.copyWith(inactiveEnabled: value);
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Cancel'),
+                      ),
+                      const Spacer(),
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context, draft),
+                        child: const Text('Save'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+
+    if (result == null) return;
+    try {
+      await _saveNotificationPreferences(
+        dailyEnabled: result.dailyEnabled,
+        inactiveEnabled: result.inactiveEnabled,
+        dailyHour: result.dailyHour,
+        dailyMinute: result.dailyMinute,
+      );
+      setState(() {
+        _dailyNotificationsEnabled = result.dailyEnabled;
+        _inactiveNotificationsEnabled = result.inactiveEnabled;
+        _dailyNotificationHour = result.dailyHour;
+        _dailyNotificationMinute = result.dailyMinute;
+      });
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Notification preferences saved.')),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to save notification preferences.'),
+        ),
+      );
+    }
+  }
+
+  Widget _sectionLabel(BuildContext context, String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Text(
+        text,
+        style: Theme.of(
+          context,
+        ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+      ),
+    );
+  }
+
+  Widget _settingsTile({
+    required BuildContext context,
+    required IconData icon,
+    required String title,
+    String? subtitle,
+    Widget? trailing,
+    VoidCallback? onTap,
+    bool danger = false,
+  }) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final surfaceColor = isDark
+        ? colorScheme.surface.withValues(alpha: 0.96)
+        : Colors.white.withValues(alpha: 0.9);
+    final borderColor = isDark
+        ? Colors.white.withValues(alpha: 0.10)
+        : Colors.black.withValues(alpha: 0.06);
+    final baseTextColor = isDark ? colorScheme.onSurface : Colors.black87;
+    final iconBg = danger
+        ? const Color(0xFFFFE7E7)
+        : colorScheme.primary.withValues(alpha: 0.12);
+    final iconColor = danger ? const Color(0xFFB42318) : colorScheme.primary;
+    final textColor = danger ? const Color(0xFFB42318) : baseTextColor;
+    final subtitleColor = danger
+        ? const Color(0xFFB42318).withValues(alpha: 0.8)
+        : baseTextColor.withValues(alpha: 0.8);
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: surfaceColor,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: borderColor),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(18),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: Row(
+              children: [
+                Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    color: iconBg,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, color: iconColor),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: textColor.withValues(
+                            alpha: onTap == null ? 0.7 : 1,
+                          ),
+                        ),
+                      ),
+                      if (subtitle != null) ...[
+                        const SizedBox(height: 2),
+                        Text(subtitle, style: TextStyle(color: subtitleColor)),
+                      ],
+                    ],
+                  ),
+                ),
+                if (trailing != null)
+                  IconTheme(
+                    data: IconThemeData(
+                      color: danger
+                          ? const Color(0xFFB42318).withValues(alpha: 0.9)
+                          : baseTextColor.withValues(alpha: 0.7),
+                    ),
+                    child: trailing,
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -553,22 +1092,62 @@ class _SettingsContentState extends State<_SettingsContent> {
         ? null
         : FirebaseDatabase.instance.ref('users/${user.uid}').onValue;
 
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final panelColor = isDark
+        ? colorScheme.surface.withValues(alpha: 0.96)
+        : Colors.white.withValues(alpha: 0.9);
+    final panelBorderColor = isDark
+        ? Colors.white.withValues(alpha: 0.10)
+        : Colors.black.withValues(alpha: 0.06);
+    final panelTextColor = isDark ? colorScheme.onSurface : Colors.black87;
     return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
       children: [
-        Text(
-          l10n.settingsPreferencesTitle,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        const SizedBox(height: 8),
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.tune),
-            title: Text(l10n.settingsPreferencesTitle),
-            subtitle: Text(l10n.settingsPreferencesBody),
+        Container(
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.only(bottom: 14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+              colors: [
+                colorScheme.primary.withValues(alpha: 0.18),
+                colorScheme.secondary.withValues(alpha: 0.12),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: colorScheme.primary.withValues(alpha: 0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.tune, color: colorScheme.primary),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.settingsPreferencesTitle,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(l10n.settingsPreferencesBody),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
-        const SizedBox(height: 12),
+        _sectionLabel(context, 'Account'),
         StreamBuilder<DatabaseEvent>(
           stream: profileStream,
           builder: (context, snapshot) {
@@ -594,178 +1173,247 @@ class _SettingsContentState extends State<_SettingsContent> {
                 : (user?.displayName ?? 'User');
             return Column(
               children: [
-                Card(
-                  child: ListTile(
-                    onTap: _openAvatarSheet,
-                    leading: const Icon(Icons.account_circle_outlined),
-                    title: const Text('Profile photo'),
-                    subtitle: const Text('Add or remove your avatar.'),
-                    trailing: _isAvatarBusy
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : CircleAvatar(
-                            radius: 16,
-                            backgroundColor: Colors.blue.shade100,
-                            foregroundColor: Colors.blue.shade900,
-                            backgroundImage: avatarUrl != null
-                                ? NetworkImage(avatarUrl)
-                                : null,
-                            child: avatarUrl == null
-                                ? Text(_fallbackInitial(user))
-                                : null,
-                          ),
-                  ),
+                _settingsTile(
+                  context: context,
+                  icon: Icons.account_circle_outlined,
+                  title: 'Profile photo',
+                  subtitle: 'Add or remove your avatar.',
+                  onTap: _openAvatarSheet,
+                  trailing: _isAvatarBusy
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : CircleAvatar(
+                          radius: 16,
+                          backgroundColor: Colors.blue.shade100,
+                          foregroundColor: Colors.blue.shade900,
+                          backgroundImage: avatarUrl != null
+                              ? NetworkImage(avatarUrl)
+                              : null,
+                          child: avatarUrl == null
+                              ? Text(_fallbackInitial(user))
+                              : null,
+                        ),
                 ),
-                const SizedBox(height: 12),
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.badge_outlined),
-                    title: const Text('Display name'),
-                    subtitle: Text(displayName),
-                    trailing: const Icon(Icons.edit),
-                    onTap: () => _editDisplayName(displayName),
-                  ),
+                _settingsTile(
+                  context: context,
+                  icon: Icons.badge_outlined,
+                  title: 'Display name',
+                  subtitle: displayName,
+                  trailing: const Icon(Icons.edit_outlined),
+                  onTap: () => _editDisplayName(displayName),
                 ),
-                const SizedBox(height: 12),
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.verified_user_outlined),
-                    title: const Text('Re-authenticate'),
-                    subtitle: Text(
-                      canUpdate
-                          ? 'Confirm your password to update email or password.'
-                          : 'Available only for password accounts.',
-                    ),
-                    trailing: Icon(
-                      canUpdate ? Icons.chevron_right : Icons.lock_outline,
-                    ),
-                    onTap: canUpdate ? _reauthenticate : null,
+                _settingsTile(
+                  context: context,
+                  icon: Icons.email_outlined,
+                  title: 'Email',
+                  subtitle: email ?? user?.email ?? 'Unknown',
+                  trailing: Icon(
+                    canUpdate ? Icons.edit_outlined : Icons.lock_outline,
                   ),
+                  onTap: canUpdate
+                      ? () => _editEmail(email ?? user?.email, username)
+                      : null,
                 ),
-                const SizedBox(height: 12),
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.email_outlined),
-                    title: const Text('Email'),
-                    subtitle: Text(email ?? user?.email ?? 'Unknown'),
-                    trailing: Icon(canUpdate ? Icons.edit : Icons.lock_outline),
-                    onTap: canUpdate
-                        ? () => _editEmail(email ?? user?.email, username)
-                        : null,
+                _settingsTile(
+                  context: context,
+                  icon: Icons.lock_outline,
+                  title: 'Password',
+                  subtitle: canUpdate
+                      ? 'Update your password.'
+                      : 'Managed by your sign-in provider.',
+                  trailing: Icon(
+                    canUpdate ? Icons.edit_outlined : Icons.lock_outline,
                   ),
+                  onTap: canUpdate ? _editPassword : null,
                 ),
-                const SizedBox(height: 12),
-                Card(
-                  child: ListTile(
-                    leading: const Icon(Icons.lock_outline),
-                    title: const Text('Password'),
-                    subtitle: Text(
-                      canUpdate
-                          ? 'Update your password.'
-                          : 'Managed by your sign-in provider.',
-                    ),
-                    trailing: Icon(canUpdate ? Icons.edit : Icons.lock_outline),
-                    onTap: canUpdate ? _editPassword : null,
-                  ),
+                _settingsTile(
+                  context: context,
+                  icon: Icons.delete_forever_outlined,
+                  title: l10n.deleteAccountActionLabel,
+                  subtitle: l10n.deleteAccountSettingsSubtitle,
+                  danger: true,
+                  trailing: _isDeletingAccount
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.chevron_right),
+                  onTap: _isDeletingAccount ? null : _deleteAccount,
                 ),
               ],
             );
           },
         ),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Theme'),
-                const SizedBox(height: 12),
-                ValueListenableBuilder<ThemeMode>(
-                  valueListenable: widget.themeModeNotifier,
-                  builder: (context, mode, _) {
-                    return DropdownButtonFormField<ThemeMode>(
-                      initialValue: mode,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                      items: const [
-                        DropdownMenuItem(
-                          value: ThemeMode.system,
-                          child: Text('System'),
-                        ),
-                        DropdownMenuItem(
-                          value: ThemeMode.light,
-                          child: Text('Light'),
-                        ),
-                        DropdownMenuItem(
-                          value: ThemeMode.dark,
-                          child: Text('Dark'),
-                        ),
-                      ],
-                      onChanged: (value) {
-                        if (value == null) return;
-                        widget.themeModeNotifier.value = value;
-                      },
-                    );
-                  },
+        const SizedBox(height: 8),
+        _sectionLabel(context, 'App'),
+        Container(
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.only(bottom: 12),
+          decoration: BoxDecoration(
+            color: panelColor,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: panelBorderColor),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Theme',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: panelTextColor,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 12),
+              ValueListenableBuilder<ThemeMode>(
+                valueListenable: widget.themeModeNotifier,
+                builder: (context, mode, _) {
+                  return DropdownButtonFormField<ThemeMode>(
+                    initialValue: mode,
+                    style: TextStyle(color: panelTextColor),
+                    dropdownColor: panelColor,
+                    iconEnabledColor: panelTextColor.withValues(alpha: 0.8),
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: panelTextColor.withValues(alpha: 0.25),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: colorScheme.primary),
+                      ),
+                    ),
+                    items: const [
+                      DropdownMenuItem(
+                        value: ThemeMode.system,
+                        child: Text('System'),
+                      ),
+                      DropdownMenuItem(
+                        value: ThemeMode.light,
+                        child: Text('Light'),
+                      ),
+                      DropdownMenuItem(
+                        value: ThemeMode.dark,
+                        child: Text('Dark'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      if (value == null) return;
+                      widget.themeModeNotifier.value = value;
+                    },
+                  );
+                },
+              ),
+            ],
           ),
         ),
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.notifications),
-            title: Text(l10n.settingsNotificationsTitle),
-            subtitle: Text(l10n.settingsNotificationsBody),
+        _settingsTile(
+          context: context,
+          icon: Icons.notifications_outlined,
+          title: l10n.settingsNotificationsTitle,
+          subtitle: _notificationSummary(
+            dailyEnabled: _dailyNotificationsEnabled,
+            inactiveEnabled: _inactiveNotificationsEnabled,
+            dailyHour: _dailyNotificationHour,
+            dailyMinute: _dailyNotificationMinute,
           ),
-        ),
-        const SizedBox(height: 24),
-        Text(
-          l10n.settingsLanguageTitle,
-          style: Theme.of(context).textTheme.titleMedium,
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => _openNotificationSettings(
+            dailyEnabled: _dailyNotificationsEnabled,
+            inactiveEnabled: _inactiveNotificationsEnabled,
+            dailyHour: _dailyNotificationHour,
+            dailyMinute: _dailyNotificationMinute,
+          ),
         ),
         const SizedBox(height: 8),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(l10n.settingsLanguageBody),
-                const SizedBox(height: 12),
-                ValueListenableBuilder<Locale?>(
-                  valueListenable: widget.localeNotifier,
-                  builder: (context, locale, _) {
-                    return DropdownButtonFormField<Locale?>(
-                      initialValue: locale,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
+        _sectionLabel(context, l10n.settingsLanguageTitle),
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: panelColor,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: panelBorderColor),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.settingsLanguageBody,
+                style: TextStyle(color: panelTextColor),
+              ),
+              const SizedBox(height: 12),
+              ValueListenableBuilder<Locale?>(
+                valueListenable: widget.localeNotifier,
+                builder: (context, locale, _) {
+                  return DropdownButtonFormField<Locale?>(
+                    initialValue: locale,
+                    style: TextStyle(color: panelTextColor),
+                    dropdownColor: panelColor,
+                    iconEnabledColor: panelTextColor.withValues(alpha: 0.8),
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: panelTextColor.withValues(alpha: 0.25),
+                        ),
                       ),
-                      items: [
-                        DropdownMenuItem(
-                          value: null,
-                          child: Text(l10n.settingsLanguageSystem),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: colorScheme.primary),
+                      ),
+                    ),
+                    items: [
+                      DropdownMenuItem(
+                        value: null,
+                        child: Text(l10n.settingsLanguageSystem),
+                      ),
+                      ...widget.supportedLocales.map(
+                        (supportedLocale) => DropdownMenuItem(
+                          value: supportedLocale,
+                          child: Text(_languageLabel(supportedLocale)),
                         ),
-                        ...widget.supportedLocales.map(
-                          (supportedLocale) => DropdownMenuItem(
-                            value: supportedLocale,
-                            child: Text(_languageLabel(supportedLocale)),
-                          ),
-                        ),
-                      ],
-                      onChanged: (value) => widget.localeNotifier.value = value,
-                    );
-                  },
-                ),
-              ],
-            ),
+                      ),
+                    ],
+                    onChanged: (value) => widget.localeNotifier.value = value,
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class _NotificationPrefsDraft {
+  const _NotificationPrefsDraft({
+    required this.dailyEnabled,
+    required this.inactiveEnabled,
+    required this.dailyHour,
+    required this.dailyMinute,
+  });
+
+  final bool dailyEnabled;
+  final bool inactiveEnabled;
+  final int dailyHour;
+  final int dailyMinute;
+
+  _NotificationPrefsDraft copyWith({
+    bool? dailyEnabled,
+    bool? inactiveEnabled,
+    int? dailyHour,
+    int? dailyMinute,
+  }) {
+    return _NotificationPrefsDraft(
+      dailyEnabled: dailyEnabled ?? this.dailyEnabled,
+      inactiveEnabled: inactiveEnabled ?? this.inactiveEnabled,
+      dailyHour: dailyHour ?? this.dailyHour,
+      dailyMinute: dailyMinute ?? this.dailyMinute,
     );
   }
 }
@@ -1220,6 +1868,9 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final media = MediaQuery.of(context);
+    final isLandscape = media.orientation == Orientation.landscape;
+    final compactHeight = media.size.height < 520;
     final gradientColors = isDark
         ? const [Color(0xFF2E2940), Color(0xFF1A1624)]
         : const [Color(0xFF745CA3), Color(0xFFBBA6D6)];
@@ -1234,138 +1885,182 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
         ),
       ),
       child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Where does this feeling seem to rest in your body?\n'
-                'Please touch that spot and select a color that feels true '
-                'to the sensation.',
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 16),
-              const SizedBox(height: 8),
-              Expanded(
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: _BodyFlipSwitcher(
-                        side: _selectedSide,
-                        child: KeyedSubtree(
-                          key: ValueKey(_selectedSide),
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              return _BodyAwarenessView(
-                                point: _point,
-                                interactive: _bodyRegionMask != null,
-                                outlineColor: outlineColor,
-                                onTap: (offset) {
-                                  final region = _detectBodyRegion(
-                                    offset,
-                                    constraints.biggest,
-                                  );
-                                  if (region == 'outside') {
-                                    _confirmOutsidePrompt().then((
-                                      reflect,
-                                    ) async {
-                                      if (!mounted) return;
-                                      if (!reflect) {
-                                        await _skipStep();
-                                      }
-                                    });
-                                    return;
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final horizontalPadding = constraints.maxWidth >= 1000
+                ? 36.0
+                : 20.0;
+            final verticalPadding = constraints.maxHeight >= 700 ? 24.0 : 12.0;
+            Widget bodyMap = Stack(
+              children: [
+                Positioned.fill(
+                  child: _BodyFlipSwitcher(
+                    side: _selectedSide,
+                    child: KeyedSubtree(
+                      key: ValueKey(_selectedSide),
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          return _BodyAwarenessView(
+                            point: _point,
+                            interactive: _bodyRegionMask != null,
+                            outlineColor: outlineColor,
+                            onTap: (offset) {
+                              final region = _detectBodyRegion(
+                                offset,
+                                constraints.biggest,
+                              );
+                              if (region == 'outside') {
+                                _confirmOutsidePrompt().then((reflect) async {
+                                  if (!mounted) return;
+                                  if (!reflect) {
+                                    await _skipStep();
                                   }
-                                  final activityKey =
-                                      MonsterManifestService.mapRegionToActivity(
-                                        region,
-                                      );
-                                  debugPrint(
-                                    'Body awareness tap: $region -> $activityKey',
+                                });
+                                return;
+                              }
+                              final activityKey =
+                                  MonsterManifestService.mapRegionToActivity(
+                                    region,
                                   );
-                                  _setPoint(
-                                    offset,
-                                    constraints.biggest,
-                                    region: region,
-                                  );
-                                },
+                              debugPrint(
+                                'Body awareness tap: $region -> $activityKey',
+                              );
+                              _setPoint(
+                                offset,
+                                constraints.biggest,
+                                region: region,
                               );
                             },
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 8,
-                      bottom: 8,
-                      child: _BodySideToggleButton(
-                        label: 'Color',
-                        icon: Icons.palette_outlined,
-                        onTap: _openColorPicker,
-                      ),
-                    ),
-                    Positioned(
-                      right: 8,
-                      bottom: 8,
-                      child: _BodySideToggleButton(
-                        label: _selectedSide == 'front'
-                            ? 'Show back'
-                            : 'Show front',
-                        onTap: () {
-                          setState(() {
-                            _selectedSide = _selectedSide == 'front'
-                                ? 'back'
-                                : 'front';
-                          });
+                          );
                         },
                       ),
                     ),
-                  ],
+                  ),
                 ),
+                Positioned(
+                  left: 8,
+                  bottom: 8,
+                  child: _BodySideToggleButton(
+                    label: 'Color',
+                    icon: Icons.palette_outlined,
+                    onTap: _openColorPicker,
+                  ),
+                ),
+                Positioned(
+                  right: 8,
+                  bottom: 8,
+                  child: _BodySideToggleButton(
+                    label: _selectedSide == 'front'
+                        ? 'Show back'
+                        : 'Show front',
+                    onTap: () {
+                      setState(() {
+                        _selectedSide = _selectedSide == 'front'
+                            ? 'back'
+                            : 'front';
+                      });
+                    },
+                  ),
+                ),
+              ],
+            );
+
+            Widget actions = LayoutBuilder(
+              builder: (context, actionConstraints) {
+                final wideActions = actionConstraints.maxWidth >= 540;
+                if (wideActions) {
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: (_isSaving || _isOpeningMonster)
+                              ? null
+                              : _skipStep,
+                          child: const Text('Skip'),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: (_isSaving || _isOpeningMonster)
+                              ? null
+                              : _save,
+                          child: Text(
+                            (_isSaving || _isOpeningMonster)
+                                ? 'Loading...'
+                                : 'Save',
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                return Wrap(
+                  runSpacing: 8,
+                  children: [
+                    SizedBox(
+                      width: actionConstraints.maxWidth,
+                      child: OutlinedButton(
+                        onPressed: (_isSaving || _isOpeningMonster)
+                            ? null
+                            : _skipStep,
+                        child: const Text('Skip'),
+                      ),
+                    ),
+                    SizedBox(
+                      width: actionConstraints.maxWidth,
+                      child: ElevatedButton(
+                        onPressed: (_isSaving || _isOpeningMonster)
+                            ? null
+                            : _save,
+                        child: Text(
+                          (_isSaving || _isOpeningMonster)
+                              ? 'Loading...'
+                              : 'Save',
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: horizontalPadding,
+                vertical: verticalPadding,
               ),
-              const SizedBox(height: 16),
-              Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(
-                    child: OutlinedButton(
+                  Text(
+                    'Where does this feeling seem to rest in your body?\n'
+                    'Please touch that spot and select a color that feels true '
+                    'to the sensation.',
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: compactHeight ? 14 : 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: compactHeight ? 8 : 16),
+                  Expanded(child: bodyMap),
+                  SizedBox(height: isLandscape ? 8 : 16),
+                  actions,
+                  const SizedBox(height: 4),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
                       onPressed: (_isSaving || _isOpeningMonster)
                           ? null
                           : _skipStep,
-                      child: const Text('Skip'),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: (_isSaving || _isOpeningMonster)
-                          ? null
-                          : _save,
-                      child: Text(
-                        (_isSaving || _isOpeningMonster)
-                            ? 'Loading...'
-                            : 'Save',
-                      ),
+                      child: const Text('Skip to quote'),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 4),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: (_isSaving || _isOpeningMonster)
-                      ? null
-                      : _skipStep,
-                  child: const Text('Skip to quote'),
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

@@ -1,0 +1,5 @@
+package eu.whenscarsbecomeart.app
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()

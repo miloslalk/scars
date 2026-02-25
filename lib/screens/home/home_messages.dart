@@ -233,12 +233,11 @@ class _MessagesContentState extends State<_MessagesContent>
   }
 
   void _popBalloon(int index) {
+    final l10n = AppLocalizations.of(context)!;
     if (_todayPoppedMessageId != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('You can pop one balloon per day. Come back tomorrow.'),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.oneBalloonPerDayMessage)));
       return;
     }
     final messageId = _balloons[index].message.id;
@@ -260,6 +259,7 @@ class _MessagesContentState extends State<_MessagesContent>
   }
 
   Widget _buildDialogContent(_MessageSpec message) {
+    final l10n = AppLocalizations.of(context)!;
     final english = message.englishText;
     if (english == null ||
         english.trim().isEmpty ||
@@ -274,7 +274,10 @@ class _MessagesContentState extends State<_MessagesContent>
         const SizedBox(height: 12),
         const Divider(height: 1),
         const SizedBox(height: 12),
-        const Text('English', style: TextStyle(fontWeight: FontWeight.w600)),
+        Text(
+          l10n.languageEnglishLabel,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
         const SizedBox(height: 6),
         Text(english),
       ],
@@ -282,24 +285,25 @@ class _MessagesContentState extends State<_MessagesContent>
   }
 
   Future<void> _showMessageDialog(_BalloonSpec balloon) async {
+    final l10n = AppLocalizations.of(context)!;
     final message = balloon.message;
     await showDialog<void>(
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('Message'),
+          title: Text(l10n.messageTitle),
           content: _buildDialogContent(message),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('Close'),
+              child: Text(l10n.closeLabel),
             ),
             TextButton(
               onPressed: () async {
                 Navigator.pop(dialogContext);
                 await _saveMessage(message);
               },
-              child: const Text('Save'),
+              child: Text(l10n.saveLabel),
             ),
           ],
         );
@@ -320,13 +324,15 @@ class _MessagesContentState extends State<_MessagesContent>
           'savedAt': DateTime.now().toIso8601String(),
         });
     if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(const SnackBar(content: Text('Saved to My Space.')));
+    ).showSnackBar(SnackBar(content: Text(l10n.savedToMySpace)));
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final background = isDark
         ? const [Color(0xFF1A1624), Color(0xFF2E2940)]
@@ -373,8 +379,8 @@ class _MessagesContentState extends State<_MessagesContent>
                             color: Colors.black.withValues(alpha: 0.45),
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Text(
-                            'You already opened today\'s message. Come back tomorrow for a new balloon.',
+                          child: Text(
+                            l10n.alreadyOpenedTodayMessage,
                             style: TextStyle(color: Colors.white),
                             textAlign: TextAlign.center,
                           ),

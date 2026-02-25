@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -75,23 +76,34 @@ class _LandingPageState extends State<LandingPage> {
         email = data['email'] as String;
       }
 
-      final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       final user = credential.user;
       if (user == null) {
         _showSnackBar(l10n.unableToLoadCredentials);
         return;
       }
+      await user.reload();
+      final refreshedUser = FirebaseAuth.instance.currentUser;
+      if (refreshedUser == null) {
+        _showSnackBar(l10n.unableToLoadCredentials);
+        return;
+      }
 
-      if (!user.emailVerified) {
-        final profileSnapshot =
-            await FirebaseDatabase.instance.ref('users/${user.uid}').get();
+      if (kReleaseMode && !refreshedUser.emailVerified) {
+        final profileSnapshot = await FirebaseDatabase.instance
+            .ref('users/${refreshedUser.uid}')
+            .get();
         if (profileSnapshot.exists && profileSnapshot.value is Map) {
           final profile = Map<String, dynamic>.from(
             profileSnapshot.value as Map,
           );
           final verification = profile['verification'];
-          final expiresAt = verification is Map ? verification['expiresAt'] : null;
+          final expiresAt = verification is Map
+              ? verification['expiresAt']
+              : null;
           DateTime? expires;
           if (expiresAt is String) {
             expires = DateTime.tryParse(expiresAt);
@@ -103,41 +115,54 @@ class _LandingPageState extends State<LandingPage> {
               final key = _safeKey(storedUsername);
               await FirebaseDatabase.instance.ref('usernames/$key').remove();
             }
-            await FirebaseDatabase.instance.ref('users/${user.uid}').remove();
-            await user.delete();
+            await FirebaseDatabase.instance
+                .ref('users/${refreshedUser.uid}')
+                .remove();
+            await refreshedUser.delete();
             await FirebaseAuth.instance.signOut();
-            _showSnackBar('Verification expired. Account deleted.');
+            _showSnackBar(l10n.verificationExpiredDeleted);
             return;
           }
           if (expires == null) {
             final newExpires = now.add(const Duration(days: 5));
             await FirebaseDatabase.instance
-                .ref('users/${user.uid}/verification')
+                .ref('users/${refreshedUser.uid}/verification')
                 .set({
-              'sentAt': now.toIso8601String(),
-              'expiresAt': newExpires.toIso8601String(),
-            });
+                  'sentAt': now.toIso8601String(),
+                  'expiresAt': newExpires.toIso8601String(),
+                  'status': 'pending',
+                });
             expires = newExpires;
           }
           final expiryText = expires.toLocal().toString().split('.').first;
           await FirebaseAuth.instance.signOut();
           _showSnackBar(
-            'Please verify your email ${user.email} until $expiryText.',
+            l10n.verifyEmailUntil(refreshedUser.email ?? '', expiryText),
           );
           return;
         }
         await FirebaseAuth.instance.signOut();
-        _showSnackBar(
-          'Please verify your email ${user.email}.',
-        );
+        _showSnackBar(l10n.verifyEmail(refreshedUser.email ?? ''));
         return;
+      }
+      if (refreshedUser.emailVerified) {
+        await FirebaseDatabase.instance
+            .ref('users/${refreshedUser.uid}/verification')
+            .update({
+              'verifiedAt': DateTime.now().toIso8601String(),
+              'status': 'verified',
+            });
       }
 
       final displayName = loginName.contains('@')
-          ? (user.displayName ?? loginName)
+          ? (refreshedUser.displayName ?? loginName)
           : loginName;
 
-      await NotificationService.instance.onLogin(user.uid);
+      try {
+        await NotificationService.instance.onLogin(refreshedUser.uid);
+      } catch (error) {
+        debugPrint('Post-login notification setup failed: $error');
+      }
 
       if (!mounted) return;
       Navigator.push(
@@ -184,11 +209,13 @@ class _LandingPageState extends State<LandingPage> {
         idToken: googleAuth.idToken,
       );
 
-      final userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
       final user = userCredential.user;
+      final l10n = AppLocalizations.of(context)!;
       if (user == null) {
-        _showSnackBar('Google sign-in failed.');
+        _showSnackBar(l10n.googleSignInFailed);
         return;
       }
 
@@ -214,14 +241,18 @@ class _LandingPageState extends State<LandingPage> {
         });
       }
 
-      await NotificationService.instance.onLogin(user.uid);
+      try {
+        await NotificationService.instance.onLogin(user.uid);
+      } catch (error) {
+        debugPrint('Post-login notification setup failed: $error');
+      }
 
       if (!mounted) return;
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => HomePage(
-            username: user.displayName ?? user.email ?? 'User',
+            username: user.displayName ?? user.email ?? l10n.userFallbackName,
             localeNotifier: widget.localeNotifier,
             supportedLocales: widget.supportedLocales,
             themeModeNotifier: widget.themeModeNotifier,
@@ -230,7 +261,8 @@ class _LandingPageState extends State<LandingPage> {
       );
     } catch (error) {
       debugPrint('Google sign-in failed: $error');
-      _showSnackBar('Google sign-in failed.');
+      final l10n = AppLocalizations.of(context)!;
+      _showSnackBar(l10n.googleSignInFailed);
     } finally {
       if (mounted) {
         setState(() {
@@ -267,7 +299,8 @@ class _LandingPageState extends State<LandingPage> {
     if (value.isEmpty) return 'user';
     final buffer = StringBuffer();
     for (final codeUnit in value.codeUnits) {
-      final isValid = (codeUnit >= 48 && codeUnit <= 57) ||
+      final isValid =
+          (codeUnit >= 48 && codeUnit <= 57) ||
           (codeUnit >= 65 && codeUnit <= 90) ||
           (codeUnit >= 97 && codeUnit <= 122) ||
           codeUnit == 45 ||
@@ -285,12 +318,13 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> _showPasswordResetDialog() async {
+    final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController();
     final usernameInput = _usernameController.text.trim();
     if (usernameInput.contains('@')) {
@@ -300,30 +334,28 @@ class _LandingPageState extends State<LandingPage> {
     await showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Reset password'),
+        title: Text(l10n.resetPasswordTitle),
         content: TextField(
           controller: controller,
           keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(
-            labelText: 'Email',
-          ),
+          decoration: InputDecoration(labelText: l10n.emailLabel),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancelLabel),
           ),
           ElevatedButton(
             onPressed: () async {
               final email = controller.text.trim();
               if (email.isEmpty || !email.contains('@')) {
-                _showSnackBar('Enter a valid email.');
+                _showSnackBar(l10n.enterValidEmail);
                 return;
               }
               Navigator.pop(context);
               await _sendPasswordReset(email);
             },
-            child: const Text('Send link'),
+            child: Text(l10n.sendLinkLabel),
           ),
         ],
       ),
@@ -331,13 +363,14 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> _sendPasswordReset(String email) async {
+    final l10n = AppLocalizations.of(context)!;
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      _showSnackBar('Password reset email sent to $email.');
+      _showSnackBar(l10n.passwordResetSent(email));
     } on FirebaseAuthException catch (_) {
-      _showSnackBar('Unable to send password reset email.');
+      _showSnackBar(l10n.unableToSendPasswordReset);
     } catch (_) {
-      _showSnackBar('Unable to send password reset email.');
+      _showSnackBar(l10n.unableToSendPasswordReset);
     }
   }
 
@@ -362,98 +395,105 @@ class _LandingPageState extends State<LandingPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-              const SizedBox(height: 32),
-              SizedBox(
-                width: (constraints.maxWidth * 0.58).clamp(240.0, 360.0),
-                child: const AspectRatio(
-                  aspectRatio: 14440 / 6892,
-                  child: Image(
-                    image: AssetImage('assets/images/logo_horizontal.png'),
-                    fit: BoxFit.contain,
-                    filterQuality: FilterQuality.high,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              OutlinedButton(
-                onPressed: _isGoogleSigningIn ? null : _loginWithGoogle,
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: const Color(0xFF1F1F1F),
-                  side: const BorderSide(color: Color(0xFF747775)),
-                  minimumSize: const Size(240, 40),
-                  maximumSize: const Size(400, 40),
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: SvgPicture.asset(
-                        'assets/images/google_g_logo.svg',
-                        width: 20,
-                        height: 20,
+                  const SizedBox(height: 32),
+                  SizedBox(
+                    width: (constraints.maxWidth * 0.58).clamp(240.0, 360.0),
+                    child: const AspectRatio(
+                      aspectRatio: 14440 / 6892,
+                      child: Image(
+                        image: AssetImage('assets/images/logo_horizontal.png'),
+                        fit: BoxFit.contain,
+                        filterQuality: FilterQuality.high,
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    Text(
-                      _isGoogleSigningIn ? 'Signing in...' : l10n.loginWithGoogle,
-                      style: const TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.25,
+                  ),
+                  const SizedBox(height: 16),
+                  OutlinedButton(
+                    onPressed: _isGoogleSigningIn ? null : _loginWithGoogle,
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: const Color(0xFF1F1F1F),
+                      side: const BorderSide(color: Color(0xFF747775)),
+                      minimumSize: const Size(240, 40),
+                      maximumSize: const Size(400, 40),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(l10n.orLoginWithUsernameAndPassword),
-              SizedBox(height: 10),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: TextField(
-                  controller: _usernameController,
-                  decoration: InputDecoration(labelText: l10n.usernameLabel),
-                ),
-              ),
-              SizedBox(height: 12),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: TextField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(
-                    labelText: l10n.passwordLabel,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: SvgPicture.asset(
+                            'assets/images/google_g_logo.svg',
+                            width: 20,
+                            height: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          _isGoogleSigningIn
+                              ? l10n.signingInLabel
+                              : l10n.loginWithGoogle,
+                          style: const TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.25,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  obscureText: _obscurePassword,
-                ),
-              ),
-              SizedBox(height: 8),
-              TextButton(
-                onPressed: _showPasswordResetDialog,
-                child: const Text('Forgot password?'),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(onPressed: _login, child: Text(l10n.loginButton)),
-              SizedBox(height: 12),
+                  SizedBox(height: 20),
+                  Text(l10n.orLoginWithUsernameAndPassword),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: TextField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        labelText: l10n.usernameLabel,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: TextField(
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        labelText: l10n.passwordLabel,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
+                      ),
+                      obscureText: _obscurePassword,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  TextButton(
+                    onPressed: _showPasswordResetDialog,
+                    child: Text(l10n.forgotPasswordLabel),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _login,
+                    child: Text(l10n.loginButton),
+                  ),
+                  SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

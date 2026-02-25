@@ -56,13 +56,16 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
     if (_strokes.isEmpty && _texts.isEmpty && _fills.isEmpty) return;
     setState(() {
       final lastTextTime = _texts.isNotEmpty ? _texts.last.timestamp : null;
-      final lastStrokeTime =
-          _strokes.isNotEmpty ? _strokes.last.timestamp : null;
+      final lastStrokeTime = _strokes.isNotEmpty
+          ? _strokes.last.timestamp
+          : null;
       final lastFillTime = _fills.isNotEmpty ? _fills.last.timestamp : null;
-      final isTextLatest = lastTextTime != null &&
+      final isTextLatest =
+          lastTextTime != null &&
           (lastStrokeTime == null || lastTextTime.isAfter(lastStrokeTime)) &&
           (lastFillTime == null || lastTextTime.isAfter(lastFillTime));
-      final isFillLatest = lastFillTime != null &&
+      final isFillLatest =
+          lastFillTime != null &&
           (lastStrokeTime == null || lastFillTime.isAfter(lastStrokeTime)) &&
           (lastTextTime == null || lastFillTime.isAfter(lastTextTime));
 
@@ -89,14 +92,15 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
   }
 
   Future<String?> saveToFirebase() async {
+    final l10n = AppLocalizations.of(context)!;
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      return 'Please log in again.';
+      return l10n.pleaseLogInAgain;
     }
     final boundary =
         _canvasKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
     if (boundary == null) {
-      return 'Unable to capture drawing.';
+      return l10n.unableToCaptureDrawing;
     }
 
     final image = await boundary.toImage(
@@ -104,7 +108,7 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
     );
     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     if (byteData == null) {
-      return 'Unable to export drawing.';
+      return l10n.unableToExportDrawing;
     }
 
     final pngBytes = byteData.buffer.asUint8List();
@@ -121,14 +125,14 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
             'storagePath': storagePath,
             'createdAt': DateTime.now().toIso8601String(),
           });
-      return 'Drawing saved.';
+      return l10n.drawingSaved;
     } on FirebaseException catch (error) {
       final message = error.message ?? 'Unknown error';
       debugPrint('Failed to save drawing: ${error.code} $message');
-      return 'Failed to save: ${error.code}';
+      return l10n.failedToSaveWithCode(error.code);
     } catch (error) {
       debugPrint('Failed to save drawing: $error');
-      return 'Failed to save drawing.';
+      return l10n.failedToSaveDrawing;
     }
   }
 
@@ -164,6 +168,7 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
   }
 
   void _openToolsSheet() {
+    final l10n = AppLocalizations.of(context)!;
     _pendingColor = _strokeColor;
     _colorConfirmed = true;
     showModalBottomSheet(
@@ -190,8 +195,8 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
                   children: [
                     Row(
                       children: [
-                        const Text(
-                          'Tools',
+                        Text(
+                          l10n.toolsLabel,
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                         const Spacer(),
@@ -251,7 +256,7 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
                             _colorConfirmed = true;
                             Navigator.pop(sheetContext);
                           }),
-                          child: const Text('Use this color'),
+                          child: Text(l10n.useThisColorLabel),
                         ),
                       ),
                     ],
@@ -259,7 +264,7 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
                     if (_isTextTool)
                       Row(
                         children: [
-                          const Text('Text size'),
+                          Text(l10n.textSizeLabel),
                           Expanded(
                             child: Slider(
                               value: _textSize,
@@ -279,7 +284,11 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
                     else
                       Row(
                         children: [
-                          Text(_isEraser ? 'Eraser size' : 'Brush size'),
+                          Text(
+                            _isEraser
+                                ? l10n.eraserSizeLabel
+                                : l10n.brushSizeLabel,
+                          ),
                           Expanded(
                             child: Slider(
                               value: _strokeWidth,
@@ -309,7 +318,7 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Text('Font'),
+                          Text(l10n.fontLabel),
                           const SizedBox(width: 12),
                           DropdownButton<String>(
                             value: _textFontFamily,
@@ -322,15 +331,24 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
                             items: const [
                               DropdownMenuItem(
                                 value: 'Sans',
-                                child: Text('Sans', style: TextStyle(fontFamily: null)),
+                                child: Text(
+                                  'Sans',
+                                  style: TextStyle(fontFamily: null),
+                                ),
                               ),
                               DropdownMenuItem(
                                 value: 'Serif',
-                                child: Text('Serif', style: TextStyle(fontFamily: 'serif')),
+                                child: Text(
+                                  'Serif',
+                                  style: TextStyle(fontFamily: 'serif'),
+                                ),
                               ),
                               DropdownMenuItem(
                                 value: 'Mono',
-                                child: Text('Mono', style: TextStyle(fontFamily: 'monospace')),
+                                child: Text(
+                                  'Mono',
+                                  style: TextStyle(fontFamily: 'monospace'),
+                                ),
                               ),
                             ],
                           ),
@@ -379,7 +397,8 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
 
   Future<void> _fillAt(Offset position) async {
     if (_isFilling) return;
-    final renderBox = _canvasKey.currentContext?.findRenderObject() as RenderBox?;
+    final renderBox =
+        _canvasKey.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) return;
     setState(() {
       _isFilling = true;
@@ -388,9 +407,7 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
     try {
       final size = renderBox.size;
       final image = await _renderToImage(size);
-      final bytes = await image.toByteData(
-        format: ui.ImageByteFormat.rawRgba,
-      );
+      final bytes = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
       if (bytes == null) {
         return;
       }
@@ -467,11 +484,7 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
     ];
   }
 
-  Future<ui.Image> _imageFromPixels(
-    Uint8List pixels,
-    int width,
-    int height,
-  ) {
+  Future<ui.Image> _imageFromPixels(Uint8List pixels, int width, int height) {
     final completer = Completer<ui.Image>();
     ui.decodeImageFromPixels(
       pixels,
@@ -486,10 +499,7 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
   Future<ui.Image> _renderToImage(Size size) async {
     final recorder = ui.PictureRecorder();
     final canvas = Canvas(recorder);
-    canvas.drawRect(
-      Offset.zero & size,
-      Paint()..color = Colors.white,
-    );
+    canvas.drawRect(Offset.zero & size, Paint()..color = Colors.white);
     if (_fillLayer != null) {
       canvas.drawImage(_fillLayer!, Offset.zero, Paint());
     }
@@ -528,26 +538,27 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
   }
 
   Future<void> _addTextAt(Offset position) async {
+    final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController();
     final result = await showDialog<String>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Add text'),
+          title: Text(l10n.addTextTitle),
           content: TextField(
             controller: controller,
             maxLines: 2,
             textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(hintText: 'Write up to 2 lines'),
+            decoration: InputDecoration(hintText: l10n.writeUpToTwoLinesHint),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancelLabel),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, controller.text),
-              child: const Text('Add'),
+              child: Text(l10n.addLabel),
             ),
           ],
         );
@@ -631,6 +642,7 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -701,126 +713,125 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
               borderRadius: BorderRadius.circular(16),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                child: IconTheme(
-                  data: const IconThemeData(size: 18),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: IconButton(
-                            tooltip: 'Undo',
-                            icon: const Icon(Icons.undo),
-                            onPressed: _undoLastStroke,
-                            visualDensity: VisualDensity.compact,
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(
-                              minWidth: 28,
-                              minHeight: 28,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final buttonExtent = constraints.maxWidth >= 420
+                        ? 44.0
+                        : 38.0;
+                    Widget actionButton(Widget child) {
+                      return SizedBox(
+                        width: buttonExtent,
+                        height: buttonExtent,
+                        child: Center(child: child),
+                      );
+                    }
+
+                    return IconTheme(
+                      data: const IconThemeData(size: 18),
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        runAlignment: WrapAlignment.center,
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: [
+                          actionButton(
+                            IconButton(
+                              tooltip: l10n.undoLabel,
+                              icon: const Icon(Icons.undo),
+                              onPressed: _undoLastStroke,
+                              visualDensity: VisualDensity.compact,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(
+                                minWidth: 28,
+                                minHeight: 28,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Center(
-                          child: IconButton(
-                            tooltip: 'Clear',
-                            icon: const Icon(Icons.delete_outline),
-                            onPressed: _clearCanvas,
-                            visualDensity: VisualDensity.compact,
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(
-                              minWidth: 28,
-                              minHeight: 28,
+                          actionButton(
+                            IconButton(
+                              tooltip: l10n.clearLabel,
+                              icon: const Icon(Icons.delete_outline),
+                              onPressed: _clearCanvas,
+                              visualDensity: VisualDensity.compact,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(
+                                minWidth: 28,
+                                minHeight: 28,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Center(
-                          child: _ToolIconButton(
-                            icon: Icons.brush,
-                            isSelected:
-                                !_isEraser && !_isTextTool && !_isBucketTool,
-                            onPressed: () {
-                              setState(() {
-                                _isEraser = false;
-                                _isTextTool = false;
-                                _isBucketTool = false;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Center(
-                          child: _ToolIconButton(
-                            icon: Icons.auto_fix_off,
-                            isSelected: _isEraser,
-                            onPressed: () {
-                              setState(() {
-                                _isEraser = true;
-                                _isTextTool = false;
-                                _isBucketTool = false;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Center(
-                          child: _ToolIconButton(
-                            icon: Icons.text_fields,
-                            isSelected: _isTextTool,
-                            onPressed: () {
-                              setState(() {
-                                _isTextTool = true;
-                                _isEraser = false;
-                                _isBucketTool = false;
-                                _activeTextIndex = null;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Center(
-                          child: _ToolIconButton(
-                            icon: Icons.format_color_fill,
-                            isSelected: _isBucketTool,
-                            onPressed: () {
-                              setState(() {
-                                _isBucketTool = true;
-                                _isTextTool = false;
-                                _isEraser = false;
-                                _activeTextIndex = null;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Center(
-                          child: IconButton(
-                            tooltip: 'More tools',
-                            icon: const Icon(Icons.tune),
-                            onPressed: _openToolsSheet,
-                            visualDensity: VisualDensity.compact,
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(
-                              minWidth: 28,
-                              minHeight: 28,
+                          actionButton(
+                            _ToolIconButton(
+                              icon: Icons.brush,
+                              isSelected:
+                                  !_isEraser && !_isTextTool && !_isBucketTool,
+                              onPressed: () {
+                                setState(() {
+                                  _isEraser = false;
+                                  _isTextTool = false;
+                                  _isBucketTool = false;
+                                });
+                              },
                             ),
                           ),
-                        ),
+                          actionButton(
+                            _ToolIconButton(
+                              icon: Icons.auto_fix_off,
+                              isSelected: _isEraser,
+                              onPressed: () {
+                                setState(() {
+                                  _isEraser = true;
+                                  _isTextTool = false;
+                                  _isBucketTool = false;
+                                });
+                              },
+                            ),
+                          ),
+                          actionButton(
+                            _ToolIconButton(
+                              icon: Icons.text_fields,
+                              isSelected: _isTextTool,
+                              onPressed: () {
+                                setState(() {
+                                  _isTextTool = true;
+                                  _isEraser = false;
+                                  _isBucketTool = false;
+                                  _activeTextIndex = null;
+                                });
+                              },
+                            ),
+                          ),
+                          actionButton(
+                            _ToolIconButton(
+                              icon: Icons.format_color_fill,
+                              isSelected: _isBucketTool,
+                              onPressed: () {
+                                setState(() {
+                                  _isBucketTool = true;
+                                  _isTextTool = false;
+                                  _isEraser = false;
+                                  _activeTextIndex = null;
+                                });
+                              },
+                            ),
+                          ),
+                          actionButton(
+                            IconButton(
+                              tooltip: l10n.moreToolsLabel,
+                              icon: const Icon(Icons.tune),
+                              onPressed: _openToolsSheet,
+                              visualDensity: VisualDensity.compact,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(
+                                minWidth: 28,
+                                minHeight: 28,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -1020,10 +1031,7 @@ class _ToolPreview extends StatelessWidget {
       child: Container(
         width: previewSize,
         height: previewSize,
-        decoration: BoxDecoration(
-          color: previewColor,
-          shape: BoxShape.circle,
-        ),
+        decoration: BoxDecoration(color: previewColor, shape: BoxShape.circle),
       ),
     );
   }

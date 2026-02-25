@@ -1,7 +1,7 @@
 name: when_scars_become_art
 description: "A new Flutter project."
 publish_to: 'none'
-version: 0.1.0
+version: 1.0.0+2
 
 environment:
   sdk: ^3.10.7
@@ -16,15 +16,15 @@ dependencies:
   firebase_storage: ^12.3.0
   firebase_database: ^11.1.0
   firebase_auth: ^5.3.1
+  firebase_messaging: ^15.1.3
   audioplayers: ^6.1.0
   google_sign_in: ^6.2.1
   image_picker: ^1.1.2
   flutter_svg: ^2.0.10
+  flutter_timezone: ^4.1.1
   intl: ^0.20.0
   table_calendar: ^3.1.2
   flutter_colorpicker: ^1.1.0
-  flutter_local_notifications: ^17.2.2
-  timezone: ^0.9.4
   video_player: ^2.11.0
 
 dev_dependencies:
