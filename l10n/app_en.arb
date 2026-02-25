@@ -1,5 +1,5 @@
 {
-  "appTitle": "Scars App",
+  "appTitle": "When Scars (!) Become Art",
   "loginWith": "Log in with:",
   "loginWithGoogle": "Log in with Google",
   "loginWithApple": "Log in with Apple",
@@ -53,5 +53,203 @@
   "invalidEmail": "Enter a valid email address.",
   "passwordTooShort": "Password must be at least 6 characters.",
   "passwordsDoNotMatch": "Passwords do not match.",
-  "registerSuccess": "Registration completed."
+  "registerSuccess": "Registration completed.",
+  "mySpaceLabel": "My Space",
+  "messagesLabel": "Messages",
+  "logoutLabel": "Log out",
+  "userMenuTooltip": "User menu",
+  "userMenuAccountFallback": "Account",
+  "guidedMeditationTitle": "Guided Meditation",
+  "guidedMeditationDescription": "Take a moment to breathe and listen.",
+  "guidedMeditationMetadataLoadFailed": "Could not load remote track metadata. Playing fallback track.",
+  "guidedMeditationSourceFirebase": "Source: Firebase",
+  "guidedMeditationSourceFallback": "Source: built-in fallback",
+  "skipLabel": "Skip",
+  "pauseLabel": "Pause",
+  "playLabel": "Play",
+  "homeHowFeelingToday": "How are you feeling today?",
+  "startLabel": "Start",
+  "savingLabel": "Saving...",
+  "canvasNotReady": "Canvas is not ready yet.",
+  "saveFailedWithError": "Save failed: {error}",
+  "@saveFailedWithError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "bodyTransitionPrompt": "Would you like to take a moment to gently tune into the physical sensations in your body before identifying your feeling?",
+  "continueLabel": "Continue",
+  "saveLabel": "Save",
+  "homeCheckAgainAnytime": "You can check in again anytime today.",
+  "moodCheckLabel": "Mood check",
+  "bodyCheckLabel": "Body check",
+  "moodCheckFullscreenTitle": "Mood check (fullscreen)",
+  "exitFullscreenLabel": "Exit fullscreen",
+  "fullscreenLabel": "Fullscreen",
+  "skipToQuoteLabel": "Skip to quote",
+  "homeGreeting": "Hi {name}, How are you feeling today?",
+  "@homeGreeting": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "todaysAffirmationLabel": "Today's affirmation",
+  "thereFallback": "there",
+  "dailyAffirmation1": "You are allowed to take this day one breath at a time.",
+  "dailyAffirmation2": "Your feelings matter, and your body deserves gentle care.",
+  "dailyAffirmation3": "You are stronger than this moment feels right now.",
+  "dailyAffirmation4": "Small steps today are still meaningful progress.",
+  "dailyAffirmation5": "You belong exactly as you are, here and now.",
+  "dailyAffirmation6": "Your voice, your pace, and your healing all count.",
+  "dailyAffirmation7": "You can rest and still be growing.",
+  "pleaseLogInAgain": "Please log in again.",
+  "unableToCaptureDrawing": "Unable to capture drawing.",
+  "unableToExportDrawing": "Unable to export drawing.",
+  "drawingSaved": "Drawing saved.",
+  "failedToSaveWithCode": "Failed to save: {code}",
+  "@failedToSaveWithCode": {
+    "placeholders": {
+      "code": {}
+    }
+  },
+  "failedToSaveDrawing": "Failed to save drawing.",
+  "toolsLabel": "Tools",
+  "useThisColorLabel": "Use this color",
+  "textSizeLabel": "Text size",
+  "eraserSizeLabel": "Eraser size",
+  "brushSizeLabel": "Brush size",
+  "fontLabel": "Font",
+  "addTextTitle": "Add text",
+  "writeUpToTwoLinesHint": "Write up to 2 lines",
+  "cancelLabel": "Cancel",
+  "addLabel": "Add",
+  "undoLabel": "Undo",
+  "clearLabel": "Clear",
+  "moreToolsLabel": "More tools",
+  "verificationExpiredDeleted": "Verification expired. Account deleted.",
+  "verifyEmailUntil": "Please verify your email {email} until {expiryText}.",
+  "@verifyEmailUntil": {
+    "placeholders": {
+      "email": {},
+      "expiryText": {}
+    }
+  },
+  "verifyEmail": "Please verify your email {email}.",
+  "@verifyEmail": {
+    "placeholders": {
+      "email": {}
+    }
+  },
+  "googleSignInFailed": "Google sign-in failed.",
+  "userFallbackName": "User",
+  "resetPasswordTitle": "Reset password",
+  "enterValidEmail": "Enter a valid email.",
+  "sendLinkLabel": "Send link",
+  "passwordResetSent": "Password reset email sent to {email}.",
+  "@passwordResetSent": {
+    "placeholders": {
+      "email": {}
+    }
+  },
+  "unableToSendPasswordReset": "Unable to send password reset email.",
+  "signingInLabel": "Signing in...",
+  "forgotPasswordLabel": "Forgot password?",
+  "acceptTermsRequired": "Please accept terms and services.",
+  "usernameAlreadyExists": "Username already exists.",
+  "registrationFailed": "Registration failed.",
+  "verificationEmailSent": "Verification email sent to {email}.",
+  "@verificationEmailSent": {
+    "placeholders": {
+      "email": {}
+    }
+  },
+  "registrationFailedWithCode": "Registration failed: {code}",
+  "@registrationFailedWithCode": {
+    "placeholders": {
+      "code": {}
+    }
+  },
+  "registrationTimedOut": "Registration timed out. Check emulator.",
+  "registrationFailedWithError": "Registration failed: {error}",
+  "@registrationFailedWithError": {
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "atLeast6Characters": "At least 6 characters.",
+  "passwordTooWeak": "Password is too weak.",
+  "passwordRuleAtLeast8": "At least 8 characters",
+  "passwordRuleUppercase": "At least 1 uppercase letter",
+  "passwordRuleNumber": "At least 1 number",
+  "passwordRuleSpecial": "At least 1 special character",
+  "iAcceptPrefix": "I accept",
+  "termsAndServicesLabel": "terms and services",
+  "oneBalloonPerDayMessage": "You can pop one balloon per day. Come back tomorrow.",
+  "languageEnglishLabel": "English",
+  "messageTitle": "Message",
+  "closeLabel": "Close",
+  "savedToMySpace": "Saved to My Space.",
+  "alreadyOpenedTodayMessage": "You already opened today's message. Come back tomorrow for a new balloon.",
+  "mySpaceIntro": "Calendar, journaling, and your saved library in one place.",
+  "calendarLabel": "Calendar",
+  "journalLabel": "Journal",
+  "libraryLabel": "Library",
+  "mySpaceCalendarSubtitle": "Mood, body, quote, note",
+  "mySpaceJournalSubtitle": "Entries and prompts",
+  "mySpaceLibrarySubtitle": "Saved resources",
+  "deleteDrawingTitle": "Delete drawing?",
+  "deleteDrawingBody": "This action cannot be undone.",
+  "deleteLabel": "Delete",
+  "failedToDeleteDrawing": "Failed to delete drawing.",
+  "noDrawingsForDay": "No drawings saved for this day.",
+  "noBodyMapForDay": "No body map saved for this day.",
+  "noFrontMapForDay": "No front map saved for this day.",
+  "noBackMapForDay": "No back map saved for this day.",
+  "showBackLabel": "Show back",
+  "showFrontLabel": "Show front",
+  "previewUnavailable": "Preview unavailable",
+  "deleteDrawingTooltip": "Delete drawing",
+  "dayOverviewTitle": "Day overview",
+  "selectedDateLabel": "Selected date: {dateLabel}",
+  "@selectedDateLabel": {
+    "placeholders": {
+      "dateLabel": {}
+    }
+  },
+  "moodLabel": "Mood",
+  "bodyLabel": "Body",
+  "quoteLabel": "Quote",
+  "noteLabel": "Note",
+  "noQuoteForDay": "No quote saved for this day.",
+  "noNoteForDay": "No note saved for this day.",
+  "doneLabel": "Done",
+  "failedToSaveJournalEntry": "Failed to save journal entry.",
+  "mySpaceJournalTitle": "My Space Journal",
+  "noJournalEntriesYet": "No journal entries yet.",
+  "entryCannotBeEmpty": "Entry cannot be empty.",
+  "newEntryTitle": "New Entry",
+  "promptsLabel": "Prompts",
+  "startWritingHint": "Start writing...",
+  "mySpaceLibraryTitle": "My Space Library",
+  "savedResourcesTitle": "Saved Resources",
+  "guidedBreathingVideo": "Guided breathing video",
+  "calmingAudio": "Calming audio",
+  "savedMessagesTitle": "Saved Messages",
+  "loadingLabel": "Loading...",
+  "noSavedMessagesYet": "No saved messages yet.",
+  "contactsLabel": "Contacts",
+  "therapistLabel": "Therapist",
+  "trustedFriendLabel": "Trusted friend",
+  "promptComfortToday": "What is one thing that brought you comfort today?",
+  "promptBodyMorning": "How did your body feel this morning?",
+  "promptThreeGrateful": "Name three things you are grateful for.",
+  "promptEmotionColor": "If your emotions were a color, what would it be?",
+  "promptFutureSelf": "Write a short note to your future self.",
+  "deleteAccountDialogTitle": "Delete account?",
+  "deleteAccountDialogBody": "This permanently deletes your account and app data. This action cannot be undone.",
+  "deleteAccountActionLabel": "Delete account",
+  "confirmLabel": "Confirm",
+  "deleteAccountRequiresRecentLogin": "Please log in again, then retry account deletion.",
+  "deleteAccountFailed": "Failed to delete account.",
+  "deleteAccountSettingsSubtitle": "Permanently delete your account and app data."
 }

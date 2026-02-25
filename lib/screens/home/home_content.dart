@@ -20,16 +20,7 @@ class _HomeContentState extends State<_HomeContent> {
   _HomeStepStatus _bodyStatus = _HomeStepStatus.pending;
   String? _quoteText;
   bool _isMoodFullscreen = false;
-
-  static const List<String> _dailyAffirmations = [
-    'You are allowed to take this day one breath at a time.',
-    'Your feelings matter, and your body deserves gentle care.',
-    'You are stronger than this moment feels right now.',
-    'Small steps today are still meaningful progress.',
-    'You belong exactly as you are, here and now.',
-    'Your voice, your pace, and your healing all count.',
-    'You can rest and still be growing.',
-  ];
+  bool _isAnytimeActionsExpanded = false;
 
   @override
   void initState() {
@@ -163,12 +154,13 @@ class _HomeContentState extends State<_HomeContent> {
       await showDialog<void>(
         context: context,
         builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
           return AlertDialog(
-            content: const Text('How are you feeling today?'),
+            content: Text(l10n.homeHowFeelingToday),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Start'),
+                child: Text(l10n.startLabel),
               ),
             ],
           );
@@ -207,17 +199,18 @@ class _HomeContentState extends State<_HomeContent> {
 
   Future<void> _handleMoodSave() async {
     if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(const SnackBar(content: Text('Saving...')));
+    ).showSnackBar(SnackBar(content: Text(l10n.savingLabel)));
     try {
       final result = await _canvasKey.currentState?.saveToFirebase();
       if (!mounted) return;
       final messenger = ScaffoldMessenger.of(context);
-      final message = result ?? 'Canvas is not ready yet.';
+      final message = result ?? l10n.canvasNotReady;
       messenger.hideCurrentSnackBar();
       messenger.showSnackBar(SnackBar(content: Text(message)));
-      if (result == 'Drawing saved.') {
+      if (result == l10n.drawingSaved) {
         setState(() {
           _moodStatus = _HomeStepStatus.completed;
         });
@@ -228,7 +221,9 @@ class _HomeContentState extends State<_HomeContent> {
       if (!mounted) return;
       final messenger = ScaffoldMessenger.of(context);
       messenger.hideCurrentSnackBar();
-      messenger.showSnackBar(SnackBar(content: Text('Save failed: $error')));
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.saveFailedWithError('$error'))),
+      );
     }
   }
 
@@ -238,28 +233,26 @@ class _HomeContentState extends State<_HomeContent> {
       final result = await showDialog<_BodyTransitionChoice>(
         context: context,
         builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
           return AlertDialog(
-            content: const Text(
-              'Would you like to take a moment to gently tune into the physical '
-              'sensations in your body before identifying your feeling?',
-            ),
+            content: Text(l10n.bodyTransitionPrompt),
             actions: [
               TextButton(
                 onPressed: () =>
                     Navigator.pop(context, _BodyTransitionChoice.continueBody),
-                child: const Text('Continue'),
+                child: Text(l10n.continueLabel),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(
                   context,
                   _BodyTransitionChoice.guidedMeditation,
                 ),
-                child: const Text('Guided meditation'),
+                child: Text(l10n.guidedMeditationTitle),
               ),
               TextButton(
                 onPressed: () =>
                     Navigator.pop(context, _BodyTransitionChoice.skipBody),
-                child: const Text('Skip'),
+                child: Text(l10n.skipLabel),
               ),
             ],
           );
@@ -338,30 +331,68 @@ class _HomeContentState extends State<_HomeContent> {
   }
 
   Widget _buildMoodActionRow() {
-    return Row(
-      children: [
-        Expanded(
-          child: OutlinedButton(
-            onPressed: _handleMoodSkip,
-            child: const Text('Skip'),
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: ElevatedButton(
-            onPressed: _handleMoodSave,
-            child: const Text('Save'),
-          ),
-        ),
-      ],
+    final l10n = AppLocalizations.of(context)!;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWide = constraints.maxWidth >= 560;
+        if (isWide) {
+          return Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: _handleMoodSkip,
+                  child: Text(l10n.skipLabel),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: _handleMoodSave,
+                  child: Text(l10n.saveLabel),
+                ),
+              ),
+            ],
+          );
+        }
+        return Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            SizedBox(
+              width: constraints.maxWidth,
+              child: OutlinedButton(
+                onPressed: _handleMoodSkip,
+                child: Text(l10n.skipLabel),
+              ),
+            ),
+            SizedBox(
+              width: constraints.maxWidth,
+              child: ElevatedButton(
+                onPressed: _handleMoodSave,
+                child: Text(l10n.saveLabel),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
   String _pickQuoteForToday() {
+    final l10n = AppLocalizations.of(context)!;
+    final dailyAffirmations = [
+      l10n.dailyAffirmation1,
+      l10n.dailyAffirmation2,
+      l10n.dailyAffirmation3,
+      l10n.dailyAffirmation4,
+      l10n.dailyAffirmation5,
+      l10n.dailyAffirmation6,
+      l10n.dailyAffirmation7,
+    ];
     final seed =
         int.tryParse(_todayKey()) ?? DateTime.now().millisecondsSinceEpoch;
-    final index = seed % _dailyAffirmations.length;
-    return _dailyAffirmations[index];
+    final index = seed % dailyAffirmations.length;
+    return dailyAffirmations[index];
   }
 
   Future<void> _ensureDailyQuote() async {
@@ -381,111 +412,211 @@ class _HomeContentState extends State<_HomeContent> {
   }
 
   Widget _buildAnytimeLogNote() {
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'You can check in again anytime today.',
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                OutlinedButton(
-                  onPressed: _reopenMoodCheck,
-                  child: const Text('Mood check'),
-                ),
-                const SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: _reopenBodyCheck,
-                  child: const Text('Body check'),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () {
+          setState(() {
+            _isAnytimeActionsExpanded = !_isAnytimeActionsExpanded;
+          });
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      l10n.homeCheckAgainAnytime,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Icon(
+                    _isAnytimeActionsExpanded
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                  ),
+                ],
+              ),
+              if (_isAnytimeActionsExpanded) ...[
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    OutlinedButton(
+                      onPressed: _reopenMoodCheck,
+                      child: Text(l10n.moodCheckLabel),
+                    ),
+                    OutlinedButton(
+                      onPressed: _reopenBodyCheck,
+                      child: Text(l10n.bodyCheckLabel),
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildMoodStep(String displayName) {
-    if (_isMoodFullscreen) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
+    final l10n = AppLocalizations.of(context)!;
+    final media = MediaQuery.of(context);
+    final isLandscape = media.orientation == Orientation.landscape;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final compactHeight = constraints.maxHeight < 360;
+        final compactCanvasHeight = constraints.maxHeight < 180
+            ? 120.0
+            : (constraints.maxHeight * 0.55).clamp(140.0, 260.0);
+
+        if (_isMoodFullscreen && !compactHeight) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      l10n.moodCheckFullscreenTitle,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: l10n.exitFullscreenLabel,
+                    onPressed: _toggleMoodFullscreen,
+                    icon: const Icon(Icons.fullscreen_exit),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
               Expanded(
-                child: Text(
-                  'Mood check (fullscreen)',
-                  style: Theme.of(context).textTheme.titleLarge,
+                child: DrawingCanvas(
+                  key: _canvasKey,
+                  username: widget.displayName,
                 ),
               ),
-              IconButton(
-                tooltip: 'Exit fullscreen',
-                onPressed: _toggleMoodFullscreen,
-                icon: const Icon(Icons.fullscreen_exit),
+              const SizedBox(height: 12),
+              _buildMoodActionRow(),
+              const SizedBox(height: 6),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: _skipToQuote,
+                  child: Text(l10n.skipToQuoteLabel),
+                ),
               ),
             ],
-          ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: DrawingCanvas(key: _canvasKey, username: widget.displayName),
-          ),
-          const SizedBox(height: 12),
-          _buildMoodActionRow(),
-          const SizedBox(height: 6),
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: _skipToQuote,
-              child: const Text('Skip to quote'),
-            ),
-          ),
-        ],
-      );
-    }
+          );
+        }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          'Hi $displayName, How are you feeling today?',
-          style: Theme.of(context).textTheme.headlineSmall,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 16),
-        Align(
-          alignment: Alignment.centerRight,
-          child: OutlinedButton.icon(
-            onPressed: _toggleMoodFullscreen,
-            icon: const Icon(Icons.fullscreen),
-            label: const Text('Fullscreen'),
-          ),
-        ),
-        const SizedBox(height: 8),
-        Expanded(
-          child: DrawingCanvas(key: _canvasKey, username: widget.displayName),
-        ),
-        const SizedBox(height: 16),
-        _buildMoodActionRow(),
-        const SizedBox(height: 8),
-        Align(
-          alignment: Alignment.centerRight,
-          child: TextButton(
-            onPressed: _skipToQuote,
-            child: const Text('Skip to quote'),
-          ),
-        ),
-      ],
+        if (compactHeight) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    _isMoodFullscreen
+                        ? l10n.moodCheckFullscreenTitle
+                        : l10n.homeGreeting(displayName),
+                    style: Theme.of(context).textTheme.titleLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: OutlinedButton.icon(
+                      onPressed: _toggleMoodFullscreen,
+                      icon: Icon(
+                        _isMoodFullscreen
+                            ? Icons.fullscreen_exit
+                            : Icons.fullscreen,
+                      ),
+                      label: Text(
+                        _isMoodFullscreen
+                            ? l10n.exitFullscreenLabel
+                            : l10n.fullscreenLabel,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  SizedBox(
+                    height: compactCanvasHeight,
+                    child: DrawingCanvas(
+                      key: _canvasKey,
+                      username: widget.displayName,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _buildMoodActionRow(),
+                  const SizedBox(height: 6),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: _skipToQuote,
+                      child: Text(l10n.skipToQuoteLabel),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              l10n.homeGreeting(displayName),
+              style: Theme.of(context).textTheme.headlineSmall,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: isLandscape ? 8 : 16),
+            Align(
+              alignment: Alignment.centerRight,
+              child: OutlinedButton.icon(
+                onPressed: _toggleMoodFullscreen,
+                icon: const Icon(Icons.fullscreen),
+                label: Text(l10n.fullscreenLabel),
+              ),
+            ),
+            SizedBox(height: isLandscape ? 4 : 8),
+            Expanded(
+              child: DrawingCanvas(
+                key: _canvasKey,
+                username: widget.displayName,
+              ),
+            ),
+            SizedBox(height: isLandscape ? 8 : 16),
+            _buildMoodActionRow(),
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: _skipToQuote,
+                child: Text(l10n.skipToQuoteLabel),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
   Widget _buildQuoteStep() {
+    final l10n = AppLocalizations.of(context)!;
     final quote = _quoteText ?? _pickQuoteForToday();
     return Center(
       child: Card(
@@ -494,8 +625,8 @@ class _HomeContentState extends State<_HomeContent> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Today\'s affirmation',
+              Text(
+                l10n.todaysAffirmationLabel,
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 12),
@@ -513,9 +644,10 @@ class _HomeContentState extends State<_HomeContent> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final displayName = widget.displayName.trim().isNotEmpty
         ? widget.displayName.trim()
-        : 'there';
+        : l10n.thereFallback;
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -536,23 +668,39 @@ class _HomeContentState extends State<_HomeContent> {
         break;
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (!(_currentView == _HomeStepView.mood && _isMoodFullscreen)) ...[
-            _buildAnytimeLogNote(),
-            const SizedBox(height: 12),
-          ],
-          Expanded(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 280),
-              child: KeyedSubtree(key: ValueKey(_currentView), child: content),
-            ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final horizontalPadding = constraints.maxWidth >= 1000 ? 40.0 : 20.0;
+        final verticalPadding = constraints.maxHeight >= 700 ? 24.0 : 8.0;
+        final hideHeaderForFullscreenOrCompact =
+            _currentView == _HomeStepView.mood && _isMoodFullscreen;
+        final hideHeaderForLowHeight = constraints.maxHeight < 520;
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+            vertical: verticalPadding,
           ),
-        ],
-      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (!hideHeaderForFullscreenOrCompact &&
+                  !hideHeaderForLowHeight) ...[
+                _buildAnytimeLogNote(),
+                const SizedBox(height: 12),
+              ],
+              Expanded(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 280),
+                  child: KeyedSubtree(
+                    key: ValueKey(_currentView),
+                    child: content,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

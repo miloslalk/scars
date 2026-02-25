@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
 
 import 'app_logo.dart';
 
@@ -27,6 +28,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final String? initial = userInitial?.trim().isNotEmpty == true
         ? userInitial!.trim().substring(0, 1).toUpperCase()
         : null;
@@ -47,7 +49,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: PopupMenuButton<_UserMenuAction>(
-              tooltip: 'User menu',
+              tooltip: l10n.userMenuTooltip,
               onSelected: (action) {
                 switch (action) {
                   case _UserMenuAction.settings:
@@ -61,7 +63,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
               itemBuilder: (context) {
                 final displayName = userName?.trim().isNotEmpty == true
                     ? userName!.trim()
-                    : 'Account';
+                    : l10n.userMenuAccountFallback;
                 return [
                   PopupMenuItem<_UserMenuAction>(
                     enabled: false,
@@ -71,8 +73,9 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
                           radius: 14,
                           backgroundColor: Colors.blue.shade100,
                           foregroundColor: Colors.blue.shade900,
-                          backgroundImage:
-                              hasAvatar ? NetworkImage(trimmedAvatarUrl) : null,
+                          backgroundImage: hasAvatar
+                              ? NetworkImage(trimmedAvatarUrl)
+                              : null,
                           child: hasAvatar
                               ? null
                               : Text(
@@ -93,23 +96,23 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   const PopupMenuDivider(),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: _UserMenuAction.settings,
                     child: Row(
                       children: [
-                        Icon(Icons.settings, size: 18),
-                        SizedBox(width: 8),
-                        Text('Settings'),
+                        const Icon(Icons.settings, size: 18),
+                        const SizedBox(width: 8),
+                        Text(l10n.settingsLabel),
                       ],
                     ),
                   ),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: _UserMenuAction.logout,
                     child: Row(
                       children: [
-                        Icon(Icons.logout, size: 18),
-                        SizedBox(width: 8),
-                        Text('Log out'),
+                        const Icon(Icons.logout, size: 18),
+                        const SizedBox(width: 8),
+                        Text(l10n.logoutLabel),
                       ],
                     ),
                   ),
@@ -119,8 +122,9 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
                 radius: 20,
                 backgroundColor: Colors.blue.shade100,
                 foregroundColor: Colors.blue.shade900,
-                backgroundImage:
-                    hasAvatar ? NetworkImage(trimmedAvatarUrl) : null,
+                backgroundImage: hasAvatar
+                    ? NetworkImage(trimmedAvatarUrl)
+                    : null,
                 child: hasAvatar
                     ? null
                     : Text(
@@ -135,7 +139,4 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-enum _UserMenuAction {
-  settings,
-  logout,
-}
+enum _UserMenuAction { settings, logout }

@@ -41,11 +41,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Future<void> _submit() async {
+    final l10n = AppLocalizations.of(context)!;
     if (!_formKey.currentState!.validate()) {
       return;
     }
     if (!_acceptTerms) {
-      _showSnackBar('Please accept terms and services.');
+      _showSnackBar(l10n.acceptTermsRequired);
       return;
     }
     if (_isSubmitting) return;
@@ -62,7 +63,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
       final existing = await usernamesRef.child(usernameKey).get();
       if (existing.exists) {
-        _showSnackBar('Username already exists.');
+        _showSnackBar(l10n.usernameAlreadyExists);
         return;
       }
 
@@ -75,7 +76,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
       final uid = credential.user?.uid;
       if (uid == null) {
-        _showSnackBar('Registration failed.');
+        _showSnackBar(l10n.registrationFailed);
         return;
       }
       await credential.user?.updateDisplayName(username);
@@ -100,17 +101,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
       });
 
       if (!mounted) return;
-      _showSnackBar(
-        'Verification email sent to ${_emailController.text.trim()}.',
-      );
+      _showSnackBar(l10n.verificationEmailSent(_emailController.text.trim()));
       Navigator.pop(context);
     } on FirebaseAuthException catch (error) {
-      _showSnackBar('Registration failed: ${error.code}');
+      _showSnackBar(l10n.registrationFailedWithCode(error.code));
     } on TimeoutException {
-      _showSnackBar('Registration timed out. Check emulator.');
+      _showSnackBar(l10n.registrationTimedOut);
     } catch (error) {
       debugPrint('Registration failed: $error');
-      _showSnackBar('Registration failed: $error');
+      _showSnackBar(l10n.registrationFailedWithError('$error'));
     } finally {
       if (mounted) {
         setState(() {
@@ -163,7 +162,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
     if (value.isEmpty) return 'user';
     final buffer = StringBuffer();
     for (final codeUnit in value.codeUnits) {
-      final isValid = (codeUnit >= 48 && codeUnit <= 57) ||
+      final isValid =
+          (codeUnit >= 48 && codeUnit <= 57) ||
           (codeUnit >= 65 && codeUnit <= 90) ||
           (codeUnit >= 97 && codeUnit <= 122) ||
           codeUnit == 45 ||
@@ -174,9 +174,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -186,8 +186,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
     final password = _passwordController.text;
     final hasUppercase = _meetsPasswordRule(password, RegExp(r'[A-Z]'));
     final hasNumber = _meetsPasswordRule(password, RegExp(r'\d'));
-    final hasSpecial =
-        _meetsPasswordRule(password, RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    final hasSpecial = _meetsPasswordRule(
+      password,
+      RegExp(r'[!@#$%^&*(),.?":{}|<>]'),
+    );
     final hasLength = password.length >= 8;
 
     return Scaffold(
@@ -253,10 +255,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         return l10n.fieldRequired;
                       }
                       if (value.trim().length < 6) {
-                        return 'At least 6 characters.';
+                        return l10n.atLeast6Characters;
                       }
                       if (_usernameAvailable == false) {
-                        return 'Username already exists.';
+                        return l10n.usernameAlreadyExists;
                       }
                       return null;
                     },
@@ -268,17 +270,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               height: 20,
                               child: Padding(
                                 padding: EdgeInsets.all(12),
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               ),
                             )
                           : _usernameAvailable == null
-                              ? null
-                              : Icon(
-                                  _usernameAvailable! ? Icons.check : Icons.close,
-                                  color: _usernameAvailable!
-                                      ? Colors.green
-                                      : Colors.red,
-                                ),
+                          ? null
+                          : Icon(
+                              _usernameAvailable! ? Icons.check : Icons.close,
+                              color: _usernameAvailable!
+                                  ? Colors.green
+                                  : Colors.red,
+                            ),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -295,7 +299,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           !hasUppercase ||
                           !hasNumber ||
                           !hasSpecial) {
-                        return 'Password is too weak.';
+                        return l10n.passwordTooWeak;
                       }
                       return null;
                     },
@@ -322,19 +326,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _PasswordRule(
-                          label: 'At least 8 characters',
+                          label: l10n.passwordRuleAtLeast8,
                           isMet: hasLength,
                         ),
                         _PasswordRule(
-                          label: 'At least 1 uppercase letter',
+                          label: l10n.passwordRuleUppercase,
                           isMet: hasUppercase,
                         ),
                         _PasswordRule(
-                          label: 'At least 1 number',
+                          label: l10n.passwordRuleNumber,
                           isMet: hasNumber,
                         ),
                         _PasswordRule(
-                          label: 'At least 1 special character',
+                          label: l10n.passwordRuleSpecial,
                           isMet: hasSpecial,
                         ),
                       ],
@@ -386,7 +390,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         child: Wrap(
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
-                            const Text('I accept '),
+                            Text('${l10n.iAcceptPrefix} '),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -397,7 +401,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 );
                               },
                               child: Text(
-                                'terms and services',
+                                l10n.termsAndServicesLabel,
                                 style: TextStyle(
                                   color: Theme.of(context).colorScheme.primary,
                                   decoration: TextDecoration.underline,
@@ -445,10 +449,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 }
 
 class _PasswordRule extends StatelessWidget {
-  const _PasswordRule({
-    required this.label,
-    required this.isMet,
-  });
+  const _PasswordRule({required this.label, required this.isMet});
 
   final String label;
   final bool isMet;

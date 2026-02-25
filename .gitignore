@@ -60,3 +60,4 @@ app.*.map.json
 
 # Firebase logs
 firebase-debug.log
+NOTES.md

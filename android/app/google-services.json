@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:537131372504:android:48f548c8e4827ce003acad",
+        "mobilesdk_app_id": "1:537131372504:android:04cf179ac75215dc03acad",
         "android_client_info": {
-          "package_name": "com.example.when_scars_become_art"
+          "package_name": "eu.whenscarsbecomeart.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "537131372504-41ntjb4i94uve5k7nits7ohl89rdjf6g.apps.googleusercontent.com",
+          "client_id": "537131372504-uu637mfdbgu2r28fursjs8g3vqd387pn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.when_scars_become_art",
-            "certificate_hash": "fd8f3344aad430d2a7129d033abec8000d606cb1"
+            "package_name": "eu.whenscarsbecomeart.app",
+            "certificate_hash": "4bd310700e3228f3fd4e0960772adcac3d618c41"
           }
         },
         {

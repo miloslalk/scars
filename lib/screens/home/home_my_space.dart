@@ -34,46 +34,112 @@ class _MySpaceContentState extends State<_MySpaceContent> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('My Space', style: Theme.of(context).textTheme.headlineSmall),
-          const SizedBox(height: 12),
-          const Text(
-            'Calendar, journaling, and your saved library in one place.',
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        final crossAxisCount = width >= 1100
+            ? 4
+            : width >= 760
+            ? 3
+            : 2;
+        final childAspectRatio = width >= 760 ? 1.2 : 1.0;
+        final horizontalPadding = width >= 1000 ? 36.0 : 20.0;
+        return SingleChildScrollView(
+          padding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+            vertical: 24,
           ),
-          const SizedBox(height: 24),
-          GridView.count(
-            crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _MySpaceTile(
-                icon: Icons.calendar_month,
-                title: 'Calendar',
-                subtitle: 'Mood, body, quote, note',
-                onTap: _openCalendar,
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                    colors: [
+                      colorScheme.primary.withValues(alpha: 0.18),
+                      colorScheme.secondary.withValues(alpha: 0.12),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        color: colorScheme.primary.withValues(alpha: 0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.lock_outline_rounded,
+                        color: colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.mySpaceLabel,
+                            style: Theme.of(context).textTheme.headlineSmall
+                                ?.copyWith(fontWeight: FontWeight.w700),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(l10n.mySpaceIntro),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              _MySpaceTile(
-                icon: Icons.book_outlined,
-                title: 'Journal',
-                subtitle: 'Entries and prompts',
-                onTap: _openJournal,
-              ),
-              _MySpaceTile(
-                icon: Icons.folder_copy_outlined,
-                title: 'Library',
-                subtitle: 'Saved resources',
-                onTap: _openLibrary,
+              const SizedBox(height: 20),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 3,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: childAspectRatio,
+                ),
+                itemBuilder: (context, index) {
+                  switch (index) {
+                    case 0:
+                      return _MySpaceTile(
+                        icon: Icons.calendar_month,
+                        title: l10n.calendarLabel,
+                        subtitle: l10n.mySpaceCalendarSubtitle,
+                        onTap: _openCalendar,
+                      );
+                    case 1:
+                      return _MySpaceTile(
+                        icon: Icons.book_outlined,
+                        title: l10n.journalLabel,
+                        subtitle: l10n.mySpaceJournalSubtitle,
+                        onTap: _openJournal,
+                      );
+                    default:
+                      return _MySpaceTile(
+                        icon: Icons.folder_copy_outlined,
+                        title: l10n.libraryLabel,
+                        subtitle: l10n.mySpaceLibrarySubtitle,
+                        onTap: _openLibrary,
+                      );
+                  }
+                },
               ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -93,23 +159,33 @@ class _MySpaceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(18),
       child: Ink(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade300),
+          color: Colors.white.withValues(alpha: 0.9),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: Colors.black.withValues(alpha: 0.06)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
-              radius: 22,
-              backgroundColor: Colors.blue.shade50,
-              child: Icon(icon, color: Colors.blue),
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 22,
+                  backgroundColor: colorScheme.primary.withValues(alpha: 0.12),
+                  child: Icon(icon, color: colorScheme.primary),
+                ),
+                const Spacer(),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: Colors.black.withValues(alpha: 0.35),
+                ),
+              ],
             ),
             const Spacer(),
             Text(
@@ -733,19 +809,20 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
   }
 
   Future<void> _confirmDeleteDrawing(_DayDrawing drawing) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete drawing?'),
-        content: const Text('This action cannot be undone.'),
+        title: Text(l10n.deleteDrawingTitle),
+        content: Text(l10n.deleteDrawingBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancelLabel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete'),
+            child: Text(l10n.deleteLabel),
           ),
         ],
       ),
@@ -765,15 +842,16 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
       });
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to delete drawing.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.failedToDeleteDrawing)));
     }
   }
 
   Widget _buildMoodContent() {
+    final l10n = AppLocalizations.of(context)!;
     if (_dayDrawings.isEmpty) {
-      return const Center(child: Text('No drawings saved for this day.'));
+      return Center(child: Text(l10n.noDrawingsForDay));
     }
     if (_dayDrawings.length == 1) {
       return _buildDrawingViewer(_dayDrawings.first);
@@ -803,8 +881,9 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
   }
 
   Widget _buildBodyContent() {
+    final l10n = AppLocalizations.of(context)!;
     if (_bodyPoints.isEmpty) {
-      return const Center(child: Text('No body map saved for this day.'));
+      return Center(child: Text(l10n.noBodyMapForDay));
     }
     final selectedPoint = _bodyPoints[_selectedBodySide];
     return Column(
@@ -821,7 +900,9 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
                     child: selectedPoint == null
                         ? Center(
                             child: Text(
-                              'No ${_selectedBodySide == _frontSide ? 'front' : 'back'} map saved for this day.',
+                              _selectedBodySide == _frontSide
+                                  ? l10n.noFrontMapForDay
+                                  : l10n.noBackMapForDay,
                             ),
                           )
                         : _BodyAwarenessView(
@@ -837,8 +918,8 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
                 bottom: 8,
                 child: _BodySideToggleButton(
                   label: _selectedBodySide == _frontSide
-                      ? 'Show back'
-                      : 'Show front',
+                      ? l10n.showBackLabel
+                      : l10n.showFrontLabel,
                   onTap: () {
                     setState(() {
                       _selectedBodySide = _selectedBodySide == _frontSide
@@ -856,6 +937,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
   }
 
   Widget _buildDrawingViewer(_DayDrawing drawing) {
+    final l10n = AppLocalizations.of(context)!;
     final timestamp = _formatTimestamp(drawing.createdAt);
     return Stack(
       children: [
@@ -864,7 +946,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
               ? Container(
                   color: Colors.grey.shade200,
                   alignment: Alignment.center,
-                  child: const Text('Preview unavailable'),
+                  child: Text(l10n.previewUnavailable),
                 )
               : Image.network(drawing.downloadUrl!, fit: BoxFit.contain),
         ),
@@ -890,7 +972,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
             color: Colors.white.withValues(alpha: 0.9),
             shape: const CircleBorder(),
             child: IconButton(
-              tooltip: 'Delete drawing',
+              tooltip: l10n.deleteDrawingTooltip,
               icon: const Icon(Icons.delete_outline),
               onPressed: () => _confirmDeleteDrawing(drawing),
             ),
@@ -902,6 +984,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final dateLabel =
         '${widget.date.year}-${widget.date.month.toString().padLeft(2, '0')}-${widget.date.day.toString().padLeft(2, '0')}';
     return SafeArea(
@@ -914,7 +997,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
             Row(
               children: [
                 Text(
-                  'Day overview',
+                  l10n.dayOverviewTitle,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const Spacer(),
@@ -924,7 +1007,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
                 ),
               ],
             ),
-            Text('Selected date: $dateLabel'),
+            Text(l10n.selectedDateLabel(dateLabel)),
             const SizedBox(height: 16),
             Expanded(
               child: _isLoading
@@ -938,25 +1021,25 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
                       },
                       children: [
                         _MySpaceCarouselPage(
-                          title: 'Mood',
+                          title: l10n.moodLabel,
                           icon: Icons.sentiment_satisfied_alt,
                           content: _buildMoodContent(),
                           fullBleedContent: true,
                         ),
                         _MySpaceCarouselPage(
-                          title: 'Body',
+                          title: l10n.bodyLabel,
                           icon: Icons.accessibility_new,
                           content: _buildBodyContent(),
                           fullBleedContent: true,
                         ),
                         _MySpaceCarouselPage(
-                          title: 'Quote',
-                          body: _quoteText ?? 'No quote saved for this day.',
+                          title: l10n.quoteLabel,
+                          body: _quoteText ?? l10n.noQuoteForDay,
                           icon: Icons.format_quote,
                         ),
                         _MySpaceCarouselPage(
-                          title: 'Note',
-                          body: _noteText ?? 'No note saved for this day.',
+                          title: l10n.noteLabel,
+                          body: _noteText ?? l10n.noNoteForDay,
                           icon: Icons.sticky_note_2_outlined,
                         ),
                       ],
@@ -985,7 +1068,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Done'),
+                child: Text(l10n.doneLabel),
               ),
             ),
           ],
@@ -1196,6 +1279,11 @@ class _BodySideToggleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final shortestSide = MediaQuery.of(context).size.shortestSide;
+    final compact = shortestSide < 600;
+    final buttonSize = compact ? 70.0 : 82.0;
+    final iconSize = compact ? 14.0 : 16.0;
+    final labelSize = compact ? 9.0 : 10.0;
     return Material(
       color: colorScheme.primary.withValues(alpha: 0.92),
       shape: const CircleBorder(),
@@ -1204,21 +1292,21 @@ class _BodySideToggleButton extends StatelessWidget {
         onTap: onTap,
         customBorder: const CircleBorder(),
         child: SizedBox(
-          width: 82,
-          height: 82,
+          width: buttonSize,
+          height: buttonSize,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, size: 16, color: colorScheme.onPrimary),
+                Icon(icon, size: iconSize, color: colorScheme.onPrimary),
                 const SizedBox(height: 4),
                 Text(
                   label,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: colorScheme.onPrimary,
-                    fontSize: 10,
+                    fontSize: labelSize,
                     height: 1.1,
                     fontWeight: FontWeight.w600,
                   ),
@@ -1348,9 +1436,10 @@ class _MySpaceJournalPageState extends State<_MySpaceJournalPage> {
     final saved = await _saveEntryToDatabase(entry);
     if (saved == null) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to save journal entry.')),
-      );
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.failedToSaveJournalEntry)));
       return;
     }
     if (!mounted) return;
@@ -1403,8 +1492,9 @@ class _MySpaceJournalPageState extends State<_MySpaceJournalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('My Space Journal')),
+      appBar: AppBar(title: Text(l10n.mySpaceJournalTitle)),
       floatingActionButton: FloatingActionButton(
         onPressed: _addEntry,
         child: const Icon(Icons.edit),
@@ -1412,7 +1502,7 @@ class _MySpaceJournalPageState extends State<_MySpaceJournalPage> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _entries.isEmpty
-          ? const Center(child: Text('No journal entries yet.'))
+          ? Center(child: Text(l10n.noJournalEntriesYet))
           : ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: _entries.length,
@@ -1459,14 +1549,6 @@ class _MySpaceJournalEditorPageState extends State<_MySpaceJournalEditorPage> {
   bool _isItalic = false;
   String _fontFamily = 'Sans';
 
-  final List<String> _prompts = const [
-    'What is one thing that brought you comfort today?',
-    'How did your body feel this morning?',
-    'Name three things you are grateful for.',
-    'If your emotions were a color, what would it be?',
-    'Write a short note to your future self.',
-  ];
-
   TextStyle _editorStyle() {
     final family = _fontFamily == 'Serif'
         ? 'serif'
@@ -1482,11 +1564,12 @@ class _MySpaceJournalEditorPageState extends State<_MySpaceJournalEditorPage> {
   }
 
   void _saveEntry() {
+    final l10n = AppLocalizations.of(context)!;
     final text = _controller.text.trim();
     if (text.isEmpty) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Entry cannot be empty.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.entryCannotBeEmpty)));
       return;
     }
     final entry = _JournalEntry(
@@ -1513,25 +1596,39 @@ class _MySpaceJournalEditorPageState extends State<_MySpaceJournalEditorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final prompts = [
+      l10n.promptComfortToday,
+      l10n.promptBodyMorning,
+      l10n.promptThreeGrateful,
+      l10n.promptEmotionColor,
+      l10n.promptFutureSelf,
+    ];
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New Entry'),
+        title: Text(l10n.newEntryTitle),
         actions: [
           TextButton(
             onPressed: _saveEntry,
-            child: const Text('Save', style: TextStyle(color: Colors.white)),
+            child: Text(
+              l10n.saveLabel,
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const Text('Prompts', style: TextStyle(fontWeight: FontWeight.w600)),
+          Text(
+            l10n.promptsLabel,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: 8),
-          ..._prompts.map(
+          ...prompts.map(
             (prompt) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Text('ƒ?ô $prompt'),
+              child: Text('• $prompt'),
             ),
           ),
           const SizedBox(height: 16),
@@ -1582,7 +1679,7 @@ class _MySpaceJournalEditorPageState extends State<_MySpaceJournalEditorPage> {
             maxLines: 12,
             style: _editorStyle(),
             decoration: InputDecoration(
-              hintText: 'Start writing...',
+              hintText: l10n.startWritingHint,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -1645,28 +1742,19 @@ class _MySpaceLibraryPageState extends State<_MySpaceLibraryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('My Space Library')),
+      appBar: AppBar(title: Text(l10n.mySpaceLibraryTitle)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           _librarySection(
-            title: 'Saved Resources',
-            items: const ['Guided breathing video', 'Calming audio'],
-          ),
-          const SizedBox(height: 16),
-          _librarySection(
-            title: 'Saved Messages',
+            title: l10n.savedMessagesTitle,
             items: _loading
-                ? const ['Loading...']
+                ? [l10n.loadingLabel]
                 : (_savedMessages.isEmpty
-                      ? const ['No saved messages yet.']
+                      ? [l10n.noSavedMessagesYet]
                       : _savedMessages),
-          ),
-          const SizedBox(height: 16),
-          _librarySection(
-            title: 'Contacts',
-            items: const ['Therapist', 'Trusted friend'],
           ),
         ],
       ),

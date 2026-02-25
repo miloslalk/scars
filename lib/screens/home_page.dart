@@ -101,10 +101,13 @@ class _HomePageState extends State<HomePage> {
         : _selectedIndex;
     final navItems = <BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(Icons.home), label: l10n.homeLabel),
-      const BottomNavigationBarItem(icon: Icon(Icons.lock), label: 'My Space'),
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.emoji_emotions),
-        label: 'Messages',
+      BottomNavigationBarItem(
+        icon: const Icon(Icons.lock),
+        label: l10n.mySpaceLabel,
+      ),
+      BottomNavigationBarItem(
+        icon: const Icon(Icons.emoji_emotions),
+        label: l10n.messagesLabel,
       ),
     ];
 
