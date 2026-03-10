@@ -60,4 +60,18 @@ app.*.map.json
 
 # Firebase logs
 firebase-debug.log
+
+# Secrets and signing material
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+*.mobileprovision
+*.cer
+service-account*.json
+firebase-service-account*.json
+
 NOTES.md
