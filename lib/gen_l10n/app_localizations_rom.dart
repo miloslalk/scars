@@ -307,10 +307,10 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get dailyAffirmation6 =>
-      'Tiro krlo, tiro tempo thaj tiro sasťaripe — sa si baro.';
+      'Tiro krlo, tiro tempo thaj tiro sastaripe — sa si baro.';
 
   @override
-  String get dailyAffirmation7 => 'Šaj te odmoriis thaj mek te barǒves.';
+  String get dailyAffirmation7 => 'Šaj te odmoriis thaj mek te barjoves.';
 
   @override
   String get dailyAffirmation8 =>
@@ -373,7 +373,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get dailyAffirmation24 =>
-      'Te o džuvdipe del tut momentura, ker lenqe lačhe xatărimata.';
+      'Te o džuvdipe del tut momentura, ker lenge lačhe haćarimata.';
 
   @override
   String get dailyAffirmation25 => 'So phirel krujal, avel krujal.';
@@ -397,7 +397,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get dailyAffirmation31 =>
-      'Sako anglunipe si numaj jekh kotor, palal sa, thaj i lil e eventurenqi si sajekh putardi ko maškar.';
+      'Sako anglunipe si numaj jekh kotor, palal sa, thaj i lil e eventurengi si sajekh putardi ko maškar.';
 
   @override
   String get dailyAffirmation32 =>
@@ -413,7 +413,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get dailyAffirmation35 =>
-      'Me tordǒvav thaj marav man te arakhav mire sune.';
+      'Me uštav thaj marav man te arakhav mire sune.';
 
   @override
   String get dailyAffirmation36 => 'Na mukh o aver te decidil tiro avutnipe.';
@@ -438,7 +438,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get dailyAffirmation42 =>
-      'Sakofalo si les jekh anglunipe thaj jekh agor, thaj o agor šaj avel šukar, či dikhel pe sode tuňariko dičol akanak.';
+      'Sakofalo si les jekh anglunipe thaj jekh agor, thaj o agor šaj avel šukar, či dikhel pe sode tunjariko dičol akana.';
 
   @override
   String get dailyAffirmation43 =>
@@ -453,15 +453,15 @@ class AppLocalizationsRom extends AppLocalizations {
       'Te si tut jekh ciljo, ka arakhes jekh drom.';
 
   @override
-  String get dailyAffirmation46 => 'Pala o bršind avel o bršind.';
+  String get dailyAffirmation46 => 'Pala o bršind avel i duga.';
 
   @override
   String get dailyAffirmation47 =>
-      'Sako pharipe savo me arakhav si jekh šansa te barǒvav maj zoralo.';
+      'Sako pharipe savo me arakhav si jekh šansa te barjovav maj zoralo.';
 
   @override
   String get dailyAffirmation48 =>
-      'Me astarav e phučhimata ande muro ilo thaj lav e odgovorimata anθ-o lenqo vaxt.';
+      'Me astarav e phučhimata ande muro ilo thaj lav e odgovorimata ande lengo vaxt.';
 
   @override
   String get dailyAffirmation49 =>
@@ -515,7 +515,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get dailyAffirmation62 =>
-      'Maj mišto te merav sar jekh manuš nego sar te trajiv sar jekh čorro.';
+      'Maj mišto te merav sar jekh manuš nego sar te dživdiv sar jekh darano.';
 
   @override
   String get dailyAffirmation63 =>
@@ -576,7 +576,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get dailyAffirmation79 =>
-      'Nikana na žalis ni jekh đive ko tiro džuvdipe. Le lačhe đivesa anen tumenqe bax thaj le nasul đivesa anen tumenqe eksperienza.';
+      'Nikana na žalis ni jekh đive ko tiro džuvdipe. Le lačhe đivesa anen tumenge bax thaj le nasul đivesa anen tumenge eksperienza.';
 
   @override
   String get dailyAffirmation80 =>
@@ -610,7 +610,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get dailyAffirmation88 =>
-      'Rov. Ertisarel. Sikljǒvel. Dža maj dur. Mekav tire jasvin te den e seme vaš tiri avutni bax.';
+      'Rov. Ertisar. Sikljov. Dža maj dur. Mekav tire jasvin te den e seme vaš tiri avutni bax.';
 
   @override
   String get dailyAffirmation89 =>
@@ -630,17 +630,16 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get dailyAffirmation93 =>
-      'Sakofalo si ande tyi zor, thaj tyi zor si ande tute.';
+      'Sakofalo si ande tiri zor, thaj tiri zor si ande tute.';
 
   @override
-  String get dailyAffirmation94 =>
-      'Tumari vlada na si so si tumen, numaj kon san.';
+  String get dailyAffirmation94 => 'Tiro molipe naj so si tut, numaj kon san.';
 
   @override
   String get dailyAffirmation95 => 'Si mišto te na aves mišto.';
 
   @override
-  String get dailyAffirmation96 => 'Pala jekh balval si mindik jekh balval.';
+  String get dailyAffirmation96 => 'Pala i bari balval sagda avel i duga.';
 
   @override
   String get dailyAffirmation97 => 'Tehara si nevo đive. Strahininel!';
@@ -657,7 +656,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get dailyAffirmation101 =>
-      'Keren maj but thaj maj but maj tikno thaj maj tikno dži kana šaj te keren vareso bi khanćesqo.';
+      'Keren maj but thaj maj but maj tikno thaj maj tikno dži kana šaj te keren vareso bi khančesko.';
 
   @override
   String get dailyAffirmation102 =>
@@ -722,7 +721,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get dailyAffirmation120 =>
-      'Savore si lačhe, khonik na si bi-xasaripe.';
+      'Savore si lačhe vaš vareso, khonik naj biparuvdo.';
 
   @override
   String get pleaseLogInAgain => 'Mangav tut, palem av andre.';
@@ -885,7 +884,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get oneBalloonPerDayMessage =>
-      'Šaj te phukaves jekh balon po đive. Av pale tehara.';
+      'Šaj te pharaves jekh balon po đive. Av pale tehara.';
 
   @override
   String get languageEnglishLabel => 'Anglikani';
@@ -1685,7 +1684,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get exerciseInstructionBreathing478 =>
-      '4-7-8 Disanje:\nLe dah 4 sekunde, inker 7, iklji 8 (3 cikluso).';
+      '4-7-8 Dahipe:\nLe dah 4 sekunde, inker 7, iklji 8 (3 cikluso).';
 
   @override
   String get exerciseInstructionAbdominalAwareness =>
@@ -1693,7 +1692,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get exerciseInstructionHeartCenter =>
-      'Putaripe e Ilesko Centro:\nPokret tiri grud anglal, crd e ramena palpale, thaj le handuko dah.';
+      'Putaripe e Ilesko Centro:\nPokret tiri grud anglal, crd e dume palpale, thaj le handuko dah.';
 
   @override
   String get exerciseInstructionBallSqueezing =>
@@ -1709,15 +1708,15 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get exerciseInstructionShoulderDrop =>
-      'Spuštipe e Ramenenge:\nVazdi ramena ka kanenge, pa mukh len tele (5 drom).';
+      'Spuštipe e Dumengo:\nVazdi e dume dži ke kana, pa mukh len tele (5 drom).';
 
   @override
   String get exerciseInstructionBackOpening =>
-      'Putaripe e Dumosko:\nSpoji e vasta pala tutestar, putav i grud, thaj le handuko dah.';
+      'Putaripe e Zejengo:\nPhand e vasta pala tute, putar i grud, thaj le handuko dah.';
 
   @override
   String get exerciseInstructionReleasingBurdens =>
-      'Mukhipe e Pharipnasko:\nSa phangle jakhenca, gindisav tati svetlost savi čalavel tele andar tire ramena.';
+      'Mukhipe e Pharipnasko:\nSa phangle jakhenca, gindisav tati svetlost savi čalavel tele andar tire dume.';
 
   @override
   String get exerciseInstructionRelaxingFacialMuscles =>
@@ -1729,7 +1728,7 @@ class AppLocalizationsRom extends AppLocalizations {
 
   @override
   String get exerciseInstructionSmileToYourself =>
-      'Nasmeji Tut Tuke:\nInker nežno asape 30 sekunde.';
+      'Asav Tuke:\nInker nežno asape 30 sekunde.';
 
   @override
   String get exerciseInstructionEftTappingPoints =>
