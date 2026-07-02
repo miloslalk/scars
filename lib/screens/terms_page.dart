@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
 
 import '../widgets/app_top_bar.dart';
 
@@ -15,6 +16,7 @@ class TermsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     return Scaffold(
       appBar: const AppTopBar(showUserAction: false),
@@ -27,123 +29,116 @@ class TermsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Terms of Service',
-                    style: theme.textTheme.headlineSmall,
-                  ),
+                  Text(l10n.termsTitle, style: theme.textTheme.headlineSmall),
                   const SizedBox(height: 8),
                   Text(
-                    'Effective date: $_effectiveDate',
+                    l10n.termsEffectiveDate(_effectiveDate),
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'These Terms govern your use of $_appName. By creating an account or using the app, you agree to these Terms.',
+                    l10n.termsIntro(_appName),
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 20),
-                  const _TermsSection(
-                    title: '1. Eligibility and Accounts',
+                  _TermsSection(
+                    title: l10n.termsSection1Title,
                     bullets: [
-                      'You must provide accurate registration details and keep your credentials secure.',
-                      'You are responsible for activity under your account.',
-                      'You may not impersonate another person or misuse the platform.',
-                      'Users under 16 may use the app only with parent or legal guardian consent, and only where permitted by applicable law.',
+                      l10n.termsSection1Bullet1,
+                      l10n.termsSection1Bullet2,
+                      l10n.termsSection1Bullet3,
+                      l10n.termsSection1Bullet4,
                     ],
                   ),
-                  const _TermsSection(
-                    title: '2. What the App Provides',
+                  _TermsSection(
+                    title: l10n.termsSection2Title,
                     bullets: [
-                      'Mood drawing check-ins, body awareness tools, guided reflection content, messages, and journaling/library features.',
-                      'The app supports emotional wellbeing and self-reflection.',
-                      'The app is not a crisis service and not a substitute for medical, psychiatric, or emergency care.',
+                      l10n.termsSection2Bullet1,
+                      l10n.termsSection2Bullet2,
+                      l10n.termsSection2Bullet3,
                     ],
                   ),
-                  const _TermsSection(
-                    title: '3. Health and Safety Disclaimer',
+                  _TermsSection(
+                    title: l10n.termsSection3Title,
                     bullets: [
-                      'No content in the app is medical advice, diagnosis, or treatment.',
-                      'If you are in danger or experiencing an emergency, contact local emergency services immediately.',
-                      'If an exercise causes discomfort, stop and seek professional support.',
+                      l10n.termsSection3Bullet1,
+                      l10n.termsSection3Bullet2,
+                      l10n.termsSection3Bullet3,
                     ],
                   ),
-                  const _TermsSection(
-                    title: '4. User Content',
+                  _TermsSection(
+                    title: l10n.termsSection4Title,
                     bullets: [
-                      'You retain ownership of content you create (e.g., drawings, body maps, notes, journal entries).',
-                      'You grant $_companyName a limited license to store/process your content only to operate and improve the service.',
-                      'You must not upload unlawful, abusive, or infringing material.',
+                      l10n.termsSection4Bullet1,
+                      l10n.termsSection4Bullet2(_companyName),
+                      l10n.termsSection4Bullet3,
                     ],
                   ),
-                  const _TermsSection(
-                    title: '5. Acceptable Use',
+                  _TermsSection(
+                    title: l10n.termsSection5Title,
                     bullets: [
-                      'Do not attempt unauthorized access, reverse engineer, disrupt, or overload services.',
-                      'Do not use the app to harass, threaten, or exploit others.',
-                      'Do not bypass account, usage, or security restrictions.',
+                      l10n.termsSection5Bullet1,
+                      l10n.termsSection5Bullet2,
+                      l10n.termsSection5Bullet3,
                     ],
                   ),
-                  const _TermsSection(
-                    title: '6. Data and Privacy',
+                  _TermsSection(
+                    title: l10n.termsSection6Title,
                     bullets: [
-                      'We process account/profile data and activity data needed for app features (e.g., daily check-ins, messages, saved entries, media playback).',
-                      'Data is stored using Firebase services configured for the app.',
-                      'Your privacy rights and retention/deletion details are described in our Privacy Policy.',
-                      'Privacy Policy: $_privacyPolicyUrl',
+                      l10n.termsSection6Bullet1,
+                      l10n.termsSection6Bullet2,
+                      l10n.termsSection6Bullet3,
+                      l10n.termsSection6Bullet4(_privacyPolicyUrl),
                     ],
                   ),
-                  const _TermsSection(
-                    title: '7. Third-Party Services',
+                  _TermsSection(
+                    title: l10n.termsSection7Title,
                     bullets: [
-                      'Authentication, storage, and database features rely on third-party providers (e.g., Google/Firebase).',
-                      'Use of those integrations may also be subject to third-party terms.',
+                      l10n.termsSection7Bullet1,
+                      l10n.termsSection7Bullet2,
                     ],
                   ),
-                  const _TermsSection(
-                    title: '8. Intellectual Property',
+                  _TermsSection(
+                    title: l10n.termsSection8Title,
                     bullets: [
-                      'All app branding, design, and non-user content are owned by $_companyName or licensed to it.',
-                      'You may not copy, distribute, or commercialize app materials without permission.',
+                      l10n.termsSection8Bullet1(_companyName),
+                      l10n.termsSection8Bullet2,
                     ],
                   ),
-                  const _TermsSection(
-                    title: '9. Suspension and Termination',
+                  _TermsSection(
+                    title: l10n.termsSection9Title,
                     bullets: [
-                      'We may suspend or terminate accounts for violations, abuse, security risks, or legal obligations.',
-                      'You may stop using the app at any time.',
+                      l10n.termsSection9Bullet1,
+                      l10n.termsSection9Bullet2,
                     ],
                   ),
-                  const _TermsSection(
-                    title: '10. Warranties and Liability',
+                  _TermsSection(
+                    title: l10n.termsSection10Title,
                     bullets: [
-                      'The service is provided "as is" and "as available".',
-                      'To the fullest extent allowed by law, $_companyName disclaims implied warranties.',
-                      'To the fullest extent allowed by law, $_companyName is not liable for indirect, incidental, or consequential damages.',
+                      l10n.termsSection10Bullet1,
+                      l10n.termsSection10Bullet2(_companyName),
+                      l10n.termsSection10Bullet3(_companyName),
                     ],
                   ),
-                  const _TermsSection(
-                    title: '11. Changes to These Terms',
+                  _TermsSection(
+                    title: l10n.termsSection11Title,
                     bullets: [
-                      'We may update these Terms from time to time.',
-                      'If changes are material, we will provide reasonable notice in-app or by email.',
-                      'Continued use after updates means you accept the updated Terms.',
+                      l10n.termsSection11Bullet1,
+                      l10n.termsSection11Bullet2,
+                      l10n.termsSection11Bullet3,
                     ],
                   ),
-                  const _TermsSection(
-                    title: '12. Governing Law',
-                    bullets: [
-                      'These Terms are governed by the laws of $_country, without regard to conflict-of-law rules.',
-                    ],
+                  _TermsSection(
+                    title: l10n.termsSection12Title,
+                    bullets: [l10n.termsSection12Bullet1(_country)],
                   ),
-                  const _TermsSection(
-                    title: '13. Contact',
-                    bullets: [
-                      'For support or legal requests, contact: $_supportEmail',
-                    ],
+                  _TermsSection(
+                    title: l10n.termsSection13Title,
+                    bullets: [l10n.termsSection13Bullet1(_supportEmail)],
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Important: please confirm legal counsel review before release.',
+                    l10n.termsImportantNote,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),

@@ -109,7 +109,6 @@ abstract class AppLocalizations {
     Locale('ro'),
     Locale('rom'),
     Locale('sr'),
-    Locale.fromSubtags(languageCode: 'sr', scriptCode: 'Latn'),
     Locale('tr'),
   ];
 
@@ -554,8 +553,20 @@ abstract class AppLocalizations {
   /// No description provided for @bodyTransitionPrompt.
   ///
   /// In en, this message translates to:
-  /// **'Would you like to take a moment to gently tune into the physical sensations in your body before identifying your feeling?'**
+  /// **'Would you like to have a body scan?'**
   String get bodyTransitionPrompt;
+
+  /// No description provided for @yesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yesLabel;
+
+  /// No description provided for @noLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get noLabel;
 
   /// No description provided for @continueLabel.
   ///
@@ -586,6 +597,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Body check'**
   String get bodyCheckLabel;
+
+  /// No description provided for @meditationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Meditation'**
+  String get meditationLabel;
 
   /// No description provided for @moodCheckFullscreenTitle.
   ///
@@ -632,44 +649,722 @@ abstract class AppLocalizations {
   /// No description provided for @dailyAffirmation1.
   ///
   /// In en, this message translates to:
-  /// **'You are allowed to take this day one breath at a time.'**
+  /// **'Embrace and dance with your demons. They might change in color.'**
   String get dailyAffirmation1;
 
   /// No description provided for @dailyAffirmation2.
   ///
   /// In en, this message translates to:
-  /// **'Your feelings matter, and your body deserves gentle care.'**
+  /// **'When you don\'t know where you are going, all roads will get you there.'**
   String get dailyAffirmation2;
 
   /// No description provided for @dailyAffirmation3.
   ///
   /// In en, this message translates to:
-  /// **'You are stronger than this moment feels right now.'**
+  /// **'Laugh now, cry later.'**
   String get dailyAffirmation3;
 
   /// No description provided for @dailyAffirmation4.
   ///
   /// In en, this message translates to:
-  /// **'Small steps today are still meaningful progress.'**
+  /// **'I have a dream...'**
   String get dailyAffirmation4;
 
   /// No description provided for @dailyAffirmation5.
   ///
   /// In en, this message translates to:
-  /// **'You belong exactly as you are, here and now.'**
+  /// **'If you think you are late to life, from that moment on you are at your youngest.'**
   String get dailyAffirmation5;
 
   /// No description provided for @dailyAffirmation6.
   ///
   /// In en, this message translates to:
-  /// **'Your voice, your pace, and your healing all count.'**
+  /// **'The real miracle is believing in yourself.'**
   String get dailyAffirmation6;
 
   /// No description provided for @dailyAffirmation7.
   ///
   /// In en, this message translates to:
-  /// **'You can rest and still be growing.'**
+  /// **'Life is one day and that is today.'**
   String get dailyAffirmation7;
+
+  /// No description provided for @dailyAffirmation8.
+  ///
+  /// In en, this message translates to:
+  /// **'The truth is: the natural world is changing. And we are totally dependent on that world.'**
+  String get dailyAffirmation8;
+
+  /// No description provided for @dailyAffirmation9.
+  ///
+  /// In en, this message translates to:
+  /// **'We are all made of stardust.'**
+  String get dailyAffirmation9;
+
+  /// No description provided for @dailyAffirmation10.
+  ///
+  /// In en, this message translates to:
+  /// **'Dream with passion, live with responsibility.'**
+  String get dailyAffirmation10;
+
+  /// No description provided for @dailyAffirmation11.
+  ///
+  /// In en, this message translates to:
+  /// **'Just look at what we can do when we come together.'**
+  String get dailyAffirmation11;
+
+  /// No description provided for @dailyAffirmation12.
+  ///
+  /// In en, this message translates to:
+  /// **'Suffer now and live the rest of your life as a champion.'**
+  String get dailyAffirmation12;
+
+  /// No description provided for @dailyAffirmation13.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s all going to be okay. Say it one more time.'**
+  String get dailyAffirmation13;
+
+  /// No description provided for @dailyAffirmation14.
+  ///
+  /// In en, this message translates to:
+  /// **'Just take that step and try, it\'s enough.'**
+  String get dailyAffirmation14;
+
+  /// No description provided for @dailyAffirmation15.
+  ///
+  /// In en, this message translates to:
+  /// **'Make a wave of positive changes.'**
+  String get dailyAffirmation15;
+
+  /// No description provided for @dailyAffirmation16.
+  ///
+  /// In en, this message translates to:
+  /// **'Old ways won\'t open new doors.'**
+  String get dailyAffirmation16;
+
+  /// No description provided for @dailyAffirmation17.
+  ///
+  /// In en, this message translates to:
+  /// **'Mistakes are proof that you are trying.'**
+  String get dailyAffirmation17;
+
+  /// No description provided for @dailyAffirmation18.
+  ///
+  /// In en, this message translates to:
+  /// **'Your heart is the size of an ocean. Go find yourself in its hidden depths.'**
+  String get dailyAffirmation18;
+
+  /// No description provided for @dailyAffirmation19.
+  ///
+  /// In en, this message translates to:
+  /// **'Be weird, be unique, be yourself.'**
+  String get dailyAffirmation19;
+
+  /// No description provided for @dailyAffirmation20.
+  ///
+  /// In en, this message translates to:
+  /// **'Whatever happens, happens for the best.'**
+  String get dailyAffirmation20;
+
+  /// No description provided for @dailyAffirmation21.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions can speak louder than words.'**
+  String get dailyAffirmation21;
+
+  /// No description provided for @dailyAffirmation22.
+  ///
+  /// In en, this message translates to:
+  /// **'Since we existed, even for a moment, then we exist forever.'**
+  String get dailyAffirmation22;
+
+  /// No description provided for @dailyAffirmation23.
+  ///
+  /// In en, this message translates to:
+  /// **'If saying goodbye hurts, it means you spent your time well.'**
+  String get dailyAffirmation23;
+
+  /// No description provided for @dailyAffirmation24.
+  ///
+  /// In en, this message translates to:
+  /// **'If life gives you moments, make them good memories.'**
+  String get dailyAffirmation24;
+
+  /// No description provided for @dailyAffirmation25.
+  ///
+  /// In en, this message translates to:
+  /// **'What goes around, comes around.'**
+  String get dailyAffirmation25;
+
+  /// No description provided for @dailyAffirmation26.
+  ///
+  /// In en, this message translates to:
+  /// **'Diversity makes the world beautiful.'**
+  String get dailyAffirmation26;
+
+  /// No description provided for @dailyAffirmation27.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything is OK, no problem.'**
+  String get dailyAffirmation27;
+
+  /// No description provided for @dailyAffirmation28.
+  ///
+  /// In en, this message translates to:
+  /// **'What you think, you become. What you feel, you attract. What you imagine, you create.'**
+  String get dailyAffirmation28;
+
+  /// No description provided for @dailyAffirmation29.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong minds grow in safe spaces.'**
+  String get dailyAffirmation29;
+
+  /// No description provided for @dailyAffirmation30.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything is possible, just try it. You can do it.'**
+  String get dailyAffirmation30;
+
+  /// No description provided for @dailyAffirmation31.
+  ///
+  /// In en, this message translates to:
+  /// **'Every beginning is only a sequel, after all, and the book of events is always open halfway through.'**
+  String get dailyAffirmation31;
+
+  /// No description provided for @dailyAffirmation32.
+  ///
+  /// In en, this message translates to:
+  /// **'I am grounded, resilient and open to growth even in uncertain times.'**
+  String get dailyAffirmation32;
+
+  /// No description provided for @dailyAffirmation33.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the person you needed when you were younger.'**
+  String get dailyAffirmation33;
+
+  /// No description provided for @dailyAffirmation34.
+  ///
+  /// In en, this message translates to:
+  /// **'There is a crack in everything, that\'s how the light gets in.'**
+  String get dailyAffirmation34;
+
+  /// No description provided for @dailyAffirmation35.
+  ///
+  /// In en, this message translates to:
+  /// **'I stand and fight to find my dreams.'**
+  String get dailyAffirmation35;
+
+  /// No description provided for @dailyAffirmation36.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t let the other decide your future.'**
+  String get dailyAffirmation36;
+
+  /// No description provided for @dailyAffirmation37.
+  ///
+  /// In en, this message translates to:
+  /// **'The world needs more angry women.'**
+  String get dailyAffirmation37;
+
+  /// No description provided for @dailyAffirmation38.
+  ///
+  /// In en, this message translates to:
+  /// **'The sun will rise and we will try again.'**
+  String get dailyAffirmation38;
+
+  /// No description provided for @dailyAffirmation39.
+  ///
+  /// In en, this message translates to:
+  /// **'Wanderer, there is no path. You make the path while walking.'**
+  String get dailyAffirmation39;
+
+  /// No description provided for @dailyAffirmation40.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have to be perfect.'**
+  String get dailyAffirmation40;
+
+  /// No description provided for @dailyAffirmation41.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfection is a Utopia. It only serves as compass.'**
+  String get dailyAffirmation41;
+
+  /// No description provided for @dailyAffirmation42.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything has a beginning and an ending, and the end can be beautiful, no matter how dark it seems now.'**
+  String get dailyAffirmation42;
+
+  /// No description provided for @dailyAffirmation43.
+  ///
+  /// In en, this message translates to:
+  /// **'I raise up my voice — not so that I can shout, but so that those without a voice can be heard.'**
+  String get dailyAffirmation43;
+
+  /// No description provided for @dailyAffirmation44.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything that seems it is drowning you is actually just teaching you to swim.'**
+  String get dailyAffirmation44;
+
+  /// No description provided for @dailyAffirmation45.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have a goal, you will find a way.'**
+  String get dailyAffirmation45;
+
+  /// No description provided for @dailyAffirmation46.
+  ///
+  /// In en, this message translates to:
+  /// **'After the rain comes the rainbow.'**
+  String get dailyAffirmation46;
+
+  /// No description provided for @dailyAffirmation47.
+  ///
+  /// In en, this message translates to:
+  /// **'Every challenge I face is an opportunity to grow stronger.'**
+  String get dailyAffirmation47;
+
+  /// No description provided for @dailyAffirmation48.
+  ///
+  /// In en, this message translates to:
+  /// **'I embrace the questions in my heart and welcome the answers in their own time.'**
+  String get dailyAffirmation48;
+
+  /// No description provided for @dailyAffirmation49.
+  ///
+  /// In en, this message translates to:
+  /// **'The only approval I will ever need is mine.'**
+  String get dailyAffirmation49;
+
+  /// No description provided for @dailyAffirmation50.
+  ///
+  /// In en, this message translates to:
+  /// **'Kill the urge to be chosen. Choose yourself.'**
+  String get dailyAffirmation50;
+
+  /// No description provided for @dailyAffirmation51.
+  ///
+  /// In en, this message translates to:
+  /// **'In hardships keep smiling. It makes them worry.'**
+  String get dailyAffirmation51;
+
+  /// No description provided for @dailyAffirmation52.
+  ///
+  /// In en, this message translates to:
+  /// **'Not everything that is faced can be changed, but nothing can be changed until it is faced.'**
+  String get dailyAffirmation52;
+
+  /// No description provided for @dailyAffirmation53.
+  ///
+  /// In en, this message translates to:
+  /// **'We shouldn\'t be looking for heroes, we should be looking for good ideas.'**
+  String get dailyAffirmation53;
+
+  /// No description provided for @dailyAffirmation54.
+  ///
+  /// In en, this message translates to:
+  /// **'I see the sun, and if I don\'t see the sun, I know it\'s there.'**
+  String get dailyAffirmation54;
+
+  /// No description provided for @dailyAffirmation55.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone who has never made a mistake has never tried anything new.'**
+  String get dailyAffirmation55;
+
+  /// No description provided for @dailyAffirmation56.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s a whole life in that — in knowing that the sun is there.'**
+  String get dailyAffirmation56;
+
+  /// No description provided for @dailyAffirmation57.
+  ///
+  /// In en, this message translates to:
+  /// **'Only fools never change their mind.'**
+  String get dailyAffirmation57;
+
+  /// No description provided for @dailyAffirmation58.
+  ///
+  /// In en, this message translates to:
+  /// **'It always seems impossible until it\'s done.'**
+  String get dailyAffirmation58;
+
+  /// No description provided for @dailyAffirmation59.
+  ///
+  /// In en, this message translates to:
+  /// **'Never doubt that a small group of thoughtful, committed citizens can change the world; indeed, it\'s the only thing that ever has.'**
+  String get dailyAffirmation59;
+
+  /// No description provided for @dailyAffirmation60.
+  ///
+  /// In en, this message translates to:
+  /// **'Just do it already!'**
+  String get dailyAffirmation60;
+
+  /// No description provided for @dailyAffirmation61.
+  ///
+  /// In en, this message translates to:
+  /// **'Beat the crying with a deep smile.'**
+  String get dailyAffirmation61;
+
+  /// No description provided for @dailyAffirmation62.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'d rather die like a man than live as a coward.'**
+  String get dailyAffirmation62;
+
+  /// No description provided for @dailyAffirmation63.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow yourself to be authentic, even in places where everyone is expected to be the same.'**
+  String get dailyAffirmation63;
+
+  /// No description provided for @dailyAffirmation64.
+  ///
+  /// In en, this message translates to:
+  /// **'You are best, keep going.'**
+  String get dailyAffirmation64;
+
+  /// No description provided for @dailyAffirmation65.
+  ///
+  /// In en, this message translates to:
+  /// **'Believe in yourself. You can make miracles happen.'**
+  String get dailyAffirmation65;
+
+  /// No description provided for @dailyAffirmation66.
+  ///
+  /// In en, this message translates to:
+  /// **'If you can worry about it, it means you are alive and it didn\'t and won\'t kill you.'**
+  String get dailyAffirmation66;
+
+  /// No description provided for @dailyAffirmation67.
+  ///
+  /// In en, this message translates to:
+  /// **'With the flow of life, this too shall pass.'**
+  String get dailyAffirmation67;
+
+  /// No description provided for @dailyAffirmation68.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going, one day it will be worth it.'**
+  String get dailyAffirmation68;
+
+  /// No description provided for @dailyAffirmation69.
+  ///
+  /// In en, this message translates to:
+  /// **'Never be what the other wants you to be, be always yourself.'**
+  String get dailyAffirmation69;
+
+  /// No description provided for @dailyAffirmation70.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t forget to focus on the good things.'**
+  String get dailyAffirmation70;
+
+  /// No description provided for @dailyAffirmation71.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s not selfish, it\'s self care.'**
+  String get dailyAffirmation71;
+
+  /// No description provided for @dailyAffirmation72.
+  ///
+  /// In en, this message translates to:
+  /// **'Fear makes you weak; anger makes you strong.'**
+  String get dailyAffirmation72;
+
+  /// No description provided for @dailyAffirmation73.
+  ///
+  /// In en, this message translates to:
+  /// **'When someone is drowning, you don\'t ask if they can swim — you just jump in and help.'**
+  String get dailyAffirmation73;
+
+  /// No description provided for @dailyAffirmation74.
+  ///
+  /// In en, this message translates to:
+  /// **'The smallest good deed is far better than the biggest good intention.'**
+  String get dailyAffirmation74;
+
+  /// No description provided for @dailyAffirmation75.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the risk or lose the chance.'**
+  String get dailyAffirmation75;
+
+  /// No description provided for @dailyAffirmation76.
+  ///
+  /// In en, this message translates to:
+  /// **'Believe that you can and you\'re halfway there.'**
+  String get dailyAffirmation76;
+
+  /// No description provided for @dailyAffirmation77.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the one who makes your world beautiful.'**
+  String get dailyAffirmation77;
+
+  /// No description provided for @dailyAffirmation78.
+  ///
+  /// In en, this message translates to:
+  /// **'The smallest act of kindness is worth more than the grandest intention.'**
+  String get dailyAffirmation78;
+
+  /// No description provided for @dailyAffirmation79.
+  ///
+  /// In en, this message translates to:
+  /// **'Never regret a day in your life. Good days bring you happiness and bad days bring you experience.'**
+  String get dailyAffirmation79;
+
+  /// No description provided for @dailyAffirmation80.
+  ///
+  /// In en, this message translates to:
+  /// **'Every pro was first an amateur. Start your dream now.'**
+  String get dailyAffirmation80;
+
+  /// No description provided for @dailyAffirmation81.
+  ///
+  /// In en, this message translates to:
+  /// **'It might not be easy but it\'ll be worth it.'**
+  String get dailyAffirmation81;
+
+  /// No description provided for @dailyAffirmation82.
+  ///
+  /// In en, this message translates to:
+  /// **'It is never too late to be what you might have been.'**
+  String get dailyAffirmation82;
+
+  /// No description provided for @dailyAffirmation83.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything you can imagine is real.'**
+  String get dailyAffirmation83;
+
+  /// No description provided for @dailyAffirmation84.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no greater agony than bearing an untold story inside you.'**
+  String get dailyAffirmation84;
+
+  /// No description provided for @dailyAffirmation85.
+  ///
+  /// In en, this message translates to:
+  /// **'Pursue what catches your heart, not what catches your eyes.'**
+  String get dailyAffirmation85;
+
+  /// No description provided for @dailyAffirmation86.
+  ///
+  /// In en, this message translates to:
+  /// **'Dare to be the best you can. At all times, Dare to be!'**
+  String get dailyAffirmation86;
+
+  /// No description provided for @dailyAffirmation87.
+  ///
+  /// In en, this message translates to:
+  /// **'Never lose hope. Storms make people stronger and never last forever.'**
+  String get dailyAffirmation87;
+
+  /// No description provided for @dailyAffirmation88.
+  ///
+  /// In en, this message translates to:
+  /// **'Cry. Forgive. Learn. Move on. Let your tears water the seeds of your future happiness.'**
+  String get dailyAffirmation88;
+
+  /// No description provided for @dailyAffirmation89.
+  ///
+  /// In en, this message translates to:
+  /// **'When you\'re scared of losing yourself inside the light, just hold hands with your shadow.'**
+  String get dailyAffirmation89;
+
+  /// No description provided for @dailyAffirmation90.
+  ///
+  /// In en, this message translates to:
+  /// **'Where earth separates to create space, there you can plant a seed.'**
+  String get dailyAffirmation90;
+
+  /// No description provided for @dailyAffirmation91.
+  ///
+  /// In en, this message translates to:
+  /// **'If you\'ve got nothing to dance about, find a reason to sing.'**
+  String get dailyAffirmation91;
+
+  /// No description provided for @dailyAffirmation92.
+  ///
+  /// In en, this message translates to:
+  /// **'Sometimes the only way to ever find yourself is to get completely lost.'**
+  String get dailyAffirmation92;
+
+  /// No description provided for @dailyAffirmation93.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything is within your power, and your power is within you.'**
+  String get dailyAffirmation93;
+
+  /// No description provided for @dailyAffirmation94.
+  ///
+  /// In en, this message translates to:
+  /// **'Your worth is not what you have, but who you are.'**
+  String get dailyAffirmation94;
+
+  /// No description provided for @dailyAffirmation95.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s ok not to be ok.'**
+  String get dailyAffirmation95;
+
+  /// No description provided for @dailyAffirmation96.
+  ///
+  /// In en, this message translates to:
+  /// **'After a thunderstorm there is always a rainbow.'**
+  String get dailyAffirmation96;
+
+  /// No description provided for @dailyAffirmation97.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow is a new day. Shine!'**
+  String get dailyAffirmation97;
+
+  /// No description provided for @dailyAffirmation98.
+  ///
+  /// In en, this message translates to:
+  /// **'Raindrops are little kisses from the Ocean.'**
+  String get dailyAffirmation98;
+
+  /// No description provided for @dailyAffirmation99.
+  ///
+  /// In en, this message translates to:
+  /// **'Let all that you do be done in love.'**
+  String get dailyAffirmation99;
+
+  /// No description provided for @dailyAffirmation100.
+  ///
+  /// In en, this message translates to:
+  /// **'Faith over fear.'**
+  String get dailyAffirmation100;
+
+  /// No description provided for @dailyAffirmation101.
+  ///
+  /// In en, this message translates to:
+  /// **'Do more and more with less and less until you can do anything with nothing.'**
+  String get dailyAffirmation101;
+
+  /// No description provided for @dailyAffirmation102.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the love you want to see in the world.'**
+  String get dailyAffirmation102;
+
+  /// No description provided for @dailyAffirmation103.
+  ///
+  /// In en, this message translates to:
+  /// **'There is a seat waiting for you at tables you haven\'t even seen.'**
+  String get dailyAffirmation103;
+
+  /// No description provided for @dailyAffirmation104.
+  ///
+  /// In en, this message translates to:
+  /// **'Move like everything is gonna work out. Because it is.'**
+  String get dailyAffirmation104;
+
+  /// No description provided for @dailyAffirmation105.
+  ///
+  /// In en, this message translates to:
+  /// **'I am always protected.'**
+  String get dailyAffirmation105;
+
+  /// No description provided for @dailyAffirmation106.
+  ///
+  /// In en, this message translates to:
+  /// **'You will never miss out on what is meant for you.'**
+  String get dailyAffirmation106;
+
+  /// No description provided for @dailyAffirmation107.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody is a professional human.'**
+  String get dailyAffirmation107;
+
+  /// No description provided for @dailyAffirmation108.
+  ///
+  /// In en, this message translates to:
+  /// **'On top of the clouds the sun always shines.'**
+  String get dailyAffirmation108;
+
+  /// No description provided for @dailyAffirmation109.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember who cares about you.'**
+  String get dailyAffirmation109;
+
+  /// No description provided for @dailyAffirmation110.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matters, enjoy.'**
+  String get dailyAffirmation110;
+
+  /// No description provided for @dailyAffirmation111.
+  ///
+  /// In en, this message translates to:
+  /// **'Being unhappy is the reason you can appreciate better days.'**
+  String get dailyAffirmation111;
+
+  /// No description provided for @dailyAffirmation112.
+  ///
+  /// In en, this message translates to:
+  /// **'What if it turns better than you imagined?'**
+  String get dailyAffirmation112;
+
+  /// No description provided for @dailyAffirmation113.
+  ///
+  /// In en, this message translates to:
+  /// **'You are enough.'**
+  String get dailyAffirmation113;
+
+  /// No description provided for @dailyAffirmation114.
+  ///
+  /// In en, this message translates to:
+  /// **'I make my own path.'**
+  String get dailyAffirmation114;
+
+  /// No description provided for @dailyAffirmation115.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the change you want to see in the world.'**
+  String get dailyAffirmation115;
+
+  /// No description provided for @dailyAffirmation116.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t worry about a thing, cause every little thing is gonna be alright.'**
+  String get dailyAffirmation116;
+
+  /// No description provided for @dailyAffirmation117.
+  ///
+  /// In en, this message translates to:
+  /// **'Give importance to what\'s important.'**
+  String get dailyAffirmation117;
+
+  /// No description provided for @dailyAffirmation118.
+  ///
+  /// In en, this message translates to:
+  /// **'You can do anything but you don\'t have to.'**
+  String get dailyAffirmation118;
+
+  /// No description provided for @dailyAffirmation119.
+  ///
+  /// In en, this message translates to:
+  /// **'The sun in the heart.'**
+  String get dailyAffirmation119;
+
+  /// No description provided for @dailyAffirmation120.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone is useful, no one is indispensable.'**
+  String get dailyAffirmation120;
 
   /// No description provided for @pleaseLogInAgain.
   ///
@@ -808,6 +1503,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Google sign-in failed.'**
   String get googleSignInFailed;
+
+  /// No description provided for @appleSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple sign-in failed.'**
+  String get appleSignInFailed;
 
   /// No description provided for @userFallbackName.
   ///
@@ -1124,7 +1825,7 @@ abstract class AppLocalizations {
   /// No description provided for @quoteLabel.
   ///
   /// In en, this message translates to:
-  /// **'Quote'**
+  /// **'Daily Affirmation'**
   String get quoteLabel;
 
   /// No description provided for @noteLabel.
@@ -1136,8 +1837,20 @@ abstract class AppLocalizations {
   /// No description provided for @noQuoteForDay.
   ///
   /// In en, this message translates to:
-  /// **'No quote saved for this day.'**
+  /// **'No affirmation saved for this day.'**
   String get noQuoteForDay;
+
+  /// No description provided for @dailyMessageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Message'**
+  String get dailyMessageLabel;
+
+  /// No description provided for @noDailyMessageForDay.
+  ///
+  /// In en, this message translates to:
+  /// **'No message saved for this day.'**
+  String get noDailyMessageForDay;
 
   /// No description provided for @noNoteForDay.
   ///
@@ -1324,6 +2037,1266 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Permanently delete your account and app data.'**
   String get deleteAccountSettingsSubtitle;
+
+  /// No description provided for @careCornerTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Care Corner'**
+  String get careCornerTabLabel;
+
+  /// No description provided for @careCornerWellbeingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Wellbeing'**
+  String get careCornerWellbeingTitle;
+
+  /// No description provided for @careCornerSupportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support & Services'**
+  String get careCornerSupportTitle;
+
+  /// No description provided for @careCornerEducationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get careCornerEducationTitle;
+
+  /// No description provided for @careCornerHubSuffixWellbeing.
+  ///
+  /// In en, this message translates to:
+  /// **'Wellbeing Hub'**
+  String get careCornerHubSuffixWellbeing;
+
+  /// No description provided for @careCornerHubSuffixSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Support Hub'**
+  String get careCornerHubSuffixSupport;
+
+  /// No description provided for @careCornerHubSuffixEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Education Hub'**
+  String get careCornerHubSuffixEducation;
+
+  /// No description provided for @careCornerBackToHubLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Hub'**
+  String get careCornerBackToHubLabel;
+
+  /// No description provided for @careCornerBackLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get careCornerBackLabel;
+
+  /// No description provided for @careCornerFurtherReadingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Further Reading & Deep Dive'**
+  String get careCornerFurtherReadingTitle;
+
+  /// No description provided for @careCornerFreeBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'FREE'**
+  String get careCornerFreeBadge;
+
+  /// No description provided for @careCornerResourceNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Resource details and local contacts are organized by country and topic.'**
+  String get careCornerResourceNotice;
+
+  /// No description provided for @careCornerLocalSupportCenterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Local support center'**
+  String get careCornerLocalSupportCenterTitle;
+
+  /// No description provided for @careCornerContactInfoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact information'**
+  String get careCornerContactInfoDescription;
+
+  /// No description provided for @careCornerActionCall.
+  ///
+  /// In en, this message translates to:
+  /// **'CALL'**
+  String get careCornerActionCall;
+
+  /// No description provided for @careCornerActionCallNow.
+  ///
+  /// In en, this message translates to:
+  /// **'CALL NOW'**
+  String get careCornerActionCallNow;
+
+  /// No description provided for @careCornerActionSecureChat.
+  ///
+  /// In en, this message translates to:
+  /// **'SECURE CHAT'**
+  String get careCornerActionSecureChat;
+
+  /// No description provided for @careCornerActionVisitWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'VISIT WEBSITE'**
+  String get careCornerActionVisitWebsite;
+
+  /// No description provided for @careCornerActionEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'EMAIL'**
+  String get careCornerActionEmail;
+
+  /// No description provided for @careCornerActionScheduleCall.
+  ///
+  /// In en, this message translates to:
+  /// **'SCHEDULE CALL'**
+  String get careCornerActionScheduleCall;
+
+  /// No description provided for @careCornerActionBookAppointment.
+  ///
+  /// In en, this message translates to:
+  /// **'BOOK APPOINTMENT'**
+  String get careCornerActionBookAppointment;
+
+  /// No description provided for @careCornerTopicBreathing.
+  ///
+  /// In en, this message translates to:
+  /// **'Breathing Exercises'**
+  String get careCornerTopicBreathing;
+
+  /// No description provided for @careCornerTopicMeditation.
+  ///
+  /// In en, this message translates to:
+  /// **'Guided Meditation'**
+  String get careCornerTopicMeditation;
+
+  /// No description provided for @careCornerTopicMusic.
+  ///
+  /// In en, this message translates to:
+  /// **'Music Sessions'**
+  String get careCornerTopicMusic;
+
+  /// No description provided for @careCornerTopicJournaling.
+  ///
+  /// In en, this message translates to:
+  /// **'Journaling Prompts'**
+  String get careCornerTopicJournaling;
+
+  /// No description provided for @careCornerTopicSelfCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Self-Care Routines'**
+  String get careCornerTopicSelfCare;
+
+  /// No description provided for @careCornerTopicColorTheory.
+  ///
+  /// In en, this message translates to:
+  /// **'Color Theory Videos'**
+  String get careCornerTopicColorTheory;
+
+  /// No description provided for @careCornerTopicViolenceProtection.
+  ///
+  /// In en, this message translates to:
+  /// **'Violence & Protection'**
+  String get careCornerTopicViolenceProtection;
+
+  /// No description provided for @careCornerTopicLegalHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal Help'**
+  String get careCornerTopicLegalHelp;
+
+  /// No description provided for @careCornerTopicHealthcare.
+  ///
+  /// In en, this message translates to:
+  /// **'Healthcare Access'**
+  String get careCornerTopicHealthcare;
+
+  /// No description provided for @careCornerTopicSupportGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'Support Groups'**
+  String get careCornerTopicSupportGroups;
+
+  /// No description provided for @careCornerTopicEmergency.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Services'**
+  String get careCornerTopicEmergency;
+
+  /// No description provided for @careCornerTopicLocalNgos.
+  ///
+  /// In en, this message translates to:
+  /// **'Local NGOs'**
+  String get careCornerTopicLocalNgos;
+
+  /// No description provided for @careCornerTopicDiscrimination.
+  ///
+  /// In en, this message translates to:
+  /// **'Discrimination'**
+  String get careCornerTopicDiscrimination;
+
+  /// No description provided for @careCornerTopicRacism.
+  ///
+  /// In en, this message translates to:
+  /// **'Racism'**
+  String get careCornerTopicRacism;
+
+  /// No description provided for @careCornerTopicAntigypsyism.
+  ///
+  /// In en, this message translates to:
+  /// **'Antigypsyism'**
+  String get careCornerTopicAntigypsyism;
+
+  /// No description provided for @careCornerTopicHateSpeech.
+  ///
+  /// In en, this message translates to:
+  /// **'Hate Speech Online'**
+  String get careCornerTopicHateSpeech;
+
+  /// No description provided for @careCornerTopicXenophobia.
+  ///
+  /// In en, this message translates to:
+  /// **'Xenophobia'**
+  String get careCornerTopicXenophobia;
+
+  /// No description provided for @careCornerTopicMyRights.
+  ///
+  /// In en, this message translates to:
+  /// **'My Rights'**
+  String get careCornerTopicMyRights;
+
+  /// No description provided for @careCornerFurtherReadingIdentity.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity & Belonging'**
+  String get careCornerFurtherReadingIdentity;
+
+  /// No description provided for @careCornerFurtherReadingDiscriminationSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Discrimination Support'**
+  String get careCornerFurtherReadingDiscriminationSupport;
+
+  /// No description provided for @careCornerFurtherReadingSeekHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'When to Seek Help'**
+  String get careCornerFurtherReadingSeekHelp;
+
+  /// No description provided for @careCornerCountryRomania.
+  ///
+  /// In en, this message translates to:
+  /// **'Romania'**
+  String get careCornerCountryRomania;
+
+  /// No description provided for @careCornerCountrySerbia.
+  ///
+  /// In en, this message translates to:
+  /// **'Serbia'**
+  String get careCornerCountrySerbia;
+
+  /// No description provided for @careCornerCountryGreece.
+  ///
+  /// In en, this message translates to:
+  /// **'Greece'**
+  String get careCornerCountryGreece;
+
+  /// No description provided for @careCornerCountryNorthMacedonia.
+  ///
+  /// In en, this message translates to:
+  /// **'North Macedonia'**
+  String get careCornerCountryNorthMacedonia;
+
+  /// No description provided for @careCornerCountryGermany.
+  ///
+  /// In en, this message translates to:
+  /// **'Germany'**
+  String get careCornerCountryGermany;
+
+  /// No description provided for @careCornerCountryTurkey.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkey'**
+  String get careCornerCountryTurkey;
+
+  /// No description provided for @careCornerCountryEuropeanUnion.
+  ///
+  /// In en, this message translates to:
+  /// **'European Union'**
+  String get careCornerCountryEuropeanUnion;
+
+  /// No description provided for @termsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsTitle;
+
+  /// No description provided for @termsEffectiveDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Effective date: {date}'**
+  String termsEffectiveDate(Object date);
+
+  /// No description provided for @termsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'These Terms govern your use of {appName}. By creating an account or using the app, you agree to these Terms.'**
+  String termsIntro(Object appName);
+
+  /// No description provided for @termsSection1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Eligibility and Accounts'**
+  String get termsSection1Title;
+
+  /// No description provided for @termsSection1Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'You must provide accurate registration details and keep your credentials secure.'**
+  String get termsSection1Bullet1;
+
+  /// No description provided for @termsSection1Bullet2.
+  ///
+  /// In en, this message translates to:
+  /// **'You are responsible for activity under your account.'**
+  String get termsSection1Bullet2;
+
+  /// No description provided for @termsSection1Bullet3.
+  ///
+  /// In en, this message translates to:
+  /// **'You may not impersonate another person or misuse the platform.'**
+  String get termsSection1Bullet3;
+
+  /// No description provided for @termsSection1Bullet4.
+  ///
+  /// In en, this message translates to:
+  /// **'Users under 16 may use the app only with parent or legal guardian consent, and only where permitted by applicable law.'**
+  String get termsSection1Bullet4;
+
+  /// No description provided for @termsSection2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'2. What the App Provides'**
+  String get termsSection2Title;
+
+  /// No description provided for @termsSection2Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood drawing check-ins, body awareness tools, guided reflection content, messages, and journaling/library features.'**
+  String get termsSection2Bullet1;
+
+  /// No description provided for @termsSection2Bullet2.
+  ///
+  /// In en, this message translates to:
+  /// **'The app supports emotional wellbeing and self-reflection.'**
+  String get termsSection2Bullet2;
+
+  /// No description provided for @termsSection2Bullet3.
+  ///
+  /// In en, this message translates to:
+  /// **'The app is not a crisis service and not a substitute for medical, psychiatric, or emergency care.'**
+  String get termsSection2Bullet3;
+
+  /// No description provided for @termsSection3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Health and Safety Disclaimer'**
+  String get termsSection3Title;
+
+  /// No description provided for @termsSection3Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'No content in the app is medical advice, diagnosis, or treatment.'**
+  String get termsSection3Bullet1;
+
+  /// No description provided for @termsSection3Bullet2.
+  ///
+  /// In en, this message translates to:
+  /// **'If you are in danger or experiencing an emergency, contact local emergency services immediately.'**
+  String get termsSection3Bullet2;
+
+  /// No description provided for @termsSection3Bullet3.
+  ///
+  /// In en, this message translates to:
+  /// **'If an exercise causes discomfort, stop and seek professional support.'**
+  String get termsSection3Bullet3;
+
+  /// No description provided for @termsSection4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'4. User Content'**
+  String get termsSection4Title;
+
+  /// No description provided for @termsSection4Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'You retain ownership of content you create (e.g., drawings, body maps, notes, journal entries).'**
+  String get termsSection4Bullet1;
+
+  /// No description provided for @termsSection4Bullet2.
+  ///
+  /// In en, this message translates to:
+  /// **'You grant {companyName} a limited license to store/process your content only to operate and improve the service.'**
+  String termsSection4Bullet2(Object companyName);
+
+  /// No description provided for @termsSection4Bullet3.
+  ///
+  /// In en, this message translates to:
+  /// **'You must not upload unlawful, abusive, or infringing material.'**
+  String get termsSection4Bullet3;
+
+  /// No description provided for @termsSection5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'5. Acceptable Use'**
+  String get termsSection5Title;
+
+  /// No description provided for @termsSection5Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not attempt unauthorized access, reverse engineer, disrupt, or overload services.'**
+  String get termsSection5Bullet1;
+
+  /// No description provided for @termsSection5Bullet2.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not use the app to harass, threaten, or exploit others.'**
+  String get termsSection5Bullet2;
+
+  /// No description provided for @termsSection5Bullet3.
+  ///
+  /// In en, this message translates to:
+  /// **'Do not bypass account, usage, or security restrictions.'**
+  String get termsSection5Bullet3;
+
+  /// No description provided for @termsSection6Title.
+  ///
+  /// In en, this message translates to:
+  /// **'6. Data and Privacy'**
+  String get termsSection6Title;
+
+  /// No description provided for @termsSection6Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'We process account/profile data and activity data needed for app features (e.g., daily check-ins, messages, saved entries, media playback).'**
+  String get termsSection6Bullet1;
+
+  /// No description provided for @termsSection6Bullet2.
+  ///
+  /// In en, this message translates to:
+  /// **'Data is stored using Firebase services configured for the app.'**
+  String get termsSection6Bullet2;
+
+  /// No description provided for @termsSection6Bullet3.
+  ///
+  /// In en, this message translates to:
+  /// **'Your privacy rights and retention/deletion details are described in our Privacy Policy.'**
+  String get termsSection6Bullet3;
+
+  /// No description provided for @termsSection6Bullet4.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy: {url}'**
+  String termsSection6Bullet4(Object url);
+
+  /// No description provided for @termsSection7Title.
+  ///
+  /// In en, this message translates to:
+  /// **'7. Third-Party Services'**
+  String get termsSection7Title;
+
+  /// No description provided for @termsSection7Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication, storage, and database features rely on third-party providers (e.g., Google/Firebase).'**
+  String get termsSection7Bullet1;
+
+  /// No description provided for @termsSection7Bullet2.
+  ///
+  /// In en, this message translates to:
+  /// **'Use of those integrations may also be subject to third-party terms.'**
+  String get termsSection7Bullet2;
+
+  /// No description provided for @termsSection8Title.
+  ///
+  /// In en, this message translates to:
+  /// **'8. Intellectual Property'**
+  String get termsSection8Title;
+
+  /// No description provided for @termsSection8Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'All app branding, design, and non-user content are owned by {companyName} or licensed to it.'**
+  String termsSection8Bullet1(Object companyName);
+
+  /// No description provided for @termsSection8Bullet2.
+  ///
+  /// In en, this message translates to:
+  /// **'You may not copy, distribute, or commercialize app materials without permission.'**
+  String get termsSection8Bullet2;
+
+  /// No description provided for @termsSection9Title.
+  ///
+  /// In en, this message translates to:
+  /// **'9. Suspension and Termination'**
+  String get termsSection9Title;
+
+  /// No description provided for @termsSection9Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'We may suspend or terminate accounts for violations, abuse, security risks, or legal obligations.'**
+  String get termsSection9Bullet1;
+
+  /// No description provided for @termsSection9Bullet2.
+  ///
+  /// In en, this message translates to:
+  /// **'You may stop using the app at any time.'**
+  String get termsSection9Bullet2;
+
+  /// No description provided for @termsSection10Title.
+  ///
+  /// In en, this message translates to:
+  /// **'10. Warranties and Liability'**
+  String get termsSection10Title;
+
+  /// No description provided for @termsSection10Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'The service is provided \"as is\" and \"as available\".'**
+  String get termsSection10Bullet1;
+
+  /// No description provided for @termsSection10Bullet2.
+  ///
+  /// In en, this message translates to:
+  /// **'To the fullest extent allowed by law, {companyName} disclaims implied warranties.'**
+  String termsSection10Bullet2(Object companyName);
+
+  /// No description provided for @termsSection10Bullet3.
+  ///
+  /// In en, this message translates to:
+  /// **'To the fullest extent allowed by law, {companyName} is not liable for indirect, incidental, or consequential damages.'**
+  String termsSection10Bullet3(Object companyName);
+
+  /// No description provided for @termsSection11Title.
+  ///
+  /// In en, this message translates to:
+  /// **'11. Changes to These Terms'**
+  String get termsSection11Title;
+
+  /// No description provided for @termsSection11Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'We may update these Terms from time to time.'**
+  String get termsSection11Bullet1;
+
+  /// No description provided for @termsSection11Bullet2.
+  ///
+  /// In en, this message translates to:
+  /// **'If changes are material, we will provide reasonable notice in-app or by email.'**
+  String get termsSection11Bullet2;
+
+  /// No description provided for @termsSection11Bullet3.
+  ///
+  /// In en, this message translates to:
+  /// **'Continued use after updates means you accept the updated Terms.'**
+  String get termsSection11Bullet3;
+
+  /// No description provided for @termsSection12Title.
+  ///
+  /// In en, this message translates to:
+  /// **'12. Governing Law'**
+  String get termsSection12Title;
+
+  /// No description provided for @termsSection12Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'These Terms are governed by the laws of {country}, without regard to conflict-of-law rules.'**
+  String termsSection12Bullet1(Object country);
+
+  /// No description provided for @termsSection13Title.
+  ///
+  /// In en, this message translates to:
+  /// **'13. Contact'**
+  String get termsSection13Title;
+
+  /// No description provided for @termsSection13Bullet1.
+  ///
+  /// In en, this message translates to:
+  /// **'For support or legal requests, contact: {email}'**
+  String termsSection13Bullet1(Object email);
+
+  /// No description provided for @termsImportantNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Important: please confirm legal counsel review before release.'**
+  String get termsImportantNote;
+
+  /// No description provided for @avatarUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Avatar updated.'**
+  String get avatarUpdated;
+
+  /// No description provided for @avatarUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update avatar.'**
+  String get avatarUpdateFailed;
+
+  /// No description provided for @avatarRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Avatar removed.'**
+  String get avatarRemoved;
+
+  /// No description provided for @avatarRemoveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to remove avatar.'**
+  String get avatarRemoveFailed;
+
+  /// No description provided for @nameUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Name updated.'**
+  String get nameUpdated;
+
+  /// No description provided for @nameUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update name.'**
+  String get nameUpdateFailed;
+
+  /// No description provided for @editNameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit name'**
+  String get editNameTitle;
+
+  /// No description provided for @passwordMustBeAtLeast8.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters.'**
+  String get passwordMustBeAtLeast8;
+
+  /// No description provided for @passwordRequirementsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 1 uppercase, 1 number, and 1 special character.'**
+  String get passwordRequirementsSummary;
+
+  /// No description provided for @emailUnchanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is unchanged.'**
+  String get emailUnchanged;
+
+  /// No description provided for @verificationEmailSentNewAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification email sent to the new address.'**
+  String get verificationEmailSentNewAddress;
+
+  /// No description provided for @reauthenticateToUpdateEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-authenticate to update email'**
+  String get reauthenticateToUpdateEmail;
+
+  /// No description provided for @reauthenticationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-authentication failed.'**
+  String get reauthenticationFailed;
+
+  /// No description provided for @emailUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update email.'**
+  String get emailUpdateFailed;
+
+  /// No description provided for @editEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit email'**
+  String get editEmailTitle;
+
+  /// No description provided for @passwordUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated.'**
+  String get passwordUpdated;
+
+  /// No description provided for @reauthenticateToUpdatePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-authenticate to update password'**
+  String get reauthenticateToUpdatePassword;
+
+  /// No description provided for @passwordUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update password.'**
+  String get passwordUpdateFailed;
+
+  /// No description provided for @changePasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get changePasswordTitle;
+
+  /// No description provided for @newPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPasswordLabel;
+
+  /// No description provided for @passwordRequirementsSummaryShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Min 8 chars, 1 uppercase, 1 number, 1 special.'**
+  String get passwordRequirementsSummaryShort;
+
+  /// No description provided for @takePhotoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get takePhotoLabel;
+
+  /// No description provided for @chooseFromGalleryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get chooseFromGalleryLabel;
+
+  /// No description provided for @chooseAvatarLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose avatar'**
+  String get chooseAvatarLabel;
+
+  /// No description provided for @avatarPickerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your avatar'**
+  String get avatarPickerTitle;
+
+  /// No description provided for @removePhotoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get removePhotoLabel;
+
+  /// No description provided for @notificationsOffSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are turned off.'**
+  String get notificationsOffSummary;
+
+  /// No description provided for @notificationsDailyAndInactiveSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily at {hour}:{minute} and 7-day inactivity reminders.'**
+  String notificationsDailyAndInactiveSummary(Object hour, Object minute);
+
+  /// No description provided for @notificationsDailyOnlySummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminder at {hour}:{minute}.'**
+  String notificationsDailyOnlySummary(Object hour, Object minute);
+
+  /// No description provided for @notificationsInactiveOnlySummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Only 7-day inactivity reminders.'**
+  String get notificationsInactiveOnlySummary;
+
+  /// No description provided for @dailyReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminder'**
+  String get dailyReminderTitle;
+
+  /// No description provided for @dailyReminderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a daily morning push.'**
+  String get dailyReminderSubtitle;
+
+  /// No description provided for @reminderTimeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder time'**
+  String get reminderTimeTitle;
+
+  /// No description provided for @inactiveReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive reminder'**
+  String get inactiveReminderTitle;
+
+  /// No description provided for @inactiveReminderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a reminder after 7 days away.'**
+  String get inactiveReminderSubtitle;
+
+  /// No description provided for @notificationPreferencesSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification preferences saved.'**
+  String get notificationPreferencesSaved;
+
+  /// No description provided for @notificationPreferencesSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save notification preferences.'**
+  String get notificationPreferencesSaveFailed;
+
+  /// No description provided for @accountSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountSectionTitle;
+
+  /// No description provided for @profilePhotoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile photo'**
+  String get profilePhotoTitle;
+
+  /// No description provided for @profilePhotoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add or remove your avatar.'**
+  String get profilePhotoSubtitle;
+
+  /// No description provided for @displayNameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Display name'**
+  String get displayNameTitle;
+
+  /// No description provided for @unknownValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknownValueLabel;
+
+  /// No description provided for @passwordUpdateSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your password.'**
+  String get passwordUpdateSubtitle;
+
+  /// No description provided for @passwordManagedByProviderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Managed by your sign-in provider.'**
+  String get passwordManagedByProviderSubtitle;
+
+  /// No description provided for @appSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App'**
+  String get appSectionTitle;
+
+  /// No description provided for @themeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get themeTitle;
+
+  /// No description provided for @themeSystemLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystemLabel;
+
+  /// No description provided for @themeLightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLightLabel;
+
+  /// No description provided for @themeDarkLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDarkLabel;
+
+  /// No description provided for @cookieMonsterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join the Exercise'**
+  String get cookieMonsterTitle;
+
+  /// No description provided for @cookieMonsterJoinPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Join me, would you?'**
+  String get cookieMonsterJoinPrompt;
+
+  /// No description provided for @joinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get joinLabel;
+
+  /// No description provided for @cookieMonsterOutsidePrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'When you imagine a place where you feel at ease, what physical sensations do you notice in your body?'**
+  String get cookieMonsterOutsidePrompt;
+
+  /// No description provided for @reflectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reflect'**
+  String get reflectLabel;
+
+  /// No description provided for @experienceFeedbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How was this experience for you?'**
+  String get experienceFeedbackTitle;
+
+  /// No description provided for @experienceFeedbackPositive.
+  ///
+  /// In en, this message translates to:
+  /// **'Positive: dance'**
+  String get experienceFeedbackPositive;
+
+  /// No description provided for @experienceFeedbackNeutral.
+  ///
+  /// In en, this message translates to:
+  /// **'Neutral: meeeehhhhhh'**
+  String get experienceFeedbackNeutral;
+
+  /// No description provided for @experienceFeedbackNegative.
+  ///
+  /// In en, this message translates to:
+  /// **'Negative: fall down'**
+  String get experienceFeedbackNegative;
+
+  /// No description provided for @selectBodyAreaFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a body area first.'**
+  String get selectBodyAreaFirst;
+
+  /// No description provided for @noClipFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No clip found for \"{activityKey}\".'**
+  String noClipFound(Object activityKey);
+
+  /// No description provided for @failedToLoadMonsterClip.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load monster clip: {error}'**
+  String failedToLoadMonsterClip(Object error);
+
+  /// No description provided for @colorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get colorLabel;
+
+  /// No description provided for @tapBodyToLogSensation.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the body to log a sensation.'**
+  String get tapBodyToLogSensation;
+
+  /// No description provided for @failedToSaveBodyAwarenessWithCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save body awareness: {code}.'**
+  String failedToSaveBodyAwarenessWithCode(Object code);
+
+  /// No description provided for @failedToSaveBodyAwareness.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save body awareness.'**
+  String get failedToSaveBodyAwareness;
+
+  /// No description provided for @stepSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Step skipped.'**
+  String get stepSkipped;
+
+  /// No description provided for @bodyAwarenessPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Where does this feeling seem to rest in your body?\nPlease touch that spot and select a color that feels true to the sensation.'**
+  String get bodyAwarenessPrompt;
+
+  /// No description provided for @exerciseInstructionWillYouJoin.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to join Cookie Monster for a short exercise?'**
+  String get exerciseInstructionWillYouJoin;
+
+  /// No description provided for @exerciseInstructionOutsideTheBody.
+  ///
+  /// In en, this message translates to:
+  /// **'When you imagine a place where you feel at ease, what physical sensations do you notice in your body?'**
+  String get exerciseInstructionOutsideTheBody;
+
+  /// No description provided for @exerciseInstructionForeheadContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Forehead Contact:\nPlace your palm on your forehead, hold for a few seconds, and relax with your breath.'**
+  String get exerciseInstructionForeheadContact;
+
+  /// No description provided for @exerciseInstructionSlowBreathing.
+  ///
+  /// In en, this message translates to:
+  /// **'Close Eyes - Breath Tracking:\nClose your eyes, inhale slowly through your nose, and exhale in 4 seconds (repeat 5 times).'**
+  String get exerciseInstructionSlowBreathing;
+
+  /// No description provided for @exerciseInstructionWeightOfHead.
+  ///
+  /// In en, this message translates to:
+  /// **'Feel the Weight of Your Head:\nGently tilt your head forward, notice neck tension, and relax it.'**
+  String get exerciseInstructionWeightOfHead;
+
+  /// No description provided for @exerciseInstructionBreathing478.
+  ///
+  /// In en, this message translates to:
+  /// **'4-7-8 Breathing:\nInhale for 4 seconds, hold for 7, exhale for 8 (3 cycles).'**
+  String get exerciseInstructionBreathing478;
+
+  /// No description provided for @exerciseInstructionAbdominalAwareness.
+  ///
+  /// In en, this message translates to:
+  /// **'Abdominal Awareness:\nPlace your hand on your abdomen and feel it rise and fall with each breath.'**
+  String get exerciseInstructionAbdominalAwareness;
+
+  /// No description provided for @exerciseInstructionHeartCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart Center Opening:\nMove your chest forward, pull shoulders back, and breathe deeply.'**
+  String get exerciseInstructionHeartCenter;
+
+  /// No description provided for @exerciseInstructionBallSqueezing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ball Squeezing:\nSlowly squeeze and release your palm (10 repetitions).'**
+  String get exerciseInstructionBallSqueezing;
+
+  /// No description provided for @exerciseInstructionFingerMeditation.
+  ///
+  /// In en, this message translates to:
+  /// **'Finger Meditation:\nTouch each finger with your thumb one by one, exhaling with every touch.'**
+  String get exerciseInstructionFingerMeditation;
+
+  /// No description provided for @exerciseInstructionHandMassage.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand Massage:\nMassage the center of your palm with your thumb in small circles (30 seconds each hand).'**
+  String get exerciseInstructionHandMassage;
+
+  /// No description provided for @exerciseInstructionShoulderDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoulder Drop:\nRaise shoulders toward ears, then release (5 repetitions).'**
+  String get exerciseInstructionShoulderDrop;
+
+  /// No description provided for @exerciseInstructionBackOpening.
+  ///
+  /// In en, this message translates to:
+  /// **'Back Opening:\nClasp hands behind you, open the chest, and take a deep breath.'**
+  String get exerciseInstructionBackOpening;
+
+  /// No description provided for @exerciseInstructionReleasingBurdens.
+  ///
+  /// In en, this message translates to:
+  /// **'Releasing Burdens:\nWith eyes closed, imagine a warm light flowing down from your shoulders.'**
+  String get exerciseInstructionReleasingBurdens;
+
+  /// No description provided for @exerciseInstructionRelaxingFacialMuscles.
+  ///
+  /// In en, this message translates to:
+  /// **'Relaxing Facial Muscles:\nClose eyes, tighten facial muscles, then release (3 repetitions).'**
+  String get exerciseInstructionRelaxingFacialMuscles;
+
+  /// No description provided for @exerciseInstructionJawDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Jaw Drop:\nSlightly open your mouth, relax jaw for 5 seconds, then close it.'**
+  String get exerciseInstructionJawDrop;
+
+  /// No description provided for @exerciseInstructionSmileToYourself.
+  ///
+  /// In en, this message translates to:
+  /// **'Smile to Yourself:\nHold a gentle smile for 30 seconds.'**
+  String get exerciseInstructionSmileToYourself;
+
+  /// No description provided for @exerciseInstructionEftTappingPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'EFT Tapping Points:\nTap each point 5-7 times: eyebrow start, side of eye, under eye, under nose, chin, collarbone, under arm, top of head.'**
+  String get exerciseInstructionEftTappingPoints;
+
+  /// No description provided for @exerciseInstructionRisingOnTiptoes.
+  ///
+  /// In en, this message translates to:
+  /// **'Rising on Tiptoes:\nLift heels as you exhale, hold 3-5 seconds, lower slowly, and repeat 5-10 times.'**
+  String get exerciseInstructionRisingOnTiptoes;
+
+  /// No description provided for @singleClipUrlMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Single clip URL is missing.'**
+  String get singleClipUrlMissing;
+
+  /// No description provided for @exerciseClipsMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise clips are missing.'**
+  String get exerciseClipsMissing;
+
+  /// No description provided for @videoPlayerInitializationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Video player failed to initialize. Please fully restart the app.'**
+  String get videoPlayerInitializationFailed;
+
+  /// No description provided for @failedToPlayOutroClip.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to play outro clip.'**
+  String get failedToPlayOutroClip;
+
+  /// No description provided for @finishExerciseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish exercise'**
+  String get finishExerciseLabel;
+
+  /// No description provided for @startExerciseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Start exercise'**
+  String get startExerciseLabel;
+
+  /// No description provided for @feedbackQuestionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'How was this experience for you?'**
+  String get feedbackQuestionLabel;
+
+  /// No description provided for @feedbackVeryGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Very Good'**
+  String get feedbackVeryGood;
+
+  /// No description provided for @feedbackGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get feedbackGood;
+
+  /// No description provided for @feedbackMeh.
+  ///
+  /// In en, this message translates to:
+  /// **'Meh'**
+  String get feedbackMeh;
+
+  /// No description provided for @feedbackNotGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Good'**
+  String get feedbackNotGood;
+
+  /// No description provided for @feedbackAwful.
+  ///
+  /// In en, this message translates to:
+  /// **'Awful'**
+  String get feedbackAwful;
+
+  /// No description provided for @feedbackDoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get feedbackDoneLabel;
+
+  /// No description provided for @careCornerEuNationalPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'For country-specific support and services, please also visit your national bubble.'**
+  String get careCornerEuNationalPrompt;
+
+  /// No description provided for @euDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Education and Culture Executive Agency (EACEA). Neither the European Union nor EACEA can be held responsible for them.'**
+  String get euDisclaimer;
+
+  /// No description provided for @externalLinkWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaving the app'**
+  String get externalLinkWarningTitle;
+
+  /// No description provided for @externalLinkWarningMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You are about to open an external website. We are not responsible for the content of external sites.'**
+  String get externalLinkWarningMessage;
+
+  /// No description provided for @externalLinkCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get externalLinkCancel;
+
+  /// No description provided for @externalLinkContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get externalLinkContinue;
+
+  /// No description provided for @careCornerNotAvailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet available'**
+  String get careCornerNotAvailableMessage;
+
+  /// No description provided for @messageAlreadyOpenedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'You already opened today\'s message. Come back tomorrow!'**
+  String get messageAlreadyOpenedToday;
+
+  /// No description provided for @libraryResourcesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Resources'**
+  String get libraryResourcesTitle;
+
+  /// No description provided for @savedToResources.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to Resources'**
+  String get savedToResources;
+
+  /// No description provided for @noSavedResourcesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved resources yet.'**
+  String get noSavedResourcesYet;
 }
 
 class _AppLocalizationsDelegate
@@ -1353,18 +3326,6 @@ class _AppLocalizationsDelegate
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-  // Lookup logic when language+script codes are specified.
-  switch (locale.languageCode) {
-    case 'sr':
-      {
-        switch (locale.scriptCode) {
-          case 'Latn':
-            return AppLocalizationsSrLatn();
-        }
-        break;
-      }
-  }
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'ar':

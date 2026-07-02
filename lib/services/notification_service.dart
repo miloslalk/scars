@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,20 +6,42 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 
+import '../utils/safe_key.dart';
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // No-op: ensures FCM delivers background notifications on iOS.
+  // Firebase must have a registered handler even if it does nothing.
+}
+
 class NotificationService {
   NotificationService._();
 
   static final NotificationService instance = NotificationService._();
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  StreamSubscription<String>? _tokenRefreshSubscription;
 
   Future<void> initialize() async {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     await _requestPermissions();
     await _messaging.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
     );
-    _messaging.onTokenRefresh.listen((_) async {
+
+    // Handle notification taps from terminated state.
+    FirebaseMessaging.instance.getInitialMessage();
+
+    // Handle notification taps when app is in background.
+    FirebaseMessaging.onMessageOpenedApp.listen((_) {});
+
+    // Handle foreground messages (iOS needs this for the notification
+    // presentation options above to take effect reliably).
+    FirebaseMessaging.onMessage.listen((_) {});
+
+    _tokenRefreshSubscription?.cancel();
+    _tokenRefreshSubscription = _messaging.onTokenRefresh.listen((_) async {
       final uid = FirebaseAuth.instance.currentUser?.uid;
       if (uid == null) return;
       await registerDevice(uid);
@@ -26,7 +49,11 @@ class NotificationService {
 
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid != null) {
-      await registerDevice(uid);
+      try {
+        await registerDevice(uid);
+      } catch (_) {
+        // Will retry on token refresh.
+      }
     }
   }
 
@@ -43,6 +70,15 @@ class NotificationService {
   }
 
   Future<void> registerDevice(String uid) async {
+    if (Platform.isIOS) {
+      String? apnsToken;
+      for (var attempt = 0; attempt < 3; attempt++) {
+        apnsToken = await _messaging.getAPNSToken();
+        if (apnsToken != null) break;
+        await Future<void>.delayed(const Duration(seconds: 2));
+      }
+      if (apnsToken == null) return;
+    }
     final token = await _messaging.getToken();
     if (token == null || token.trim().isEmpty) return;
 
@@ -53,7 +89,9 @@ class NotificationService {
       if (detected.trim().isNotEmpty) {
         timezoneName = detected.trim();
       }
-    } catch (_) {}
+    } catch (_) {
+      // Fall through — timezone is optional.
+    }
     final userRef = FirebaseDatabase.instance.ref('users/$uid');
     final userSnapshot = await userRef.get();
     final userValue = userSnapshot.value;
@@ -67,7 +105,7 @@ class NotificationService {
     }
 
     final ref = FirebaseDatabase.instance.ref(
-      'users/$uid/devices/${_safeKey(token)}',
+      'users/$uid/devices/${safeKey(token)}',
     );
     final existing = await ref.get();
 
@@ -95,19 +133,5 @@ class NotificationService {
     };
 
     await ref.update(update);
-  }
-
-  String _safeKey(String value) {
-    final buffer = StringBuffer();
-    for (final codeUnit in value.codeUnits) {
-      final isAllowed =
-          (codeUnit >= 48 && codeUnit <= 57) ||
-          (codeUnit >= 65 && codeUnit <= 90) ||
-          (codeUnit >= 97 && codeUnit <= 122) ||
-          codeUnit == 45 ||
-          codeUnit == 95;
-      buffer.write(isAllowed ? String.fromCharCode(codeUnit) : '_');
-    }
-    return buffer.toString();
   }
 }

@@ -1,13 +1,69 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
 import 'package:when_scars_become_art/firebase_options.dart';
 import 'package:when_scars_become_art/services/notification_service.dart';
+import 'package:fvp/fvp.dart' as fvp;
 import 'screens/landing_page.dart';
+
+/// Wraps [GlobalMaterialLocalizations.delegate] to fall back to English
+/// for locales it doesn't support (e.g. "rom" — Romani).
+class _FallbackMaterialLocalizationsDelegate
+    extends LocalizationsDelegate<MaterialLocalizations> {
+  const _FallbackMaterialLocalizationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) => true;
+
+  @override
+  Future<MaterialLocalizations> load(Locale locale) {
+    // If the standard delegate supports this locale, use it; otherwise English.
+    if (GlobalMaterialLocalizations.delegate.isSupported(locale)) {
+      return GlobalMaterialLocalizations.delegate.load(locale);
+    }
+    return GlobalMaterialLocalizations.delegate.load(const Locale('en'));
+  }
+
+  @override
+  bool shouldReload(
+    covariant LocalizationsDelegate<MaterialLocalizations> old,
+  ) => false;
+}
+
+/// Same fallback strategy for Cupertino localizations.
+class _FallbackCupertinoLocalizationsDelegate
+    extends LocalizationsDelegate<CupertinoLocalizations> {
+  const _FallbackCupertinoLocalizationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) => true;
+
+  @override
+  Future<CupertinoLocalizations> load(Locale locale) {
+    if (GlobalCupertinoLocalizations.delegate.isSupported(locale)) {
+      return GlobalCupertinoLocalizations.delegate.load(locale);
+    }
+    return GlobalCupertinoLocalizations.delegate.load(const Locale('en'));
+  }
+
+  @override
+  bool shouldReload(
+    covariant LocalizationsDelegate<CupertinoLocalizations> old,
+  ) => false;
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  fvp.registerWith(
+    options: {
+      'platforms': ['android'],
+    },
+  );
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await NotificationService.instance.initialize();
 
@@ -16,7 +72,7 @@ Future<void> main() async {
 
 const supportedLocales = <Locale>[
   Locale('en'),
-  Locale.fromSubtags(languageCode: 'sr', scriptCode: 'Latn'),
+  Locale('sr'),
   Locale('mk'),
   Locale('de'),
   Locale('el'),
@@ -46,6 +102,81 @@ class _MyAppState extends State<MyApp> {
   static const _lightSurface = Color(0xFFEDEDEC);
   static const _darkBackground = Color(0xFF1A1624);
   static const _darkSurface = Color(0xFF262133);
+  static const _lightSystemOverlay = SystemUiOverlayStyle(
+    statusBarBrightness: Brightness.light,
+    statusBarIconBrightness: Brightness.dark,
+    systemNavigationBarIconBrightness: Brightness.dark,
+  );
+  static const _darkSystemOverlay = SystemUiOverlayStyle(
+    statusBarBrightness: Brightness.dark,
+    statusBarIconBrightness: Brightness.light,
+    systemNavigationBarIconBrightness: Brightness.light,
+  );
+
+  static final _nunitoText = Typography.englishLike2021
+      .apply(fontFamily: 'Nunito')
+      .copyWith(
+        displayLarge: Typography.englishLike2021.displayLarge?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w900,
+        ),
+        displayMedium: Typography.englishLike2021.displayMedium?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w900,
+        ),
+        displaySmall: Typography.englishLike2021.displaySmall?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w900,
+        ),
+        headlineLarge: Typography.englishLike2021.headlineLarge?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w900,
+        ),
+        headlineMedium: Typography.englishLike2021.headlineMedium?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w900,
+        ),
+        headlineSmall: Typography.englishLike2021.headlineSmall?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w900,
+        ),
+        titleLarge: Typography.englishLike2021.titleLarge?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w900,
+        ),
+        titleMedium: Typography.englishLike2021.titleMedium?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w700,
+        ),
+        titleSmall: Typography.englishLike2021.titleSmall?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w700,
+        ),
+        bodyLarge: Typography.englishLike2021.bodyLarge?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w700,
+        ),
+        bodyMedium: Typography.englishLike2021.bodyMedium?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w700,
+        ),
+        bodySmall: Typography.englishLike2021.bodySmall?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w700,
+        ),
+        labelLarge: Typography.englishLike2021.labelLarge?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w700,
+        ),
+        labelMedium: Typography.englishLike2021.labelMedium?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w700,
+        ),
+        labelSmall: Typography.englishLike2021.labelSmall?.copyWith(
+          fontFamily: 'Nunito',
+          fontWeight: FontWeight.w700,
+        ),
+      );
 
   ThemeData _buildLightTheme() {
     final colorScheme =
@@ -64,12 +195,18 @@ class _MyAppState extends State<MyApp> {
         );
 
     return ThemeData(
+      fontFamily: 'Nunito',
+      textTheme: _nunitoText.apply(
+        displayColor: colorScheme.onSurface,
+        bodyColor: colorScheme.onSurface,
+      ),
       colorScheme: colorScheme,
       scaffoldBackgroundColor: _lightBackground,
       appBarTheme: const AppBarTheme(
         backgroundColor: _lightBackground,
         foregroundColor: Color(0xFF1C1A22),
         elevation: 0,
+        systemOverlayStyle: _lightSystemOverlay,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -129,12 +266,18 @@ class _MyAppState extends State<MyApp> {
         );
 
     return ThemeData(
+      fontFamily: 'Nunito',
+      textTheme: _nunitoText.apply(
+        displayColor: colorScheme.onSurface,
+        bodyColor: colorScheme.onSurface,
+      ),
       colorScheme: colorScheme,
       scaffoldBackgroundColor: _darkBackground,
       appBarTheme: const AppBarTheme(
         backgroundColor: _darkBackground,
         foregroundColor: Color(0xFFF2EEF8),
         elevation: 0,
+        systemOverlayStyle: _darkSystemOverlay,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -193,13 +336,14 @@ class _MyAppState extends State<MyApp> {
           valueListenable: _localeNotifier,
           builder: (context, locale, _) {
             return MaterialApp(
+              debugShowCheckedModeBanner: false,
               onGenerateTitle: (context) =>
                   AppLocalizations.of(context)!.appTitle,
               localizationsDelegates: const [
                 AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
+                _FallbackMaterialLocalizationsDelegate(),
                 GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
+                _FallbackCupertinoLocalizationsDelegate(),
               ],
               supportedLocales: supportedLocales,
               locale: locale,

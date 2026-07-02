@@ -127,11 +127,8 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
           });
       return l10n.drawingSaved;
     } on FirebaseException catch (error) {
-      final message = error.message ?? 'Unknown error';
-      debugPrint('Failed to save drawing: ${error.code} $message');
       return l10n.failedToSaveWithCode(error.code);
-    } catch (error) {
-      debugPrint('Failed to save drawing: $error');
+    } catch (_) {
       return l10n.failedToSaveDrawing;
     }
   }
@@ -503,6 +500,10 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
     if (_fillLayer != null) {
       canvas.drawImage(_fillLayer!, Offset.zero, Paint());
     }
+    // Strokes go into a separate layer (mirroring _DrawingPainter) so that
+    // eraser strokes (BlendMode.clear) reveal the white background instead
+    // of punching transparent holes the flood fill would then sample.
+    canvas.saveLayer(Offset.zero & size, Paint());
     for (final stroke in _strokes) {
       final paint = Paint()
         ..color = stroke.color
@@ -533,6 +534,7 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
       )..layout(maxWidth: size.width - textItem.position.dx);
       textPainter.paint(canvas, textItem.position);
     }
+    canvas.restore();
     final picture = recorder.endRecording();
     return picture.toImage(size.width.round(), size.height.round());
   }
@@ -971,18 +973,19 @@ class _ToolIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Ink(
       decoration: BoxDecoration(
-        color: isSelected ? Colors.blue.shade50 : Colors.transparent,
+        color: isSelected ? colorScheme.primaryContainer : Colors.transparent,
         border: Border.all(
-          color: isSelected ? Colors.blue : Colors.grey.shade400,
+          color: isSelected ? colorScheme.primary : colorScheme.outline,
         ),
         borderRadius: BorderRadius.circular(12),
       ),
       child: IconButton(
         onPressed: onPressed,
         icon: Icon(icon, size: 18),
-        color: isSelected ? Colors.blue : Colors.grey.shade700,
+        color: isSelected ? colorScheme.primary : colorScheme.onSurfaceVariant,
         visualDensity: VisualDensity.compact,
         padding: EdgeInsets.zero,
         constraints: const BoxConstraints(minWidth: 32, minHeight: 32),

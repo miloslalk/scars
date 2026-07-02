@@ -2,6 +2,11 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
+import 'package:when_scars_become_art/screens/care_corner/education_page.dart';
+import 'package:when_scars_become_art/screens/care_corner/support_page.dart';
+import 'package:when_scars_become_art/screens/care_corner/wellbeing_page.dart';
+import 'package:when_scars_become_art/services/care_corner_service.dart';
 
 class CareCornerPage extends StatefulWidget {
   const CareCornerPage({super.key});
@@ -13,13 +18,13 @@ class CareCornerPage extends StatefulWidget {
 class _CareCornerPageState extends State<CareCornerPage>
     with SingleTickerProviderStateMixin {
   final List<_CountryBubble> _countries = const [
-    _CountryBubble('Romania', 'assets/images/flags/ro.svg'),
-    _CountryBubble('Serbia', 'assets/images/flags/rs.svg'),
-    _CountryBubble('Greece', 'assets/images/flags/gr.svg'),
-    _CountryBubble('North Macedonia', 'assets/images/flags/mk.svg'),
-    _CountryBubble('Germany', 'assets/images/flags/de.svg'),
-    _CountryBubble('Turkey', 'assets/images/flags/tr.svg'),
-    _CountryBubble('European Union', 'assets/images/flags/eu.svg'),
+    _CountryBubble('ro', 'assets/images/flags/ro.svg'),
+    _CountryBubble('rs', 'assets/images/flags/rs.svg'),
+    _CountryBubble('gr', 'assets/images/flags/gr.svg'),
+    _CountryBubble('mk', 'assets/images/flags/mk.svg'),
+    _CountryBubble('de', 'assets/images/flags/de.svg'),
+    _CountryBubble('tr', 'assets/images/flags/tr.svg'),
+    _CountryBubble('eu', 'assets/images/flags/eu.svg'),
   ];
 
   int? _selectedIndex;
@@ -28,8 +33,6 @@ class _CareCornerPageState extends State<CareCornerPage>
   List<double> _floatPhases = const [];
   final List<double> _orbitPhases = const [0.0, 2.1, 4.2];
   List<_StarSpec> _stars = const [];
-  late final Map<String, _CareCornerContent> _contentByCountry =
-      _buildCareCornerContent();
 
   @override
   void initState() {
@@ -63,6 +66,7 @@ class _CareCornerPageState extends State<CareCornerPage>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final background = isDark
         ? const [Color(0xFF2E2940), Color(0xFF1A1624)]
@@ -99,7 +103,7 @@ class _CareCornerPageState extends State<CareCornerPage>
                         top: 12,
                         left: 8,
                         child: IconButton(
-                          tooltip: 'Back',
+                          tooltip: l10n.showBackLabel,
                           color: Colors.white,
                           icon: const Icon(Icons.arrow_back_ios_new),
                           onPressed: _reset,
@@ -107,6 +111,36 @@ class _CareCornerPageState extends State<CareCornerPage>
                       ),
                     ..._buildCountryBubbles(size),
                     if (_showInner) ..._buildInnerBubbles(size),
+                    if (_showInner &&
+                        _selectedIndex != null &&
+                        _countries[_selectedIndex!].id == 'eu')
+                      Positioned(
+                        left: 24,
+                        right: 24,
+                        bottom: 16,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.5),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.2),
+                            ),
+                          ),
+                          child: Text(
+                            l10n.careCornerEuNationalPrompt,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 );
               },
@@ -138,15 +172,18 @@ class _CareCornerPageState extends State<CareCornerPage>
       final phase = phases[index];
       final dy = math.sin(floatProgress + phase) * 6;
       final dx = math.cos(floatProgress + phase) * 6;
-      final targetOffset = _showInner && isSelected
+      final baseAlignment = _offsetToAlignment(
+        center + (_showInner && isSelected ? Offset.zero : baseOffset),
+        size,
+      );
+      final floatOffset = _showInner && isSelected
           ? Offset.zero
-          : baseOffset + Offset(dx, dy);
-      final alignment = _offsetToAlignment(center + targetOffset, size);
+          : Offset(dx, dy);
 
       return AnimatedAlign(
         duration: const Duration(milliseconds: 600),
         curve: Curves.easeInOutCubic,
-        alignment: alignment,
+        alignment: baseAlignment,
         child: AnimatedOpacity(
           duration: const Duration(milliseconds: 400),
           opacity: opacity,
@@ -158,7 +195,7 @@ class _CareCornerPageState extends State<CareCornerPage>
               child: _CountryBubbleView(
                 country: country,
                 onTap: _showInner ? null : () => _selectCountry(index),
-                floatOffset: Offset.zero,
+                floatOffset: floatOffset,
               ),
             ),
           ),
@@ -173,42 +210,31 @@ class _CareCornerPageState extends State<CareCornerPage>
     final country = _selectedIndex == null
         ? _countries.first
         : _countries[_selectedIndex!];
+    final l10n = lookupAppLocalizations(_countryLocale(country.id));
     return [
       _InnerBubble(
-        title: 'Wellbeing',
+        title: l10n.careCornerWellbeingTitle,
         alignment: Alignment.center,
         offset: _orbitOffset(base + _orbitPhases[0], orbitRadius),
-        onTap: () => _openSection(
-          context,
-          _sectionFor(country.name, _CareCornerCategory.wellbeing),
-        ),
+        onTap: () => _openCategory(country.id, 'wellbeing'),
       ),
       _InnerBubble(
-        title: 'Support & Services',
+        title: l10n.careCornerSupportTitle,
         alignment: Alignment.center,
         offset: _orbitOffset(base + _orbitPhases[1], orbitRadius),
-        onTap: () => _openSection(
-          context,
-          _sectionFor(country.name, _CareCornerCategory.support),
-        ),
+        onTap: () => _openCategory(country.id, 'support'),
       ),
       _InnerBubble(
-        title: 'Education',
+        title: l10n.careCornerEducationTitle,
         alignment: Alignment.center,
         offset: _orbitOffset(base + _orbitPhases[2], orbitRadius),
-        onTap: () => _openSection(
-          context,
-          _sectionFor(country.name, _CareCornerCategory.education),
-        ),
+        onTap: () => _openCategory(country.id, 'education'),
       ),
     ];
   }
 
   Offset _orbitOffset(double angle, double radius) {
-    return Offset(
-      math.cos(angle) * radius,
-      math.sin(angle) * radius,
-    );
+    return Offset(math.cos(angle) * radius, math.sin(angle) * radius);
   }
 
   void _ensureAnimationState() {
@@ -243,92 +269,94 @@ class _CareCornerPageState extends State<CareCornerPage>
   Alignment _offsetToAlignment(Offset point, Size size) {
     final dx = (point.dx / size.width) * 2 - 1;
     final dy = (point.dy / size.height) * 2 - 1;
-    return Alignment(
-      dx.clamp(-1.0, 1.0),
-      dy.clamp(-1.0, 1.0),
-    );
+    return Alignment(dx.clamp(-1.0, 1.0), dy.clamp(-1.0, 1.0));
   }
 
-  void _openSection(BuildContext context, _CareCornerSection section) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => _CareCornerSectionPage(section: section),
-      ),
-    );
-  }
+  Future<void> _openCategory(String countryId, String category) async {
+    final data = await CareCornerService.instance.loadCountry(countryId);
 
-  _CareCornerSection _sectionFor(
-    String country,
-    _CareCornerCategory category,
-  ) {
-    final content = _contentByCountry[country] ?? _contentByCountry.values.first;
+    if (data.isRedirectOnly) return;
+    if (!mounted) return;
+
+    final locale = _countryLocale(countryId);
+    final countryL10n = lookupAppLocalizations(locale);
+    final countryLabel = _countryLabel(countryId, countryL10n);
+
+    Widget? page;
     switch (category) {
-      case _CareCornerCategory.wellbeing:
-        return _CareCornerSection(
-          title: 'Wellbeing',
-          country: country,
-          items: content.wellbeingItems,
-          footer: content.wellbeingFooter,
-        );
-      case _CareCornerCategory.support:
-        return _CareCornerSection(
-          title: 'Support & Services',
-          country: country,
-          items: content.supportItems,
-          footer: content.supportFooter,
-        );
-      case _CareCornerCategory.education:
-        return _CareCornerSection(
-          title: 'Education',
-          country: country,
-          items: content.educationItems,
-          footer: content.educationFooter,
-        );
+      case 'wellbeing':
+        if (data.wellbeing != null) {
+          page = WellbeingPage(
+            wellbeing: data.wellbeing!,
+            country: countryLabel,
+            countryLocale: locale,
+          );
+        }
+      case 'support':
+        if (data.support != null) {
+          page = SupportPage(
+            support: data.support!,
+            country: countryLabel,
+            countryLocale: locale,
+          );
+        }
+      case 'education':
+        if (data.education != null) {
+          page = EducationPage(
+            education: data.education!,
+            country: countryLabel,
+            countryLocale: locale,
+          );
+        }
     }
-  }
 
-  Map<String, _CareCornerContent> _buildCareCornerContent() {
-    final wellbeing = [
-      'Short videos about color theory',
-      'Breathing exercises',
-      'Guided meditation',
-      'Music sessions',
-      'Journaling prompts',
-      'Self-care routines and mental hygiene tips',
-    ];
-    final support = [
-      'Local NGOs and partner contacts',
-      'Public & emergency services',
-      'Support for youth, women, LGBTQ+, refugees, Roma',
-      'Legal help and interpreter assistance',
-      'Healthcare access',
-    ];
-    final education = [
-      'What is discrimination?',
-      'What is antigypsyism and racism?',
-      'What are my rights?',
-      'Youth and minority rights',
-      'Protection, equality, inclusion, human rights',
-    ];
-
-    _CareCornerContent build(String countryLabel) {
-      return _CareCornerContent(
-        wellbeingItems: wellbeing,
-        wellbeingFooter:
-            'Search for more resources in $countryLabel if you need them.',
-        supportItems: support,
-        supportFooter:
-            'Reach out when you need it. Support in $countryLabel is here.',
-        educationItems: education,
-        educationFooter:
-            'Explore trusted resources in $countryLabel for deeper learning.',
+    if (page != null && mounted) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => page!));
+    } else if (mounted) {
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.careCornerNotAvailableMessage)),
       );
     }
+  }
 
-    return {
-      for (final country in _countries) country.name: build(country.name),
-    };
+  static Locale _countryLocale(String countryId) {
+    switch (countryId) {
+      case 'ro':
+        return const Locale('ro');
+      case 'rs':
+        return const Locale('sr');
+      case 'gr':
+        return const Locale('el');
+      case 'mk':
+        return const Locale('mk');
+      case 'de':
+        return const Locale('de');
+      case 'tr':
+        return const Locale('tr');
+      default:
+        return const Locale('en');
+    }
+  }
+
+  String _countryLabel(String countryId, AppLocalizations l10n) {
+    switch (countryId) {
+      case 'ro':
+        return l10n.careCornerCountryRomania;
+      case 'rs':
+        return l10n.careCornerCountrySerbia;
+      case 'gr':
+        return l10n.careCornerCountryGreece;
+      case 'mk':
+        return l10n.careCornerCountryNorthMacedonia;
+      case 'de':
+        return l10n.careCornerCountryGermany;
+      case 'tr':
+        return l10n.careCornerCountryTurkey;
+      case 'eu':
+        return l10n.careCornerCountryEuropeanUnion;
+    }
+    return countryId;
   }
 }
 
@@ -364,10 +392,7 @@ class _CountryBubbleView extends StatelessWidget {
             ],
           ),
           child: ClipOval(
-            child: SvgPicture.asset(
-              country.flagAsset,
-              fit: BoxFit.cover,
-            ),
+            child: SvgPicture.asset(country.flagAsset, fit: BoxFit.cover),
           ),
         ),
       ),
@@ -411,7 +436,9 @@ class _InnerBubble extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.16),
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.6)),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.6),
+                  ),
                 ),
                 alignment: Alignment.center,
                 padding: const EdgeInsets.all(12),
@@ -433,88 +460,11 @@ class _InnerBubble extends StatelessWidget {
   }
 }
 
-class _CareCornerSectionPage extends StatelessWidget {
-  const _CareCornerSectionPage({required this.section});
-
-  final _CareCornerSection section;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(section.title)),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Text(section.country, style: TextStyle(color: Colors.grey.shade600)),
-          const SizedBox(height: 6),
-          Text(
-            section.title,
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-          ...section.items.map(
-            (item) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(Icons.circle, size: 8),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(item)),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            section.footer,
-            style: TextStyle(color: Colors.grey.shade600),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _CountryBubble {
-  const _CountryBubble(this.name, this.flagAsset);
+  const _CountryBubble(this.id, this.flagAsset);
 
-  final String name;
+  final String id;
   final String flagAsset;
-}
-
-class _CareCornerSection {
-  const _CareCornerSection({
-    required this.title,
-    required this.country,
-    required this.items,
-    required this.footer,
-  });
-
-  final String title;
-  final String country;
-  final List<String> items;
-  final String footer;
-}
-
-enum _CareCornerCategory { wellbeing, support, education }
-
-class _CareCornerContent {
-  const _CareCornerContent({
-    required this.wellbeingItems,
-    required this.wellbeingFooter,
-    required this.supportItems,
-    required this.supportFooter,
-    required this.educationItems,
-    required this.educationFooter,
-  });
-
-  final List<String> wellbeingItems;
-  final String wellbeingFooter;
-  final List<String> supportItems;
-  final String supportFooter;
-  final List<String> educationItems;
-  final String educationFooter;
 }
 
 class _StarSpec {
@@ -532,10 +482,7 @@ class _StarSpec {
 }
 
 class _StarFieldPainter extends CustomPainter {
-  const _StarFieldPainter({
-    required this.stars,
-    required this.progress,
-  });
+  const _StarFieldPainter({required this.stars, required this.progress});
 
   final List<_StarSpec> stars;
   final double progress;

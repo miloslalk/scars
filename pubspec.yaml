@@ -1,7 +1,7 @@
 name: when_scars_become_art
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.0+2
+version: 1.1.4+15
 
 environment:
   sdk: ^3.10.7
@@ -26,25 +26,216 @@ dependencies:
   table_calendar: ^3.1.2
   flutter_colorpicker: ^1.1.0
   video_player: ^2.11.0
+  fvp: ^0.35.2
+  url_launcher: ^6.3.0
+  sign_in_with_apple: ^7.0.1
+  crypto: ^3.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.4
 
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: assets/icons/logo.png
+  image_path: assets/icons/logo_no_text.png
   remove_alpha_ios: true
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/icons/logo.png
+  android: true
+  ios: true
+  color_dark: "#1A1A2E"
+  image_dark: assets/icons/logo.png
 
 flutter:
   uses-material-design: true
   generate: true
   assets:
+    - assets/icons/
+    - assets/avatars/
     - assets/images/
-    - assets/monster/
+    - assets/monster_clips/00_colored_moving_background/
+    - path: assets/monster_clips/00_intro/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/00_intro/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/01_hello/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/01_hello/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/02_loop_animations/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/02_loop_animations/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/03_body_scan/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/03_body_scan/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/04_guided_meditation/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/04_guided_meditation/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/05_location_in_the_body/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/05_location_in_the_body/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/06_will_you_join/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/06_will_you_join/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/07_outside_the_body/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/07_outside_the_body/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/08_forehead_contact/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/08_forehead_contact/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/09_slow_breathing/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/09_slow_breathing/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/10_weight_of_the_head/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/10_weight_of_the_head/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/11_breathing/with_balloon_timer/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/11_breathing/with_balloon_timer/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/11_breathing/without_balloon_timer/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/11_breathing/without_balloon_timer/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/12_abdominal_awareness/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/12_abdominal_awareness/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/13_heart_center/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/13_heart_center/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/14_ball_squeezing/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/14_ball_squeezing/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/15_finger_meditation/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/15_finger_meditation/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/16_hand_massage/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/16_hand_massage/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/17_shoulder_drop/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/17_shoulder_drop/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/18_back_opening/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/18_back_opening/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/19_releasing_burden/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/19_releasing_burden/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/20_relaxing_facial_muscles/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/20_relaxing_facial_muscles/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/21_jaw_drop/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/21_jaw_drop/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/22_smile_to_yourself/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/22_smile_to_yourself/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/23_eft_tapping_points/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/23_eft_tapping_points/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/24_rising_on_tiptoes/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/24_rising_on_tiptoes/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/25_feedback/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/25_feedback/ios/
+      platforms:
+        - ios
+    - path: assets/monster_clips/26_outro/android/
+      platforms:
+        - android
+    - path: assets/monster_clips/26_outro/ios/
+      platforms:
+        - ios
     - assets/music/
+    - assets/data/care_corner/
     - assets/images/flags/
-    - assets/messages/
+    - assets/fonts/
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito-VariableFont_wght.ttf
+    - family: PlaypenSans
+      fonts:
+        - asset: assets/fonts/PlaypenSans-VariableFont_wght.ttf

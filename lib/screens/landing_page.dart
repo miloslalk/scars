@@ -1,10 +1,17 @@
+import 'dart:convert';
+import 'dart:math';
+
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:when_scars_become_art/services/notification_service.dart';
+import 'package:when_scars_become_art/utils/bundled_avatars.dart';
+import 'package:when_scars_become_art/utils/safe_key.dart';
 
 import 'home_page.dart';
 import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
@@ -29,13 +36,94 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _googleSignIn = GoogleSignIn(
+    serverClientId:
+        '537131372504-s9jffblg6jio1h6ve21d403deeblbok6.apps.googleusercontent.com',
+  );
   bool _isLoggingIn = false;
   bool _isGoogleSigningIn = false;
+  bool _isAppleSigningIn = false;
   bool _obscurePassword = true;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _tryAutoLogin());
+  }
+
+  Future<void> _tryAutoLogin() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    // Reload to ensure the token is still valid
+    try {
+      await user.reload();
+    } catch (_) {
+      // Token expired or user deleted — stay on login page
+      await FirebaseAuth.instance.signOut();
+      return;
+    }
+
+    final refreshedUser = FirebaseAuth.instance.currentUser;
+    if (refreshedUser == null) return;
+
+    // Email/password accounts must be verified before entering the app.
+    // Without this check a freshly registered (still signed-in) user would
+    // bypass verification entirely by restarting the app.
+    final isPasswordUser = refreshedUser.providerData.any(
+      (provider) => provider.providerId == 'password',
+    );
+    if (isPasswordUser && !refreshedUser.emailVerified) {
+      await FirebaseAuth.instance.signOut();
+      return;
+    }
+
+    final snap = await FirebaseDatabase.instance
+        .ref('users/${refreshedUser.uid}')
+        .get();
+    final username =
+        (snap.value as Map?)?['username'] as String? ??
+        refreshedUser.displayName ??
+        refreshedUser.email ??
+        '';
+
+    // Keep lastLoginAt fresh so the inactivity push doesn't fire for users
+    // who open the app daily via a persisted session.
+    try {
+      await NotificationService.instance.onLogin(refreshedUser.uid);
+    } catch (_) {}
+
+    // Restore saved locale
+    await _restoreLocale(refreshedUser.uid);
+
+    if (!mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(
+          username: username,
+          localeNotifier: widget.localeNotifier,
+          supportedLocales: widget.supportedLocales,
+          themeModeNotifier: widget.themeModeNotifier,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _restoreLocale(String uid) async {
+    final snap = await FirebaseDatabase.instance.ref('users/$uid/locale').get();
+    if (snap.exists && snap.value != null) {
+      final stored = snap.value as String;
+      if (stored.contains('_')) {
+        final parts = stored.split('_');
+        widget.localeNotifier.value = Locale.fromSubtags(
+          languageCode: parts[0],
+          scriptCode: parts[1],
+        );
+      } else {
+        widget.localeNotifier.value = Locale(stored);
+      }
+    }
   }
 
   Future<void> _login() async {
@@ -59,7 +147,7 @@ class _LandingPageState extends State<LandingPage> {
       String? usernameKey;
 
       if (!loginName.contains('@')) {
-        usernameKey = _safeKey(loginName);
+        usernameKey = safeKey(loginName);
         final usernameSnapshot = await FirebaseDatabase.instance
             .ref('usernames')
             .child(usernameKey)
@@ -92,7 +180,7 @@ class _LandingPageState extends State<LandingPage> {
         return;
       }
 
-      if (kReleaseMode && !refreshedUser.emailVerified) {
+      if (!refreshedUser.emailVerified) {
         final profileSnapshot = await FirebaseDatabase.instance
             .ref('users/${refreshedUser.uid}')
             .get();
@@ -112,7 +200,7 @@ class _LandingPageState extends State<LandingPage> {
           if (expires != null && now.isAfter(expires)) {
             final storedUsername = profile['username'];
             if (storedUsername is String) {
-              final key = _safeKey(storedUsername);
+              final key = safeKey(storedUsername);
               await FirebaseDatabase.instance.ref('usernames/$key').remove();
             }
             await FirebaseDatabase.instance
@@ -160,12 +248,12 @@ class _LandingPageState extends State<LandingPage> {
 
       try {
         await NotificationService.instance.onLogin(refreshedUser.uid);
-      } catch (error) {
-        debugPrint('Post-login notification setup failed: $error');
-      }
+      } catch (_) {}
+
+      await _restoreLocale(refreshedUser.uid);
 
       if (!mounted) return;
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => HomePage(
@@ -199,10 +287,12 @@ class _LandingPageState extends State<LandingPage> {
       _isGoogleSigningIn = true;
     });
     try {
-      final googleUser = await GoogleSignIn().signIn();
+      final googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
+        // User cancelled the sign-in flow
         return;
       }
+
       final googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -213,6 +303,7 @@ class _LandingPageState extends State<LandingPage> {
         credential,
       );
       final user = userCredential.user;
+      if (!mounted) return;
       final l10n = AppLocalizations.of(context)!;
       if (user == null) {
         _showSnackBar(l10n.googleSignInFailed);
@@ -233,9 +324,10 @@ class _LandingPageState extends State<LandingPage> {
           'fullName': user.displayName ?? '',
           'email': email,
           'username': username,
+          'avatarAssetPath': randomBundledAvatarAssetPath(),
           'createdAt': DateTime.now().toIso8601String(),
         });
-        await usernamesRef.child(_safeKey(username)).set({
+        await usernamesRef.child(safeKey(username)).set({
           'uid': user.uid,
           'email': email,
         });
@@ -243,12 +335,12 @@ class _LandingPageState extends State<LandingPage> {
 
       try {
         await NotificationService.instance.onLogin(user.uid);
-      } catch (error) {
-        debugPrint('Post-login notification setup failed: $error');
-      }
+      } catch (_) {}
+
+      await _restoreLocale(user.uid);
 
       if (!mounted) return;
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => HomePage(
@@ -259,14 +351,132 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ),
       );
-    } catch (error) {
-      debugPrint('Google sign-in failed: $error');
+    } catch (e) {
+      if (!mounted) return;
       final l10n = AppLocalizations.of(context)!;
       _showSnackBar(l10n.googleSignInFailed);
     } finally {
       if (mounted) {
         setState(() {
           _isGoogleSigningIn = false;
+        });
+      }
+    }
+  }
+
+  String _generateNonce([int length = 32]) {
+    const charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(
+      length,
+      (_) => charset[random.nextInt(charset.length)],
+    ).join();
+  }
+
+  String _sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  Future<void> _loginWithApple() async {
+    if (_isAppleSigningIn) return;
+    setState(() {
+      _isAppleSigningIn = true;
+    });
+    try {
+      final rawNonce = _generateNonce();
+      final nonce = _sha256ofString(rawNonce);
+
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
+
+      final oauthCredential = OAuthProvider('apple.com').credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+        accessToken: appleCredential.authorizationCode,
+      );
+
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        oauthCredential,
+      );
+      final user = userCredential.user;
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
+      if (user == null) {
+        _showSnackBar(l10n.appleSignInFailed);
+        return;
+      }
+
+      // Apple only provides name on first sign-in
+      final fullName = [
+        appleCredential.givenName,
+        appleCredential.familyName,
+      ].where((s) => s != null && s.isNotEmpty).join(' ');
+      if (fullName.isNotEmpty &&
+          (user.displayName == null || user.displayName!.isEmpty)) {
+        await user.updateDisplayName(fullName);
+      }
+
+      final usersRef = FirebaseDatabase.instance.ref('users');
+      final usernamesRef = FirebaseDatabase.instance.ref('usernames');
+      final profileSnap = await usersRef.child(user.uid).get();
+      if (!profileSnap.exists) {
+        final email = user.email ?? appleCredential.email ?? '';
+        final username = await _reserveUsername(
+          usernamesRef,
+          _defaultUsername(email),
+        );
+        if (user.displayName == null || user.displayName!.isEmpty) {
+          await user.updateDisplayName(username);
+        }
+        await usersRef.child(user.uid).set({
+          'fullName': fullName.isNotEmpty ? fullName : '',
+          'email': email,
+          'username': username,
+          'avatarAssetPath': randomBundledAvatarAssetPath(),
+          'createdAt': DateTime.now().toIso8601String(),
+        });
+        await usernamesRef.child(safeKey(username)).set({
+          'uid': user.uid,
+          'email': email,
+        });
+      }
+
+      try {
+        await NotificationService.instance.onLogin(user.uid);
+      } catch (_) {}
+
+      await _restoreLocale(user.uid);
+
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(
+            username: user.displayName ?? user.email ?? l10n.userFallbackName,
+            localeNotifier: widget.localeNotifier,
+            supportedLocales: widget.supportedLocales,
+            themeModeNotifier: widget.themeModeNotifier,
+          ),
+        ),
+      );
+    } on SignInWithAppleAuthorizationException {
+      // User cancelled — do nothing
+    } catch (_) {
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
+      _showSnackBar(l10n.appleSignInFailed);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isAppleSigningIn = false;
         });
       }
     }
@@ -284,7 +494,7 @@ class _LandingPageState extends State<LandingPage> {
     DatabaseReference usernamesRef,
     String base,
   ) async {
-    final cleanBase = _safeKey(base);
+    final cleanBase = safeKey(base);
     for (var i = 0; i < 50; i++) {
       final candidate = i == 0 ? cleanBase : '${cleanBase}_$i';
       final snap = await usernamesRef.child(candidate).get();
@@ -295,21 +505,6 @@ class _LandingPageState extends State<LandingPage> {
     return '${cleanBase}_${DateTime.now().millisecondsSinceEpoch}';
   }
 
-  String _safeKey(String value) {
-    if (value.isEmpty) return 'user';
-    final buffer = StringBuffer();
-    for (final codeUnit in value.codeUnits) {
-      final isValid =
-          (codeUnit >= 48 && codeUnit <= 57) ||
-          (codeUnit >= 65 && codeUnit <= 90) ||
-          (codeUnit >= 97 && codeUnit <= 122) ||
-          codeUnit == 45 ||
-          codeUnit == 95;
-      buffer.write(isValid ? String.fromCharCode(codeUnit) : '_');
-    }
-    return buffer.toString();
-  }
-
   void _openRegistration() {
     Navigator.push(
       context,
@@ -318,6 +513,7 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   void _showSnackBar(String message) {
+    if (!mounted) return;
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(message)));
@@ -331,35 +527,39 @@ class _LandingPageState extends State<LandingPage> {
       controller.text = usernameInput;
     }
 
-    await showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.resetPasswordTitle),
-        content: TextField(
-          controller: controller,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(labelText: l10n.emailLabel),
+    try {
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(l10n.resetPasswordTitle),
+          content: TextField(
+            controller: controller,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(labelText: l10n.emailLabel),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.cancelLabel),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final email = controller.text.trim();
+                if (email.isEmpty || !email.contains('@')) {
+                  _showSnackBar(l10n.enterValidEmail);
+                  return;
+                }
+                Navigator.pop(context);
+                await _sendPasswordReset(email);
+              },
+              child: Text(l10n.sendLinkLabel),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(l10n.cancelLabel),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final email = controller.text.trim();
-              if (email.isEmpty || !email.contains('@')) {
-                _showSnackBar(l10n.enterValidEmail);
-                return;
-              }
-              Navigator.pop(context);
-              await _sendPasswordReset(email);
-            },
-            child: Text(l10n.sendLinkLabel),
-          ),
-        ],
-      ),
-    );
+      );
+    } finally {
+      controller.dispose();
+    }
   }
 
   Future<void> _sendPasswordReset(String email) async {
@@ -439,7 +639,7 @@ class _LandingPageState extends State<LandingPage> {
                               ? l10n.signingInLabel
                               : l10n.loginWithGoogle,
                           style: const TextStyle(
-                            fontFamily: 'Roboto',
+                            fontFamily: 'Nunito',
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             letterSpacing: 0.25,
@@ -448,11 +648,54 @@ class _LandingPageState extends State<LandingPage> {
                       ],
                     ),
                   ),
+                  if (defaultTargetPlatform == TargetPlatform.iOS)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: OutlinedButton(
+                        onPressed: _isAppleSigningIn ? null : _loginWithApple,
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          foregroundColor: Colors.white,
+                          side: const BorderSide(color: Colors.black),
+                          minimumSize: const Size(240, 40),
+                          maximumSize: const Size(400, 40),
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.apple,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              _isAppleSigningIn
+                                  ? l10n.signingInLabel
+                                  : l10n.loginWithApple,
+                              style: const TextStyle(
+                                fontFamily: 'Nunito',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.25,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   SizedBox(height: 20),
                   Text(l10n.orLoginWithUsernameAndPassword),
                   SizedBox(height: 10),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: (MediaQuery.of(context).size.width * 0.8).clamp(
+                      240.0,
+                      500.0,
+                    ),
                     child: TextField(
                       controller: _usernameController,
                       decoration: InputDecoration(
@@ -462,7 +705,10 @@ class _LandingPageState extends State<LandingPage> {
                   ),
                   SizedBox(height: 12),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: (MediaQuery.of(context).size.width * 0.8).clamp(
+                      240.0,
+                      500.0,
+                    ),
                     child: TextField(
                       controller: _passwordController,
                       decoration: InputDecoration(
@@ -505,6 +751,29 @@ class _LandingPageState extends State<LandingPage> {
                     ],
                   ),
                   SizedBox(height: 20),
+                  Image.asset(
+                    'assets/icons/EN_Co-fundedbytheEU_RGB_POS-scaled.png',
+                    height: 40,
+                  ),
+                  SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      'Funded by the European Union. Views and opinions expressed are '
+                      'however those of the author(s) only and do not necessarily '
+                      'reflect those of the European Union or the European Education '
+                      'and Culture Executive Agency (EACEA). Neither the European '
+                      'Union nor EACEA can be held responsible for them.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.5),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
                 ],
               ),
             ),

@@ -1,0 +1,384 @@
+{
+  "wellbeing": {
+    "items": [
+      {
+        "title": "Jutarnja meditacija",
+        "description": "Jutarnja meditacija mo\u017ee se posmatrati kao kratka strukturisana praksa usmeravanja pa\u017enje, smirivanje uma i uspostavljanja psiholo\u0161ke spremnosti za dnevne aktivnosti. U literaturi o punoj svesnosti meditacija se opisuje kao na\u010din razvijanja sposobnosti da osoba pa\u017enju usmeri na sada\u0161nji trenutak, uz prihvatanje unutra\u0161njih do\u017eivljaja bez automatskog reagovanja. Takva praksa mo\u017ee doprineti boljoj emocionalnoj regulaciji, smanjenju mentalne ruminacije i pove\u0107anju kapaciteta osobe da svesnije zapo\u010dne dan, posebno kada se primenjuje redovno i u kratkim vremenskim intervalima.",
+        "videoUrl": "https://www.youtube.com/watch?v=K9ZI4bAcbHg",
+        "referenceUrl": "https://reff.f.bg.ac.rs/bitstream/handle/123456789/7576/milojicic_jelica.pdf?isAllowed=y&sequence=9&utm_source=chatgpt.com",
+        "referenceLabel": "Miloji\u010di\u0107, J. (2025). Kratka intervencija pune svesnosti i metakognicija: zna\u010daj za mentalno zdravlje studenata."
+      },
+      {
+        "title": "Fokusirana pa\u017enja",
+        "description": "Fokusirana pa\u017enja je jedna od osnovnih komponenti mindfulness pristupa i odnosi se na sposobnost osobe da namerno usmeri mentalne resurse na odre\u0111eni objekat, aktivnost, misao, telesni ose\u0107aj ili zadatak. U stru\u010dnoj literaturi svesna pa\u017enja se povezuje sa unapre\u0111enjem procesa u\u010denja, koncentracije i samoregulacije, jer osoba u\u010di da primeti kada pa\u017enja odluta i da je bez osu\u0111ivanja ponovo vrati na izabrani fokus. Ova tehnika je posebno korisna u radu sa mladima jer poma\u017ee u razvijanju kontrole pa\u017enje, smanjenju impulsivnog reagovanja i boljem prisustvu u aktivnosti.",
+        "videoUrl": "https://youtu.be/m026DWBnNuY?si=oLUIw5zehHjI0EH3",
+        "referenceUrl": "https://scindeks-clanci.ceon.rs/data/pdf/1452-7367/2023/1452-73672301057D.pdf?utm_source=chatgpt.com",
+        "referenceLabel": "Markovi\u0107, B. (2020). Svesna pa\u017enja \u2013 mindfulness kao faktor unapre\u0111ivanja konteksta za u\u010denje u 21. veku."
+      },
+      {
+        "title": "Psihologija boja",
+        "description": "Psihologija boja prou\u010dava na\u010din na koji boje mogu izazvati odre\u0111ene asocijacije, emocije i zna\u010denja kod pojedinaca i grupa. Istra\u017eivanje Peji\u0107 i \u0160korc pokazuje da se boje mogu povezivati sa razli\u010ditim simboli\u010dkim, estetskim i emocionalnim zna\u010denjima, kao i da preferencije boja mogu zavisiti od iskustva, obrazovanja i konteksta u kojem se boje koriste. U omladinskom radu, psihologija boja mo\u017ee biti korisna u kreativnim i reflektivnim ve\u017ebama, jer omogu\u0107ava u\u010desnicima da kroz izbor boja izraze raspolo\u017eenje, unutra\u0161nje stanje, li\u010dne asocijacije ili do\u017eivljaj odre\u0111ene teme.",
+        "videoUrl": "https://youtube.com/shorts/SHpGxhCgAzo?si=Ia33D7oePTmt3t6y",
+        "referenceUrl": "https://izdanja.filfak.ni.ac.rs/zbornici/2014/download/939_166e60a5422928cc3537e879d5c09252?utm_source=chatgpt.com",
+        "referenceLabel": "Peji\u0107, B., & \u0160korc, B. (2014). Preferencija i asocijativno zna\u010denje boja kod studenata umetni\u010dkih i neumetni\u010dkih fakulteta."
+      },
+      {
+        "title": "Ve\u017eba mindfulness",
+        "description": "Mindfulness, odnosno puna svesnost, predstavlja psiholo\u0161ku praksu usmeravanja pa\u017enje na sada\u0161nji trenutak, uz otvorenost, prihvatanje i smanjeno automatsko prosu\u0111ivanje iskustva. U stru\u010dnoj literaturi mindfulness se povezuje sa razvojem samoregulacije, emocionalne stabilnosti i boljeg razumevanja sopstvenih unutra\u0161njih procesa. U prakti\u010dnom radu, mindfulness ve\u017ebe mogu uklju\u010diti posmatranje daha, telesnih senzacija, zvukova ili misli, pri \u010demu cilj nije potiskivanje neprijatnih sadr\u017eaja, ve\u0107 njihovo prime\u0107ivanje i prihvatanje na bezbedan i strukturisan na\u010din.",
+        "videoUrl": "https://youtu.be/UQdG01wDrDI?si=1HkSquTwu4eaJMqn",
+        "referenceUrl": "https://scindeks-clanci.ceon.rs/data/pdf/1452-7367/2023/1452-73672301057D.pdf?utm_source=chatgpt.com",
+        "referenceLabel": "Du\u010di\u0107, B., & Kalja\u010da, S. (2023). Nivo majndfulnesa u interpersonalnim odnosima \u2013 validnost i pouzdanost skale procene."
+      },
+      {
+        "title": "Ve\u017ebe disanja",
+        "description": "Ve\u017ebe disanja predstavljaju jednu od \u010desto kori\u0161\u0107enih tehnika u okviru relaksacionih i kognitivno-bihejvioralnih pristupa, posebno kod osoba koje do\u017eivljavaju anksioznost, napetost ili telesnu uznemirenost. U literaturi o kognitivno-bihejvioralnoj terapiji navodi se da se u okviru ve\u017ebi opu\u0161tanja \u010desto u\u010de tehnike disanja zasnovane na dijafragmalnom disanju, jer mogu doprineti smanjenju fiziolo\u0161ke pobu\u0111enosti i ose\u0107aja telesne napetosti. Ove ve\u017ebe su korisne u preventivnom i edukativnom radu jer su jednostavne, kratke i mogu se primenjivati u razli\u010ditim situacijama stresa.",
+        "videoUrl": "https://youtu.be/Tb_ZfBLD3Jc?si=Ogo0lTUyqzaTTHuQ",
+        "referenceUrl": "https://scindeks-clanci.ceon.rs/data/pdf/0351-2665/2017/0351-26651702053P.pdf?utm_source=chatgpt.com",
+        "referenceLabel": "Popovi\u0107, M. (2017). Kognitivno-bihevioralna teorija i terapijska primena kod \u0161kolske fobije."
+      },
+      {
+        "title": "Ve\u017eba svesnosti",
+        "description": "Ve\u017eba svesnosti podrazumeva namerno obra\u0107anje pa\u017enje na ono \u0161to osoba trenutno ose\u0107a, misli, opa\u017ea ili radi, bez potrebe da se iskustvo odmah promeni, potisne ili proceni kao dobro ili lo\u0161e. U literaturi se svesna pa\u017enja posmatra kao ve\u0161tina koja mo\u017ee unaprediti kontekst u\u010denja i psiholo\u0161kog funkcionisanja, jer poma\u017ee osobi da bude prisutnija, smirenija i manje reaktivna. U omladinskom radu ovakve ve\u017ebe mogu biti korisne za razvoj emocionalne pismenosti, samoposmatranja i bolje komunikacije sa sobom i drugima.",
+        "videoUrl": "https://youtu.be/wUqEocpDMu0?si=Z8cIRTHLLW4vameP",
+        "referenceUrl": "https://sl1nk.com/203bt1z",
+        "referenceLabel": "Markovi\u0107, B. (2020). Svesna pa\u017enja \u2013 mindfulness kao faktor unapre\u0111ivanja konteksta za u\u010denje u 21. veku."
+      },
+      {
+        "title": "Anksioznost",
+        "description": "Anksioznost je emocionalno stanje koje mo\u017ee imati adaptivnu funkciju kada poma\u017ee osobi da prepozna potencijalnu opasnost ili se pripremi za izazov, ali postaje problemati\u010dna kada je intenzivna, dugotrajna i kada zna\u010dajno ometa svakodnevno funkcionisanje. Stru\u010dni materijali Klinike za psihijatrijske bolesti \u201eDr Laza Lazarevi\u0107\u201c nagla\u0161avaju da anksioznost nije uvek negativna, ali da je va\u017eno potra\u017eiti stru\u010dnu podr\u0161ku kada osoba zbog nje postaje disfunkcionalna u va\u017enim \u017eivotnim oblastima. U edukativnim programima za mlade va\u017eno je anksioznost predstaviti kao \u010dest i razumljiv odgovor organizma, uz nagla\u0161avanje dostupnosti podr\u0161ke i zdravih strategija suo\u010davanja.",
+        "videoUrl": "https://youtu.be/JenJHeyzXVE?si=yMbX_a7pRZVRnz77",
+        "referenceUrl": "https://digitalna.ff.uns.ac.rs/sites/default/files/db/books/978-86-6065-523-5.pdf?utm_source=chatgpt.com",
+        "referenceLabel": "Klinika za psihijatrijske bolesti \u201eDr Laza Lazarevi\u0107\u201c. Anksioznost. Stru\u010dna bro\u0161ura."
+      },
+      {
+        "title": "Uzemljenje, balans i stabilnost",
+        "description": "Tehnike uzemljenja koriste se kako bi se osoba vratila u kontakt sa sada\u0161njim trenutkom, sopstvenim telom i neposrednim okru\u017eenjem, posebno u situacijama intenzivne uznemirenosti, stresa, panike ili ose\u0107aja odvojenosti od realnosti. U priru\u010dniku Psiholo\u0161ka prva pomo\u0107: Vodi\u010d za terenske radnike navodi se da kod veoma uznemirenih osoba mo\u017ee pomo\u0107i uspostavljanje kontakta sa okru\u017eenjem i samim sobom, kroz jednostavna pitanja i opa\u017eanje onoga \u0161to osoba vidi, \u010duje ili ose\u0107a u datom trenutku. Zbog toga su ve\u017ebe uzemljenja, balansa i stabilnosti posebno korisne u omladinskom i psihosocijalnom radu kao kratke intervencije za smirivanje i vra\u0107anje ose\u0107aja sigurnosti.",
+        "videoUrl": "https://www.youtube.com/watch?v=v2hYXBPD-G0",
+        "referenceUrl": "https://www.redcross.org.rs/media/3297/psiholoska-prva-pomoc-vodic-za-terenske-radnike-e-knjiga.pdf?utm_source=chatgpt.com",
+        "referenceLabel": "Svetska zdravstvena organizacija. Psiholo\u0161ka prva pomo\u0107: Vodi\u010d za terenske radnike."
+      }
+    ],
+    "furtherReading": []
+  },
+  "education": {
+    "items": [
+      {
+        "title": "\u0160ta je diskriminacija?",
+        "description": "Diskriminacija predstavlja nejednako ili nepovoljno postupanje prema osobi ili grupi osoba na osnovu njihovog li\u010dnog svojstva, kao \u0161to su nacionalna pripadnost, rasa, pol, jezik, vera, invaliditet, starost, seksualna orijentacija, zdravstveno stanje ili drugo svojstvo. U stru\u010dnom i pravnom kontekstu, diskriminacija nije samo otvoreno vre\u0111anje ili isklju\u010divanje, ve\u0107 mo\u017ee biti i prikrivena kroz pravila, prakse ili odluke koje odre\u0111ene grupe stavljaju u nepovoljniji polo\u017eaj. Zbog toga je va\u017eno prepoznati diskriminaciju kao dru\u0161tveni problem koji direktno uti\u010de na jednakost, dostojanstvo i ostvarivanje ljudskih prava.",
+        "videos": [
+          {"title": "\u0160ta je diskriminacija?", "url": "https://www.youtube.com/watch?v=pL1rfwsv9wc"}
+        ],
+        "referenceUrl": "https://ravnopravnost.gov.rs/rs/diskriminacija/sta-je-diskriminacija/",
+        "referenceLabel": "Poverenik za za\u0161titu ravnopravnosti. \u0160ta je diskriminacija?"
+      },
+      {
+        "title": "Anticiganizam",
+        "description": "Anticiganizam je specifi\u010dan oblik rasizma, predrasuda i diskriminacije usmeren prema Romima i drugim zajednicama koje se u dru\u0161tvu ozna\u010davaju kao \u201eCigani\u201c. On se ne ogleda samo u individualnim stavovima, ve\u0107 i u institucionalnim praksama, stereotipima, govoru mr\u017enje, segregaciji i sistemskom isklju\u010divanju Roma iz obrazovanja, zapo\u0161ljavanja, stanovanja i zdravstvene za\u0161tite. Stru\u010dna literatura nagla\u0161ava da anticiganizam ne treba posmatrati kao posledicu siroma\u0161tva Roma, ve\u0107 kao duboko ukorenjen dru\u0161tveni mehanizam koji proizvodi i odr\u017eava nejednakost.",
+        "videos": [
+          {"title": "Anticiganizam", "url": "https://www.youtube.com/watch?v=KrfgWT25Rd0"}
+        ],
+        "referenceUrl": "https://crd.org/wp-content/uploads/2018/02/The-Wall-of-Anti-Gypsyism-%E2%80%93-Roma-in-Serbia-Srb.pdf?utm_source=chatgpt.com",
+        "referenceLabel": "Civil Rights Defenders. (2018). Obru\u010d anticiganizma \u2013 Romi u Srbiji."
+      },
+      {
+        "title": "Ko su Romi?",
+        "description": "Romi su transnacionalna etni\u010dka zajednica sa bogatom istorijom, jezikom, kulturom i razli\u010ditim identitetskim oblicima \u0161irom Evrope i sveta. Romolo\u0161ka literatura Rome posmatra ne samo kroz prizmu socijalne ugro\u017eenosti, ve\u0107 kao narod sa sopstvenim kulturnim nasle\u0111em, jezikom, tradicijom, istorijskim iskustvom migracija i sna\u017enim doprinosom evropskoj kulturi. U Srbiji Romi predstavljaju jednu od nacionalnih manjina, ali je njihov stvarni broj te\u0161ko precizno utvrditi zbog istorijske diskriminacije, socijalne distance i \u010dinjenice da se deo Roma na popisima ne izja\u0161njava o svom etni\u010dkom poreklu.",
+        "videos": [
+          {"title": "Ko su Romi?", "url": "https://www.youtube.com/watch?v=JbyGh1MBVjE"}
+        ],
+        "referenceUrl": "https://l1nq.com/e57kqjo",
+        "referenceLabel": "\u0110uri\u0107, R. i saradnici. Romologija."
+      },
+      {
+        "title": "Ljudska prava mladih",
+        "description": "Ljudska prava mladih podrazumevaju da mladi nisu samo korisnici za\u0161tite, ve\u0107 aktivni nosioci prava i u\u010desnici u dru\u0161tvu. Obrazovanje o ljudskim pravima mladima omogu\u0107ava da razumeju svoja prava, prepoznaju kr\u0161enje prava i aktivno u\u010destvuju u stvaranju demokratske i inkluzivne zajednice. Savet Evrope posebno nagla\u0161ava da se ljudska prava ne mogu \u0161tititi samo zakonima, ve\u0107 je potrebno da ih mladi poznaju, primenjuju u svakodnevnom \u017eivotu i razvijaju solidarnost, odgovornost i u\u010de\u0161\u0107e u zajednici.",
+        "videos": [
+          {"title": "Ljudska prava mladih", "url": "https://youtu.be/KbykQyZq3aA?si=mQcVVMuzZrxqYwCb"}
+        ],
+        "referenceUrl": "https://sl1nk.com/9mv6plc",
+        "referenceLabel": "Savet Evrope. (2023). KOMPAS \u2013 Priru\u010dnik za obrazovanje mladih o ljudskim pravima."
+      },
+      {
+        "title": "Ljudska prava",
+        "description": "Ljudska prava su univerzalna prava koja pripadaju svakom \u010doveku samim tim \u0161to je ljudsko bi\u0107e. Ona se zasnivaju na ideji dostojanstva, jednakosti i slobode, a obuhvataju gra\u0111anska, politi\u010dka, ekonomska, socijalna i kulturna prava. Stru\u010dni priru\u010dnici o ljudskim pravima isti\u010du da ljudska prava nisu privilegija koju dr\u017eava dodeljuje, ve\u0107 standardi koje dr\u017eava mora da po\u0161tuje, \u0161titi i ostvaruje kroz zakone, institucije i javne politike.",
+        "videos": [
+          {"title": "Ljudska prava", "url": "https://www.youtube.com/watch?v=KDXhEAPzNh0"}
+        ],
+        "referenceUrl": "https://sl1nk.com/7sxug6r",
+        "referenceLabel": "Interparlamentarna unija i Kancelarija Visokog komesara UN za ljudska prava."
+      },
+      {
+        "title": "Socijalna prava mladih",
+        "description": "Socijalna prava mladih odnose se na uslove koji mladima omogu\u0107avaju dostojanstven \u017eivot, uklju\u010duju\u0107i pravo na obrazovanje, zapo\u0161ljavanje, socijalnu za\u0161titu, zdravstvenu za\u0161titu, stanovanje i jednake mogu\u0107nosti. U kontekstu politika za mlade, posebno je va\u017eno da mere zapo\u0161ljavanja i praksi ne budu samo formalna prilika, ve\u0107 da obezbede pravi\u010dnu naknadu, socijalnu za\u0161titu, odr\u017eivo zaposlenje i dostojanstvene uslove rada.",
+        "videos": [
+          {"title": "Socijalna prava mladih", "url": "https://www.youtube.com/watch?v=KfutLUqoSKo"}
+        ],
+        "referenceUrl": "https://www.bgcentar.org.rs/wp-content/uploads/2024/06/Izvestaj-LJPM_2023.pdf",
+        "referenceLabel": "Beogradski centar za ljudska prava. (2024). Ljudska prava mladih u Republici Srbiji 2023."
+      },
+      {
+        "title": "Inkluzija nije isto \u0161to i integracija",
+        "description": "U kontekstu Roma, migranata i izbeglica, razlika izme\u0111u integracije i inkluzije posebno je va\u017ena jer integracija \u010desto podrazumeva uklju\u010divanje osobe ili grupe u postoje\u0107i sistem, dok se od njih o\u010dekuje da se prilagode dominantnim dru\u0161tvenim pravilima, jeziku, institucijama i kulturnim obrascima. Inkluzija, sa druge strane, podrazumeva da se menja i sam sistem: uklanjaju se institucionalne, jezi\u010dke, kulturne, ekonomske i diskriminatorne barijere kako bi Romi, migranti i izbeglice mogli ravnopravno da u\u010destvuju u obrazovanju, radu, lokalnoj zajednici i dru\u0161tvenom \u017eivotu.",
+        "videos": [
+          {"title": "Inkluzija nije isto \u0161to i integracija", "url": "https://www.youtube.com/shorts/rVuNA1O1jYg"}
+        ],
+        "referenceUrl": "https://www.redcross.org.rs/media/6505/socijalna-inkluzija-migranata-e-knjiga-srb.pdf",
+        "referenceLabel": "Grupa 484 i Crveni krst Srbije. (2020). Socijalna inkluzija migranata."
+      },
+      {
+        "title": "Prava izbeglica i migranata u Srbiji",
+        "description": "Prava izbeglica i migranata u Republici Srbiji obuhvataju pravo na za\u0161titu, pristup postupku azila, informisanje o pravima i obavezama, sme\u0161taj, osnovne uslove \u017eivota, zdravstvenu za\u0161titu, pravnu pomo\u0107 i za\u0161titu od vra\u0107anja u zemlju u kojoj bi osoba mogla biti izlo\u017eena progonu ili ozbiljnoj opasnosti. U stru\u010dnoj literaturi se nagla\u0161ava da Srbija, kao dr\u017eava koja je deo me\u0111unarodnog sistema za\u0161tite izbeglica, ima obavezu da obezbedi po\u0161tovanje me\u0111unarodnih standarda i doma\u0107ih propisa u oblasti azila i migracija.",
+        "videos": [
+          {"title": "Prava izbeglica i migranata u Srbiji (farsi)", "url": "https://www.youtube.com/watch?v=-OEnKVTw-lQ"}
+        ],
+        "referenceUrl": "https://www.pars.rs/public/Dokumenti/Publikacije/1177/Prirucnik-Azil-i-migracije.pdf",
+        "referenceLabel": "Pravosudna akademija. (2019). Primena standarda UN u postupanju doma\u0107ih sudova."
+      }
+    ],
+    "furtherReading": []
+  },
+  "support": {
+    "categories": [
+      {
+        "title": "Romske organizacije",
+        "icon": "diversity_3",
+        "organizations": [
+          {
+            "name": "Udru\u017eenje gra\u0111ana Rroma-Rota Kikinda",
+            "description": "Romska organizacija u Kikindi koja radi na aktiviranju i podr\u0161ci romskoj omladini kroz kreativne, kulturne i zdravstvene projekte",
+            "website": "https://www.facebook.com/p/Udru%C5%BEenje-gra%C4%91ana-Rroma-Rota-Kikinda-100064829615190/",
+            "phones": ["+381 60 3005 898"]
+          },
+          {
+            "name": "Mobilni tim za inkluziju Roma Pirot",
+            "description": "Mobilni Tim za inkluziju Roma u Pirotu je lokalno telo. \u010clanovi i \u010dlanice tima su predstavnici institucija. Tim radi na implementaciju Operativnog plana Mobilnog tima",
+            "website": "https://www.facebook.com/p/Mobilni-Tim-za-inkluziju-Roma-Pirot-100064072631578/",
+            "phones": ["+381 65 3273 330"]
+          },
+          {
+            "name": "Kancelarija za inkluziju Roma",
+            "description": "Unapređenje prava, položaja i uključivanja Roma u obrazovanje, zapošljavanje, zdravstvo i društveni život u AP Vojvodini.",
+            "website": "https://inkluzijaromavojvodina.rs/",
+            "phones": ["021/488-17-23"]
+          },
+          {
+            "name": "Matica Romska",
+            "description": "Fokus delovanja usmeren na unapređenje položaja romske zajednice.",
+            "website": "https://www.instagram.com/maticaromska/",
+            "phones": ["0612072187"]
+          }
+        ]
+      },
+      {
+        "title": "Podrška ženama",
+        "icon": "shield",
+        "organizations": [
+          {
+            "name": "Centar za podr\u0161ku \u017eenama \u2013 savetovali\u0161te",
+            "description": "Ustanova koja \u017eenama pru\u017ea svaku vrstu pomo\u0107i u okviru socijalnih, porodi\u010dnih, zdravstvenih, karijernih i li\u010dnih pitanja",
+            "website": "https://www.cpz.rs/kontakt/",
+            "phones": ["+381 230 437 343"]
+          },
+          {
+            "name": "Tvoja linija podrske - Pirot",
+            "description": "Obezbedjeno je individualno psiholosko savetovanje za zene, kao i telefonska linija i onlajn savetovaliste. Telefonsko savetovanje dostupno je svakog dana do 20h",
+            "phones": ["+381 62 8348207"]
+          },
+          {
+            "name": "\u017dene za mir, Leskovac",
+            "description": "Psiholo\u0161ka i pravna podr\u0161ka \u017eenama (nasilje)",
+            "website": "http://www.womenforpeace.org.rs/",
+            "phones": ["+381 16 237 300", "+381 16 237 301"]
+          },
+          {
+            "name": "Udru\u017eenje Romkinja Osvit \u2013 SOS telefon",
+            "description": "SOS linija za \u017eene sa nasiljem (arapski/romski/srpski, 24/7)",
+            "website": "https://osvit.rs/",
+            "phones": ["0800/100-9092"],
+            "isFree": true
+          },
+          {
+            "name": "Autonomni \u017eenski centar",
+            "description": "Besplatna pravna pomo\u0107 i konsultacije za \u017eene u situacijama porodi\u010dnog i rodno zasnovanog nasilja",
+            "phones": ["+381 65 2656 178"]
+          }
+        ]
+      },
+      {
+        "title": "Servisi za mlade",
+        "icon": "groups",
+        "organizations": [
+          {
+            "name": "Kancelarija za mlade Kikinda",
+            "description": "Kancelarija za mlade grada Kikinda predstavlja organizacionu jedinicu lokalne uprave",
+            "website": "https://lom.kzmkikinda.org.rs/lom",
+            "phones": []
+          },
+          {
+            "name": "CEZAM \u2013 Centar za mlade",
+            "description": "Besplatno individualno psiholo\u0161ko savetovanje u\u017eivo za mlade od 10 do 30 godina",
+            "website": "https://cezam.rs",
+            "phones": ["+381 69 28 23 004"]
+          },
+          {
+            "name": "Dom omladine Beograd \u2013 psiholo\u0161ki programi",
+            "description": "Povremena besplatna psiholo\u0161ka savetovanja i radionice za mlade",
+            "website": "https://domomladine.org",
+            "phones": ["+381 11 3230 678"]
+          }
+        ]
+      },
+      {
+        "title": "Centri za socijalni rad",
+        "icon": "house",
+        "organizations": [
+          {
+            "name": "Centar za socijalni rad - Kikinda",
+            "description": "Pru\u017ea razne socijalne usluge i pomo\u0107 gra\u0111anima u te\u0161kim \u017eivotnim situacijama",
+            "website": "http://www.csrkikinda.org.rs",
+            "phones": ["+381 230 421 169"]
+          },
+          {
+            "name": "Centar za pru\u017eanje usluga socijalne za\u0161tite grada Kikinde",
+            "description": "Poznat po organizaciji razli\u010ditih programa socijalne za\u0161tite i podr\u0161ke ugro\u017eenim grupama",
+            "website": "http://centarki.org.rs",
+            "phones": ["+381 230 305 753"]
+          },
+          {
+            "name": "Centar za socijalni rad grada Novog Sada",
+            "description": "Centar za socijalni rad Grada Novog Sada je javna ustanova koja pru\u017ea stru\u010dnu podr\u0161ku i za\u0161titu deci, mladima, porodicama, odraslim i starijim osobama",
+            "website": "https://www.csrns.org.rs/",
+            "phones": ["+381 21 2101400"]
+          },
+          {
+            "name": "Centar za socijalni rad Leskovac",
+            "description": "Nov\u010dana pomo\u0107, paketi\u0107i, podr\u0161ka ranjivim grupama (deca, invaliditet)",
+            "website": "https://www.csr-leskovac.rs/",
+            "phones": ["+381 16 845 051", "+381 16 845 052"]
+          }
+        ]
+      },
+      {
+        "title": "Mentalno zdravlje",
+        "icon": "psychology",
+        "organizations": [
+          {
+            "name": "SRCE \u2013 centar za emotivnu podr\u0161ku i prevenciju samoubistva",
+            "description": "Centar Srce je organizacija koja pru\u017ea besplatnu i anonimnu emocionalnu podr\u0161ku osobama u krizi, uklju\u010duju\u0107i osobe koje imaju suicidalne misli",
+            "website": "http://www.centarsrce.org",
+            "phones": ["0800/300-303"],
+            "isFree": true
+          },
+          {
+            "name": "MentalHub - Psiholo\u0161ki centar za mentalno zdravlje u zajednici",
+            "description": "MentalHub je psiholo\u0161ko savetovali\u0161te u Novom Sadu, namenjeno mladima do 29 godina",
+            "website": "https://www.mentalhub.org/",
+            "phones": ["+381 64 4513338"]
+          },
+          {
+            "name": "Psychosocial Innovation Network (PIN)",
+            "description": "Besplatni psihosocijalni programi i savetovanje u\u017eivo u okviru projekata",
+            "website": "https://psychosocialinnovation.net",
+            "phones": ["+381 62 888 0927"]
+          },
+          {
+            "name": "Psiholo\u0161ko savetovali\u0161te NSHC",
+            "description": "Besplatno psiholo\u0161ko savetovanje u\u017eivo za mlade do 30 godina",
+            "website": "https://savetovaliste.nshc.org.rs",
+            "phones": ["+381 63 694 677"]
+          },
+          {
+            "name": "Infopolis Savetovali\u0161te za mlade",
+            "description": "Besplatna individualna i grupna psiholo\u0161ka podr\u0161ka za mlade od 15 do 30 godina",
+            "website": "https://editcentar.org/",
+            "phones": [],
+            "email": "savetovaliste.infopolis@gmail.com"
+          },
+          {
+            "name": "OPENS \u2013 Sazve\u017e\u0111e podr\u0161ke",
+            "description": "Mre\u017ea organizacija u Novom Sadu koje obezbe\u0111uju besplatnu psiholo\u0161ku podr\u0161ku u\u017eivo",
+            "website": "https://opens.rs",
+            "phones": []
+          },
+          {
+            "name": "WBI – Institut za istraživanje i razvoj dobrih praksa",
+            "description": "Unapređenje kvaliteta života kroz istraživanje, edukaciju, razvoj dobrih praksi i podršku javnom zdravlju, mentalnom zdravlju i socijalnoj inkluziji.",
+            "website": "https://wbi.rs/",
+            "phones": ["064/3295-609"]
+          }
+        ]
+      },
+      {
+        "title": "LGBTQ+ podrška",
+        "icon": "transgender",
+        "organizations": [
+          {
+            "name": "LGBTIQ SOS telefon (nacionalni)",
+            "description": "Linija podr\u0161ke, informacije, uputstva, preporuke",
+            "website": "https://transserbia.org/lgbt-sos",
+            "phones": ["+381 65 205 9725"]
+          },
+          {
+            "name": "Grupa IZA\u0110I",
+            "description": "Besplatna psihoterapijska podr\u0161ka u\u017eivo za LGBT+ mlade",
+            "website": "https://www.mentalhub.org",
+            "phones": ["+381 64 451 3338"]
+          },
+          {
+            "name": "Da se zna!",
+            "description": "Podr\u0161ka LGBTQ+ ljudima uklju\u010duju\u0107i pravnu podr\u0161ku, prijavu diskriminacije, psiholo\u0161ke sesije i savete",
+            "website": "https://dasezna.lgbt",
+            "phones": []
+          }
+        ]
+      },
+      {
+        "title": "Pravna pomoć i ljudska prava",
+        "icon": "gavel",
+        "organizations": [
+          {
+            "name": "Pokrajinski za\u0161titnik gra\u0111ana - ombudsman",
+            "description": "Pokrajinski za\u0161titnik gra\u0111ana \u2013 ombudsman je nezavisna institucija koja \u0161titi prava gra\u0111ana",
+            "website": "https://www.ombudsmanapv.org/",
+            "phones": ["+381 21 4874144"]
+          },
+          {
+            "name": "Komitet pravnika za ljudska prava - YUCOM",
+            "description": "Pravna pomo\u0107 i saveti za ljudska prava, diskriminaciju, radna prava",
+            "website": "https://www.yucom.org.rs/",
+            "phones": ["+381 11 3344 425"]
+          },
+          {
+            "name": "Me\u0111unarodna mre\u017ea pomo\u0107i I.A.N.",
+            "description": "Pravni saveti i podr\u0161ka \u017ertvama kr\u0161enja prava, uklju\u010duju\u0107i izbeglice i marginalizovane grupe",
+            "website": "http://ian.org.rs/",
+            "phones": ["+381 11 403 9340"]
+          }
+        ]
+      },
+      {
+        "title": "Humanitarna i izbegličko podrška",
+        "icon": "public",
+        "organizations": [
+          {
+            "name": "Crveni krst Kikinda",
+            "description": "Poznat po humanitarnim akcijama, volontiranju i pru\u017eanju pomo\u0107i ugro\u017eenima",
+            "phones": ["+381 230 422 569"]
+          },
+          {
+            "name": "Grupa 484 \u2013 podr\u0161ka izbeglicama i IDP",
+            "description": "Pru\u017ea podr\u0161ku izbeglicama, pra\u0107enje politika, socijalna uklju\u010denost",
+            "website": "http://www.grupa484.org.rs",
+            "phones": ["+381 11 2631 445"]
+          },
+          {
+            "name": "Humanitarna organizacija Jesuit Refugee Service",
+            "description": "Podr\u0161ka izbeglicama i migrantima kroz humanitarne usluge",
+            "website": "https://jrs.rs",
+            "phones": ["+381 11 4029294"]
+          }
+        ]
+      }
+    ]
+  }
+}

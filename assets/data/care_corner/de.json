@@ -1,0 +1,449 @@
+{
+  "wellbeing": {
+    "items": [
+      { "title": "5-Finger-Atmung", "videoUrl": "https://www.youtube.com/watch?v=QT8I4BoiL74" },
+      { "title": "Box Atmung", "videoUrl": "https://www.youtube.com/watch?v=wazCdqIBi2c&t=55s" },
+      { "title": "Progressive Muskelentspannung", "videoUrl": "https://www.youtube.com/watch?v=eBNimY_OBMY" },
+      { "title": "Die 4-7-8 Atemtechnik", "videoUrl": "https://www.youtube.com/watch?v=98XyXBHAB9Q" },
+      { "title": "5-4-3-2-1-Methode", "videoUrl": "https://www.youtube.com/watch?v=r9psBo88Wj8" },
+      { "title": "Atemreise zur Nervensystemregulation", "videoUrl": "https://www.youtube.com/watch?v=uZJ_249RlBk" },
+      { "title": "STOPP Methode", "videoUrl": "https://www.youtube.com/watch?v=Jj61HkABO7c&t=129s" },
+      { "title": "Innerer Sicherer Ort", "videoUrl": "https://www.youtube.com/watch?v=6OUUqOdcVA4" }
+    ],
+    "furtherReading": [
+      {
+        "title": "Gef\u00fchle erkennen und benennen / K\u00f6rper und Gef\u00fchle",
+        "url": "https://drive.google.com/file/d/1-JCw-BClt5Uw2UqlZ1EHtaxltqc_3IKO/view?usp=sharing"
+      },
+      {
+        "title": "Mein Gef\u00fchlsrad (Eduki)",
+        "url": "https://eduki.com/de/material/717314/mein-gefuehlsrad-1"
+      },
+      {
+        "title": "7 Grundemotionen nach Paul Ekman",
+        "url": "https://www.neverest.at/blog/7-grundemotionen-paul-ekman/"
+      },
+      {
+        "title": "Zugeh\u00f6rigkeit und Identit\u00e4t",
+        "url": "https://drive.google.com/file/d/16tOVVv5qGcdoqmo9hbVIOTMbVrnoYdFr/view?usp=sharing"
+      },
+      {
+        "title": "Wut und Impulskontrolle",
+        "url": "https://drive.google.com/file/d/15nWAvuPMPRh6fIt8KNhGOFTttkP0SiuO/view?usp=sharing"
+      },
+      {
+        "title": "Window of Tolerance: Emotionsregulation",
+        "url": "https://www.psychotherapie-eymann.de/blog-psychische-gesundheit/window-of-tolerance-emotionsregulation"
+      },
+      {
+        "title": "Selbstwert, Grenzen und Mobbing",
+        "url": "https://drive.google.com/file/d/19MXmcvUfGrp5gaCcwyOt9Lejo-A5GfRl/view?usp=sharing"
+      },
+      {
+        "title": "Selbstakzeptanz",
+        "url": "https://stefaniestahlakademie.de/selbstakzeptanz-lernen/"
+      },
+      {
+        "title": "Mental Health Stigma",
+        "url": "https://drive.google.com/file/d/1xKu7_gLCZBq1jFpWRyUn0-fZMJLEluad/view?usp=sharing"
+      },
+      {
+        "title": "Unfair Treatment und Selbstschutz",
+        "url": "https://drive.google.com/file/d/1ZThtr0VT-zwbJ1x7mnvOZQiN6eOZkKsQ/view?usp=sharing"
+      },
+      {
+        "title": "Support & Services \u00dcbersicht",
+        "url": "https://drive.google.com/file/d/174QITaJ3qmkWo9B8h5YrL2hPOyMl6P6e/view?usp=sharing"
+      }
+    ]
+  },
+  "support": {
+    "categories": [
+      {
+        "title": "Zentrale Beratungs- und Unterst\u00fctzungsnetzwerke",
+        "icon": "handshake",
+        "organizations": [
+          {
+            "name": "Antidiskriminierungsstelle des Bundes",
+            "description": "Bundesweite Anlaufstelle f\u00fcr Diskriminierung; bietet Beratung und rechtliche Orientierung",
+            "website": "https://www.antidiskriminierungsstelle.de/DE/startseite/startseite-node.html"
+          },
+          {
+            "name": "Antidiskriminierungsverband Deutschland (advd)",
+            "description": "Dachverband unabh\u00e4ngiger Antidiskriminierungsstellen",
+            "website": "https://www.antidiskriminierung.org/",
+            "phones": ["+49 159 06146613"]
+          },
+          {
+            "name": "Der Polizeibeauftragte des Bundes",
+            "description": "Aufdeckung struktureller M\u00e4ngel bei Bundespolizei, BKA",
+            "website": "https://www.bundestag.de/parlament/polizeibeauftragter/groetsch-990360",
+            "phones": ["+49 30 227 39900"]
+          },
+          {
+            "name": "VBRG",
+            "description": "Netzwerk spezialisierter Beratungsstellen; psychosoziale Hilfe, rechtliche Orientierung",
+            "website": "https://verband-brg.de/",
+            "phones": ["+49 30 33859777"]
+          },
+          {
+            "name": "HateAid",
+            "description": "Beratung f\u00fcr Opfer von Online-Hass und Hate Speech, rechtliche Unterst\u00fctzung",
+            "website": "https://hateaid.org/"
+          },
+          {
+            "name": "Community-basierte Antirassismus-Beratung (CbB-Verbund)",
+            "description": "Niedrigschwellige, rassismuskritische Beratung vor Ort",
+            "website": "https://cbb-verbund.org/",
+            "phones": ["+49 176 47084121"]
+          },
+          {
+            "name": "Gesellschaft f\u00fcr Freiheitsrechte (GFF)",
+            "description": "Strategische Klagen gegen staatliche Diskriminierung",
+            "website": "https://freiheitsrechte.org/",
+            "phones": ["+49 30 549 08 100"]
+          },
+          {
+            "name": "Opferhilfe Berlin",
+            "description": "Kostenfreie, vertrauliche Beratung f\u00fcr Opfer und Zeug:innen von Straftaten",
+            "website": "https://www.opferhilfe-berlin.de/",
+            "phones": ["+49 30 3952867"]
+          }
+        ]
+      },
+      {
+        "title": "Gewalt gegen Frauen",
+        "icon": "shield",
+        "organizations": [
+          {
+            "name": "Das Hilfetelefon \"Gewalt gegen Frauen\"",
+            "description": "Bundesweites Beratungsangebot f\u00fcr Frauen, die Gewalt erlebt haben",
+            "website": "https://www.hilfetelefon.de/",
+            "phones": ["116 016"],
+            "isFree": true
+          },
+          {
+            "name": "Frauenhauskoordinierung (FHK)",
+            "description": "Setzt sich daf\u00fcr ein, Gewalt gegen Frauen zu verhindern",
+            "website": "https://www.frauenhauskoordinierung.de/",
+            "phones": ["+49 30 338 43 420"]
+          },
+          {
+            "name": "Bff: Bundesverband der Frauenberatungsstellen",
+            "description": "Ambulante Beratung und Hilfestellung f\u00fcr weibliche Opfer von Gewalt",
+            "website": "https://www.frauen-gegen-gewalt.de/de/hilfe-beratung.html",
+            "phones": ["+49 30 322 99 500"]
+          },
+          {
+            "name": "Wildwasser Berlin",
+            "description": "Spezialisierte Beratung f\u00fcr M\u00e4dchen*, junge Frauen* sowie trans*, inter* und nicht-bin\u00e4re Personen, die sexualisierte Gewalt erlebt haben",
+            "website": "https://wildwasser-berlin.de/",
+            "phones": ["+49 30 2824427"]
+          },
+          {
+            "name": "TERRE DES FEMMES",
+            "description": "Beratung zu geschlechtsspezifischer Gewalt und Diskriminierung",
+            "website": "https://frauenrechte.de/",
+            "phones": ["+49 30 40 50 46 990"]
+          },
+          {
+            "name": "SOLWODI Berlin",
+            "description": "Fachberatungsstelle f\u00fcr Migrantinnen und gefl\u00fcchtete Frauen",
+            "website": "https://www.solwodi.de/",
+            "phones": ["+49 261 88 97 720"]
+          },
+          {
+            "name": "Papatya",
+            "description": "Anonyme Krisenberatung und Schutz f\u00fcr junge Migrantinnen",
+            "website": "https://papatya.org/",
+            "phones": ["+49 30 610062"]
+          }
+        ]
+      },
+      {
+        "title": "Medizinische und rechtliche Unterst\u00fctzung",
+        "icon": "medical_services",
+        "organizations": [
+          {
+            "name": "Gewaltschutzambulanz Charit\u00e9 (Berlin)",
+            "description": "Dokumentation von Verletzungen nach Gewalt, medizinische Untersuchung",
+            "website": "https://gewaltschutzambulanz.charite.de/",
+            "phones": ["+49 30 450 570 270"]
+          },
+          {
+            "name": "Gewaltschutzambulanz UKE (Hamburg)",
+            "description": "Forensische Untersuchung nach Gewalt, Beweissicherung",
+            "phones": ["+49 40 7410 0"]
+          },
+          {
+            "name": "Gewaltschutzambulanz Frankfurt",
+            "description": "Medizinisch-forensische Untersuchung von Gewaltopfern",
+            "website": "https://www.soforthilfe-nach-vergewaltigung.de/bundeslaender/hessen/frankfurt-am-main/kliniken/uniklinik-frankfurt",
+            "phones": ["+49 69 709494"]
+          },
+          {
+            "name": "Gewaltschutzambulanz K\u00f6ln",
+            "description": "Dokumentation von Verletzungen, Beratung zu rechtlichen M\u00f6glichkeiten",
+            "website": "https://rechtsmedizin.uk-koeln.de/institut/ambulanz/",
+            "phones": ["+49 221 478-88222"]
+          },
+          {
+            "name": "Gewaltschutzambulanz Heidelberg",
+            "description": "Forensische Untersuchung, Sicherung von Beweisen",
+            "website": "https://www.klinikum.uni-heidelberg.de/armed/gewaltambulanz/",
+            "phones": ["+49 6221 560"]
+          },
+          {
+            "name": "Gewaltschutzambulanz M\u00fcnster",
+            "description": "Medizinische und forensische Hilfe f\u00fcr Opfer von Gewalt",
+            "website": "https://www.ukm.de/kliniken",
+            "phones": ["+49 251 83-55555"]
+          }
+        ]
+      },
+      {
+        "title": "Antiziganismus",
+        "icon": "diversity_3",
+        "organizations": [
+          {
+            "name": "MIA e.V.",
+            "description": "Dokumentation antiziganistischer Vorf\u00e4lle, Empowerment-Beratung",
+            "website": "https://www.antiziganismus-melden.de/",
+            "phones": ["+49 30 62860937"]
+          },
+          {
+            "name": "Amaro Foro e.V.",
+            "description": "Beratung und praktische Unterst\u00fctzung zur Bek\u00e4mpfung von Diskriminierung und Antiziganismus",
+            "website": "https://amaroforo.de/",
+            "phones": ["+49 30 610811020"]
+          },
+          {
+            "name": "Global Roma Rights Union e.V.",
+            "description": "Awareness- und Vernetzungsarbeit gegen Antiziganismus",
+            "website": "https://grru.de/",
+            "phones": ["+49 179 7507848"]
+          }
+        ]
+      },
+      {
+        "title": "Antisemitismus",
+        "icon": "security",
+        "organizations": [
+          {
+            "name": "Bundesbeauftragter f\u00fcr j\u00fcdisches Leben",
+            "description": "Bek\u00e4mpfung von Antisemitismus",
+            "website": "https://www.antisemitismusbeauftragter.de/Webs/BAS/DE/startseite/startseite-node.html",
+            "phones": ["+49 228 99681 0", "+49 30 18681 0"]
+          },
+          {
+            "name": "Ansprechperson f\u00fcr j\u00fcdisches Leben Berlin",
+            "description": "Bek\u00e4mpfung von Antisemitismus (Berlin)",
+            "website": "https://www.berlin.de/ba-mitte/politik-und-verwaltung/beauftragte/antisemitismus/artikel.1218308.php"
+          },
+          {
+            "name": "OFEK e.V.",
+            "description": "Fachberatungsstelle bei Antisemitismus",
+            "website": "https://ofek-beratung.de/",
+            "phones": ["+49 800 664 52 68"],
+            "isFree": true
+          }
+        ]
+      },
+      {
+        "title": "Anti-Schwarzer Rassismus",
+        "icon": "people",
+        "organizations": [
+          {
+            "name": "EOTO \u2013 Each one teach one",
+            "description": "Community basiertes Monitoring und Beratung",
+            "website": "https://eoto-archiv.de/eachone",
+            "phones": ["+49 30 513 041 63"]
+          },
+          {
+            "name": "EACH ONE Antidiskriminierung",
+            "description": "Beratung f\u00fcr Schwarze, Afrikanische und Afrodiasporische Menschen",
+            "website": "https://each-one.de/",
+            "phones": ["+49 30 2168884"]
+          }
+        ]
+      },
+      {
+        "title": "Rechte Gewalt",
+        "icon": "report",
+        "organizations": [
+          {
+            "name": "ReachOut",
+            "description": "Beratungsstelle f\u00fcr Betroffene rassistischer und rechter Gewalt in Berlin",
+            "website": "https://www.reachoutberlin.de/",
+            "phones": ["+49 30 69568339"]
+          },
+          {
+            "name": "OPRA",
+            "description": "Psychologische Beratungsstelle f\u00fcr Opfer rechtsextremer, rassistischer und antisemitischer Gewalt",
+            "website": "https://www.opra-gewalt.de/",
+            "phones": ["+49 30 92218241"]
+          }
+        ]
+      },
+      {
+        "title": "Queerfeindlichkeit",
+        "icon": "transgender",
+        "organizations": [
+          {
+            "name": "ABqueer",
+            "description": "Bildungsangebote zu geschlechtlicher und sexueller Vielfalt",
+            "website": "https://abqueer.de/",
+            "phones": ["+49 30 92250844"]
+          },
+          {
+            "name": "LSVD\u207a",
+            "description": "E-Mail Rechtsberatung f\u00fcr LSBTIQ*",
+            "website": "https://www.lsvd.de/de/home",
+            "phones": ["+49 221 92596 10"]
+          },
+          {
+            "name": "SonntagsClub Berlin",
+            "description": "Soziokulturelles Zentrum mit Beratungsangeboten f\u00fcr LSBTIQ*",
+            "website": "https://www.sonntags-club.de/",
+            "phones": ["+49 30 449 75 90"]
+          },
+          {
+            "name": "QueerHome Berlin",
+            "description": "Peer-gest\u00fctztes Unterst\u00fctzungs- und Beratungsangebot f\u00fcr queere Menschen",
+            "website": "https://queerhome.de/",
+            "phones": ["+49 30 65867861"]
+          },
+          {
+            "name": "LSVD Berlin-Brandenburg \u2013 Migration & Schutz",
+            "description": "Beratung f\u00fcr LSBTIQ+ Gefl\u00fcchtete und Migrant:innen",
+            "website": "https://lsvd.berlin/migration-schutz/",
+            "phones": ["+49 30 75437700"]
+          },
+          {
+            "name": "Queeres Regenbogenfamilienzentrum Berlin",
+            "description": "Anlaufstelle f\u00fcr Regenbogenfamilien",
+            "website": "https://www.queeres-regenbogenfamilienzentrum-berlin.de/",
+            "phones": ["+49 30 31511 7734"]
+          }
+        ]
+      },
+      {
+        "title": "Psychosoziale Unterst\u00fctzung f\u00fcr Gefl\u00fcchtete",
+        "icon": "public",
+        "organizations": [
+          {
+            "name": "Zentrum \u00dcBERLEBEN",
+            "description": "Psychosoziale, rechtliche und soziale Beratung f\u00fcr Gefl\u00fcchtete",
+            "website": "https://www.ueberleben.org/",
+            "phones": ["+49 30 303906 69"]
+          },
+          {
+            "name": "XENION",
+            "description": "Beratung und Therapie f\u00fcr politisch Verfolgte und Folter\u00fcberlebende",
+            "website": "https://www.xenion.org/",
+            "phones": ["+49 30 880667361"]
+          },
+          {
+            "name": "REFUGIO M\u00fcnchen",
+            "description": "Psychosoziale Beratung f\u00fcr Gefl\u00fcchtete",
+            "website": "https://www.refugio-muenchen.de/",
+            "phones": ["+49 89 982957 0"]
+          },
+          {
+            "name": "Psychosoziales Zentrum Mainz",
+            "description": "Beratung und psychotherapeutische Hilfe f\u00fcr Menschen mit Fluchterfahrung",
+            "website": "https://www.caritas-mainz.de/caritas-vor-ort/mainz/cbjz-st.-nikolaus/psychosoziale-zentrum-fuer-flucht-und-trauma",
+            "phones": ["+49 6131 9083240"]
+          },
+          {
+            "name": "BAfF",
+            "description": "Dachverband mit Netzwerk von Beratungsstellen f\u00fcr Gefl\u00fcchtete",
+            "website": "https://www.baff-zentren.org/",
+            "phones": ["+49 30 31012463"]
+          },
+          {
+            "name": "NummergegenKummer",
+            "description": "F\u00fcr alle Kinder und Jugendlichen anonym und kostenlos",
+            "website": "https://nummergegenkummer.de",
+            "phones": ["116 111"],
+            "isFree": true
+          },
+          {
+            "name": "JugendNotmail",
+            "description": "Kostenlose Online Beratung f\u00fcr Jugendliche",
+            "website": "https://jugendnotmail.de/",
+            "isFree": true
+          },
+          {
+            "name": "bke Jugendberatung",
+            "description": "Online Beratung f\u00fcr Jugendliche 14 bis 21 Jahre",
+            "website": "https://www.bke-beratung.de/"
+          },
+          {
+            "name": "Jugendmigrationsdienste JMD",
+            "description": "F\u00fcr junge Menschen mit Migrationsgeschichte von 12 bis 27 Jahren",
+            "website": "https://www.jugendmigrationsdienste.de/",
+            "phones": ["+49 228 95968 0"]
+          },
+          {
+            "name": "Hilfetelefon Gewalt an M\u00e4nnern",
+            "description": "Kostenlos und anonym",
+            "website": "https://www.maennerhilfetelefon.de/",
+            "phones": ["0800 123 9900"],
+            "isFree": true
+          }
+        ]
+      }
+    ]
+  },
+  "education": {
+    "items": [
+      { "title": "Was ist Rassismus?", "videos": [{"title": "Was ist Rassismus?", "url": "https://youtu.be/txmstaqcBds?si=DVIdwyw6hU_W7xqu"}] },
+      { "title": "Wo beginnt Rassismus?", "videos": [{"title": "Wo beginnt Rassismus?", "url": "https://www.youtube.com/watch?v=9kYwhIwv2_o"}] },
+      { "title": "Was ist Antimuslimischer Rassismus?", "videos": [{"title": "Was ist Antimuslimischer Rassismus?", "url": "https://www.youtube.com/watch?v=jJ93lfq7T4o"}] },
+      { "title": "Was ist Antiziganismus?", "videos": [{"title": "Was ist Antiziganismus?", "url": "https://www.youtube.com/watch?v=SwrJPt2nKFk"}] },
+      { "title": "Was ist Rechtsextremismus?", "videos": [{"title": "Was ist Rechtsextremismus?", "url": "https://www.youtube.com/watch?v=EviPiAVxkZY"}] },
+      { "title": "Was ist Diskriminierung?", "videos": [{"title": "Was ist Diskriminierung?", "url": "https://www.youtube.com/watch?v=n3USEpxXoMw"}] },
+      { "title": "Was ist Hass im Netz?", "videos": [{"title": "Was ist Hass im Netz?", "url": "https://youtu.be/FiFWyt0pMDw?si=4rwvc02yqe_JZjts"}] },
+      { "title": "Wie sch\u00fctzt mich das AGG?", "videos": [{"title": "Wie schützt mich das AGG?", "url": "https://www.youtube.com/watch?v=aHZUw3JbPXU"}] }
+    ],
+    "furtherReading": [
+      {
+        "title": "IDA Vielfaltsmediathek: Bildungsmaterial",
+        "url": "https://www.vielfalt-mediathek.de/"
+      },
+      {
+        "title": "IDA Glossar",
+        "url": "https://www.idaev.de/recherchetools/glossar"
+      },
+      {
+        "title": "BpB: Diskriminierung",
+        "url": "https://www.bpb.de/kurz-knapp/suche-kurz-knapp/?global=false&term=Diskriminierung&local-themen-main=all&local-format-main=all&local-year=all"
+      },
+      {
+        "title": "BpB: Rassismus",
+        "url": "https://www.bpb.de/kurz-knapp/suche-kurz-knapp/?global=false&term=Rassismus&local-themen-main=all&local-format-main=all&local-year=all"
+      },
+      {
+        "title": "BpB: Antiziganismus",
+        "url": "https://www.bpb.de/kurz-knapp/suche-kurz-knapp/?global=false&term=Antiziganismus&local-themen-main=all&local-format-main=all&local-year=all"
+      },
+      {
+        "title": "BpB: Feminismus",
+        "url": "https://www.bpb.de/kurz-knapp/suche-kurz-knapp/?global=false&term=Feminismus%20&local-themen-main=all&local-format-main=all&local-year=all"
+      },
+      {
+        "title": "Amaro Foro: Antiziganismus",
+        "url": "https://amaroforo.de/materialien/?cookie-state-change=1776678525227"
+      },
+      {
+        "title": "Antidiskriminierungsstelle: Materialien f\u00fcr Ratsuchende",
+        "url": "https://www.antidiskriminierungsstelle.de/DE/wir-beraten-sie/materialien-fuer-ratsuchende/materialien-fuer-ratsuchende-node.html"
+      },
+      {
+        "title": "Antidiskriminierungsstelle: Materialien f\u00fcr Betroffene",
+        "url": "https://www.antidiskriminierungsstelle.de/DE/wir-beraten-sie/materialien-fuer-ratsuchende/menschen/menschen.html"
+      }
+    ]
+  }
+}

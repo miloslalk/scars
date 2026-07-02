@@ -10,6 +10,7 @@
 - Real-time username availability check with inline feedback.
 - Email verification required; expires after 5 days.
 - If verification expired, account is deleted on next login attempt.
+- Registration signs the new user out after sending the verification email, and auto-login re-checks `emailVerified` for password accounts, so an unverified session can never reach the home screen.
 - Login warning: "Please verify your email {email} until {expiration date}".
 
 ## Authentication
@@ -18,7 +19,7 @@
 - Google sign-in is supported; new users get a generated unique username.
 - Logout clears session and returns to landing page.
 - Login password field has an eye toggle for visibility.
-- TODO (before production): finalize Google OAuth consent screen branding in Google Cloud so Google sign-in shows `When Scars (!) Become Art` instead of `project-537...`.
+- ~~TODO (before production): finalize Google OAuth consent screen branding in Google Cloud so Google sign-in shows `When Scars (!) Become Art` instead of `project-537...`.~~ DONE
 - Android Google Sign-In checklist:
 - Firebase Android app package must be `eu.whenscarsbecomeart.app`.
 - Required SHA-1 fingerprints in Firebase for this app:
@@ -69,8 +70,8 @@
 - Inactivity push: "We miss you" when `lastLoginAt` is older than 7 days.
 - Device push state stored at `users/{uid}/devices/{tokenKey}` (token/platform/offset/send guards).
 - User notification preferences editable in Settings (daily on/off, time, inactivity on/off) and saved at `users/{uid}/notificationPrefs` + synced to `users/{uid}/devices/*`.
-- TODO: Configure iOS push end-to-end (APNs key/cert in Firebase + Push Notifications capability in Xcode target).
-- TODO: Add push QA checklist and runbook (force-run scheduler, validate `queued/sent`, foreground/background behavior, token cleanup).
+- iOS push: Xcode config done (entitlements, UIBackgroundModes, background handler). ~~TODO: Verify APNs Authentication Key (.p8) is uploaded to Firebase Console → Project Settings → Cloud Messaging → Apple app configuration.~~ DONE (Key ID: TGLTC4G32N, Team ID: 2JF89PT6DB).
+- ~~TODO: Push QA on iOS — works on Android, need to verify foreground/background behavior on iOS.~~ DONE — added APNs token retry, foreground message listener, and notification tap handlers.
 - Re-authenticate action added for password users before sensitive changes.
 - Email change sends verification; unchanged email does not re-send.
 - Email/password changes locked for non-password providers.
@@ -83,13 +84,14 @@
 - Body regions are detected with basic hit zones; console logs region name.
 
 ## Navigation
-- Bottom nav includes Home, Body Awareness, My Space, Messages, Help.
+- Bottom nav includes Home, My Space, Messages, Care Corner.
 - Settings moved to avatar menu with a styled dropdown (Settings/Log out).
 
 ## Assets & Data
 - Mock data assets/repositories removed; app uses Firebase only.
 - Body outline asset: `assets/images/Human_body_outline.svg`.
-- TODO: Cookie Monster on Android shows gray/noisy artifact in transparent areas (iOS is fine). Likely WebM alpha export/decoder compatibility issue; verify on real Android device and with clip provider (re-encode Android assets if needed).
+- ~~TODO: Cookie Monster on Android shows gray/noisy artifact in transparent areas (iOS is fine).~~ DONE
+- ~~TODO: Replace placeholder exercise dialog title ("Join the Exercise") with final branding name.~~ DONE
 
 ## Messages (Balloons)
 - Once a user pops a balloon message, it must never be shown again to that user.
@@ -98,14 +100,68 @@
 - Balloons are tinted variants of `assets/images/balloon-heart-fill_1.svg`.
 - Balloons pop on tap with a brief burst animation.
 - Balloon messages do not expire.
-- TODO: Limit popping to 1 balloon per day, reset at 00:00 CET (keep unlimited for testing).
-- Messages load from RTDB path `messages/{locale}` with assets fallback when DB data is missing.
-- TODO: Add 365 localized messages per language when provided by client (current list is for testing) using `{id,text}` entries with stable IDs across locales.
+- ~~TODO: Limit popping to 1 balloon per day, reset at 00:00 CET (keep unlimited for testing).~~ DONE — gate stored at `users/{uid}/opened_messages/{yyyyMMdd}` using the device-local date (resets at the user's midnight).
+- Popped messages are recorded permanently at `users/{uid}/popped_messages/{messageId}` and filtered out on load, so a popped message is never shown to that user again.
+- Messages load from RTDB `messages`: the app supports both flat `messages/{id}` entries (`{text, textEn}` — bulk import tool) and per-locale buckets `messages/{locale}/{id}` (`{id, text}` — admin tool; English text resolved from the `en` bucket). There is no assets fallback.
+- ~~TODO: Add 365 localized messages per language when provided by client (current list is for testing) using `{id,text}` entries with stable IDs across locales.~~ DONE.
+- Admin tool at `tools/messages_import.html` — supports manual single-message add and bulk XLSX import (columns C=native, D=English from Google Form responses). Serve locally: `python3 -m http.server 8080 --directory tools`, then open `http://localhost:8080/messages_import.html`. Requires Google sign-in; only admin UID `Ck216x4lw8PCtFAMU6ybWEPKFee2` has write access to `messages/`.
+- Admin tool at `tools/messages_admin.html` — single-message add with English (required) + national languages. Writes to `messages/{locale}/{messageId}` in RTDB. Serve locally: `cd tools && python3 -m http.server 8080`, then open `http://localhost:8080/messages_admin.html`. Requires Google sign-in (Firebase auth domain must allow localhost:8080).
 
 ## Care Corner
-- Care Corner is a standalone page with 7 flag bubbles (Romania, Serbia, Greece, North Macedonia, Germany, Turkey, EU).
-- Tapping a flag centers it and reveals 3 inner bubbles: Wellbeing, Support & Services, Education.
-- Inner bubbles open mock content lists; content will be wired to Firebase later.
+- Reached from a heart icon in the top app bar on the home scaffold.
+- File: `lib/screens/care_corner_page.dart`.
+
+### Flow (3 levels)
+1. **Country Hub** — 7 flag bubbles (Romania, Serbia, Greece, North Macedonia, Germany, Turkey, EU) on a star-field background with floating animation. Tapping a flag centers it and reveals 3 orbiting category bubbles (Wellbeing, Support & Services, Education).
+2. **Category Grid Page** — purple app bar with breadcrumb (`COUNTRY > CATEGORY HUB`), 2-column grid of topic cards (icon + uppercase title), "Further Reading & Deep Dive" section at the bottom with chevron list items.
+3. **Topic Detail Page** — breadcrumb (`Country > Category > Topic`), resource cards with icon/title/description, optional FREE badge, action button row (Call Now, Secure Chat, Visit Website, Email, Schedule Call, Book Appointment).
+
+### Topics per category
+- **Wellbeing:** Breathing Exercises, Guided Meditation, Music Sessions, Journaling Prompts, Color Theory Videos, Self-Care Routines.
+- **Support:** Violence & Protection, Emergency Services, Local NGOs, Support Groups, Legal Help, Healthcare Access.
+- **Education:** Discrimination, Racism, Antigypsyism, Hate Speech Online, Xenophobia, My Rights.
+- **Further Reading:** Identity & Belonging, Discrimination Support, When to Seek Help.
+
+### Done
+- Country hub with animated bubbles and star field.
+- Inner category bubbles orbit the selected flag.
+- Category grid page with 2-column topic cards and Material icons.
+- Breadcrumb navigation in app bar with back button.
+- Further Reading section with chevron list items.
+- Topic detail page with placeholder resource cards and action buttons.
+- Light/dark mode support throughout.
+- All l10n strings in place (`careCornerHub*`, `careCornerAction*`, `careCornerFurtherReading*`, `careCornerTopic*`).
+
+### TODO
+- ~~Wire real per-country resources from Firebase (phone numbers, URLs, descriptions per organization).~~ DONE
+- ~~Design Firebase data model for per-country resources.~~ DONE
+- ~~Further Reading tile `onTap` — needs content or destination.~~ DONE
+- ~~Action buttons `onTap` — wire to `url_launcher` (phone dialer, website open, email compose).~~ DONE
+- ~~Per-country resource data differs (mockup shows Germany-specific orgs like SIBUZ, Violence Against Women Helpline 0800 116 016).~~ DONE
+- ~~Wellbeing topics may need sub-content (e.g. breathing exercises detail page with 5-Finger, Box, 4-7-8 techniques — shown in mockup but not yet built).~~ DONE
+- ~~Replace Material icon stand-ins with custom icons/illustrations per topic.~~ DONE
+- ~~Resource cards currently show hardcoded placeholder data; replace with dynamic Firebase content.~~ DONE
+- TODO: EU Care Corner — content and resources for the EU country bubble.
 
 ## Drawing
 - Notification timezone handling updated to use device IANA timezone (`timezoneName`) for DST-safe push delivery; UTC offset remains as fallback.
+
+## iOS Release Signing
+
+- ~~TODO: Before iOS release build, the Amaro Drom e.V. organization team must appear in Xcode's Signing & Capabilities → Team dropdown.~~ DONE
+- ~~The Account Holder of the Amaro Drom Developer Program needs to grant `kanekacugin@gmail.com` the Admin/Developer role with Certificates access.~~ DONE
+- The Xcode project expects team ID `TY675593F3` (Amaro Drom). Personal teams cannot sign with Push Notifications capability.
+- APS entitlement has been set to `production` (was `development`).
+- `ITSAppUsesNonExemptEncryption = false` added to Info.plist (standard HTTPS only).
+- ~~TODO: Upload APNs Authentication Key (.p8) to Firebase Console → Cloud Messaging → Apple app config.~~ DONE (Key ID: TGLTC4G32N, Team ID: 2JF89PT6DB).
+
+## Known Issues
+- Fixed: Firebase RTDB rules — `usernames` writes now restricted to owner-or-create, `messages` and `guided_audio` writes locked to admin/Cloud Functions only.
+- Fixed: TextEditingControllers in dialog methods in `home_misc.dart` now use try/finally to dispose after dialog returns.
+- Fixed: Silent `catch (_) {}` blocks across screens/services replaced with `debugPrint` logging.
+- Fixed: RTDB rules — `usernames` is no longer listable (read moved to per-key, so the username→email index can't be enumerated) and new entries must carry the writer's own `uid`.
+- Fixed: Auto-login now refreshes `lastLoginAt`/device token, so daily users with persisted sessions no longer receive "We miss you" pushes.
+- Fixed: Cloud Functions migrated from retired `functions.config()` to env vars (`functions/.env`, see `functions/.env.example`); `reportMessage` now requires authentication. Note: the in-app report UI does not exist yet — `reportMessage` is unused by the client.
+- Fixed: Exercise clips now play intro → loop → outro (intro was previously skipped).
+- Fixed: Account deletion re-authenticates Google/Apple users (via provider) *before* wiping data, so `user.delete()` can no longer fail halfway and leave an orphaned Auth account.
+- Fixed: Dark-mode white-on-white text in My Space tiles, journal list, saved messages, and day-view drawing overlays.

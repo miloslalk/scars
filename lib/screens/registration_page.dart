@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
+import 'package:when_scars_become_art/utils/bundled_avatars.dart';
+import '../utils/safe_key.dart';
 import '../widgets/app_top_bar.dart';
 import 'terms_page.dart';
 
@@ -59,7 +61,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       final username = _usernameController.text.trim();
       final usersRef = FirebaseDatabase.instance.ref('users');
       final usernamesRef = FirebaseDatabase.instance.ref('usernames');
-      final usernameKey = _safeKey(username);
+      final usernameKey = safeKey(username);
 
       final existing = await usernamesRef.child(usernameKey).get();
       if (existing.exists) {
@@ -88,6 +90,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         'fullName': _fullNameController.text.trim(),
         'email': _emailController.text.trim(),
         'username': username,
+        'avatarAssetPath': randomBundledAvatarAssetPath(),
         'createdAt': DateTime.now().toIso8601String(),
         'verification': {
           'sentAt': DateTime.now().toIso8601String(),
@@ -100,6 +103,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
         'email': _emailController.text.trim(),
       });
 
+      // createUserWithEmailAndPassword signs the new (unverified) user in;
+      // sign out so the session cannot be used before email verification.
+      await FirebaseAuth.instance.signOut();
+
       if (!mounted) return;
       _showSnackBar(l10n.verificationEmailSent(_emailController.text.trim()));
       Navigator.pop(context);
@@ -108,7 +115,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
     } on TimeoutException {
       _showSnackBar(l10n.registrationTimedOut);
     } catch (error) {
-      debugPrint('Registration failed: $error');
       _showSnackBar(l10n.registrationFailedWithError('$error'));
     } finally {
       if (mounted) {
@@ -133,7 +139,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       _checkingUsername = true;
     });
     _usernameDebounce = Timer(const Duration(milliseconds: 400), () async {
-      final key = _safeKey(trimmed);
+      final key = safeKey(trimmed);
       try {
         final snapshot = await FirebaseDatabase.instance
             .ref('usernames')
@@ -158,22 +164,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return pattern.hasMatch(password);
   }
 
-  String _safeKey(String value) {
-    if (value.isEmpty) return 'user';
-    final buffer = StringBuffer();
-    for (final codeUnit in value.codeUnits) {
-      final isValid =
-          (codeUnit >= 48 && codeUnit <= 57) ||
-          (codeUnit >= 65 && codeUnit <= 90) ||
-          (codeUnit >= 97 && codeUnit <= 122) ||
-          codeUnit == 45 ||
-          codeUnit == 95;
-      buffer.write(isValid ? String.fromCharCode(codeUnit) : '_');
-    }
-    return buffer.toString();
-  }
-
   void _showSnackBar(String message) {
+    if (!mounted) return;
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(message)));
@@ -196,252 +188,266 @@ class _RegistrationPageState extends State<RegistrationPage> {
       appBar: const AppTopBar(showUserAction: false),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.registrationTitle,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.registrationSubtitle,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 24),
-            Form(
-              key: _formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: _fullNameController,
-                    decoration: InputDecoration(labelText: l10n.fullNameLabel),
-                    textInputAction: TextInputAction.next,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return l10n.fieldRequired;
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(labelText: l10n.emailLabel),
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    validator: (value) {
-                      final trimmed = value?.trim() ?? '';
-                      if (trimmed.isEmpty) {
-                        return l10n.fieldRequired;
-                      }
-                      if (!trimmed.contains('@')) {
-                        return l10n.invalidEmail;
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: _usernameController,
-                    textInputAction: TextInputAction.next,
-                    onChanged: (value) {
-                      _checkUsernameAvailability(value);
-                      _formKey.currentState?.validate();
-                    },
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return l10n.fieldRequired;
-                      }
-                      if (value.trim().length < 6) {
-                        return l10n.atLeast6Characters;
-                      }
-                      if (_usernameAvailable == false) {
-                        return l10n.usernameAlreadyExists;
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      labelText: l10n.usernameLabel,
-                      suffixIcon: _checkingUsername
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: Padding(
-                                padding: EdgeInsets.all(12),
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              ),
-                            )
-                          : _usernameAvailable == null
-                          ? null
-                          : Icon(
-                              _usernameAvailable! ? Icons.check : Icons.close,
-                              color: _usernameAvailable!
-                                  ? Colors.green
-                                  : Colors.red,
-                            ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    textInputAction: TextInputAction.next,
-                    onChanged: (_) => setState(() {}),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return l10n.fieldRequired;
-                      }
-                      if (value.length < 8 ||
-                          !hasUppercase ||
-                          !hasNumber ||
-                          !hasSpecial) {
-                        return l10n.passwordTooWeak;
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      labelText: l10n.passwordLabel,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
-                        },
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _PasswordRule(
-                          label: l10n.passwordRuleAtLeast8,
-                          isMet: hasLength,
-                        ),
-                        _PasswordRule(
-                          label: l10n.passwordRuleUppercase,
-                          isMet: hasUppercase,
-                        ),
-                        _PasswordRule(
-                          label: l10n.passwordRuleNumber,
-                          isMet: hasNumber,
-                        ),
-                        _PasswordRule(
-                          label: l10n.passwordRuleSpecial,
-                          isMet: hasSpecial,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: _confirmPasswordController,
-                    obscureText: _obscureConfirmPassword,
-                    textInputAction: TextInputAction.done,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return l10n.fieldRequired;
-                      }
-                      if (value != _passwordController.text) {
-                        return l10n.passwordsDoNotMatch;
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      labelText: l10n.confirmPasswordLabel,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _obscureConfirmPassword = !_obscureConfirmPassword;
-                          });
-                        },
-                        icon: Icon(
-                          _obscureConfirmPassword
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 500),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.registrationTitle,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  l10n.registrationSubtitle,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 24),
+                Form(
+                  key: _formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
                     children: [
-                      Checkbox(
-                        value: _acceptTerms,
-                        onChanged: (value) {
-                          setState(() {
-                            _acceptTerms = value ?? false;
-                          });
+                      TextFormField(
+                        controller: _fullNameController,
+                        decoration: InputDecoration(
+                          labelText: l10n.fullNameLabel,
+                        ),
+                        textInputAction: TextInputAction.next,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return l10n.fieldRequired;
+                          }
+                          return null;
                         },
                       ),
-                      Expanded(
-                        child: Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            Text('${l10n.iAcceptPrefix} '),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const TermsPage(),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(labelText: l10n.emailLabel),
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        validator: (value) {
+                          final trimmed = value?.trim() ?? '';
+                          if (trimmed.isEmpty) {
+                            return l10n.fieldRequired;
+                          }
+                          if (!trimmed.contains('@')) {
+                            return l10n.invalidEmail;
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _usernameController,
+                        textInputAction: TextInputAction.next,
+                        onChanged: (value) {
+                          _checkUsernameAvailability(value);
+                          _formKey.currentState?.validate();
+                        },
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return l10n.fieldRequired;
+                          }
+                          if (value.trim().length < 6) {
+                            return l10n.atLeast6Characters;
+                          }
+                          if (_usernameAvailable == false) {
+                            return l10n.usernameAlreadyExists;
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: l10n.usernameLabel,
+                          suffixIcon: _checkingUsername
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
                                   ),
-                                );
-                              },
-                              child: Text(
-                                l10n.termsAndServicesLabel,
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  decoration: TextDecoration.underline,
+                                )
+                              : _usernameAvailable == null
+                              ? null
+                              : Icon(
+                                  _usernameAvailable!
+                                      ? Icons.check
+                                      : Icons.close,
+                                  color: _usernameAvailable!
+                                      ? Colors.green
+                                      : Colors.red,
                                 ),
-                              ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        textInputAction: TextInputAction.next,
+                        onChanged: (_) => setState(() {}),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return l10n.fieldRequired;
+                          }
+                          if (value.length < 8 ||
+                              !hasUppercase ||
+                              !hasNumber ||
+                              !hasSpecial) {
+                            return l10n.passwordTooWeak;
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: l10n.passwordLabel,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _PasswordRule(
+                              label: l10n.passwordRuleAtLeast8,
+                              isMet: hasLength,
+                            ),
+                            _PasswordRule(
+                              label: l10n.passwordRuleUppercase,
+                              isMet: hasUppercase,
+                            ),
+                            _PasswordRule(
+                              label: l10n.passwordRuleNumber,
+                              isMet: hasNumber,
+                            ),
+                            _PasswordRule(
+                              label: l10n.passwordRuleSpecial,
+                              isMet: hasSpecial,
                             ),
                           ],
                         ),
                       ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _confirmPasswordController,
+                        obscureText: _obscureConfirmPassword,
+                        textInputAction: TextInputAction.done,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return l10n.fieldRequired;
+                          }
+                          if (value != _passwordController.text) {
+                            return l10n.passwordsDoNotMatch;
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: l10n.confirmPasswordLabel,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
+                              });
+                            },
+                            icon: Icon(
+                              _obscureConfirmPassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Checkbox(
+                            value: _acceptTerms,
+                            onChanged: (value) {
+                              setState(() {
+                                _acceptTerms = value ?? false;
+                              });
+                            },
+                          ),
+                          Expanded(
+                            child: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                Text('${l10n.iAcceptPrefix} '),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => const TermsPage(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    l10n.termsAndServicesLabel,
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _isSubmitting ? null : _submit,
+                          child: _isSubmitting
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : Text(l10n.registerButton),
+                        ),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _isSubmitting ? null : _submit,
-                      child: _isSubmitting
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : Text(l10n.registerButton),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(l10n.alreadyHaveAccount),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(l10n.loginButton),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(l10n.alreadyHaveAccount),
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(l10n.loginButton),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

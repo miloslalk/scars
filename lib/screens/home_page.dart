@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:convert';
+// import 'dart:convert';
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui' as ui;
@@ -17,7 +17,12 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter/services.dart';
 import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
 import 'package:when_scars_become_art/services/monster_manifest_service.dart';
+import 'package:when_scars_become_art/utils/bundled_avatars.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:when_scars_become_art/utils/safe_key.dart';
 import '../widgets/app_top_bar.dart';
+import '../widgets/external_link_warning.dart';
+import 'care_corner_page.dart';
 import 'landing_page.dart';
 import 'music_player_page.dart';
 
@@ -47,12 +52,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  Stream<DatabaseEvent>? _profileStream;
+  bool _isBackfillingDefaultAvatar = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      _profileStream = FirebaseDatabase.instance
+          .ref('users/${user.uid}')
+          .onValue;
+    }
+  }
+
+  @override
+  void dispose() {
+    _profileStream = null;
+    super.dispose();
+  }
 
   List<Widget> _buildPages(String displayName) {
     return <Widget>[
       _HomeContent(displayName: displayName),
       _MySpaceContent(),
       _MessagesContent(),
+      const CareCornerPage(),
     ];
   }
 
@@ -62,8 +87,9 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _logout() {
-    FirebaseAuth.instance.signOut();
+  Future<void> _logout() async {
+    await FirebaseAuth.instance.signOut();
+    if (!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
@@ -90,15 +116,67 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildScaffold({required String displayName, String? avatarUrl}) {
+  bool _hasProfileImageValue(String? value) {
+    return value != null && value.trim().isNotEmpty;
+  }
+
+  Future<void> _maybeBackfillDefaultAvatar({
+    required String? avatarUrl,
+    required String? avatarAssetPath,
+    required bool avatarDefaultDismissed,
+  }) async {
+    if (_isBackfillingDefaultAvatar || avatarDefaultDismissed) return;
+    if (_hasProfileImageValue(avatarUrl) ||
+        _hasProfileImageValue(avatarAssetPath)) {
+      return;
+    }
+
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    _isBackfillingDefaultAvatar = true;
+    try {
+      final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
+      final snap = await userRef.get();
+      final value = snap.value;
+      String? latestAvatarUrl;
+      String? latestAvatarAssetPath;
+      var latestAvatarDefaultDismissed = false;
+      if (value is Map) {
+        final data = Map<String, dynamic>.from(value);
+        final avatarValue = data['avatarUrl'];
+        final avatarAssetValue = data['avatarAssetPath'];
+        final dismissedValue = data['avatarDefaultDismissed'];
+        latestAvatarUrl = avatarValue is String ? avatarValue : null;
+        latestAvatarAssetPath = avatarAssetValue is String
+            ? avatarAssetValue
+            : null;
+        latestAvatarDefaultDismissed = dismissedValue is bool && dismissedValue;
+      }
+      if (latestAvatarDefaultDismissed ||
+          _hasProfileImageValue(latestAvatarUrl) ||
+          _hasProfileImageValue(latestAvatarAssetPath)) {
+        return;
+      }
+      await userRef.update({'avatarAssetPath': randomBundledAvatarAssetPath()});
+    } catch (_) {
+      // Keep the initial fallback if the best-effort default write fails.
+    } finally {
+      _isBackfillingDefaultAvatar = false;
+    }
+  }
+
+  Widget _buildScaffold({
+    required String displayName,
+    String? avatarUrl,
+    String? avatarAssetPath,
+  }) {
     final l10n = AppLocalizations.of(context)!;
     final initial = displayName.trim().isNotEmpty
         ? displayName.trim().substring(0, 1).toUpperCase()
         : null;
     final pages = _buildPages(displayName);
-    final safeSelectedIndex = _selectedIndex >= pages.length
-        ? pages.length - 1
-        : _selectedIndex;
+    final safeSelectedIndex = _selectedIndex.clamp(0, pages.length - 1);
     final navItems = <BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(Icons.home), label: l10n.homeLabel),
       BottomNavigationBarItem(
@@ -109,22 +187,29 @@ class _HomePageState extends State<HomePage> {
         icon: const Icon(Icons.emoji_emotions),
         label: l10n.messagesLabel,
       ),
+      BottomNavigationBarItem(
+        icon: const Icon(Icons.favorite_outline),
+        label: l10n.careCornerTabLabel,
+      ),
     ];
 
     return Scaffold(
       appBar: AppTopBar(
         userInitial: initial,
         userName: displayName,
+        userAvatarAssetPath: avatarAssetPath,
         userAvatarUrl: avatarUrl,
         onSettingsTap: _openSettings,
         onLogoutTap: _logout,
+        actions: const [],
       ),
-      body: pages[safeSelectedIndex],
+      body: IndexedStack(index: safeSelectedIndex, children: pages),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: navItems,
         currentIndex: safeSelectedIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(context).colorScheme.onSurfaceVariant,
         onTap: _onItemTapped,
       ),
     );
@@ -132,30 +217,50 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
+    if (_profileStream == null) {
       return _buildScaffold(displayName: widget.username);
     }
-    final profileStream = FirebaseDatabase.instance
-        .ref('users/${user.uid}')
-        .onValue;
     return StreamBuilder<DatabaseEvent>(
-      stream: profileStream,
+      stream: _profileStream,
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return _buildScaffold(displayName: widget.username);
+        }
         final value = snapshot.data?.snapshot.value;
         String? avatarUrl;
+        String? avatarAssetPath;
         String? fullName;
+        var avatarDefaultDismissed = false;
         if (value is Map) {
           final data = Map<String, dynamic>.from(value);
           final avatarValue = data['avatarUrl'];
+          final avatarAssetValue = data['avatarAssetPath'];
           final nameValue = data['fullName'];
+          final dismissedValue = data['avatarDefaultDismissed'];
           avatarUrl = avatarValue is String ? avatarValue : null;
+          avatarAssetPath = avatarAssetValue is String
+              ? avatarAssetValue
+              : null;
           fullName = nameValue is String ? nameValue : null;
+          avatarDefaultDismissed = dismissedValue is bool && dismissedValue;
+        }
+        if (snapshot.hasData) {
+          unawaited(
+            _maybeBackfillDefaultAvatar(
+              avatarUrl: avatarUrl,
+              avatarAssetPath: avatarAssetPath,
+              avatarDefaultDismissed: avatarDefaultDismissed,
+            ),
+          );
         }
         final displayName = (fullName != null && fullName.trim().isNotEmpty)
             ? fullName.trim()
             : widget.username;
-        return _buildScaffold(displayName: displayName, avatarUrl: avatarUrl);
+        return _buildScaffold(
+          displayName: displayName,
+          avatarUrl: avatarUrl,
+          avatarAssetPath: avatarAssetPath,
+        );
       },
     );
   }

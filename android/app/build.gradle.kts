@@ -23,7 +23,7 @@ val isReleaseBuildRequested = gradle.startParameter.taskNames.any { taskName ->
 android {
     namespace = "eu.whenscarsbecomeart.app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -64,6 +64,12 @@ android {
                         "Create it from android/key.properties.example.",
                 )
             }
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
             signingConfig = if (keystorePropertiesFile.exists()) {
                 signingConfigs.getByName("release")
             } else {
@@ -79,5 +85,6 @@ flutter {
 }
 
 dependencies {
+    implementation("androidx.activity:activity-ktx:1.10.1")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }

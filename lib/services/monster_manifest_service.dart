@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 
 enum MonsterPlaybackType { single, triple }
@@ -35,174 +32,174 @@ class MonsterManifestService {
 
   static final MonsterManifestService instance = MonsterManifestService._();
 
-  static const String _manifestStoragePath = 'cookie-monster/v1/manifest.json';
-  Map<String, dynamic>? _cachedManifest;
+  static const String _base = 'assets/monster_clips';
 
-  Future<Map<String, dynamic>> loadManifest({bool forceRefresh = false}) async {
-    if (!forceRefresh && _cachedManifest != null) {
-      return _cachedManifest!;
-    }
-    final bytes = await FirebaseStorage.instance
-        .ref(_manifestStoragePath)
-        .getData(1024 * 1024);
-    if (bytes == null || bytes.isEmpty) {
-      throw StateError('Monster manifest is missing or empty.');
-    }
-    final decoded = jsonDecode(utf8.decode(bytes));
-    if (decoded is! Map) {
-      throw StateError('Monster manifest has invalid JSON root.');
-    }
-    _cachedManifest = Map<String, dynamic>.from(decoded);
-    return _cachedManifest!;
-  }
+  /// Clip definitions: activity key → (type, baseName, [variant subfolder]).
+  /// Single clips: {key}/{platform}/{baseName}.ext
+  /// Triple clips: {key}/{platform}/1_{baseName}.ext, 2_..., 3_...
+  /// Variant clips: {key}/{variant}/{platform}/1_{baseName}.ext, ...
+  static const Map<String, _ClipDef> _clips = {
+    '01_hello': _ClipDef.single('01_hello', 'hello'),
+    '03_body_scan': _ClipDef.single('03_body_scan', 'body_scan'),
+    '05_location_in_the_body': _ClipDef.single(
+      '05_location_in_the_body',
+      'location_in_the_body',
+    ),
+    '17_shoulder_drop': _ClipDef.single('17_shoulder_drop', 'shoulder_drop'),
+    '18_back_opening': _ClipDef.single('18_back_opening', 'back_opening'),
+    '23_eft_tapping_points': _ClipDef.single(
+      '23_eft_tapping_points',
+      'eft_tapping_points',
+    ),
+    '02_loop_animations': _ClipDef.triple('02_loop_animations', 'loop'),
+    '04_guided_meditation': _ClipDef.triple(
+      '04_guided_meditation',
+      'guided_meditation',
+    ),
+    '06_will_you_join': _ClipDef.triple('06_will_you_join', 'will_you_join'),
+    '07_outside_the_body': _ClipDef.triple(
+      '07_outside_the_body',
+      'outside_the_body',
+    ),
+    '08_forehead_contact': _ClipDef.triple(
+      '08_forehead_contact',
+      'forehead_contact',
+    ),
+    '09_slow_breathing': _ClipDef.triple('09_slow_breathing', 'slow_breathing'),
+    '10_weight_of_the_head': _ClipDef.triple(
+      '10_weight_of_the_head',
+      'weight_of_the_head',
+    ),
+    '11_breathing': _ClipDef.variant('11_breathing', 'breathing'),
+    '12_abdominal_awareness': _ClipDef.triple(
+      '12_abdominal_awareness',
+      'abdominal_awareness',
+    ),
+    '13_heart_center': _ClipDef.triple('13_heart_center', 'heart_center'),
+    '14_ball_squeezing': _ClipDef.triple('14_ball_squeezing', 'ball_squeezing'),
+    '15_finger_meditation': _ClipDef.triple(
+      '15_finger_meditation',
+      'finger_meditation',
+    ),
+    '16_hand_massage': _ClipDef.triple('16_hand_massage', 'hand_massage'),
+    '19_releasing_burden': _ClipDef.triple(
+      '19_releasing_burden',
+      'releasing_burden',
+    ),
+    '20_relaxing_facial_muscles': _ClipDef.triple(
+      '20_relaxing_facial_muscles',
+      'relaxing_facial_muscles',
+    ),
+    '21_jaw_drop': _ClipDef.triple('21_jaw_drop', 'jaw_drop'),
+    '22_smile_to_yourself': _ClipDef.triple(
+      '22_smile_to_yourself',
+      'smile_to_yourself',
+    ),
+    '24_rising_on_tiptoes': _ClipDef.triple(
+      '24_rising_on_tiptoes',
+      'rising_on_tiptoes',
+    ),
+  };
 
-  Future<String?> resolveSingleClipPath(
-    String clipKey, {
-    required TargetPlatform platform,
-    String? variant,
-  }) async {
-    final manifest = await loadManifest();
-    final clips = manifest['clips'];
-    if (clips is! Map) return null;
-    final clip = clips[clipKey];
-    if (clip is! Map) return null;
+  static const Map<String, List<String>> _variants = {
+    '11_breathing': ['with_balloon_timer', 'without_balloon_timer'],
+  };
 
-    final platformKey = platform == TargetPlatform.iOS ? 'ios' : 'android';
-    final type = clip['type'];
-
-    if (type == 'single') {
-      final path = clip[platformKey];
-      return path is String ? path : null;
-    }
-
-    if (type == 'triple') {
-      final platformNode = clip[platformKey];
-      if (platformNode is! Map) return null;
-      final path = platformNode['intro'];
-      return path is String ? path : null;
-    }
-
-    if (type == 'variant') {
-      final variants = clip['variants'];
-      if (variants is! Map) return null;
-      final selectedVariant =
-          variant ??
-          (variants.containsKey('with_balloon_timer')
-              ? 'with_balloon_timer'
-              : variants.keys.firstOrNull?.toString());
-      if (selectedVariant == null) return null;
-      final variantNode = variants[selectedVariant];
-      if (variantNode is! Map) return null;
-      final variantType = variantNode['type'];
-      if (variantType == 'triple') {
-        final platformNode = variantNode[platformKey];
-        if (platformNode is! Map) return null;
-        final path = platformNode['intro'];
-        return path is String ? path : null;
-      }
-    }
-
-    return null;
-  }
-
-  Future<MonsterPlaybackPlan?> resolvePlaybackPlan(
+  MonsterPlaybackPlan? resolvePlaybackPlan(
     String activityKey, {
     required TargetPlatform platform,
     String? variant,
-  }) async {
-    final manifest = await loadManifest();
-    final clips = manifest['clips'];
-    if (clips is! Map) return null;
-    final clip = clips[activityKey];
-    if (clip is! Map) return null;
+  }) {
+    final def = _clips[activityKey];
+    if (def == null) return null;
 
-    final platformKey = platform == TargetPlatform.iOS ? 'ios' : 'android';
-    final type = clip['type'];
+    final platformDir = platform == TargetPlatform.iOS ? 'ios' : 'android';
+    final ext = platform == TargetPlatform.iOS ? 'mov' : 'webm';
 
-    if (type == 'single') {
-      final path = clip[platformKey];
-      if (path is! String || path.isEmpty) return null;
+    if (def.type == 'single') {
       return MonsterPlaybackPlan.single(
         activityKey: activityKey,
-        singlePath: path,
+        singlePath: '$_base/${def.folder}/$platformDir/${def.baseName}.$ext',
       );
     }
 
-    if (type == 'triple') {
-      return _triplePlanForNode(
+    if (def.type == 'triple') {
+      return MonsterPlaybackPlan.triple(
         activityKey: activityKey,
-        node: clip,
-        platformKey: platformKey,
+        introPath: '$_base/${def.folder}/$platformDir/1_${def.baseName}.$ext',
+        loopPath: '$_base/${def.folder}/$platformDir/2_${def.baseName}.$ext',
+        outroPath: '$_base/${def.folder}/$platformDir/3_${def.baseName}.$ext',
       );
     }
 
-    if (type == 'variant') {
-      final variants = clip['variants'];
-      if (variants is! Map || variants.isEmpty) return null;
+    if (def.type == 'variant') {
+      final variants = _variants[activityKey];
+      if (variants == null || variants.isEmpty) return null;
       final selectedVariant =
           variant ??
-          (variants.containsKey('with_balloon_timer')
+          (variants.contains('with_balloon_timer')
               ? 'with_balloon_timer'
-              : variants.keys.first.toString());
-      final variantNode = variants[selectedVariant];
-      if (variantNode is! Map) return null;
-      final variantType = variantNode['type'];
-      if (variantType == 'triple') {
-        return _triplePlanForNode(
-          activityKey: activityKey,
-          node: variantNode,
-          platformKey: platformKey,
-        );
-      }
+              : variants.first);
+      return MonsterPlaybackPlan.triple(
+        activityKey: activityKey,
+        introPath:
+            '$_base/${def.folder}/$selectedVariant/$platformDir/1_${def.baseName}.$ext',
+        loopPath:
+            '$_base/${def.folder}/$selectedVariant/$platformDir/2_${def.baseName}.$ext',
+        outroPath:
+            '$_base/${def.folder}/$selectedVariant/$platformDir/3_${def.baseName}.$ext',
+      );
     }
 
     return null;
   }
 
-  Future<String> downloadUrlForStoragePath(String storagePath) async {
-    return FirebaseStorage.instance.ref(storagePath).getDownloadURL();
-  }
-
-  MonsterPlaybackPlan? _triplePlanForNode({
-    required String activityKey,
-    required Map node,
-    required String platformKey,
-  }) {
-    final platformNode = node[platformKey];
-    if (platformNode is! Map) return null;
-    final intro = platformNode['intro'];
-    final loop = platformNode['loop'];
-    final outro = platformNode['outro'];
-    if (intro is! String || loop is! String || outro is! String) return null;
-    if (intro.isEmpty || loop.isEmpty || outro.isEmpty) return null;
-    return MonsterPlaybackPlan.triple(
-      activityKey: activityKey,
-      introPath: intro,
-      loopPath: loop,
-      outroPath: outro,
-    );
-  }
-
-  static String mapRegionToActivity(String region) {
+  static List<String> mapRegionToActivities(String region) {
     switch (region) {
       case 'head':
       case 'neck':
-        return '08_forehead_contact';
+        return [
+          '08_forehead_contact',
+          '09_slow_breathing',
+          '10_weight_of_the_head',
+          '20_relaxing_facial_muscles',
+          '21_jaw_drop',
+          '22_smile_to_yourself',
+        ];
+      case 'chest':
+        return ['13_heart_center'];
       case 'torso':
-        return '12_abdominal_awareness';
+        return ['11_breathing', '12_abdominal_awareness'];
       case 'back':
+        return ['18_back_opening', '19_releasing_burden'];
       case 'shoulders':
-        return '17_shoulder_drop';
+        return ['17_shoulder_drop'];
       case 'arms':
+        return ['23_eft_tapping_points'];
       case 'hands':
-        return '16_hand_massage';
+        return ['14_ball_squeezing', '15_finger_meditation', '16_hand_massage'];
       case 'legs':
       case 'feet':
-        return '24_rising_on_tiptoes';
+        return ['24_rising_on_tiptoes'];
       case 'outside':
-        return '07_outside_the_body';
+        return ['07_outside_the_body'];
       default:
-        return '06_will_you_join';
+        return ['06_will_you_join'];
     }
   }
+
+  static String mapRegionToActivity(String region) {
+    final activities = mapRegionToActivities(region);
+    return (activities..shuffle()).first;
+  }
+}
+
+class _ClipDef {
+  const _ClipDef.single(this.folder, this.baseName) : type = 'single';
+  const _ClipDef.triple(this.folder, this.baseName) : type = 'triple';
+  const _ClipDef.variant(this.folder, this.baseName) : type = 'variant';
+
+  final String type;
+  final String folder;
+  final String baseName;
 }

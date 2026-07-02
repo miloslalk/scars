@@ -1,26 +1,41 @@
 {
   "rules": {
     "usernames": {
-      ".read": true,
-      ".write": "auth != null"
+      "$key": {
+        ".read": true,
+        ".write": "auth != null && (!data.exists() || data.child('uid').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['uid', 'email']) && newData.child('uid').val() === auth.uid && newData.child('email').isString()"
+      }
     },
     "users": {
       "$uid": {
         ".read": "auth != null && auth.uid == $uid",
-        ".write": "auth != null && auth.uid == $uid"
+        ".write": "auth != null && auth.uid == $uid",
+        "library": {
+          "resources": {
+            ".indexOn": ["title"]
+          }
+        }
       }
     },
     "messages": {
       ".read": "auth != null",
-      ".write": "auth != null"
+      ".write": "auth != null && auth.uid === 'Ck216x4lw8PCtFAMU6ybWEPKFee2'"
+    },
+    "quotes": {
+      ".read": "auth != null",
+      ".write": false
     },
     "guided_audio": {
       ".read": "auth != null",
-      ".write": "auth != null"
+      ".write": false
     },
     "message_reports": {
       ".read": false,
-      ".write": "auth != null"
+      ".write": "auth != null",
+      "$reportId": {
+        ".validate": "newData.hasChildren(['messageId', 'messageText']) && newData.child('messageId').isString() && newData.child('messageText').isString() && newData.child('messageText').val().length <= 1000"
+      }
     }
   }
 }

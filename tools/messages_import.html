@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Messages Admin</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <style>
+      :root {
+        --bg: #f7f5fa;
+        --card: #ffffff;
+        --text: #241f33;
+        --muted: #6f6882;
+        --primary: #6b539d;
+        --border: #ddd7e4;
+        --ok: #1f7a43;
+        --err: #b42318;
+        --warn: #8a6a1a;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .wrap { max-width: 1040px; margin: 24px auto; padding: 0 16px 40px; }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      h1 { margin: 0 0 12px; font-size: 24px; }
+      h2 { margin: 0 0 10px; font-size: 18px; }
+      p.note { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+      .grid { display: grid; gap: 10px; }
+      .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      @media (max-width: 760px) {
+        .grid.two { grid-template-columns: 1fr; }
+      }
+      label { display: block; font-size: 13px; margin-bottom: 4px; }
+      input, textarea, select, button {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        font-size: 15px;
+        font-family: inherit;
+      }
+      textarea { min-height: 70px; resize: vertical; }
+      button {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button.secondary { background: #fff; color: var(--text); }
+      button:disabled { opacity: 0.6; cursor: not-allowed; }
+      .row { display: flex; gap: 8px; }
+      .status { margin-top: 8px; font-size: 14px; min-height: 20px; }
+      .status.ok { color: var(--ok); }
+      .status.err { color: var(--err); }
+      code { background: #f2eff8; padding: 2px 6px; border-radius: 6px; }
+      .row-item {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 12px;
+        background: #fafafd;
+      }
+      .row-item.saved { background: #eef8f1; border-color: #c7e7d3; }
+      .row-item.skipped { background: #f1f1f1; opacity: 0.7; }
+      .row-item.errored { background: #fdf0ee; border-color: #f2c8c2; }
+      .row-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        gap: 8px;
+      }
+      .row-num { font-weight: 600; color: var(--muted); font-size: 13px; }
+      .chip {
+        font-size: 12px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: #eee6f5;
+        color: var(--primary);
+        border: 1px solid #e0d5ef;
+      }
+      .chip.saved { background: #dff0e5; color: var(--ok); border-color: #c7e7d3; }
+      .chip.skipped { background: #e8e8e8; color: #555; border-color: #d5d5d5; }
+      .chip.errored { background: #fce3de; color: var(--err); border-color: #f2c8c2; }
+      .chip.pending { background: #fff3d9; color: var(--warn); border-color: #f1e0ba; }
+      .char-count { color: var(--muted); font-size: 12px; float: right; }
+      .summary {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .summary strong { color: var(--text); }
+      .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: var(--border);
+        border-radius: 4px;
+        margin-top: 8px;
+        overflow: hidden;
+      }
+      .progress-bar .fill {
+        height: 100%;
+        background: var(--primary);
+        border-radius: 4px;
+        transition: width 0.3s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <h1>Messages Admin</h1>
+        <p class="note">
+          Import messages from an XLSX spreadsheet and save to Firebase RTDB at
+          <code>messages/{id}</code>. Column A = skip marker ("x" to skip),
+          Column C = other language, Column D = English.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>1) Login</h2>
+        <p class="note">Use Google sign-in (same account you use in the app).</p>
+        <div class="grid two">
+          <div>
+            <label for="apiKey">Firebase API key</label>
+            <input id="apiKey" value="AIzaSyD6BNU8UiXReWuTWThehW_CCBqrhxocTnI" />
+          </div>
+          <div>
+            <label for="authDomain">Auth domain</label>
+            <input id="authDomain" value="scars-d81cd.firebaseapp.com" />
+          </div>
+          <div>
+            <label for="projectId">Project ID</label>
+            <input id="projectId" value="scars-d81cd" />
+          </div>
+          <div>
+            <label for="googleClientId">Google Web Client ID</label>
+            <input id="googleClientId" value="537131372504-s9jffblg6jio1h6ve21d403deeblbok6.apps.googleusercontent.com" />
+          </div>
+          <div>
+            <label for="dbUrl">Realtime DB URL</label>
+            <input id="dbUrl" value="https://scars-d81cd-default-rtdb.europe-west1.firebasedatabase.app" />
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+          <div id="googleBtnMount" style="width:100%; min-height:44px;"></div>
+          <button id="logoutBtn" class="secondary" disabled>Logout</button>
+        </div>
+        <div id="authStatus" class="status"></div>
+      </div>
+
+      <div class="card">
+        <h2>2) Import from Spreadsheet</h2>
+        <p class="note">
+          Select the <code>.xlsx</code> file. Rows with <strong>"x"</strong> in
+          column A are skipped. Column C = other language, Column D = English.
+        </p>
+        <div class="row">
+          <input id="fileInput" type="file" accept=".xlsx,.xls" />
+          <button id="clearAllBtn" class="secondary" style="max-width:160px;" disabled>Clear</button>
+        </div>
+        <div id="uploadStatus" class="status"></div>
+      </div>
+
+      <div class="card" id="rowsCard" style="display:none;">
+        <h2>3) Review &amp; Save</h2>
+        <p class="note">
+          Review messages, then click <strong>Save All</strong> to write to Firebase.
+        </p>
+        <div class="summary" id="summary"></div>
+        <div class="row" style="margin-top:10px;">
+          <button id="saveAllBtn" disabled>Save All</button>
+          <button id="skipAllBtn" class="secondary" style="max-width:200px;">Skip all pending</button>
+        </div>
+        <div id="batchStatus" class="status"></div>
+        <div class="progress-bar" id="progressBar" style="display:none;">
+          <div class="fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <div id="rowsList" style="margin-top:14px;"></div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+      import {
+        getAuth,
+        GoogleAuthProvider,
+        signInWithCredential,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+      import { getDatabase, ref, update } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+      const state = {
+        app: null,
+        auth: null,
+        db: null,
+        user: null,
+        rows: [],
+      };
+
+      const $ = (id) => document.getElementById(id);
+
+      function setStatus(el, message, type = "") {
+        el.className = `status ${type}`;
+        el.textContent = message;
+      }
+
+      function pad(n) { return String(n).padStart(2, "0"); }
+
+      function buildMessageId(index) {
+        const d = new Date();
+        return `msg_${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}_${String(index).padStart(3, "0")}`;
+      }
+
+      function ensureFirebase() {
+        if (state.app) return;
+        const apiKey = $("apiKey").value.trim();
+        const authDomain = $("authDomain").value.trim();
+        const projectId = $("projectId").value.trim();
+        const databaseURL = $("dbUrl").value.trim();
+        if (!apiKey || !authDomain || !projectId || !databaseURL) {
+          throw new Error("Missing Firebase config values.");
+        }
+        state.app = initializeApp({ apiKey, authDomain, projectId, databaseURL });
+        state.auth = getAuth(state.app);
+        state.db = getDatabase(state.app);
+      }
+
+      // ---------- Auth ----------
+
+      async function handleGoogleCredentialResponse(response) {
+        if (!response || !response.credential) {
+          setStatus($("authStatus"), "Google login failed: missing credential.", "err");
+          return;
+        }
+        try { ensureFirebase(); } catch (err) {
+          setStatus($("authStatus"), err.message, "err");
+          return;
+        }
+        setStatus($("authStatus"), "Signing in...");
+        try {
+          const credential = GoogleAuthProvider.credential(response.credential);
+          const result = await signInWithCredential(state.auth, credential);
+          state.user = result.user;
+          $("logoutBtn").disabled = false;
+          refreshUI();
+          setStatus($("authStatus"), `Signed in as ${state.user.email || "Google user"} (UID: ${state.user.uid}).`, "ok");
+        } catch (err) {
+          setStatus($("authStatus"), `Google login failed: ${err.message}`, "err");
+        }
+      }
+
+      function renderGoogleButton() {
+        const mount = $("googleBtnMount");
+        mount.innerHTML = "";
+        const clientId = $("googleClientId").value.trim();
+        if (!clientId) {
+          setStatus($("authStatus"), "Missing Google Web Client ID.", "err");
+          return;
+        }
+        if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+          setStatus($("authStatus"), "Google script not loaded. Refresh page.", "err");
+          return;
+        }
+        window.google.accounts.id.initialize({
+          client_id: clientId,
+          callback: handleGoogleCredentialResponse,
+          ux_mode: "popup",
+        });
+        window.google.accounts.id.renderButton(mount, {
+          theme: "outline", size: "large", type: "standard",
+          text: "signin_with", shape: "rectangular",
+          logo_alignment: "left", width: 360,
+        });
+      }
+
+      async function logout() {
+        if (state.auth) {
+          try { await signOut(state.auth); } catch (_) {}
+        }
+        state.user = null;
+        $("logoutBtn").disabled = true;
+        refreshUI();
+        setStatus($("authStatus"), "Signed out.");
+      }
+
+      // ---------- XLSX parsing ----------
+
+      function parseWorkbook(data) {
+        const wb = XLSX.read(data, { type: "array" });
+        const sheetName = wb.SheetNames[0];
+        if (!sheetName) throw new Error("No sheets in workbook.");
+        const ws = wb.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "", blankrows: false });
+        const parsed = [];
+        for (let i = 1; i < rows.length; i++) {
+          const r = rows[i] || [];
+          const skipMarker = String(r[0] ?? "").trim().toLowerCase();
+          if (skipMarker === "x" || skipMarker === "skip") continue;
+          const text = String(r[2] ?? "").trim();     // Column C — other language
+          const textEn = String(r[3] ?? "").trim();   // Column D — English
+          if (!text && !textEn) continue;
+          parsed.push({
+            idx: i + 1,
+            text,
+            textEn,
+            status: "pending",
+            messageId: null,
+            error: null,
+          });
+        }
+        return parsed;
+      }
+
+      async function handleFile(ev) {
+        const file = ev.target.files && ev.target.files[0];
+        if (!file) return;
+        setStatus($("uploadStatus"), `Reading ${file.name}...`);
+        try {
+          const buf = await file.arrayBuffer();
+          const parsed = parseWorkbook(buf);
+          state.rows = parsed;
+          renderRows();
+          $("rowsCard").style.display = "";
+          $("clearAllBtn").disabled = parsed.length === 0;
+          setStatus($("uploadStatus"), `Loaded ${parsed.length} message(s) from ${file.name}.`, "ok");
+        } catch (err) {
+          setStatus($("uploadStatus"), `Failed to parse: ${err.message}`, "err");
+        }
+      }
+
+      function clearAll() {
+        state.rows = [];
+        renderRows();
+        $("rowsCard").style.display = "none";
+        $("clearAllBtn").disabled = true;
+        $("fileInput").value = "";
+        setStatus($("uploadStatus"), "");
+        setStatus($("batchStatus"), "");
+        $("progressBar").style.display = "none";
+      }
+
+      // ---------- Rendering ----------
+
+      function renderRows() {
+        const list = $("rowsList");
+        list.innerHTML = "";
+        for (const row of state.rows) {
+          list.appendChild(renderRow(row));
+        }
+        updateSummary();
+        refreshUI();
+      }
+
+      function renderRow(row) {
+        const wrap = document.createElement("div");
+        wrap.className = `row-item ${row.status === "pending" ? "" : row.status}`;
+
+        const head = document.createElement("div");
+        head.className = "row-head";
+        const num = document.createElement("div");
+        num.className = "row-num";
+        num.textContent = `#${row.idx}${row.messageId ? ` — ${row.messageId}` : ""}`;
+        const chip = document.createElement("span");
+        chip.className = `chip ${row.status}`;
+        chip.textContent = row.status;
+        head.appendChild(num);
+        head.appendChild(chip);
+        wrap.appendChild(head);
+
+        const grid = document.createElement("div");
+        grid.className = "grid two";
+
+        // Other language
+        const otherWrap = document.createElement("div");
+        const otherLabel = document.createElement("label");
+        otherLabel.innerHTML = `Other language <span class="char-count">${row.text.length} chars</span>`;
+        const otherArea = document.createElement("textarea");
+        otherArea.value = row.text;
+        otherArea.addEventListener("input", () => {
+          row.text = otherArea.value;
+          otherLabel.innerHTML = `Other language <span class="char-count">${row.text.length} chars</span>`;
+        });
+        otherWrap.appendChild(otherLabel);
+        otherWrap.appendChild(otherArea);
+
+        // English
+        const enWrap = document.createElement("div");
+        const enLabel = document.createElement("label");
+        enLabel.innerHTML = `English <span class="char-count">${row.textEn.length} chars</span>`;
+        const enArea = document.createElement("textarea");
+        enArea.value = row.textEn;
+        enArea.addEventListener("input", () => {
+          row.textEn = enArea.value;
+          enLabel.innerHTML = `English <span class="char-count">${row.textEn.length} chars</span>`;
+        });
+        enWrap.appendChild(enLabel);
+        enWrap.appendChild(enArea);
+
+        grid.appendChild(otherWrap);
+        grid.appendChild(enWrap);
+        wrap.appendChild(grid);
+
+        // Controls
+        const controls = document.createElement("div");
+        controls.style.cssText = "display:flex; gap:8px; margin-top:8px;";
+        const saveBtn = document.createElement("button");
+        saveBtn.textContent = "Save";
+        saveBtn.disabled = !state.user;
+        saveBtn.addEventListener("click", () => saveOneRow(row));
+        const skipBtn = document.createElement("button");
+        skipBtn.className = "secondary";
+        skipBtn.textContent = "Skip";
+        skipBtn.addEventListener("click", () => {
+          row.status = "skipped";
+          refreshRowUI(row);
+          updateSummary();
+        });
+        controls.appendChild(saveBtn);
+        controls.appendChild(skipBtn);
+        wrap.appendChild(controls);
+
+        // Status
+        const statusEl = document.createElement("div");
+        statusEl.className = "status";
+        if (row.error) setStatus(statusEl, row.error, "err");
+        wrap.appendChild(statusEl);
+
+        row._ui = { wrap, chip, num, saveBtn, skipBtn, otherArea, enArea, statusEl };
+        refreshRowUI(row);
+        return wrap;
+      }
+
+      function refreshRowUI(row) {
+        if (!row._ui) return;
+        const { wrap, chip, saveBtn, skipBtn, otherArea, enArea } = row._ui;
+        wrap.classList.remove("saved", "skipped", "errored");
+        if (row.status !== "pending") wrap.classList.add(row.status);
+        chip.className = `chip ${row.status}`;
+        chip.textContent = row.status;
+        const locked = row.status === "saved" || row.status === "skipped";
+        saveBtn.disabled = locked || !state.user;
+        skipBtn.disabled = locked;
+        otherArea.disabled = locked;
+        enArea.disabled = locked;
+        if (row.messageId) {
+          row._ui.num.textContent = `#${row.idx} — ${row.messageId}`;
+        }
+      }
+
+      function updateSummary() {
+        const total = state.rows.length;
+        const saved = state.rows.filter((r) => r.status === "saved").length;
+        const skipped = state.rows.filter((r) => r.status === "skipped").length;
+        const errored = state.rows.filter((r) => r.status === "errored").length;
+        const pending = total - saved - skipped - errored;
+        $("summary").innerHTML =
+          `<div>Total: <strong>${total}</strong></div>` +
+          `<div>Pending: <strong>${pending}</strong></div>` +
+          `<div>Saved: <strong>${saved}</strong></div>` +
+          `<div>Skipped: <strong>${skipped}</strong></div>` +
+          `<div>Errored: <strong>${errored}</strong></div>`;
+      }
+
+      function refreshUI() {
+        const canSave = !!state.user && state.rows.length > 0;
+        $("saveAllBtn").disabled = !canSave;
+        for (const row of state.rows) refreshRowUI(row);
+      }
+
+      function setProgress(current, total) {
+        const bar = $("progressBar");
+        const fill = $("progressFill");
+        bar.style.display = "";
+        fill.style.width = `${Math.round((current / total) * 100)}%`;
+      }
+
+      // ---------- Saving ----------
+
+      async function saveOneRow(row) {
+        if (!state.user || !state.db) {
+          setStatus(row._ui.statusEl, "Login first.", "err");
+          return;
+        }
+        if (row.status === "saved" || row.status === "skipped") return;
+        const text = row.text.trim();
+        const textEn = row.textEn.trim();
+        if (!text && !textEn) {
+          row.status = "errored";
+          row.error = "Both text fields are empty.";
+          setStatus(row._ui.statusEl, row.error, "err");
+          refreshRowUI(row);
+          updateSummary();
+          return;
+        }
+
+        const messageId = row.messageId || buildMessageId(row.idx);
+        const now = new Date().toISOString();
+
+        setStatus(row._ui.statusEl, "Saving...");
+        row._ui.saveBtn.disabled = true;
+
+        try {
+          const updates = {};
+          updates[`messages/${messageId}`] = {
+            id: messageId,
+            text: text,
+            textEn: textEn,
+            enabled: true,
+            updatedAt: now,
+          };
+          await update(ref(state.db), updates);
+
+          row.messageId = messageId;
+          row.status = "saved";
+          row.error = null;
+          setStatus(row._ui.statusEl, `Saved as ${messageId}.`, "ok");
+        } catch (err) {
+          row.status = "errored";
+          row.error = err.message;
+          setStatus(row._ui.statusEl, `Failed: ${err.message}`, "err");
+        }
+
+        refreshRowUI(row);
+        updateSummary();
+      }
+
+      async function saveAllPending() {
+        if (!state.user) {
+          setStatus($("batchStatus"), "Login first.", "err");
+          return;
+        }
+
+        const pending = state.rows.filter((r) => r.status === "pending");
+        if (pending.length === 0) {
+          setStatus($("batchStatus"), "Nothing pending.");
+          return;
+        }
+
+        $("saveAllBtn").disabled = true;
+        $("skipAllBtn").disabled = true;
+
+        try {
+          setStatus($("batchStatus"), `Saving ${pending.length} messages...`);
+          setProgress(0, pending.length);
+
+          const now = new Date().toISOString();
+          const updates = {};
+          let savedCount = 0;
+
+          for (let i = 0; i < pending.length; i++) {
+            const row = pending[i];
+            const text = row.text.trim();
+            const textEn = row.textEn.trim();
+            if (!text && !textEn) {
+              row.status = "errored";
+              row.error = "Both text fields are empty.";
+              setStatus(row._ui.statusEl, row.error, "err");
+              refreshRowUI(row);
+              continue;
+            }
+
+            const messageId = row.messageId || buildMessageId(i + 1);
+            row.messageId = messageId;
+
+            updates[`messages/${messageId}`] = {
+              id: messageId,
+              text: text,
+              textEn: textEn,
+              enabled: true,
+              updatedAt: now,
+            };
+            savedCount++;
+          }
+
+          await update(ref(state.db), updates);
+
+          for (const row of pending) {
+            if (row.status !== "errored") {
+              row.status = "saved";
+              row.error = null;
+              setStatus(row._ui.statusEl, `Saved as ${row.messageId}.`, "ok");
+              refreshRowUI(row);
+            }
+          }
+
+          setProgress(pending.length, pending.length);
+          setStatus($("batchStatus"), `Done! Saved ${savedCount} messages.`, "ok");
+        } catch (err) {
+          setStatus($("batchStatus"), `Failed: ${err.message}`, "err");
+        }
+
+        $("saveAllBtn").disabled = false;
+        $("skipAllBtn").disabled = false;
+        updateSummary();
+      }
+
+      function skipAllPending() {
+        for (const row of state.rows) {
+          if (row.status === "pending") {
+            row.status = "skipped";
+            refreshRowUI(row);
+          }
+        }
+        updateSummary();
+      }
+
+      // ---------- Wire up ----------
+
+      window.addEventListener("load", () => { setTimeout(renderGoogleButton, 120); });
+      $("googleClientId").addEventListener("change", renderGoogleButton);
+      $("logoutBtn").addEventListener("click", logout);
+      $("fileInput").addEventListener("change", handleFile);
+      $("clearAllBtn").addEventListener("click", clearAll);
+      $("saveAllBtn").addEventListener("click", saveAllPending);
+      $("skipAllBtn").addEventListener("click", skipAllPending);
+    </script>
+  </body>
+</html>

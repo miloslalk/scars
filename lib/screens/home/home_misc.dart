@@ -19,8 +19,8 @@ class _SettingsContentState extends State<_SettingsContent> {
   final ImagePicker _picker = ImagePicker();
   bool _isAvatarBusy = false;
   bool _isDeletingAccount = false;
-  bool _dailyNotificationsEnabled = true;
-  bool _inactiveNotificationsEnabled = true;
+  bool _dailyNotificationsEnabled = false;
+  bool _inactiveNotificationsEnabled = false;
   int _dailyNotificationHour = 9;
   int _dailyNotificationMinute = 0;
 
@@ -61,7 +61,7 @@ class _SettingsContentState extends State<_SettingsContent> {
     if (locale.languageCode == 'en') {
       return 'English';
     }
-    if (locale.languageCode == 'sr' && locale.scriptCode == 'Latn') {
+    if (locale.languageCode == 'sr') {
       return 'Srpski';
     }
     if (locale.languageCode == 'mk') {
@@ -92,6 +92,7 @@ class _SettingsContentState extends State<_SettingsContent> {
     if (_isAvatarBusy) return;
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
+    final l10n = AppLocalizations.of(context)!;
 
     setState(() {
       _isAvatarBusy = true;
@@ -111,18 +112,20 @@ class _SettingsContentState extends State<_SettingsContent> {
       );
       await ref.putFile(file);
       final url = await ref.getDownloadURL();
-      await FirebaseDatabase.instance
-          .ref('users/${user.uid}/avatarUrl')
-          .set(url);
+      await FirebaseDatabase.instance.ref('users/${user.uid}').update({
+        'avatarUrl': url,
+        'avatarAssetPath': null,
+        'avatarDefaultDismissed': null,
+      });
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Avatar updated.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.avatarUpdated)));
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Failed to update avatar.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.avatarUpdateFailed)));
     } finally {
       if (mounted) {
         setState(() {
@@ -136,6 +139,7 @@ class _SettingsContentState extends State<_SettingsContent> {
     if (_isAvatarBusy) return;
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
+    final l10n = AppLocalizations.of(context)!;
 
     setState(() {
       _isAvatarBusy = true;
@@ -149,18 +153,53 @@ class _SettingsContentState extends State<_SettingsContent> {
     } catch (_) {}
 
     try {
-      await FirebaseDatabase.instance
-          .ref('users/${user.uid}/avatarUrl')
-          .remove();
+      await FirebaseDatabase.instance.ref('users/${user.uid}').update({
+        'avatarUrl': null,
+        'avatarAssetPath': null,
+        'avatarDefaultDismissed': true,
+      });
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Avatar removed.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.avatarRemoved)));
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Failed to remove avatar.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.avatarRemoveFailed)));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isAvatarBusy = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _selectBundledAvatar(String assetPath) async {
+    if (_isAvatarBusy) return;
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    final l10n = AppLocalizations.of(context)!;
+
+    setState(() {
+      _isAvatarBusy = true;
+    });
+
+    try {
+      await FirebaseDatabase.instance.ref('users/${user.uid}').update({
+        'avatarAssetPath': assetPath,
+        'avatarDefaultDismissed': null,
+      });
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.avatarUpdated)));
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.avatarUpdateFailed)));
     } finally {
       if (mounted) {
         setState(() {
@@ -173,6 +212,7 @@ class _SettingsContentState extends State<_SettingsContent> {
   Future<void> _updateDisplayName(String name) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
+    final l10n = AppLocalizations.of(context)!;
     final trimmed = name.trim();
     if (trimmed.isEmpty) return;
     try {
@@ -183,42 +223,47 @@ class _SettingsContentState extends State<_SettingsContent> {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Name updated.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.nameUpdated)));
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Failed to update name.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.nameUpdateFailed)));
     }
   }
 
   Future<void> _editDisplayName(String? currentName) async {
+    final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController(text: currentName ?? '');
-    final result = await showDialog<String>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Edit name'),
-          content: TextField(
-            controller: controller,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(labelText: 'Full name'),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+    try {
+      final result = await showDialog<String>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(l10n.editNameTitle),
+            content: TextField(
+              controller: controller,
+              textInputAction: TextInputAction.done,
+              decoration: InputDecoration(labelText: l10n.fullNameLabel),
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, controller.text),
-              child: const Text('Save'),
-            ),
-          ],
-        );
-      },
-    );
-    if (result == null) return;
-    await _updateDisplayName(result);
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(l10n.cancelLabel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, controller.text),
+                child: Text(l10n.saveLabel),
+              ),
+            ],
+          );
+        },
+      );
+      if (result == null) return;
+      await _updateDisplayName(result);
+    } finally {
+      controller.dispose();
+    }
   }
 
   bool _canUpdateCredentials(User? user) {
@@ -228,73 +273,76 @@ class _SettingsContentState extends State<_SettingsContent> {
         false;
   }
 
-  Future<bool> _reauthenticatePasswordUser(
-    User user, {
-    String title = 'Confirm password',
-  }) async {
+  Future<bool> _reauthenticatePasswordUser(User user, {String? title}) async {
+    final l10n = AppLocalizations.of(context)!;
     final email = user.email?.trim();
     if (email == null || email.isEmpty) return false;
 
     final controller = TextEditingController();
-    bool obscure = true;
-    final password = await showDialog<String>(
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: Text(title),
-              content: TextField(
-                controller: controller,
-                obscureText: obscure,
-                textInputAction: TextInputAction.done,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      obscure ? Icons.visibility : Icons.visibility_off,
+    try {
+      bool obscure = true;
+      final password = await showDialog<String>(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                title: Text(title ?? l10n.confirmPasswordLabel),
+                content: TextField(
+                  controller: controller,
+                  obscureText: obscure,
+                  textInputAction: TextInputAction.done,
+                  decoration: InputDecoration(
+                    labelText: l10n.passwordLabel,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        obscure ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          obscure = !obscure;
+                        });
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {
-                        obscure = !obscure;
-                      });
-                    },
                   ),
                 ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context, controller.text),
-                  child: const Text('Confirm'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-    if (password == null || password.trim().isEmpty) return false;
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(l10n.cancelLabel),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(context, controller.text),
+                    child: Text(l10n.confirmLabel),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+      if (password == null || password.trim().isEmpty) return false;
 
-    final credential = EmailAuthProvider.credential(
-      email: email,
-      password: password.trim(),
-    );
-    await user.reauthenticateWithCredential(credential);
-    return true;
+      final credential = EmailAuthProvider.credential(
+        email: email,
+        password: password.trim(),
+      );
+      await user.reauthenticateWithCredential(credential);
+      return true;
+    } finally {
+      controller.dispose();
+    }
   }
 
   String? _validatePassword(String value) {
+    final l10n = AppLocalizations.of(context)!;
     final trimmed = value.trim();
-    if (trimmed.length < 8) return 'Password must be at least 8 characters.';
+    if (trimmed.length < 8) return l10n.passwordMustBeAtLeast8;
     final hasUpper = RegExp(r'[A-Z]').hasMatch(trimmed);
     final hasNumber = RegExp(r'\d').hasMatch(trimmed);
     final hasSpecial = RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(trimmed);
     if (!hasUpper || !hasNumber || !hasSpecial) {
-      return 'Use 1 uppercase, 1 number, and 1 special character.';
+      return l10n.passwordRequirementsSummary;
     }
     return null;
   }
@@ -306,6 +354,7 @@ class _SettingsContentState extends State<_SettingsContent> {
   }) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
+    final l10n = AppLocalizations.of(context)!;
     final trimmed = email.trim();
     if (trimmed.isEmpty || !trimmed.contains('@')) return;
     final currentEmail = user.email?.trim();
@@ -315,7 +364,7 @@ class _SettingsContentState extends State<_SettingsContent> {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Email is unchanged.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.emailUnchanged)));
       return;
     }
     try {
@@ -325,35 +374,33 @@ class _SettingsContentState extends State<_SettingsContent> {
           .set(trimmed);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Verification email sent to the new address.'),
-        ),
+        SnackBar(content: Text(l10n.verificationEmailSentNewAddress)),
       );
     } on FirebaseAuthException catch (error) {
       if (error.code == 'requires-recent-login' && allowReauthRetry) {
         try {
           final reauthed = await _reauthenticatePasswordUser(
             user,
-            title: 'Re-authenticate to update email',
+            title: l10n.reauthenticateToUpdateEmail,
           );
           if (!reauthed) return;
           await _updateEmail(email, username, allowReauthRetry: false);
           return;
         } on FirebaseAuthException {
           if (!mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Re-authentication failed.')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.reauthenticationFailed)));
           return;
         } catch (_) {
           if (!mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Re-authentication failed.')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.reauthenticationFailed)));
           return;
         }
       }
-      final message = 'Failed to update email.';
+      final message = l10n.emailUpdateFailed;
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
@@ -362,38 +409,43 @@ class _SettingsContentState extends State<_SettingsContent> {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Failed to update email.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.emailUpdateFailed)));
     }
   }
 
   Future<void> _editEmail(String? currentEmail, String? username) async {
+    final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController(text: currentEmail ?? '');
-    final result = await showDialog<String>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Edit email'),
-          content: TextField(
-            controller: controller,
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(labelText: 'Email'),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+    try {
+      final result = await showDialog<String>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(l10n.editEmailTitle),
+            content: TextField(
+              controller: controller,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.done,
+              decoration: InputDecoration(labelText: l10n.emailLabel),
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, controller.text),
-              child: const Text('Save'),
-            ),
-          ],
-        );
-      },
-    );
-    if (result == null) return;
-    await _updateEmail(result, username);
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(l10n.cancelLabel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, controller.text),
+                child: Text(l10n.saveLabel),
+              ),
+            ],
+          );
+        },
+      );
+      if (result == null) return;
+      await _updateEmail(result, username);
+    } finally {
+      controller.dispose();
+    }
   }
 
   Future<void> _updatePassword(
@@ -402,6 +454,7 @@ class _SettingsContentState extends State<_SettingsContent> {
   }) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
+    final l10n = AppLocalizations.of(context)!;
     final validation = _validatePassword(value);
     if (validation != null) {
       ScaffoldMessenger.of(
@@ -414,160 +467,167 @@ class _SettingsContentState extends State<_SettingsContent> {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Password updated.')));
+      ).showSnackBar(SnackBar(content: Text(l10n.passwordUpdated)));
     } on FirebaseAuthException catch (error) {
       if (error.code == 'requires-recent-login' && allowReauthRetry) {
         try {
           final reauthed = await _reauthenticatePasswordUser(
             user,
-            title: 'Re-authenticate to update password',
+            title: l10n.reauthenticateToUpdatePassword,
           );
           if (!reauthed) return;
           await _updatePassword(value, allowReauthRetry: false);
           return;
         } on FirebaseAuthException {
           if (!mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Re-authentication failed.')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.reauthenticationFailed)));
           return;
         } catch (_) {
           if (!mounted) return;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Re-authentication failed.')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.reauthenticationFailed)));
           return;
         }
       }
-      final message = 'Failed to update password.';
+      final message = l10n.passwordUpdateFailed;
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(message)));
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to update password.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.passwordUpdateFailed)));
     }
   }
 
   Future<void> _editPassword() async {
+    final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController();
     final confirmController = TextEditingController();
-    bool obscure = true;
-    bool obscureConfirm = true;
-    String? validationMessage;
-    final result = await showDialog<String>(
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: const Text('Change password'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(
-                    controller: controller,
-                    obscureText: obscure,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                      labelText: 'New password',
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          obscure ? Icons.visibility : Icons.visibility_off,
+    try {
+      bool obscure = true;
+      bool obscureConfirm = true;
+      String? validationMessage;
+      final result = await showDialog<String>(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                title: Text(l10n.changePasswordTitle),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      controller: controller,
+                      obscureText: obscure,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        labelText: l10n.newPasswordLabel,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            obscure ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              obscure = !obscure;
+                            });
+                          },
                         ),
-                        onPressed: () {
-                          setState(() {
-                            obscure = !obscure;
-                          });
-                        },
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          validationMessage = _validatePassword(value);
+                        });
+                      },
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        validationMessage = _validatePassword(value);
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: confirmController,
-                    obscureText: obscureConfirm,
-                    textInputAction: TextInputAction.done,
-                    decoration: InputDecoration(
-                      labelText: 'Confirm password',
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          obscureConfirm
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: confirmController,
+                      obscureText: obscureConfirm,
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                        labelText: l10n.confirmPasswordLabel,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            obscureConfirm
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              obscureConfirm = !obscureConfirm;
+                            });
+                          },
                         ),
-                        onPressed: () {
-                          setState(() {
-                            obscureConfirm = !obscureConfirm;
-                          });
-                        },
+                      ),
+                      onChanged: (_) {
+                        setState(() {});
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        validationMessage ??
+                            l10n.passwordRequirementsSummaryShort,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: validationMessage == null
+                              ? Colors.grey.shade600
+                              : Colors.red.shade600,
+                        ),
                       ),
                     ),
-                    onChanged: (_) {
-                      setState(() {});
-                    },
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(l10n.cancelLabel),
                   ),
-                  const SizedBox(height: 8),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      validationMessage ??
-                          'Min 8 chars, 1 uppercase, 1 number, 1 special.',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: validationMessage == null
-                            ? Colors.grey.shade600
-                            : Colors.red.shade600,
-                      ),
-                    ),
+                  ElevatedButton(
+                    onPressed: () {
+                      final password = controller.text;
+                      final confirm = confirmController.text;
+                      final validation = _validatePassword(password);
+                      if (validation != null) {
+                        setState(() {
+                          validationMessage = validation;
+                        });
+                        return;
+                      }
+                      if (password != confirm) {
+                        setState(() {
+                          validationMessage = l10n.passwordsDoNotMatch;
+                        });
+                        return;
+                      }
+                      Navigator.pop(context, password);
+                    },
+                    child: Text(l10n.saveLabel),
                   ),
                 ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    final password = controller.text;
-                    final confirm = confirmController.text;
-                    final validation = _validatePassword(password);
-                    if (validation != null) {
-                      setState(() {
-                        validationMessage = validation;
-                      });
-                      return;
-                    }
-                    if (password != confirm) {
-                      setState(() {
-                        validationMessage = 'Passwords do not match.';
-                      });
-                      return;
-                    }
-                    Navigator.pop(context, password);
-                  },
-                  child: const Text('Save'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-    if (result == null) return;
-    await _updatePassword(result);
+              );
+            },
+          );
+        },
+      );
+      if (result == null) return;
+      await _updatePassword(result);
+    } finally {
+      controller.dispose();
+      confirmController.dispose();
+    }
   }
 
   void _openAvatarSheet() {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -576,8 +636,16 @@ class _SettingsContentState extends State<_SettingsContent> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
+                leading: const Icon(Icons.face_retouching_natural),
+                title: Text(l10n.chooseAvatarLabel),
+                onTap: () {
+                  Navigator.pop(context);
+                  _openBundledAvatarSheet();
+                },
+              ),
+              ListTile(
                 leading: const Icon(Icons.photo_camera),
-                title: const Text('Take a photo'),
+                title: Text(l10n.takePhotoLabel),
                 onTap: () {
                   Navigator.pop(context);
                   _pickAvatar(ImageSource.camera);
@@ -585,7 +653,7 @@ class _SettingsContentState extends State<_SettingsContent> {
               ),
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('Choose from gallery'),
+                title: Text(l10n.chooseFromGalleryLabel),
                 onTap: () {
                   Navigator.pop(context);
                   _pickAvatar(ImageSource.gallery);
@@ -593,13 +661,69 @@ class _SettingsContentState extends State<_SettingsContent> {
               ),
               ListTile(
                 leading: const Icon(Icons.delete_outline),
-                title: const Text('Remove photo'),
+                title: Text(l10n.removePhotoLabel),
                 onTap: () {
                   Navigator.pop(context);
                   _removeAvatar();
                 },
               ),
             ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _openBundledAvatarSheet() {
+    final l10n = AppLocalizations.of(context)!;
+    showModalBottomSheet(
+      context: context,
+      showDragHandle: true,
+      builder: (context) {
+        final colorScheme = Theme.of(context).colorScheme;
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.avatarPickerTitle,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: bundledAvatars.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 14,
+                    crossAxisSpacing: 14,
+                  ),
+                  itemBuilder: (context, index) {
+                    final avatar = bundledAvatars[index];
+                    return Tooltip(
+                      message: avatar.label,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(999),
+                        onTap: () {
+                          Navigator.pop(context);
+                          _selectBundledAvatar(avatar.assetPath);
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: colorScheme.primaryContainer,
+                          foregroundImage: AssetImage(avatar.assetPath),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -616,21 +740,6 @@ class _SettingsContentState extends State<_SettingsContent> {
       return email.substring(0, 1).toUpperCase();
     }
     return 'U';
-  }
-
-  String _safeKey(String value) {
-    if (value.isEmpty) return 'user';
-    final buffer = StringBuffer();
-    for (final codeUnit in value.codeUnits) {
-      final isValid =
-          (codeUnit >= 48 && codeUnit <= 57) ||
-          (codeUnit >= 65 && codeUnit <= 90) ||
-          (codeUnit >= 97 && codeUnit <= 122) ||
-          codeUnit == 45 ||
-          codeUnit == 95;
-      buffer.write(isValid ? String.fromCharCode(codeUnit) : '_');
-    }
-    return buffer.toString();
   }
 
   Future<void> _deleteStoragePathRecursively(Reference ref) async {
@@ -683,56 +792,67 @@ class _SettingsContentState extends State<_SettingsContent> {
           throw FirebaseAuthException(code: 'requires-recent-login');
         }
         final passwordController = TextEditingController();
-        bool obscure = true;
-        final password = await showDialog<String>(
-          context: context,
-          builder: (context) {
-            return StatefulBuilder(
-              builder: (context, setState) {
-                return AlertDialog(
-                  title: Text(l10n.confirmPasswordLabel),
-                  content: TextField(
-                    controller: passwordController,
-                    obscureText: obscure,
-                    textInputAction: TextInputAction.done,
-                    decoration: InputDecoration(
-                      labelText: l10n.passwordLabel,
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          obscure ? Icons.visibility : Icons.visibility_off,
+        try {
+          bool obscure = true;
+          final password = await showDialog<String>(
+            context: context,
+            builder: (context) {
+              return StatefulBuilder(
+                builder: (context, setState) {
+                  return AlertDialog(
+                    title: Text(l10n.confirmPasswordLabel),
+                    content: TextField(
+                      controller: passwordController,
+                      obscureText: obscure,
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                        labelText: l10n.passwordLabel,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            obscure ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              obscure = !obscure;
+                            });
+                          },
                         ),
-                        onPressed: () {
-                          setState(() {
-                            obscure = !obscure;
-                          });
-                        },
                       ),
                     ),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(l10n.cancelLabel),
-                    ),
-                    ElevatedButton(
-                      onPressed: () =>
-                          Navigator.pop(context, passwordController.text),
-                      child: Text(l10n.confirmLabel),
-                    ),
-                  ],
-                );
-              },
-            );
-          },
-        );
-        if (password == null || password.trim().isEmpty) {
-          return;
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(l10n.cancelLabel),
+                      ),
+                      ElevatedButton(
+                        onPressed: () =>
+                            Navigator.pop(context, passwordController.text),
+                        child: Text(l10n.confirmLabel),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          );
+          if (password == null || password.trim().isEmpty) {
+            return;
+          }
+          final credential = EmailAuthProvider.credential(
+            email: email,
+            password: password.trim(),
+          );
+          await user.reauthenticateWithCredential(credential);
+        } finally {
+          passwordController.dispose();
         }
-        final credential = EmailAuthProvider.credential(
-          email: email,
-          password: password.trim(),
-        );
-        await user.reauthenticateWithCredential(credential);
+      } else if (providerIds.contains('google.com')) {
+        // Re-authenticate BEFORE deleting any data; otherwise user.delete()
+        // can fail with requires-recent-login after the profile is gone,
+        // leaving a half-deleted account.
+        await user.reauthenticateWithProvider(GoogleAuthProvider());
+      } else if (providerIds.contains('apple.com')) {
+        await user.reauthenticateWithProvider(AppleAuthProvider());
       }
 
       final userRef = FirebaseDatabase.instance.ref('users/${user.uid}');
@@ -755,7 +875,7 @@ class _SettingsContentState extends State<_SettingsContent> {
       await userRef.remove();
       if (username != null) {
         await FirebaseDatabase.instance
-            .ref('usernames/${_safeKey(username)}')
+            .ref('usernames/${safeKey(username)}')
             .remove();
       }
 
@@ -797,23 +917,25 @@ class _SettingsContentState extends State<_SettingsContent> {
   }
 
   String _notificationSummary({
+    required BuildContext context,
     required bool dailyEnabled,
     required bool inactiveEnabled,
     required int dailyHour,
     required int dailyMinute,
   }) {
+    final l10n = AppLocalizations.of(context)!;
     if (!dailyEnabled && !inactiveEnabled) {
-      return 'Notifications are turned off.';
+      return l10n.notificationsOffSummary;
     }
     final hh = dailyHour.toString().padLeft(2, '0');
     final mm = dailyMinute.toString().padLeft(2, '0');
     if (dailyEnabled && inactiveEnabled) {
-      return 'Daily at $hh:$mm and 7-day inactivity reminders.';
+      return l10n.notificationsDailyAndInactiveSummary(hh, mm);
     }
     if (dailyEnabled) {
-      return 'Daily reminder at $hh:$mm.';
+      return l10n.notificationsDailyOnlySummary(hh, mm);
     }
-    return 'Only 7-day inactivity reminders.';
+    return l10n.notificationsInactiveOnlySummary;
   }
 
   Future<void> _saveNotificationPreferences({
@@ -858,6 +980,7 @@ class _SettingsContentState extends State<_SettingsContent> {
     required int dailyHour,
     required int dailyMinute,
   }) async {
+    final l10n = AppLocalizations.of(context)!;
     final result = await showModalBottomSheet<_NotificationPrefsDraft>(
       context: context,
       isScrollControlled: true,
@@ -880,14 +1003,14 @@ class _SettingsContentState extends State<_SettingsContent> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Notifications',
+                    l10n.settingsNotificationsTitle,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 12),
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Daily reminder'),
-                    subtitle: const Text('Send a daily morning push.'),
+                    title: Text(l10n.dailyReminderTitle),
+                    subtitle: Text(l10n.dailyReminderSubtitle),
                     value: draft.dailyEnabled,
                     onChanged: (value) {
                       setState(() {
@@ -897,7 +1020,7 @@ class _SettingsContentState extends State<_SettingsContent> {
                   ),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Reminder time'),
+                    title: Text(l10n.reminderTimeTitle),
                     subtitle: Text(timeLabel),
                     trailing: const Icon(Icons.schedule),
                     enabled: draft.dailyEnabled,
@@ -923,8 +1046,8 @@ class _SettingsContentState extends State<_SettingsContent> {
                   const SizedBox(height: 8),
                   SwitchListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Inactive reminder'),
-                    subtitle: const Text('Send a reminder after 7 days away.'),
+                    title: Text(l10n.inactiveReminderTitle),
+                    subtitle: Text(l10n.inactiveReminderSubtitle),
                     value: draft.inactiveEnabled,
                     onChanged: (value) {
                       setState(() {
@@ -937,12 +1060,12 @@ class _SettingsContentState extends State<_SettingsContent> {
                     children: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),
-                        child: const Text('Cancel'),
+                        child: Text(l10n.cancelLabel),
                       ),
                       const Spacer(),
                       ElevatedButton(
                         onPressed: () => Navigator.pop(context, draft),
-                        child: const Text('Save'),
+                        child: Text(l10n.saveLabel),
                       ),
                     ],
                   ),
@@ -970,14 +1093,12 @@ class _SettingsContentState extends State<_SettingsContent> {
       });
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Notification preferences saved.')),
+        SnackBar(content: Text(l10n.notificationPreferencesSaved)),
       );
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to save notification preferences.'),
-        ),
+        SnackBar(content: Text(l10n.notificationPreferencesSaveFailed)),
       );
     }
   }
@@ -1104,6 +1225,28 @@ class _SettingsContentState extends State<_SettingsContent> {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 28),
       children: [
+        Column(
+          children: [
+            Image.asset(
+              'assets/icons/EN_Co-fundedbytheEU_RGB_POS-scaled.png',
+              height: 48,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Funded by the European Union. Views and opinions expressed are '
+              'however those of the author(s) only and do not necessarily '
+              'reflect those of the European Union or the European Education '
+              'and Culture Executive Agency (EACEA). Neither the European '
+              'Union nor EACEA can be held responsible for them.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                color: panelTextColor.withValues(alpha: 0.6),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
         Container(
           padding: const EdgeInsets.all(16),
           margin: const EdgeInsets.only(bottom: 14),
@@ -1147,22 +1290,27 @@ class _SettingsContentState extends State<_SettingsContent> {
             ],
           ),
         ),
-        _sectionLabel(context, 'Account'),
+        _sectionLabel(context, l10n.accountSectionTitle),
         StreamBuilder<DatabaseEvent>(
           stream: profileStream,
           builder: (context, snapshot) {
             final value = snapshot.data?.snapshot.value;
             String? avatarUrl;
+            String? avatarAssetPath;
             String? fullName;
             String? username;
             String? email;
             if (value is Map) {
               final data = Map<String, dynamic>.from(value);
               final avatarValue = data['avatarUrl'];
+              final avatarAssetValue = data['avatarAssetPath'];
               final nameValue = data['fullName'];
               final usernameValue = data['username'];
               final emailValue = data['email'];
               avatarUrl = avatarValue is String ? avatarValue : null;
+              avatarAssetPath = avatarAssetValue is String
+                  ? avatarAssetValue
+                  : null;
               fullName = nameValue is String ? nameValue : null;
               username = usernameValue is String ? usernameValue : null;
               email = emailValue is String ? emailValue : null;
@@ -1170,14 +1318,23 @@ class _SettingsContentState extends State<_SettingsContent> {
             final canUpdate = _canUpdateCredentials(user);
             final displayName = (fullName != null && fullName.trim().isNotEmpty)
                 ? fullName.trim()
-                : (user?.displayName ?? 'User');
+                : (user?.displayName ?? l10n.userFallbackName);
+            final trimmedAvatarAssetPath = avatarAssetPath?.trim();
+            final trimmedAvatarUrl = avatarUrl?.trim();
+            final ImageProvider? avatarImage =
+                trimmedAvatarAssetPath != null &&
+                    trimmedAvatarAssetPath.isNotEmpty
+                ? AssetImage(trimmedAvatarAssetPath)
+                : trimmedAvatarUrl != null && trimmedAvatarUrl.isNotEmpty
+                ? NetworkImage(trimmedAvatarUrl)
+                : null;
             return Column(
               children: [
                 _settingsTile(
                   context: context,
                   icon: Icons.account_circle_outlined,
-                  title: 'Profile photo',
-                  subtitle: 'Add or remove your avatar.',
+                  title: l10n.profilePhotoTitle,
+                  subtitle: l10n.profilePhotoSubtitle,
                   onTap: _openAvatarSheet,
                   trailing: _isAvatarBusy
                       ? const SizedBox(
@@ -1187,12 +1344,10 @@ class _SettingsContentState extends State<_SettingsContent> {
                         )
                       : CircleAvatar(
                           radius: 16,
-                          backgroundColor: Colors.blue.shade100,
-                          foregroundColor: Colors.blue.shade900,
-                          backgroundImage: avatarUrl != null
-                              ? NetworkImage(avatarUrl)
-                              : null,
-                          child: avatarUrl == null
+                          backgroundColor: colorScheme.primaryContainer,
+                          foregroundColor: colorScheme.onPrimaryContainer,
+                          backgroundImage: avatarImage,
+                          child: avatarImage == null
                               ? Text(_fallbackInitial(user))
                               : null,
                         ),
@@ -1200,7 +1355,7 @@ class _SettingsContentState extends State<_SettingsContent> {
                 _settingsTile(
                   context: context,
                   icon: Icons.badge_outlined,
-                  title: 'Display name',
+                  title: l10n.displayNameTitle,
                   subtitle: displayName,
                   trailing: const Icon(Icons.edit_outlined),
                   onTap: () => _editDisplayName(displayName),
@@ -1208,8 +1363,8 @@ class _SettingsContentState extends State<_SettingsContent> {
                 _settingsTile(
                   context: context,
                   icon: Icons.email_outlined,
-                  title: 'Email',
-                  subtitle: email ?? user?.email ?? 'Unknown',
+                  title: l10n.emailLabel,
+                  subtitle: email ?? user?.email ?? l10n.unknownValueLabel,
                   trailing: Icon(
                     canUpdate ? Icons.edit_outlined : Icons.lock_outline,
                   ),
@@ -1220,10 +1375,10 @@ class _SettingsContentState extends State<_SettingsContent> {
                 _settingsTile(
                   context: context,
                   icon: Icons.lock_outline,
-                  title: 'Password',
+                  title: l10n.passwordLabel,
                   subtitle: canUpdate
-                      ? 'Update your password.'
-                      : 'Managed by your sign-in provider.',
+                      ? l10n.passwordUpdateSubtitle
+                      : l10n.passwordManagedByProviderSubtitle,
                   trailing: Icon(
                     canUpdate ? Icons.edit_outlined : Icons.lock_outline,
                   ),
@@ -1249,7 +1404,7 @@ class _SettingsContentState extends State<_SettingsContent> {
           },
         ),
         const SizedBox(height: 8),
-        _sectionLabel(context, 'App'),
+        _sectionLabel(context, l10n.appSectionTitle),
         Container(
           padding: const EdgeInsets.all(16),
           margin: const EdgeInsets.only(bottom: 12),
@@ -1262,7 +1417,7 @@ class _SettingsContentState extends State<_SettingsContent> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Theme',
+                l10n.themeTitle,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: panelTextColor,
@@ -1288,18 +1443,18 @@ class _SettingsContentState extends State<_SettingsContent> {
                         borderSide: BorderSide(color: colorScheme.primary),
                       ),
                     ),
-                    items: const [
+                    items: [
                       DropdownMenuItem(
                         value: ThemeMode.system,
-                        child: Text('System'),
+                        child: Text(l10n.themeSystemLabel),
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.light,
-                        child: Text('Light'),
+                        child: Text(l10n.themeLightLabel),
                       ),
                       DropdownMenuItem(
                         value: ThemeMode.dark,
-                        child: Text('Dark'),
+                        child: Text(l10n.themeDarkLabel),
                       ),
                     ],
                     onChanged: (value) {
@@ -1317,6 +1472,7 @@ class _SettingsContentState extends State<_SettingsContent> {
           icon: Icons.notifications_outlined,
           title: l10n.settingsNotificationsTitle,
           subtitle: _notificationSummary(
+            context: context,
             dailyEnabled: _dailyNotificationsEnabled,
             inactiveEnabled: _inactiveNotificationsEnabled,
             dailyHour: _dailyNotificationHour,
@@ -1378,7 +1534,23 @@ class _SettingsContentState extends State<_SettingsContent> {
                         ),
                       ),
                     ],
-                    onChanged: (value) => widget.localeNotifier.value = value,
+                    onChanged: (value) {
+                      widget.localeNotifier.value = value;
+                      final uid = FirebaseAuth.instance.currentUser?.uid;
+                      if (uid != null) {
+                        final ref = FirebaseDatabase.instance.ref(
+                          'users/$uid/locale',
+                        );
+                        if (value == null) {
+                          ref.remove();
+                        } else {
+                          final key = value.scriptCode != null
+                              ? '${value.languageCode}_${value.scriptCode}'
+                              : value.languageCode;
+                          ref.set(key);
+                        }
+                      }
+                    },
                   );
                 },
               ),
@@ -1432,8 +1604,9 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: _SettingsContent(
         localeNotifier: localeNotifier,
         supportedLocales: supportedLocales,
@@ -1460,7 +1633,11 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
   Color _selectedColor = const Color(0xFFF2A55A);
   bool _isSaving = false;
   bool _isOpeningMonster = false;
-  _BodyRegionMask? _bodyRegionMask;
+  _BodyRegionMask? _bodyRegionMaskFront;
+  _BodyRegionMask? _bodyRegionMaskBack;
+
+  _BodyRegionMask? get _bodyRegionMask =>
+      _selectedSide == 'back' ? _bodyRegionMaskBack : _bodyRegionMaskFront;
 
   _BodyAwarenessPoint? get _point => _pointsBySide[_selectedSide];
   String? get _selectedRegion => _regionsBySide[_selectedSide];
@@ -1472,10 +1649,20 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
   }
 
   Future<void> _initBodyRegionMask() async {
-    final mask = await _BodyRegionMask.load();
-    if (!mounted || mask == null) return;
+    final results = await Future.wait([
+      _BodyRegionMask.load(
+        assetPath: 'assets/images/Human_body_outline_colored.svg',
+        colorToRegion: _BodyRegionMask.frontColorToRegion,
+      ),
+      _BodyRegionMask.load(
+        assetPath: 'assets/images/Human_body_outline_colored_back.svg',
+        colorToRegion: _BodyRegionMask.backColorToRegion,
+      ),
+    ]);
+    if (!mounted) return;
     setState(() {
-      _bodyRegionMask = mask;
+      _bodyRegionMaskFront = results[0];
+      _bodyRegionMaskBack = results[1];
     });
   }
 
@@ -1493,11 +1680,7 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
   }
 
   String _detectBodyRegion(Offset localPosition, Size size) {
-    final exact = _bodyRegionMask?.regionAt(
-      localPosition,
-      size,
-      side: _selectedSide,
-    );
+    final exact = _bodyRegionMask?.regionAt(localPosition, size);
     if (exact != null) return exact;
     return 'outside';
   }
@@ -1520,20 +1703,21 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
   }
 
   Future<bool> _confirmJoinExercise() async {
+    final l10n = AppLocalizations.of(context)!;
     final shouldJoin = await showDialog<bool>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Cookie Monster'),
-          content: const Text('Join me, would you?'),
+          title: Text(l10n.cookieMonsterTitle),
+          content: Text(l10n.cookieMonsterJoinPrompt),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Skip'),
+              child: Text(l10n.skipLabel),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Join'),
+              child: Text(l10n.joinLabel),
             ),
           ],
         );
@@ -1543,52 +1727,26 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
   }
 
   Future<bool> _confirmOutsidePrompt() async {
+    final l10n = AppLocalizations.of(context)!;
     final choice = await showDialog<bool>(
       context: context,
       builder: (context) {
         return AlertDialog(
-          content: const Text(
-            'When you imagine a place where you feel at ease, what physical sensations do you notice in your body?',
-          ),
+          content: Text(l10n.cookieMonsterOutsidePrompt),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Skip'),
+              child: Text(l10n.skipLabel),
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text('Reflect'),
+              child: Text(l10n.reflectLabel),
             ),
           ],
         );
       },
     );
     return choice ?? false;
-  }
-
-  Future<String?> _askExperienceFeedback() async {
-    return showDialog<String>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('How was this experience for you?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop('positive'),
-              child: const Text('Positive: dance'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop('neutral'),
-              child: const Text('Neutral: meeeehhhhhh'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop('negative'),
-              child: const Text('Negative: fall down'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   Future<void> _recordExperienceFeedback(
@@ -1602,97 +1760,19 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
         .set({'value': feedback, 'createdAt': now.toIso8601String()});
   }
 
-  Future<void> _playSelectedMonster({
-    String? overrideActivityKey,
-    bool requireSelection = true,
-  }) async {
-    if (_isOpeningMonster) return;
-    final region = _selectedRegion;
-    if (requireSelection && region == null) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Select a body area first.')),
-      );
-      return;
-    }
-
-    setState(() {
-      _isOpeningMonster = true;
-    });
-
-    try {
-      final activityKey = overrideActivityKey ?? _selectedActivityKey();
-      final plan = await MonsterManifestService.instance.resolvePlaybackPlan(
-        activityKey,
-        platform: Theme.of(context).platform,
-      );
-      if (plan == null) {
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('No clip found for "$activityKey".')),
-        );
-        return;
-      }
-
-      final urls = await _resolvePlaybackUrls(plan);
-      if (!mounted) return;
-      await Navigator.of(context, rootNavigator: true).push(
-        MaterialPageRoute(
-          fullscreenDialog: false,
-          builder: (context) => _MonsterPlaybackPage(
-            activityKey: activityKey,
-            plan: plan,
-            urls: urls,
-          ),
-        ),
-      );
-    } catch (error) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load monster clip: $error')),
-      );
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isOpeningMonster = false;
-        });
-      }
-    }
-  }
-
-  Future<_MonsterPlaybackUrls> _resolvePlaybackUrls(
-    MonsterPlaybackPlan plan,
-  ) async {
+  _MonsterPlaybackUrls _pathsFromPlan(MonsterPlaybackPlan plan) {
     if (plan.type == MonsterPlaybackType.single) {
-      final singlePath = plan.singlePath;
-      if (singlePath == null) {
-        throw StateError(
-          'Single clip path is missing for ${plan.activityKey}.',
-        );
-      }
-      final singleUrl = await MonsterManifestService.instance
-          .downloadUrlForStoragePath(singlePath);
-      return _MonsterPlaybackUrls(single: singleUrl);
+      return _MonsterPlaybackUrls(single: plan.singlePath);
     }
-
-    final introPath = plan.introPath;
-    final loopPath = plan.loopPath;
-    final outroPath = plan.outroPath;
-    if (introPath == null || loopPath == null || outroPath == null) {
-      throw StateError(
-        'Triple clip paths are missing for ${plan.activityKey}.',
-      );
-    }
-    final intro = await MonsterManifestService.instance
-        .downloadUrlForStoragePath(introPath);
-    final loop = await MonsterManifestService.instance
-        .downloadUrlForStoragePath(loopPath);
-    final outro = await MonsterManifestService.instance
-        .downloadUrlForStoragePath(outroPath);
-    return _MonsterPlaybackUrls(intro: intro, loop: loop, outro: outro);
+    return _MonsterPlaybackUrls(
+      intro: plan.introPath,
+      loop: plan.loopPath,
+      outro: plan.outroPath,
+    );
   }
 
   Future<void> _openColorPicker() async {
+    final l10n = AppLocalizations.of(context)!;
     var pendingColor = _selectedColor;
     await showModalBottomSheet(
       context: context,
@@ -1713,9 +1793,9 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                   children: [
                     Row(
                       children: [
-                        const Text(
-                          'Color',
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                        Text(
+                          l10n.colorLabel,
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
                         const Spacer(),
                         IconButton(
@@ -1754,7 +1834,7 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                           });
                           Navigator.pop(sheetContext);
                         },
-                        child: const Text('Use this color'),
+                        child: Text(l10n.useThisColorLabel),
                       ),
                     ),
                   ],
@@ -1770,11 +1850,12 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
   Future<void> _save() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
+    final l10n = AppLocalizations.of(context)!;
     final point = _point;
     if (point == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tap the body to log a sensation.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.tapBodyToLogSensation)));
       return;
     }
 
@@ -1784,67 +1865,108 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
 
     try {
       final now = DateTime.now();
+      final entryData = {
+        'x': point.x,
+        'y': point.y,
+        'color': point.color.toARGB32(),
+        'region': _selectedRegion ?? 'outside',
+        'side': _selectedSide,
+        'activityKey': MonsterManifestService.mapRegionToActivity(
+          _selectedRegion ?? 'outside',
+        ),
+        'createdAt': now.toIso8601String(),
+      };
       await FirebaseDatabase.instance
-          .ref(
-            'users/${user.uid}/body_awareness/${_dateKey(now)}/$_selectedSide',
-          )
-          .set({
-            'x': point.x,
-            'y': point.y,
-            'color': point.color.toARGB32(),
-            'region': _selectedRegion ?? 'outside',
-            'activityKey': MonsterManifestService.mapRegionToActivity(
-              _selectedRegion ?? 'outside',
-            ),
-            'createdAt': now.toIso8601String(),
-          });
+          .ref('users/${user.uid}/body_awareness/${_dateKey(now)}')
+          .push()
+          .set(entryData);
       await FirebaseDatabase.instance
           .ref('users/${user.uid}/body_awareness_history/${_dateKey(now)}')
           .push()
-          .set({
-            'x': point.x,
-            'y': point.y,
-            'color': point.color.toARGB32(),
-            'region': _selectedRegion ?? 'outside',
-            'side': _selectedSide,
-            'activityKey': MonsterManifestService.mapRegionToActivity(
-              _selectedRegion ?? 'outside',
-            ),
-            'createdAt': now.toIso8601String(),
-          });
+          .set(entryData);
       if (!mounted) return;
       if (_requiresJoinPrompt(_selectedRegion)) {
         final shouldJoin = await _confirmJoinExercise();
         if (!mounted) return;
         if (shouldJoin) {
-          await _playSelectedMonster(
-            overrideActivityKey: '06_will_you_join',
-            requireSelection: false,
-          );
-          if (!mounted) return;
-          await _playSelectedMonster();
+          setState(() {
+            _isOpeningMonster = true;
+          });
+          try {
+            final joinKey = '06_will_you_join';
+            final joinPlan = MonsterManifestService.instance
+                .resolvePlaybackPlan(
+                  joinKey,
+                  platform: Theme.of(context).platform,
+                );
+            if (joinPlan == null || !mounted) return;
+            final joinUrls = _pathsFromPlan(joinPlan);
+            if (!mounted) return;
+
+            final exerciseKey = _selectedActivityKey();
+            final exercisePlan = MonsterManifestService.instance
+                .resolvePlaybackPlan(
+                  exerciseKey,
+                  platform: Theme.of(context).platform,
+                );
+            _MonsterPlaybackUrls? exerciseUrls;
+            if (exercisePlan != null) {
+              exerciseUrls = _pathsFromPlan(exercisePlan);
+            }
+            if (!mounted) return;
+
+            await Navigator.of(context, rootNavigator: true).push(
+              MaterialPageRoute(
+                fullscreenDialog: false,
+                builder: (context) => _MonsterPlaybackPage(
+                  activityKey: joinKey,
+                  plan: joinPlan,
+                  urls: joinUrls,
+                  nextActivityKey: exerciseKey,
+                  nextPlan: exercisePlan,
+                  nextUrls: exerciseUrls,
+                ),
+              ),
+            );
+            if (!mounted) return;
+            final feedback = await Navigator.of(context, rootNavigator: true)
+                .push<String>(
+                  MaterialPageRoute(
+                    builder: (context) => const _MonsterFeedbackPage(),
+                  ),
+                );
+            if (!mounted) return;
+            await _recordExperienceFeedback(user.uid, now, feedback);
+          } catch (error) {
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(l10n.failedToLoadMonsterClip('$error'))),
+            );
+          } finally {
+            if (mounted) {
+              setState(() {
+                _isOpeningMonster = false;
+              });
+            }
+          }
         }
       }
-      if (!mounted) return;
-      final feedback = await _askExperienceFeedback();
-      if (!mounted) return;
-      await _recordExperienceFeedback(user.uid, now, feedback);
       if (widget.onCompleted != null) {
         await widget.onCompleted!.call();
       }
     } on FirebaseException catch (error) {
       if (!mounted) return;
       final message = error.code.isNotEmpty
-          ? 'Failed to save body awareness: ${error.code}.'
-          : 'Failed to save body awareness.';
+          ? l10n.failedToSaveBodyAwarenessWithCode(error.code)
+          : l10n.failedToSaveBodyAwareness;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(message)));
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to save body awareness.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.failedToSaveBodyAwareness)));
     } finally {
       if (mounted) {
         setState(() {
@@ -1860,13 +1982,14 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
       return;
     }
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Step skipped.')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context)!.stepSkipped)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final media = MediaQuery.of(context);
     final isLandscape = media.orientation == Orientation.landscape;
@@ -1918,13 +2041,6 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                                 });
                                 return;
                               }
-                              final activityKey =
-                                  MonsterManifestService.mapRegionToActivity(
-                                    region,
-                                  );
-                              debugPrint(
-                                'Body awareness tap: $region -> $activityKey',
-                              );
                               _setPoint(
                                 offset,
                                 constraints.biggest,
@@ -1941,7 +2057,7 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                   left: 8,
                   bottom: 8,
                   child: _BodySideToggleButton(
-                    label: 'Color',
+                    label: l10n.colorLabel,
                     icon: Icons.palette_outlined,
                     onTap: _openColorPicker,
                   ),
@@ -1951,8 +2067,8 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                   bottom: 8,
                   child: _BodySideToggleButton(
                     label: _selectedSide == 'front'
-                        ? 'Show back'
-                        : 'Show front',
+                        ? l10n.showBackLabel
+                        : l10n.showFrontLabel,
                     onTap: () {
                       setState(() {
                         _selectedSide = _selectedSide == 'front'
@@ -1976,7 +2092,7 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                           onPressed: (_isSaving || _isOpeningMonster)
                               ? null
                               : _skipStep,
-                          child: const Text('Skip'),
+                          child: Text(l10n.skipLabel),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -1987,8 +2103,8 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                               : _save,
                           child: Text(
                             (_isSaving || _isOpeningMonster)
-                                ? 'Loading...'
-                                : 'Save',
+                                ? l10n.loadingLabel
+                                : l10n.saveLabel,
                           ),
                         ),
                       ),
@@ -2004,7 +2120,7 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                         onPressed: (_isSaving || _isOpeningMonster)
                             ? null
                             : _skipStep,
-                        child: const Text('Skip'),
+                        child: Text(l10n.skipLabel),
                       ),
                     ),
                     SizedBox(
@@ -2015,8 +2131,8 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                             : _save,
                         child: Text(
                           (_isSaving || _isOpeningMonster)
-                              ? 'Loading...'
-                              : 'Save',
+                              ? l10n.loadingLabel
+                              : l10n.saveLabel,
                         ),
                       ),
                     ),
@@ -2034,9 +2150,7 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Where does this feeling seem to rest in your body?\n'
-                    'Please touch that spot and select a color that feels true '
-                    'to the sensation.',
+                    l10n.bodyAwarenessPrompt,
                     style: TextStyle(
                       color: textColor,
                       fontSize: compactHeight ? 14 : 16,
@@ -2047,16 +2161,6 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                   Expanded(child: bodyMap),
                   SizedBox(height: isLandscape ? 8 : 16),
                   actions,
-                  const SizedBox(height: 4),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: (_isSaving || _isOpeningMonster)
-                          ? null
-                          : _skipStep,
-                      child: const Text('Skip to quote'),
-                    ),
-                  ),
                 ],
               ),
             );
@@ -2072,14 +2176,17 @@ class _BodyRegionMask {
     required this.width,
     required this.height,
     required this.pixels,
+    required this.colorToRegion,
   });
 
   static const int _svgWidth = 500;
   static const int _svgHeight = 901;
-  static const Map<int, String> _colorToRegion = {
+
+  static const Map<int, String> frontColorToRegion = {
     0xFF0000: 'feet',
     0x000080: 'legs',
     0xFFE680: 'torso',
+    0x88AA00: 'chest',
     0x00FF00: 'head',
     0x800080: 'hands',
     0x2B0000: 'arms',
@@ -2087,16 +2194,29 @@ class _BodyRegionMask {
     0xFF00FF: 'neck',
   };
 
+  static const Map<int, String> backColorToRegion = {
+    0xFF0000: 'feet',
+    0x000080: 'legs',
+    0xFFE680: 'back',
+    0x00FF00: 'head',
+    0x800080: 'hands',
+    0x2B0000: 'arms',
+    0x999999: 'shoulders',
+  };
+
   final int width;
   final int height;
   final Uint8List pixels;
+  final Map<int, String> colorToRegion;
 
-  static Future<_BodyRegionMask?> load() async {
+  static Future<_BodyRegionMask?> load({
+    required String assetPath,
+    required Map<int, String> colorToRegion,
+  }) async {
     try {
-      final raw = await rootBundle.loadString(
-        'assets/images/Human_body_outline_colored.svg',
-      );
-      final filtered = _buildMaskSvg(raw);
+      final raw = await rootBundle.loadString(assetPath);
+      final keep = _keepColorsFrom(colorToRegion);
+      final filtered = _buildMaskSvg(raw, keep);
       final pictureInfo = await svg.vg.loadPicture(
         svg.SvgStringLoader(filtered),
         null,
@@ -2110,14 +2230,14 @@ class _BodyRegionMask {
         width: _svgWidth,
         height: _svgHeight,
         pixels: data.buffer.asUint8List(),
+        colorToRegion: colorToRegion,
       );
-    } catch (error) {
-      debugPrint('Body region mask load failed: $error');
+    } catch (_) {
       return null;
     }
   }
 
-  String? regionAt(Offset localPosition, Size size, {required String side}) {
+  String? regionAt(Offset localPosition, Size size) {
     final fitted = _fittedRect(size);
     if (!fitted.contains(localPosition)) return 'outside';
     final nx = ((localPosition.dx - fitted.left) / fitted.width).clamp(
@@ -2130,9 +2250,7 @@ class _BodyRegionMask {
     );
     final px = (nx * (width - 1)).round();
     final py = (ny * (height - 1)).round();
-    final baseRegion = _sampleRegion(px, py) ?? 'outside';
-    if (baseRegion == 'torso' && side == 'back') return 'back';
-    return baseRegion;
+    return _sampleRegion(px, py) ?? 'outside';
   }
 
   Rect _fittedRect(Size size) {
@@ -2177,7 +2295,7 @@ class _BodyRegionMask {
   String? _closestRegion(int r, int g, int b) {
     String? bestRegion;
     var bestDistance = 1 << 30;
-    for (final entry in _colorToRegion.entries) {
+    for (final entry in colorToRegion.entries) {
       final target = entry.key;
       final tr = (target >> 16) & 0xFF;
       final tg = (target >> 8) & 0xFF;
@@ -2196,18 +2314,14 @@ class _BodyRegionMask {
     return bestRegion;
   }
 
-  static String _buildMaskSvg(String raw) {
-    const keep = {
-      '#ff0000',
-      '#000080',
-      '#ffe680',
-      '#00ff00',
-      '#800080',
-      '#2b0000',
-      '#999999',
-      '#ff00ff',
-    };
+  static Set<String> _keepColorsFrom(Map<int, String> colorMap) {
+    return colorMap.keys.map((c) {
+      final hex = c.toRadixString(16).padLeft(6, '0');
+      return '#$hex';
+    }).toSet();
+  }
 
+  static String _buildMaskSvg(String raw, Set<String> keep) {
     var output = raw.replaceAllMapped(RegExp(r'fill="(#[0-9a-fA-F]{6})"'), (
       match,
     ) {
@@ -2241,71 +2355,89 @@ class _MonsterPlaybackPage extends StatefulWidget {
     required this.activityKey,
     required this.plan,
     required this.urls,
+    this.nextActivityKey,
+    this.nextPlan,
+    this.nextUrls,
   });
 
   final String activityKey;
   final MonsterPlaybackPlan plan;
   final _MonsterPlaybackUrls urls;
+  final String? nextActivityKey;
+  final MonsterPlaybackPlan? nextPlan;
+  final _MonsterPlaybackUrls? nextUrls;
 
   @override
   State<_MonsterPlaybackPage> createState() => _MonsterPlaybackPageState();
 }
 
 class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
-  static const Map<String, String> _exerciseInstructions = {
-    '06_will_you_join':
-        'Would you like to join Cookie Monster for a short exercise?',
-    '07_outside_the_body':
-        'When you imagine a place where you feel at ease, what physical sensations do you notice in your body?',
-    '08_forehead_contact':
-        'Forehead Contact:\nPlace your palm on your forehead, hold for a few seconds, and relax with your breath.',
-    '09_slow_breathing':
-        'Close Eyes - Breath Tracking:\nClose your eyes, inhale slowly through your nose, and exhale in 4 seconds (repeat 5 times).',
-    '10_weight_of_the_head':
-        'Feel the Weight of Your Head:\nGently tilt your head forward, notice neck tension, and relax it.',
-    '11_breathing':
-        '4-7-8 Breathing:\nInhale for 4 seconds, hold for 7, exhale for 8 (3 cycles).',
-    '12_abdominal_awareness':
-        'Abdominal Awareness:\nPlace your hand on your abdomen and feel it rise and fall with each breath.',
-    '13_heart_center':
-        'Heart Center Opening:\nMove your chest forward, pull shoulders back, and breathe deeply.',
-    '14_ball_squeezing':
-        'Ball Squeezing:\nSlowly squeeze and release your palm (10 repetitions).',
-    '15_finger_meditation':
-        'Finger Meditation:\nTouch each finger with your thumb one by one, exhaling with every touch.',
-    '16_hand_massage':
-        'Hand Massage:\nMassage the center of your palm with your thumb in small circles (30 seconds each hand).',
-    '17_shoulder_drop':
-        'Shoulder Drop:\nRaise shoulders toward ears, then release (5 repetitions).',
-    '18_back_opening':
-        'Back Opening:\nClasp hands behind you, open the chest, and take a deep breath.',
-    '19_releasing_burden':
-        'Releasing Burdens:\nWith eyes closed, imagine a warm light flowing down from your shoulders.',
-    '20_relaxing_facial_muscles':
-        'Relaxing Facial Muscles:\nClose eyes, tighten facial muscles, then release (3 repetitions).',
-    '21_jaw_drop':
-        'Jaw Drop:\nSlightly open your mouth, relax jaw for 5 seconds, then close it.',
-    '22_smile_to_yourself':
-        'Smile to Yourself:\nHold a gentle smile for 30 seconds.',
-    '23_eft_tapping_points':
-        'EFT Tapping Points:\nTap each point 5-7 times: eyebrow start, side of eye, under eye, under nose, chin, collarbone, under arm, top of head.',
-    '24_rising_on_tiptoes':
-        'Rising on Tiptoes:\nLift heels as you exhale, hold 3-5 seconds, lower slowly, and repeat 5-10 times.',
-  };
-
   VideoPlayerController? _monsterController;
   VideoPlayerController? _backgroundController;
+  VoidCallback? _monsterEndListener;
   bool _isBusy = true;
   bool _showFinish = false;
   bool _finishing = false;
   bool _closed = false;
 
-  String? get _instructionText => _exerciseInstructions[widget.activityKey];
+  late String _currentActivityKey = widget.activityKey;
+  late MonsterPlaybackPlan _currentPlan = widget.plan;
+  late _MonsterPlaybackUrls _currentUrls = widget.urls;
+  bool _nextConsumed = false;
+
+  String? _instructionText(AppLocalizations l10n) {
+    switch (_currentActivityKey) {
+      case '01_hello':
+        return l10n.homeHowFeelingToday;
+      case '06_will_you_join':
+        return l10n.exerciseInstructionWillYouJoin;
+      case '07_outside_the_body':
+        return l10n.exerciseInstructionOutsideTheBody;
+      case '08_forehead_contact':
+        return l10n.exerciseInstructionForeheadContact;
+      case '09_slow_breathing':
+        return l10n.exerciseInstructionSlowBreathing;
+      case '10_weight_of_the_head':
+        return l10n.exerciseInstructionWeightOfHead;
+      case '11_breathing':
+        return l10n.exerciseInstructionBreathing478;
+      case '12_abdominal_awareness':
+        return l10n.exerciseInstructionAbdominalAwareness;
+      case '13_heart_center':
+        return l10n.exerciseInstructionHeartCenter;
+      case '14_ball_squeezing':
+        return l10n.exerciseInstructionBallSqueezing;
+      case '15_finger_meditation':
+        return l10n.exerciseInstructionFingerMeditation;
+      case '16_hand_massage':
+        return l10n.exerciseInstructionHandMassage;
+      case '17_shoulder_drop':
+        return l10n.exerciseInstructionShoulderDrop;
+      case '18_back_opening':
+        return l10n.exerciseInstructionBackOpening;
+      case '19_releasing_burden':
+        return l10n.exerciseInstructionReleasingBurdens;
+      case '20_relaxing_facial_muscles':
+        return l10n.exerciseInstructionRelaxingFacialMuscles;
+      case '21_jaw_drop':
+        return l10n.exerciseInstructionJawDrop;
+      case '22_smile_to_yourself':
+        return l10n.exerciseInstructionSmileToYourself;
+      case '23_eft_tapping_points':
+        return l10n.exerciseInstructionEftTappingPoints;
+      case '24_rising_on_tiptoes':
+        return l10n.exerciseInstructionRisingOnTiptoes;
+    }
+    return null;
+  }
 
   @override
   void initState() {
     super.initState();
-    unawaited(_start());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _closed) return;
+      unawaited(_start());
+    });
   }
 
   @override
@@ -2318,9 +2450,12 @@ class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
   Future<void> _disposeController() async {
     final monster = _monsterController;
     final background = _backgroundController;
+    final listener = _monsterEndListener;
     _monsterController = null;
     _backgroundController = null;
+    _monsterEndListener = null;
     if (monster != null) {
+      if (listener != null) monster.removeListener(listener);
       await monster.dispose();
     }
     if (background != null) {
@@ -2332,7 +2467,7 @@ class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
     if (_backgroundController != null) return;
     try {
       final bg = VideoPlayerController.asset(
-        'assets/monster/colored_moving_background.mp4',
+        'assets/monster_clips/00_colored_moving_background/colored_moving_background.mp4',
       );
       _backgroundController = bg;
       await bg.initialize();
@@ -2340,44 +2475,83 @@ class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
       await bg.play();
       if (!mounted || _closed) return;
       setState(() {});
-    } catch (error) {
-      debugPrint('Background video failed to initialize: $error');
-    }
+    } catch (_) {}
   }
 
   Future<void> _start() async {
+    final l10n = AppLocalizations.of(context)!;
     try {
-      await _ensureBackgroundVideo();
-      if (widget.plan.type == MonsterPlaybackType.single) {
-        final single = widget.urls.single;
+      // Start background video in parallel — don't block the monster clip.
+      unawaited(_ensureBackgroundVideo());
+
+      if (_currentPlan.type == MonsterPlaybackType.single) {
+        final single = _currentUrls.single;
         if (single == null) {
-          _closeWithError('Single clip URL is missing.');
+          _closeWithError(l10n.singleClipUrlMissing);
           return;
         }
-        await _playUrl(single, looping: true);
+        final isHello = _currentActivityKey == '01_hello';
+        await _playUrl(
+          single,
+          looping: !isHello,
+          onEnded: isHello
+              ? () async {
+                  _afterFinish();
+                }
+              : null,
+        );
         if (!mounted || _closed) return;
         setState(() {
           _isBusy = false;
-          _showFinish = true;
+          _showFinish = !isHello;
         });
         return;
       }
-      final loop = widget.urls.loop;
+      final loop = _currentUrls.loop;
       if (loop == null) {
-        _closeWithError('Exercise clips are missing.');
+        _closeWithError(l10n.exerciseClipsMissing);
         return;
       }
-      await _playUrl(loop, looping: true);
+
+      // Triple clips play intro once, then the loop until the user finishes
+      // (the outro plays from _finishExercise). Fall back to the loop alone
+      // if the intro asset is missing.
+      final intro = _currentUrls.intro;
+      var introStarted = false;
+      if (intro != null) {
+        try {
+          await _playUrl(
+            intro,
+            looping: false,
+            onEnded: () async {
+              if (!mounted || _closed) return;
+              try {
+                await _playUrl(loop, looping: true);
+                if (!mounted || _closed) return;
+                setState(() {
+                  _showFinish = true;
+                });
+              } catch (_) {
+                if (!mounted || _closed) return;
+                _closeWithError(l10n.videoPlayerInitializationFailed);
+              }
+            },
+          );
+          introStarted = true;
+        } catch (_) {
+          introStarted = false;
+        }
+      }
+      if (!introStarted) {
+        await _playUrl(loop, looping: true);
+      }
       if (!mounted || _closed) return;
       setState(() {
         _isBusy = false;
-        _showFinish = true;
+        _showFinish = !introStarted;
       });
     } catch (error) {
-      _closeWithError(
-        'Video player failed to initialize. Please fully restart the app.',
-      );
-      debugPrint('Monster playback start failed: $error');
+      _closeWithError(l10n.videoPlayerInitializationFailed);
     }
   }
 
@@ -2387,23 +2561,25 @@ class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
     Future<void> Function()? onEnded,
   }) async {
     final previous = _monsterController;
+    final oldListener = _monsterEndListener;
     _monsterController = null;
+    _monsterEndListener = null;
     if (previous != null) {
+      if (oldListener != null) previous.removeListener(oldListener);
       await previous.dispose();
     }
-    final viewType = Platform.isIOS
-        ? VideoViewType.platformView
-        : VideoViewType.textureView;
-    final controller = VideoPlayerController.networkUrl(
-      Uri.parse(url),
-      viewType: viewType,
+    final controller = VideoPlayerController.asset(
+      url,
+      viewType: Platform.isIOS
+          ? VideoViewType.platformView
+          : VideoViewType.textureView,
     );
     _monsterController = controller;
     await controller.initialize();
     await controller.setLooping(looping);
     if (onEnded != null) {
       var endedCalled = false;
-      controller.addListener(() {
+      _monsterEndListener = () {
         if (!controller.value.isInitialized) return;
         if (_closed) return;
         if (controller.value.isPlaying) return;
@@ -2412,21 +2588,45 @@ class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
           endedCalled = true;
           onEnded();
         }
-      });
+      };
+      controller.addListener(_monsterEndListener!);
     }
     await controller.play();
     if (!mounted || _closed) return;
     setState(() {});
   }
 
+  void _afterFinish() {
+    if (!mounted || _closed) return;
+    final nextPlan = widget.nextPlan;
+    final nextUrls = widget.nextUrls;
+    final nextKey = widget.nextActivityKey;
+    if (!_nextConsumed &&
+        nextPlan != null &&
+        nextUrls != null &&
+        nextKey != null) {
+      _nextConsumed = true;
+      setState(() {
+        _currentActivityKey = nextKey;
+        _currentPlan = nextPlan;
+        _currentUrls = nextUrls;
+        _isBusy = true;
+        _showFinish = false;
+        _finishing = false;
+      });
+      unawaited(_start());
+    } else if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    }
+  }
+
   Future<void> _finishExercise() async {
+    final l10n = AppLocalizations.of(context)!;
     if (_finishing) return;
     _finishing = true;
-    final outro = widget.urls.outro;
+    final outro = _currentUrls.outro;
     if (outro == null) {
-      if (mounted && Navigator.of(context).canPop()) {
-        Navigator.of(context).pop();
-      }
+      _afterFinish();
       return;
     }
     try {
@@ -2434,10 +2634,7 @@ class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
         outro,
         looping: false,
         onEnded: () async {
-          if (!mounted || _closed) return;
-          if (Navigator.of(context).canPop()) {
-            Navigator.of(context).pop();
-          }
+          _afterFinish();
         },
       );
       if (!mounted || _closed) return;
@@ -2447,8 +2644,7 @@ class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
       });
     } catch (error) {
       _finishing = false;
-      _closeWithError('Failed to play outro clip.');
-      debugPrint('Monster playback outro failed: $error');
+      _closeWithError(l10n.failedToPlayOutroClip);
     }
   }
 
@@ -2465,15 +2661,19 @@ class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final monster = _monsterController;
     final background = _backgroundController;
+    final instructionText = _instructionText(l10n);
     final monsterReady = monster?.value.isInitialized ?? false;
     final backgroundReady = background?.value.isInitialized ?? false;
+    final isHello = _currentActivityKey == '01_hello';
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Stack(
           children: [
+            // Layer 1: Background video
             Positioned.fill(
               child: backgroundReady
                   ? FittedBox(
@@ -2488,6 +2688,34 @@ class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
                       decoration: BoxDecoration(color: Color(0xFF1A1624)),
                     ),
             ),
+            // Layer 2: Instruction text (behind monster)
+            if ((_showFinish || isHello) && instructionText != null)
+              Positioned(
+                top: 40,
+                left: 16,
+                right: 16,
+                child: Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: isHello
+                      ? null
+                      : BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.45),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                  child: Text(
+                    instructionText,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'PlaypenSans',
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                      fontSize: isHello ? 29.0 : 24.0,
+                      height: 1.3,
+                    ),
+                  ),
+                ),
+              ),
+            // Layer 3: Monster video (on top of text)
             Positioned.fill(
               child: monsterReady
                   ? FittedBox(
@@ -2500,49 +2728,327 @@ class _MonsterPlaybackPageState extends State<_MonsterPlaybackPage> {
                     )
                   : const Center(child: CircularProgressIndicator()),
             ),
-            if (_showFinish)
+            // Layer 4: Button at bottom (on top of everything)
+            if (_showFinish && !isHello)
               Positioned(
                 left: 16,
                 right: 16,
                 bottom: 24,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (_instructionText != null) ...[
-                      Container(
-                        width: double.infinity,
-                        constraints: const BoxConstraints(maxHeight: 220),
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.45),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.2),
-                          ),
-                        ),
-                        child: SingleChildScrollView(
-                          child: Text(
-                            _instructionText!,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              height: 1.3,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                    ],
-                    ElevatedButton(
-                      onPressed: _isBusy ? null : _finishExercise,
-                      child: const Text('Finish exercise'),
+                child: Center(
+                  child: ElevatedButton(
+                    onPressed: _isBusy ? null : _finishExercise,
+                    child: Text(
+                      _currentActivityKey == '06_will_you_join'
+                          ? l10n.startExerciseLabel
+                          : l10n.finishExerciseLabel,
                     ),
-                  ],
+                  ),
                 ),
               ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MonsterFeedbackPage extends StatefulWidget {
+  const _MonsterFeedbackPage();
+
+  @override
+  State<_MonsterFeedbackPage> createState() => _MonsterFeedbackPageState();
+}
+
+class _MonsterFeedbackPageState extends State<_MonsterFeedbackPage> {
+  VideoPlayerController? _monsterController;
+  VideoPlayerController? _backgroundController;
+  VoidCallback? _monsterEndListener;
+  int _monsterGeneration = 0;
+  bool _isBusy = true;
+  bool _showButtons = false;
+  bool _showDone = false;
+  bool _closed = false;
+  String? _selectedFeedback;
+
+  static const _feedbackClips = <String, String>{
+    'very_good': '2_very_good',
+    'good': '3_good',
+    'meh': '4_meh',
+    'not_good': '5_not_good',
+    'awful': '6_awful',
+  };
+
+  String _assetPath(String clipName) {
+    final platformKey = Platform.isIOS ? 'ios' : 'android';
+    final ext = Platform.isIOS ? 'mov' : 'webm';
+    return 'assets/monster_clips/25_feedback/$platformKey/$clipName.$ext';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _closed) return;
+      unawaited(_start());
+    });
+  }
+
+  @override
+  void dispose() {
+    _closed = true;
+    _disposeControllers();
+    super.dispose();
+  }
+
+  Future<void> _disposeControllers() async {
+    final monster = _monsterController;
+    final background = _backgroundController;
+    final listener = _monsterEndListener;
+    _monsterController = null;
+    _backgroundController = null;
+    _monsterEndListener = null;
+    if (monster != null) {
+      if (listener != null) monster.removeListener(listener);
+      await monster.dispose();
+    }
+    if (background != null) await background.dispose();
+  }
+
+  Future<void> _ensureBackgroundVideo() async {
+    if (_backgroundController != null) return;
+    try {
+      final bg = VideoPlayerController.asset(
+        'assets/monster_clips/00_colored_moving_background/colored_moving_background.mp4',
+      );
+      _backgroundController = bg;
+      await bg.initialize();
+      await bg.setLooping(true);
+      await bg.play();
+      if (!mounted || _closed) return;
+      setState(() {});
+    } catch (_) {}
+  }
+
+  Future<void> _start() async {
+    try {
+      unawaited(_ensureBackgroundVideo());
+      final path = _assetPath('1_feedback');
+      if (!mounted || _closed) return;
+      await _playUrl(path, looping: true);
+      if (!mounted || _closed) return;
+      setState(() {
+        _isBusy = false;
+        _showButtons = true;
+      });
+    } catch (_) {
+      if (mounted && !_closed) {
+        setState(() {
+          _isBusy = false;
+          _showButtons = true;
+        });
+      }
+    }
+  }
+
+  Future<void> _playUrl(
+    String url, {
+    required bool looping,
+    Future<void> Function()? onEnded,
+  }) async {
+    final previous = _monsterController;
+    final oldListener = _monsterEndListener;
+    _monsterController = null;
+    _monsterEndListener = null;
+    if (previous != null) {
+      if (oldListener != null) previous.removeListener(oldListener);
+      await previous.dispose();
+    }
+    final controller = VideoPlayerController.asset(
+      url,
+      viewType: Platform.isIOS
+          ? VideoViewType.platformView
+          : VideoViewType.textureView,
+    );
+    _monsterController = controller;
+    _monsterGeneration++;
+    await controller.initialize();
+    await controller.setLooping(looping);
+    if (onEnded != null) {
+      var endedCalled = false;
+      _monsterEndListener = () {
+        if (!controller.value.isInitialized) return;
+        if (_closed) return;
+        if (controller.value.isPlaying) return;
+        if (endedCalled) return;
+        if (controller.value.position >= controller.value.duration) {
+          endedCalled = true;
+          onEnded();
+        }
+      };
+      controller.addListener(_monsterEndListener!);
+    }
+    await controller.play();
+    if (!mounted || _closed) return;
+    setState(() {});
+  }
+
+  Future<void> _selectFeedback(String feedback) async {
+    if (_selectedFeedback != null) return;
+    setState(() {
+      _selectedFeedback = feedback;
+      _showButtons = false;
+      _isBusy = true;
+    });
+    try {
+      final clipName = _feedbackClips[feedback];
+      if (clipName == null) {
+        setState(() {
+          _showDone = true;
+          _isBusy = false;
+        });
+        return;
+      }
+      final path = _assetPath(clipName);
+      if (!mounted || _closed) return;
+      await _playUrl(
+        path,
+        looping: false,
+        onEnded: () async {
+          if (!mounted || _closed) return;
+          setState(() {
+            _showDone = true;
+          });
+        },
+      );
+      if (!mounted || _closed) return;
+      setState(() {
+        _isBusy = false;
+        _showDone = true;
+      });
+    } catch (_) {
+      if (mounted && !_closed) {
+        setState(() {
+          _isBusy = false;
+          _showDone = true;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final monster = _monsterController;
+    final background = _backgroundController;
+    final monsterReady = monster?.value.isInitialized ?? false;
+    final backgroundReady = background?.value.isInitialized ?? false;
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // Layer 1: Background video
+            Positioned.fill(
+              child: backgroundReady
+                  ? FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: background!.value.size.width,
+                        height: background.value.size.height,
+                        child: VideoPlayer(background),
+                      ),
+                    )
+                  : const DecoratedBox(
+                      decoration: BoxDecoration(color: Color(0xFF1A1624)),
+                    ),
+            ),
+            // Layer 2: Question text (behind monster)
+            if (_showButtons)
+              Positioned(
+                top: 40,
+                left: 16,
+                right: 16,
+                child: Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.45),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    l10n.feedbackQuestionLabel,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontFamily: 'PlaypenSans',
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+              ),
+            // Layer 3: Monster video (on top of text)
+            Positioned.fill(
+              child: monsterReady
+                  ? FittedBox(
+                      key: ValueKey(_monsterGeneration),
+                      fit: BoxFit.contain,
+                      child: SizedBox(
+                        width: monster!.value.size.width,
+                        height: monster.value.size.height,
+                        child: VideoPlayer(monster),
+                      ),
+                    )
+                  : _isBusy
+                  ? const Center(child: CircularProgressIndicator())
+                  : const SizedBox.shrink(),
+            ),
+            // Layer 4: Feedback buttons at bottom
+            if (_showButtons)
+              Positioned(
+                left: 16,
+                right: 16,
+                bottom: 24,
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    _feedbackButton(l10n.feedbackVeryGood, 'very_good'),
+                    _feedbackButton(l10n.feedbackGood, 'good'),
+                    _feedbackButton(l10n.feedbackMeh, 'meh'),
+                    _feedbackButton(l10n.feedbackNotGood, 'not_good'),
+                    _feedbackButton(l10n.feedbackAwful, 'awful'),
+                  ],
+                ),
+              ),
+            if (_showDone)
+              Positioned(
+                left: 16,
+                right: 16,
+                bottom: 24,
+                child: Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (Navigator.of(context).canPop()) {
+                        Navigator.of(context).pop(_selectedFeedback);
+                      }
+                    },
+                    child: Text(l10n.feedbackDoneLabel),
+                  ),
+                ),
+              ),
+            if (_isBusy && _selectedFeedback != null)
+              const Center(child: CircularProgressIndicator()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _feedbackButton(String label, String value) {
+    return ElevatedButton(
+      onPressed: () => _selectFeedback(value),
+      child: Text(label),
     );
   }
 }

@@ -1,5 +1,4 @@
 part of '../home_page.dart';
-// ignore_for_file: use_build_context_synchronously
 
 class _HomeContent extends StatefulWidget {
   const _HomeContent({required this.displayName});
@@ -18,9 +17,10 @@ class _HomeContentState extends State<_HomeContent> {
   bool _isPromptDialogOpen = false;
   _HomeStepStatus _moodStatus = _HomeStepStatus.pending;
   _HomeStepStatus _bodyStatus = _HomeStepStatus.pending;
-  String? _quoteText;
   bool _isMoodFullscreen = false;
   bool _isAnytimeActionsExpanded = false;
+  String? _quoteText;
+  bool _isLoadingQuote = false;
 
   @override
   void initState() {
@@ -72,46 +72,25 @@ class _HomeContentState extends State<_HomeContent> {
 
     final key = _todayKey();
     try {
-      final flowRef = FirebaseDatabase.instance.ref(
-        'users/${user.uid}/daily_flow/$key',
-      );
-      final quoteRef = FirebaseDatabase.instance.ref(
-        'users/${user.uid}/daily_quotes/$key',
-      );
-      final snapshots = await Future.wait([flowRef.get(), quoteRef.get()]);
-      final flowSnap = snapshots[0];
-      final quoteSnap = snapshots[1];
+      final flowSnap = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/daily_flow/$key')
+          .get();
 
-      var moodStatus = _HomeStepStatus.pending;
       var bodyStatus = _HomeStepStatus.pending;
       var hasPrompt = false;
-      String? quote;
 
       if (flowSnap.exists && flowSnap.value is Map) {
         final map = Map<String, dynamic>.from(flowSnap.value as Map);
-        moodStatus = _statusFromValue(map['moodStatus']);
         bodyStatus = _statusFromValue(map['bodyStatus']);
         hasPrompt = map['moodPromptShownAt'] != null;
-        final quoteValue = map['quote'];
-        if (quoteValue is String && quoteValue.trim().isNotEmpty) {
-          quote = quoteValue.trim();
-        }
-      }
-
-      if (quote == null && quoteSnap.exists && quoteSnap.value is Map) {
-        final map = Map<String, dynamic>.from(quoteSnap.value as Map);
-        final text = map['text'];
-        if (text is String && text.trim().isNotEmpty) {
-          quote = text.trim();
-        }
       }
 
       if (!mounted) return;
+      // Always start on the drawing canvas (mood step) when the app opens,
+      // regardless of whether it was completed earlier today.
       setState(() {
-        _moodStatus = moodStatus;
         _bodyStatus = bodyStatus;
         _hasShownDailyPrompt = hasPrompt;
-        _quoteText = quote;
         _isLoading = false;
       });
     } catch (_) {
@@ -121,9 +100,6 @@ class _HomeContentState extends State<_HomeContent> {
       });
     }
 
-    if (_currentView == _HomeStepView.quote) {
-      await _ensureDailyQuote();
-    }
     _showDailyPromptIfNeeded();
   }
 
@@ -132,15 +108,17 @@ class _HomeContentState extends State<_HomeContent> {
     if (user == null) return;
 
     final now = DateTime.now().toIso8601String();
+    final data = <String, dynamic>{
+      'moodStatus': _statusToValue(_moodStatus),
+      'bodyStatus': _statusToValue(_bodyStatus),
+      'updatedAt': now,
+    };
+    if (_hasShownDailyPrompt) {
+      data['moodPromptShownAt'] = now;
+    }
     await FirebaseDatabase.instance
         .ref('users/${user.uid}/daily_flow/${_todayKey()}')
-        .set({
-          'moodStatus': _statusToValue(_moodStatus),
-          'bodyStatus': _statusToValue(_bodyStatus),
-          'quote': _quoteText,
-          if (_hasShownDailyPrompt) 'moodPromptShownAt': now,
-          'updatedAt': now,
-        });
+        .update(data);
   }
 
   Future<void> _showDailyPromptIfNeeded() async {
@@ -151,21 +129,42 @@ class _HomeContentState extends State<_HomeContent> {
         _isPromptDialogOpen = false;
         return;
       }
-      await showDialog<void>(
-        context: context,
-        builder: (context) {
-          final l10n = AppLocalizations.of(context)!;
-          return AlertDialog(
-            content: Text(l10n.homeHowFeelingToday),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(l10n.startLabel),
-              ),
-            ],
+      // Play the monster "Hello" video instead of a plain dialog.
+      try {
+        const helloKey = '01_hello';
+        final plan = MonsterManifestService.instance.resolvePlaybackPlan(
+          helloKey,
+          platform: Theme.of(context).platform,
+        );
+        if (!mounted) {
+          _isPromptDialogOpen = false;
+          return;
+        }
+        if (plan != null) {
+          final paths = _pathsFromPlan(plan);
+          if (!mounted) {
+            _isPromptDialogOpen = false;
+            return;
+          }
+          await Navigator.of(context, rootNavigator: true).push(
+            PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 600),
+              reverseTransitionDuration: const Duration(milliseconds: 600),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  _MonsterPlaybackPage(
+                    activityKey: helloKey,
+                    plan: plan,
+                    urls: paths,
+                  ),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      FadeTransition(opacity: animation, child: child),
+            ),
           );
-        },
-      );
+        }
+      } catch (_) {
+        // Monster hello playback error — ignore silently
+      }
       if (!mounted) {
         _isPromptDialogOpen = false;
         return;
@@ -176,6 +175,17 @@ class _HomeContentState extends State<_HomeContent> {
       _isPromptDialogOpen = false;
       await _persistDailyFlow();
     });
+  }
+
+  _MonsterPlaybackUrls _pathsFromPlan(MonsterPlaybackPlan plan) {
+    if (plan.type == MonsterPlaybackType.single) {
+      return _MonsterPlaybackUrls(single: plan.singlePath);
+    }
+    return _MonsterPlaybackUrls(
+      intro: plan.introPath,
+      loop: plan.loopPath,
+      outro: plan.outroPath,
+    );
   }
 
   _HomeStepView get _currentView {
@@ -228,68 +238,50 @@ class _HomeContentState extends State<_HomeContent> {
   }
 
   Future<void> _showBodyTransitionDialogIfNeeded() async {
-    while (mounted && _bodyStatus == _HomeStepStatus.pending) {
-      if (!context.mounted) return;
-      final result = await showDialog<_BodyTransitionChoice>(
-        context: context,
-        builder: (context) {
-          final l10n = AppLocalizations.of(context)!;
-          return AlertDialog(
-            content: Text(l10n.bodyTransitionPrompt),
-            actions: [
-              TextButton(
-                onPressed: () =>
-                    Navigator.pop(context, _BodyTransitionChoice.continueBody),
-                child: Text(l10n.continueLabel),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(
-                  context,
-                  _BodyTransitionChoice.guidedMeditation,
-                ),
-                child: Text(l10n.guidedMeditationTitle),
-              ),
-              TextButton(
-                onPressed: () =>
-                    Navigator.pop(context, _BodyTransitionChoice.skipBody),
-                child: Text(l10n.skipLabel),
-              ),
-            ],
-          );
-        },
-      );
-      if (!mounted || result == null) return;
-      if (result == _BodyTransitionChoice.continueBody) return;
-      if (result == _BodyTransitionChoice.guidedMeditation) {
-        await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MusicPlayerPage(
-              localeCode: Localizations.localeOf(context).languageCode,
-              fallbackAssetPath:
-                  'music/keys-of-moon-white-petals(chosic.com).mp3',
+    if (!mounted || _bodyStatus != _HomeStepStatus.pending) return;
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          content: Text(l10n.bodyTransitionPrompt),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.noLabel),
             ),
-          ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.yesLabel),
+            ),
+          ],
         );
-        continue;
-      }
-
-      setState(() {
-        _bodyStatus = _HomeStepStatus.skipped;
-      });
-      await _persistDailyFlow();
-      await _ensureDailyQuote();
+      },
+    );
+    if (!mounted || result == null) return;
+    if (result) {
+      // Yes → guided meditation, then body map still shows
+      await _openGuidedMeditation();
+      // Body map will show next via _currentView returning body
       return;
     }
-  }
-
-  Future<void> _skipToQuote() async {
+    // No → skip body step
     setState(() {
-      _moodStatus = _HomeStepStatus.skipped;
       _bodyStatus = _HomeStepStatus.skipped;
     });
     await _persistDailyFlow();
-    await _ensureDailyQuote();
+  }
+
+  Future<void> _openGuidedMeditation() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MusicPlayerPage(
+          localeCode: Localizations.localeOf(context).languageCode,
+          fallbackAssetPath: 'music/keys-of-moon-white-petals(chosic.com).mp3',
+        ),
+      ),
+    );
   }
 
   Future<void> _markBodyComplete() async {
@@ -297,7 +289,6 @@ class _HomeContentState extends State<_HomeContent> {
       _bodyStatus = _HomeStepStatus.completed;
     });
     await _persistDailyFlow();
-    await _ensureDailyQuote();
   }
 
   Future<void> _markBodySkipped() async {
@@ -305,7 +296,6 @@ class _HomeContentState extends State<_HomeContent> {
       _bodyStatus = _HomeStepStatus.skipped;
     });
     await _persistDailyFlow();
-    await _ensureDailyQuote();
   }
 
   Future<void> _reopenMoodCheck() async {
@@ -319,9 +309,267 @@ class _HomeContentState extends State<_HomeContent> {
   Future<void> _reopenBodyCheck() async {
     setState(() {
       _bodyStatus = _HomeStepStatus.pending;
+      if (_moodStatus == _HomeStepStatus.pending) {
+        _moodStatus = _HomeStepStatus.skipped;
+      }
       _isMoodFullscreen = false;
     });
     await _persistDailyFlow();
+  }
+
+  Future<void> _loadOrPickQuote() async {
+    if (_isLoadingQuote || _quoteText != null) return;
+    _isLoadingQuote = true;
+
+    final user = FirebaseAuth.instance.currentUser;
+    final locale = Localizations.localeOf(context).languageCode;
+    if (user == null) {
+      _pickLocalAffirmation();
+      return;
+    }
+
+    final key = _todayKey();
+    try {
+      // Check if a quote was already saved today.
+      final savedSnap = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/daily_quotes/$key')
+          .get();
+      if (savedSnap.exists && savedSnap.value is Map) {
+        final map = Map<String, dynamic>.from(savedSnap.value as Map);
+        final text = map['text'] as String?;
+        if (text != null && text.trim().isNotEmpty) {
+          if (!mounted) return;
+          setState(() {
+            _quoteText = text.trim();
+            _isLoadingQuote = false;
+          });
+          return;
+        }
+      }
+
+      // Try loading from Firebase quotes collection.
+      var quotesSnap = await FirebaseDatabase.instance
+          .ref('quotes/$locale')
+          .get();
+      if (!quotesSnap.exists) {
+        quotesSnap = await FirebaseDatabase.instance.ref('quotes/en').get();
+      }
+
+      String? picked;
+      if (quotesSnap.exists && quotesSnap.value is List) {
+        final list = List<String>.from(
+          (quotesSnap.value as List).whereType<String>(),
+        );
+        if (list.isNotEmpty) {
+          list.shuffle();
+          picked = list.first;
+        }
+      } else if (quotesSnap.exists && quotesSnap.value is Map) {
+        final map = Map<String, dynamic>.from(quotesSnap.value as Map);
+        final values = map.values.whereType<String>().toList();
+        if (values.isNotEmpty) {
+          values.shuffle();
+          picked = values.first;
+        }
+      }
+
+      // Fallback to built-in affirmations if Firebase has no quotes.
+      picked ??= _randomLocalAffirmation();
+
+      // Save to user's daily quotes.
+      await FirebaseDatabase.instance
+          .ref('users/${user.uid}/daily_quotes/$key')
+          .set({'text': picked, 'savedAt': DateTime.now().toIso8601String()});
+
+      if (!mounted) return;
+      setState(() {
+        _quoteText = picked;
+        _isLoadingQuote = false;
+      });
+    } catch (_) {
+      _pickLocalAffirmation();
+    }
+  }
+
+  String _randomLocalAffirmation() {
+    final l10n = AppLocalizations.of(context)!;
+    final affirmations = [
+      l10n.dailyAffirmation1,
+      l10n.dailyAffirmation2,
+      l10n.dailyAffirmation3,
+      l10n.dailyAffirmation4,
+      l10n.dailyAffirmation5,
+      l10n.dailyAffirmation6,
+      l10n.dailyAffirmation7,
+      l10n.dailyAffirmation8,
+      l10n.dailyAffirmation9,
+      l10n.dailyAffirmation10,
+      l10n.dailyAffirmation11,
+      l10n.dailyAffirmation12,
+      l10n.dailyAffirmation13,
+      l10n.dailyAffirmation14,
+      l10n.dailyAffirmation15,
+      l10n.dailyAffirmation16,
+      l10n.dailyAffirmation17,
+      l10n.dailyAffirmation18,
+      l10n.dailyAffirmation19,
+      l10n.dailyAffirmation20,
+      l10n.dailyAffirmation21,
+      l10n.dailyAffirmation22,
+      l10n.dailyAffirmation23,
+      l10n.dailyAffirmation24,
+      l10n.dailyAffirmation25,
+      l10n.dailyAffirmation26,
+      l10n.dailyAffirmation27,
+      l10n.dailyAffirmation28,
+      l10n.dailyAffirmation29,
+      l10n.dailyAffirmation30,
+      l10n.dailyAffirmation31,
+      l10n.dailyAffirmation32,
+      l10n.dailyAffirmation33,
+      l10n.dailyAffirmation34,
+      l10n.dailyAffirmation35,
+      l10n.dailyAffirmation36,
+      l10n.dailyAffirmation37,
+      l10n.dailyAffirmation38,
+      l10n.dailyAffirmation39,
+      l10n.dailyAffirmation40,
+      l10n.dailyAffirmation41,
+      l10n.dailyAffirmation42,
+      l10n.dailyAffirmation43,
+      l10n.dailyAffirmation44,
+      l10n.dailyAffirmation45,
+      l10n.dailyAffirmation46,
+      l10n.dailyAffirmation47,
+      l10n.dailyAffirmation48,
+      l10n.dailyAffirmation49,
+      l10n.dailyAffirmation50,
+      l10n.dailyAffirmation51,
+      l10n.dailyAffirmation52,
+      l10n.dailyAffirmation53,
+      l10n.dailyAffirmation54,
+      l10n.dailyAffirmation55,
+      l10n.dailyAffirmation56,
+      l10n.dailyAffirmation57,
+      l10n.dailyAffirmation58,
+      l10n.dailyAffirmation59,
+      l10n.dailyAffirmation60,
+      l10n.dailyAffirmation61,
+      l10n.dailyAffirmation62,
+      l10n.dailyAffirmation63,
+      l10n.dailyAffirmation64,
+      l10n.dailyAffirmation65,
+      l10n.dailyAffirmation66,
+      l10n.dailyAffirmation67,
+      l10n.dailyAffirmation68,
+      l10n.dailyAffirmation69,
+      l10n.dailyAffirmation70,
+      l10n.dailyAffirmation71,
+      l10n.dailyAffirmation72,
+      l10n.dailyAffirmation73,
+      l10n.dailyAffirmation74,
+      l10n.dailyAffirmation75,
+      l10n.dailyAffirmation76,
+      l10n.dailyAffirmation77,
+      l10n.dailyAffirmation78,
+      l10n.dailyAffirmation79,
+      l10n.dailyAffirmation80,
+      l10n.dailyAffirmation81,
+      l10n.dailyAffirmation82,
+      l10n.dailyAffirmation83,
+      l10n.dailyAffirmation84,
+      l10n.dailyAffirmation85,
+      l10n.dailyAffirmation86,
+      l10n.dailyAffirmation87,
+      l10n.dailyAffirmation88,
+      l10n.dailyAffirmation89,
+      l10n.dailyAffirmation90,
+      l10n.dailyAffirmation91,
+      l10n.dailyAffirmation92,
+      l10n.dailyAffirmation93,
+      l10n.dailyAffirmation94,
+      l10n.dailyAffirmation95,
+      l10n.dailyAffirmation96,
+      l10n.dailyAffirmation97,
+      l10n.dailyAffirmation98,
+      l10n.dailyAffirmation99,
+      l10n.dailyAffirmation100,
+      l10n.dailyAffirmation101,
+      l10n.dailyAffirmation102,
+      l10n.dailyAffirmation103,
+      l10n.dailyAffirmation104,
+      l10n.dailyAffirmation105,
+      l10n.dailyAffirmation106,
+      l10n.dailyAffirmation107,
+      l10n.dailyAffirmation108,
+      l10n.dailyAffirmation109,
+      l10n.dailyAffirmation110,
+      l10n.dailyAffirmation111,
+      l10n.dailyAffirmation112,
+      l10n.dailyAffirmation113,
+      l10n.dailyAffirmation114,
+      l10n.dailyAffirmation115,
+      l10n.dailyAffirmation116,
+      l10n.dailyAffirmation117,
+      l10n.dailyAffirmation118,
+      l10n.dailyAffirmation119,
+      l10n.dailyAffirmation120,
+    ];
+    affirmations.shuffle();
+    return affirmations.first;
+  }
+
+  void _pickLocalAffirmation() {
+    if (!mounted) return;
+    setState(() {
+      _quoteText = _randomLocalAffirmation();
+      _isLoadingQuote = false;
+    });
+  }
+
+  Widget _buildQuoteStep() {
+    final l10n = AppLocalizations.of(context)!;
+
+    if (_isLoadingQuote || _quoteText == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              l10n.todaysAffirmationLabel,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 24),
+            Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 32,
+                ),
+                child: Text(
+                  _quoteText!,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontFamily: 'PlaypenSans',
+                    fontWeight: FontWeight.w800,
+                    fontStyle: FontStyle.italic,
+                    height: 1.4,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _toggleMoodFullscreen() {
@@ -378,39 +626,6 @@ class _HomeContentState extends State<_HomeContent> {
     );
   }
 
-  String _pickQuoteForToday() {
-    final l10n = AppLocalizations.of(context)!;
-    final dailyAffirmations = [
-      l10n.dailyAffirmation1,
-      l10n.dailyAffirmation2,
-      l10n.dailyAffirmation3,
-      l10n.dailyAffirmation4,
-      l10n.dailyAffirmation5,
-      l10n.dailyAffirmation6,
-      l10n.dailyAffirmation7,
-    ];
-    final seed =
-        int.tryParse(_todayKey()) ?? DateTime.now().millisecondsSinceEpoch;
-    final index = seed % dailyAffirmations.length;
-    return dailyAffirmations[index];
-  }
-
-  Future<void> _ensureDailyQuote() async {
-    if (_quoteText != null && _quoteText!.trim().isNotEmpty) return;
-    final quote = _pickQuoteForToday();
-    if (!mounted) return;
-    setState(() {
-      _quoteText = quote;
-    });
-    await _persistDailyFlow();
-
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
-    await FirebaseDatabase.instance
-        .ref('users/${user.uid}/daily_quotes/${_todayKey()}')
-        .set({'text': quote, 'createdAt': DateTime.now().toIso8601String()});
-  }
-
   Widget _buildAnytimeLogNote() {
     final l10n = AppLocalizations.of(context)!;
     return Card(
@@ -457,6 +672,10 @@ class _HomeContentState extends State<_HomeContent> {
                     OutlinedButton(
                       onPressed: _reopenBodyCheck,
                       child: Text(l10n.bodyCheckLabel),
+                    ),
+                    OutlinedButton(
+                      onPressed: _openGuidedMeditation,
+                      child: Text(l10n.meditationLabel),
                     ),
                   ],
                 ),
@@ -507,14 +726,6 @@ class _HomeContentState extends State<_HomeContent> {
               ),
               const SizedBox(height: 12),
               _buildMoodActionRow(),
-              const SizedBox(height: 6),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: _skipToQuote,
-                  child: Text(l10n.skipToQuoteLabel),
-                ),
-              ),
             ],
           );
         }
@@ -561,14 +772,6 @@ class _HomeContentState extends State<_HomeContent> {
                   ),
                   const SizedBox(height: 8),
                   _buildMoodActionRow(),
-                  const SizedBox(height: 6),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: _skipToQuote,
-                      child: Text(l10n.skipToQuoteLabel),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -601,44 +804,9 @@ class _HomeContentState extends State<_HomeContent> {
             ),
             SizedBox(height: isLandscape ? 8 : 16),
             _buildMoodActionRow(),
-            const SizedBox(height: 8),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: _skipToQuote,
-                child: Text(l10n.skipToQuoteLabel),
-              ),
-            ),
           ],
         );
       },
-    );
-  }
-
-  Widget _buildQuoteStep() {
-    final l10n = AppLocalizations.of(context)!;
-    final quote = _quoteText ?? _pickQuoteForToday();
-    return Center(
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                l10n.todaysAffirmationLabel,
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                quote,
-                style: Theme.of(context).textTheme.titleMedium,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
@@ -664,6 +832,7 @@ class _HomeContentState extends State<_HomeContent> {
         );
         break;
       case _HomeStepView.quote:
+        _loadOrPickQuote();
         content = _buildQuoteStep();
         break;
     }
@@ -704,8 +873,6 @@ class _HomeContentState extends State<_HomeContent> {
     );
   }
 }
-
-enum _BodyTransitionChoice { continueBody, guidedMeditation, skipBody }
 
 enum _HomeStepStatus { pending, completed, skipped }
 

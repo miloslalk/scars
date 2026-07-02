@@ -1,0 +1,400 @@
+{
+  "wellbeing": {
+    "items": [
+      {"title": "5-Finger-Breathing", "videoUrl": "https://www.youtube.com/watch?v=Bz7WZ5jS19I"},
+      {"title": "Respira\u021bia P\u0103trat\u0103 sau Pranayama Samavriti", "videoUrl": "https://www.youtube.com/watch?v=QULmfxAFLPM"},
+      {"title": "Relaxare Muscular\u0103 Progresiv\u0103", "videoUrl": "https://www.youtube.com/watch?v=herqDwasWyU"},
+      {"title": "Respira\u021bie 4-7-8", "videoUrl": "https://www.youtube.com/watch?v=jpPnF5DuBEc"},
+      {"title": "5-4-3-2-1 Grounding", "videoUrl": "https://www.youtube.com/watch?v=30VMIEmA114"},
+      {"title": "Yoga Nidra", "videoUrl": "https://www.youtube.com/watch?v=LO7T3HuTzys"},
+      {"title": "Tehnica STOP", "videoUrl": "https://www.youtube.com/watch?v=bjvwcCDYU7o"},
+      {"title": "Safe Place", "videoUrl": "https://www.youtube.com/watch?v=miU4pBZ0hXQ"}
+    ],
+    "furtherReading": []
+  },
+  "support": {
+    "categories": [
+      {
+        "title": "Organiza\u021bii na\u021bionale anti-discriminare",
+        "icon": "handshake",
+        "organizations": [
+          {
+            "name": "CNCD",
+            "description": "Consiliul Na\u021bional pentru Combaterea Discrimin\u0103rii este institu\u021bia care previne \u0219i sanc\u021bioneaz\u0103 discriminarea \u00een Rom\u00e2nia.",
+            "website": "https://www.cncd.ro/",
+            "phones": ["+40213126578", "+40213126579"],
+            "email": "support@cncd.ro"
+          },
+          {
+            "name": "Avocatul Poporului",
+            "description": "Avocatul Poporului protejeaz\u0103 drepturile cet\u0103\u021benilor \u00een rela\u021bia cu autorit\u0103\u021bile publice.",
+            "website": "https://www.avp.ro",
+            "phones": ["+40 21 3127134"],
+            "email": "petitii@avp.ro"
+          },
+          {
+            "name": "ANES",
+            "description": "Agen\u021bia Na\u021bional\u0103 pentru Egalitate de \u0218anse promoveaz\u0103 egalitatea de gen \u0219i combate violen\u021ba \u00eempotriva femeilor.",
+            "website": "https://anes.gov.ro",
+            "phones": ["0800500333"],
+            "isFree": true
+          },
+          {
+            "name": "NAR",
+            "description": "Agen\u021bia Na\u021bional\u0103 pentru Romi implementeaz\u0103 politici pentru incluziunea romilor.",
+            "website": "http://anr.gov.ro",
+            "phones": ["+40 21 311 3048"],
+            "email": "info@ANR.gov.ro"
+          },
+          {
+            "name": "Consiliul Na\u021bional pentru Combaterea S\u0103r\u0103ciei",
+            "description": "Coordoneaz\u0103 politici pentru reducerea s\u0103r\u0103ciei \u0219i excluziunii sociale.",
+            "website": "https://mmuncii.ro",
+            "phones": ["+40 21 3136267"],
+            "email": "audiente@mmuncii.gov.ro"
+          },
+          {
+            "name": "ACCEPT",
+            "description": "ONG care ap\u0103r\u0103 drepturile persoanelor LGBTQ+, oferind asisten\u021b\u0103 juridic\u0103.",
+            "website": "https://acceptromania.ro",
+            "email": "accept@acceptromania.ro"
+          },
+          {
+            "name": "CRJ",
+            "description": "ONG pentru drepturile omului care protejeaz\u0103 persoanele vulnerabile.",
+            "website": "https://www.crj.ro",
+            "phones": ["+40 728 112 187", "+40 21 212 06 90"],
+            "email": "office@crj.ro"
+          },
+          {
+            "name": "IRDO",
+            "description": "Promoveaz\u0103 educa\u021bia \u0219i con\u0219tientizarea drepturilor omului.",
+            "website": "https://www.irdo.ro",
+            "phones": ["+40 21 311 49 21"],
+            "email": "office@irdo.ro"
+          },
+          {
+            "name": "Salva\u021bi Copiii Rom\u00e2nia",
+            "description": "Sprijin pentru copii \u0219i tineri vulnerabili, inclusiv consiliere.",
+            "website": "https://www.salvaticopiii.ro",
+            "phones": ["+40 744 360 915"],
+            "email": "secretariat@salvaticopiii.ro"
+          },
+          {
+            "name": "APADOR-CH",
+            "description": "ONG care ofer\u0103 asisten\u021b\u0103 juridic\u0103 pentru persoane ale c\u0103ror drepturi au fost \u00eenc\u0103lcate.",
+            "website": "https://apador.org",
+            "email": "office@apador.org"
+          }
+        ]
+      },
+      {
+        "title": "Violen\u021ba \u00eempotriva femeilor",
+        "icon": "shield",
+        "organizations": [
+          {
+            "name": "Centrul FILIA",
+            "description": "Organiza\u021bie feminist\u0103 care promoveaz\u0103 drepturile femeilor \u0219i combate violen\u021ba de gen.",
+            "website": "https://centrulfilia.ro",
+            "phones": ["+40 21 3138024"],
+            "email": "office@centrulfilia.ro"
+          },
+          {
+            "name": "ANAIS",
+            "description": "Consiliere psihologic\u0103 gratuit\u0103, asisten\u021b\u0103 juridic\u0103 pentru femeile victime ale violen\u021bei domestice.",
+            "website": "https://asociatia-anais.ro",
+            "phones": ["+40 736 380 879"],
+            "email": "office@asociatia-anais.ro"
+          },
+          {
+            "name": "Necuvinte",
+            "description": "Servicii specializate pentru victimele violen\u021bei domestice \u0219i sexuale.",
+            "website": "https://necuvinte.ro",
+            "phones": ["+40 21 2433333"],
+            "email": "contact@necuvinte.ro"
+          },
+          {
+            "name": "Re\u021beaua VIF",
+            "description": "Coali\u021bie de ONG-uri care lupt\u0103 pentru combaterea violen\u021bei \u00eempotriva femeilor.",
+            "website": "https://violentaimpotrivafemeilor.ro",
+            "email": "reteauaVIF@gmail.com"
+          },
+          {
+            "name": "Transcena",
+            "description": "Sprijin femeilor victime ale violen\u021bei prin consiliere, asisten\u021b\u0103 juridic\u0103.",
+            "website": "https://transcena.ro",
+            "email": "office@transcena.ro"
+          },
+          {
+            "name": "Funda\u021bia Sensiblu",
+            "description": "Servicii integrate pentru victimele violen\u021bei domestice, inclusiv ad\u0103post.",
+            "website": "https://www.fundatiasensiblu.ro",
+            "phones": ["+40 21 3017474"],
+            "email": "fundatia.sensiblu@drmax.ro"
+          }
+        ]
+      },
+      {
+        "title": "Asisten\u021b\u0103 medical\u0103 \u0219i juridic\u0103",
+        "icon": "medical_services",
+        "organizations": [
+          {
+            "name": "Institutul Na\u021bional de Medicin\u0103 Legal\u0103 \u201eMina Minovici\u201d",
+            "description": "Examin\u0103ri medico-legale pentru victimele violen\u021bei.",
+            "website": "https://www.inml-mm.ro",
+            "phones": ["+40 31 423 07 00"],
+            "email": "registratura@inml-mm.ro"
+          },
+          {
+            "name": "INSP",
+            "description": "Sprijin\u0103 sistemul de s\u0103n\u0103tate \u00een prevenirea cazurilor de violen\u021b\u0103.",
+            "website": "https://insp.gov.ro",
+            "phones": ["+40 21 3183620", "+40 21 3183619"],
+            "email": "directie.generala@insp.gov.ro"
+          },
+          {
+            "name": "Serviciul de Asisten\u021b\u0103 Judiciar\u0103",
+            "description": "Ajutor juridic gratuit pentru victime ale violen\u021bei.",
+            "website": "https://www.just.ro",
+            "isFree": true
+          }
+        ]
+      },
+      {
+        "title": "Anti\u021biganism",
+        "icon": "diversity_3",
+        "organizations": [
+          {
+            "name": "Nevo Parudimos",
+            "description": "Promoveaz\u0103 drepturile romilor \u0219i combate discriminarea.",
+            "website": "https://www.nevoparudimos.ro",
+            "email": "nevoparudimos@yahoo.com"
+          },
+          {
+            "name": "Romani CRISS",
+            "description": "Asisten\u021b\u0103 juridic\u0103 \u0219i sprijin pentru victime rome ale discrimin\u0103rii.",
+            "website": "https://www.romanicriss.org",
+            "phones": ["+40 21 311 19 14"],
+            "email": "office@romanicriss.org"
+          },
+          {
+            "name": "E-Romnja",
+            "description": "Sprijin\u0103 femeile \u0219i fetele rome victime ale discrimin\u0103rii multiple.",
+            "website": "https://e-romnja.ro",
+            "email": "office@e-romnja.ro"
+          },
+          {
+            "name": "Funda\u021bia \u00cempreun\u0103",
+            "description": "Sprijin\u0103 comunit\u0103\u021bile de romi afectate de excluziune social\u0103.",
+            "website": "https://www.agentiaimpreuna.ro",
+            "phones": ["+40 743 824 824"],
+            "email": "office@agentiaimpreuna.ro"
+          }
+        ]
+      },
+      {
+        "title": "Antisemitism",
+        "icon": "security",
+        "organizations": [
+          {
+            "name": "Institutul \u201eElie Wiesel\u201d",
+            "description": "Monitorizeaz\u0103 antisemitismul \u00een Rom\u00e2nia.",
+            "website": "https://www.inshr-ew.ro",
+            "phones": ["+40-21-318 09 39"],
+            "email": "office@inshr-ew.ro"
+          },
+          {
+            "name": "FCER",
+            "description": "Reprezint\u0103 comunit\u0103\u021bile evreie\u0219ti din Rom\u00e2nia.",
+            "website": "https://www.fcer.ro"
+          },
+          {
+            "name": "MCA Romania",
+            "description": "Monitorizeaz\u0103 incidentele antisemite.",
+            "website": "https://www.mca-romania.org"
+          }
+        ]
+      },
+      {
+        "title": "LGBTQ+",
+        "icon": "transgender",
+        "organizations": [
+          {
+            "name": "ACCEPT",
+            "description": "Principala organiza\u021bie pentru persoane LGBTQ+.",
+            "website": "https://acceptromania.ro",
+            "email": "accept@acceptromania.ro"
+          },
+          {
+            "name": "MozaiQ LGBT",
+            "description": "Servicii de sprijin pentru persoane LGBTQ+.",
+            "website": "https://mozaiqlgbt.ro",
+            "phones": ["+40 764 109 385"],
+            "email": "office@mozaiqlgbt.ro"
+          }
+        ]
+      },
+      {
+        "title": "Dizabilit\u0103\u021bi",
+        "icon": "accessibility",
+        "organizations": [
+          {
+            "name": "ANPDPD",
+            "description": "Coordoneaz\u0103 politicile privind drepturile persoanelor cu dizabilit\u0103\u021bi.",
+            "website": "https://anpd.gov.ro",
+            "phones": ["+40 314 338 090"],
+            "email": "registratura@anpd.gov.ro"
+          },
+          {
+            "name": "Funda\u021bia Motivation Rom\u00e2nia",
+            "description": "Sprijin persoanelor cu dizabilit\u0103\u021bi fizice.",
+            "website": "https://motivation.ro",
+            "phones": ["+40 21 4480242"],
+            "email": "comunicare@motivation.ro"
+          },
+          {
+            "name": "AMAis",
+            "description": "Promoveaz\u0103 accesibilitatea pentru persoanele cu dizabilit\u0103\u021bi.",
+            "website": "https://amais.ro",
+            "phones": ["+40 757 526 247"],
+            "email": "contact@amais.ro"
+          }
+        ]
+      },
+      {
+        "title": "Refugia\u021bi \u0219i migran\u021bi",
+        "icon": "public",
+        "organizations": [
+          {
+            "name": "CNRR",
+            "description": "Consiliere juridic\u0103 \u0219i sprijin psihosocial pentru refugia\u021bi.",
+            "website": "https://www.cnrr.ro",
+            "phones": ["+40 21 312 62 10"],
+            "email": "office@cnrr.ro"
+          },
+          {
+            "name": "IOM Romania",
+            "description": "Sprijin pentru migran\u021bi \u0219i refugia\u021bi.",
+            "website": "https://romania.iom.int",
+            "phones": ["+40212103050"]
+          },
+          {
+            "name": "UNHCR Romania",
+            "description": "Protec\u021bie \u0219i sprijin pentru refugia\u021bi.",
+            "website": "https://www.unhcr.org/ro",
+            "phones": ["+40 21 201 78 73"],
+            "email": "rombu@unhcr.org"
+          },
+          {
+            "name": "ICAR Foundation",
+            "description": "Consiliere psihologic\u0103 pentru victime ale traumelor.",
+            "website": "https://icarfoundation.ro",
+            "phones": ["+40 21 321 22 21"],
+            "email": "icar@icarfoundation.ro"
+          },
+          {
+            "name": "Terre des hommes Rom\u00e2nia",
+            "description": "Sprijin pentru copiii \u0219i tinerii migran\u021bi.",
+            "website": "https://tdh.ro",
+            "email": "rou.office@tdh.org"
+          },
+          {
+            "name": "JRS Rom\u00e2nia",
+            "description": "Sprijin pentru refugia\u021bi \u0219i migran\u021bi.",
+            "website": "https://jrsromania.org",
+            "phones": ["+40744405657"],
+            "email": "jrsromania@gmail.com"
+          },
+          {
+            "name": "LOGS",
+            "description": "Servicii pentru refugia\u021bi \u0219i migran\u021bi.",
+            "website": "https://grupullogs.ro/",
+            "phones": ["+40 783 001 667"],
+            "email": "contact@grupullogs.ro"
+          }
+        ]
+      },
+      {
+        "title": "S\u0103n\u0103tate mintal\u0103",
+        "icon": "psychology",
+        "organizations": [
+          {
+            "name": "TelVerde Antisuicid",
+            "description": "Linia telefonic\u0103 gratuit\u0103 de suport emo\u021bional.",
+            "website": "https://www.antisuicid.ro",
+            "phones": ["0800801200"],
+            "isFree": true
+          },
+          {
+            "name": "Happy Minds",
+            "description": "Consiliere psihologic\u0103 accesibil\u0103 pentru tineri.",
+            "website": "https://happyminds.ro"
+          },
+          {
+            "name": "Estuar Foundation",
+            "description": "Servicii de s\u0103n\u0103tate mintal\u0103 \u00een comunitate.",
+            "website": "https://estuar.org"
+          },
+          {
+            "name": "The Social Incubator",
+            "description": "Consiliere psihologic\u0103 gratuit\u0103 pentru tineri vulnerabili.",
+            "website": "https://asociatiasocialincubator.org/unele-usi/",
+            "isFree": true
+          },
+          {
+            "name": "Centrul Social de Psihoterapie",
+            "description": "\u0218edin\u021be de psihoterapie gratuite.",
+            "website": "https://www.centrulsocialtfh.ro",
+            "isFree": true
+          },
+          {
+            "name": "HIAS Rom\u00e2nia",
+            "description": "Suport psihologic pentru refugia\u021bi.",
+            "website": "https://hias.org/where/romania"
+          }
+        ]
+      }
+    ]
+  },
+  "education": {
+    "items": [
+      {
+        "title": "Ce este rasismul?",
+        "videos": [
+          {"title": "Ce este rasismul?", "url": "https://www.youtube.com/watch?v=NDwVKEV9kos"}
+        ]
+      },
+      {
+        "title": "What is Islamophobia?",
+        "videos": [
+          {"title": "What is Islamophobia?", "url": "https://www.youtube.com/watch?v=2pFJarUuI-k"}
+        ]
+      },
+      {
+        "title": "Antigipsismul?",
+        "videos": [
+          {"title": "Antigipsismul?", "url": "https://www.youtube.com/watch?v=5Y3QE1RO-QU"}
+        ]
+      },
+      {
+        "title": "Ce este discriminarea?",
+        "videos": [
+          {"title": "Ce este discriminarea?", "url": "https://www.youtube.com/watch?v=-r1KIdypka8"}
+        ]
+      },
+      {
+        "title": "Ce este discursul online instigator la ur\u0103?",
+        "videos": [
+          {"title": "Ce este discursul online instigator la ur\u0103?", "url": "https://www.youtube.com/watch?v=kRmY-OlFM2A"}
+        ]
+      },
+      {
+        "title": "Ce sunt drepturile omului?",
+        "videos": [
+          {"title": "Ce sunt drepturile omului?", "url": "https://www.youtube.com/watch?v=ETObpZlWBQU"}
+        ]
+      }
+    ],
+    "furtherReading": []
+  }
+}

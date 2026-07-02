@@ -54,17 +54,19 @@ class DefaultFirebaseOptions {
     appId: '1:537131372504:android:48f548c8e4827ce003acad',
     messagingSenderId: '537131372504',
     projectId: 'scars-d81cd',
-    databaseURL: 'https://scars-d81cd-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://scars-d81cd-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'scars-d81cd.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAPZO3l7YxeN96altWKdWhkFBne-krvKPM',
-    appId: '1:537131372504:ios:d8ba4849dd09db3103acad',
+    appId: '1:537131372504:ios:5521c326f937176f03acad',
     messagingSenderId: '537131372504',
     projectId: 'scars-d81cd',
-    databaseURL: 'https://scars-d81cd-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://scars-d81cd-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'scars-d81cd.firebasestorage.app',
-    iosBundleId: 'com.example.whenScarsBecomeArt',
+    iosBundleId: 'eu.whenscarsbecomeart.mobile',
   );
 }

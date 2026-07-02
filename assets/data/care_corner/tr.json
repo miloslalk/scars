@@ -1,0 +1,298 @@
+{
+  "wellbeing": {
+    "items": [
+      {
+        "title": "Wellbeing Video 1",
+        "videoUrl": "https://www.youtube.com/shorts/pb2_BNhlZE4"
+      },
+      {
+        "title": "Wellbeing Video 2",
+        "videoUrl": "https://www.youtube.com/watch?v=7QpELPKKfpI"
+      },
+      {
+        "title": "Wellbeing Video 3",
+        "videoUrl": "https://www.youtube.com/watch?v=Q9-E-3De7ko"
+      },
+      {
+        "title": "Wellbeing Video 4",
+        "videoUrl": "https://www.youtube.com/watch?v=nnIMfON6L5E"
+      },
+      {
+        "title": "Wellbeing Video 5",
+        "videoUrl": "https://www.youtube.com/watch?v=SFNSXwLPr4A"
+      },
+      {
+        "title": "Wellbeing Video 6",
+        "videoUrl": "https://www.youtube.com/shorts/Gie5Cdsk-6s"
+      },
+      {
+        "title": "Wellbeing Video 7",
+        "videoUrl": "https://www.youtube.com/watch?v=6zgbbdt42HU"
+      },
+      {
+        "title": "Wellbeing Video 8",
+        "videoUrl": "https://www.youtube.com/watch?v=QbFdiek441Q"
+      },
+      {
+        "title": "Duygulari fark etme ve adlandirma",
+        "description": "Duygular, icinden gelen kucuk mesajlar gibidir. Sana bir sey gostermek isterler; ornegin senin icin neyin onemli oldugunu ya da su anda neye ihtiyac duydugunu. Bazi duygular kolaydir, bazilari ise daha zorlayicidir. Ama ikisi de normaldir ve sende bir sorun oldugu anlamina gelmez.\n\nBircok insanin tanidigi temel duygular vardir: mutluluk, uzuntu, korku, ofke, tiksinti, saskinlik ve kucumseme. Ayni anda birden fazla duygu hissetmek tamamen normaldir.\n\nDuygular sadece zihninde olmaz. Bedenin de cogu zaman dogrudan tepki verir. Korku kalp atislarinin hizlanmasi gibi hissedilebilir. Ofke omuzlarinda gerginlige neden olabilir. Uzuntu bazen agir bir his yaratir.\n\nBazen bir dusunce o kadar guclu olur ki bir duygu gibi hissedilebilir. Dusunceler ise cogu zaman yargilar ya da endiselerdir. Ve bir dusuncenin var olmasi, onun dogru oldugu anlamina gelmez.\n\nBazen bir duyguyu tam olarak adlandirmak zor olabilir. Boyle durumlarda renkler daha kolay olabilir. Onemli olan 'dogru' renk degil, su anda sana uygun olan renktir."
+      },
+      {
+        "title": "Aidiyet ve kimlik",
+        "description": "Bazen sanki iki farkli 'sen' varmis gibi hissedebilirsin: biri evde, biri disarida. Bu yanlis bir sey degildir. Bu bir beceridir. Gocmen kokenli bircok genc bunu iyi bilir.\n\n'Ya o ya bu' olmak zorunda degilsin. Birden fazla yonun, birden fazla dilin, birden fazla hissetme bicimin olabilir. Kimlik sabit bir kalip degildir. Zamanla sekillenen bir karisima daha cok benzer.\n\nAidiyet, bir yere kusursuz sekilde uymak zorunda olmak demek degildir. Daha cok 'Burada nefes alabiliyorum' gibi bir histir. Aidiyet, kendini daha guvende hissettigin insanlari buldukca zamanla buyuyebilir.\n\nKokeninle, dilinle ya da dininle gurur duyabilir ve yine de bazi seyleri stresli bulabilirsin. Sevgi ve catisma ayni anda var olabilir."
+      },
+      {
+        "title": "Ofke ve durtu kontrolu",
+        "description": "Ofke, seni korumaya calisan bir duygudur. Genellikle bir sinir asildinda ya da bir sey adil olmadiginda ortaya cikar. Ofkeli olmak, otomatik olarak 'kotu' ya da saldirgan oldugun anlamina gelmez.\n\nOfke bir duygudur ve duygulara izin vardir. Siddet ise bir davranistir ve sonuclari vardir. Amac ofkeyi bastirmak degildir. Amac, ofkeyi seni kontrol etmeden once fark edebilmektir.\n\nBazen bedenin yuksek alarmdadir. Boyle durumlarda bedenini sakinlestirmek daha yardimci olur: kisa sureligine disari cik, su ic, kulaklik tak, mini nefes egzersizi yap.\n\nSTOP teknigi: S \u2013 Dur, T \u2013 Derin bir nefes al, O \u2013 Yonunu fark et, P \u2013 Plan yap. Kisa bir mola bile buyuk bir fark yaratabilir.",
+        "videoUrl": "https://www.youtube.com/shorts/pb2_BNhlZE4"
+      },
+      {
+        "title": "Ozdeger, sinirlar ve zorbalik",
+        "description": "Her tartisma zorbalik degildir. Zorbalik, tekrar eden, seni kucuk hissettiren ya da dislayan davranislardir. Bu hem gercek hayatta hem de online ortamda olabilir. En onemlisi: zorbalik senin sucun degildir.\n\nSinirlar, kim oldugunun bir parcasidir. Sana neyin hala iyi geldigini ve neyin gelmedigini gosterir. 'Hayir' demek seni zor ya da nankor yapmaz.\n\nBaskalari sinirlarina saygi gostermiyorsa, bu senin sinirlarinin yanlis oldugu anlamina gelmez. Yardim istemek ispiyonculuk ya da zayiflik degildir. Bu, kendini korumaktir.\n\nSenin degerin; ne kadar duzgun konustuguna, nasil gorundigune ya da ailenin nereden geldigine bagli degildir. Sen, baskalarinin senin hakkinda soylediklerinden cok daha fazlasisin."
+      },
+      {
+        "title": "Ruh sagligi damgalamasi",
+        "description": "Damgalama, insanlarin baskalarina yapistirdigi etiketler gibidir. Ornegin: 'Zayifsin' ya da 'Abartiyorsun.' Bu etiketler cogu zaman gercegi yansitmaz.\n\nDamgalama cogu zaman kucuk ama icten ice cok inciten cumleler seklinde olur: 'Erkekler aglamaz', 'Kendine gel', 'Cok hassassin'. Bu tur sozler, duygular sanki yanlismis gibi davranir.\n\nDamgalama, bircok seyi gereginden daha zor hale getirir. Zaman zaman bunalmis, uzgun, ofkeli ya da gergin hissetmek normaldir. Bu sadece insan oldugun anlamina gelir.\n\nGercek guc bazen durustce 'Su an cok zor' diyebilmektir. Kendine iyi bakmak bencillik degildir."
+      },
+      {
+        "title": "Adaletsiz muamele ve kendini koruma",
+        "description": "Eger ismin, gorunusun, ten rengin, dilin, dinin ya da bir azinliga ait olman nedeniyle farkli muamele goruyorsan, bu senin degerinle ilgili hicbir sey soylemez. Buna ayrimcilik denir.\n\nAdaletsiz anlarda bedenin seni korumaya calisir. Bazilari ofkelenir, bazilari cok sessizlesir ya da donup kalmis gibi hisseder. 'Dogru' tek bir tepki yoktur.\n\nAdaletsiz bir durumdan sonra hemen tepki vermek zorunda degilsin. Kendine zaman taniyabilirsin. Seni anlayan biriyle konusmak da iyi gelebilir.\n\nBir sey adaletsiz hissettirdiginde, kisa bir mola vermek kendinle yeniden baglanti kurmana yardimci olabilir. Kendine sunu soyle: 'Bu benim degerimle ilgili degil.'\n\nAyrimcilik adil degildir ve bunu hak etmiyorsun. Sen bu andan cok daha fazlasisin."
+      },
+      {
+        "title": "Beden ve Iyi Olus Hali / Kaygi ve Stres",
+        "description": "Insan bedeni, yasanan her duygunun izini tasir. Kaygi, stres veya korku gibi duygular kalp atisinin hizlanmasi, kaslarin gerilmesi, nefesin yuzeyselesmesi gibi bedensel tepkilerle kendini gosterir. Iyi olus hali, sadece 'iyi hissetmek' degil, bedenin de bu iyilik haline eslik etmesidir.\n\nStres, kisinin karsilastigi bir durumun zorluk veya tehdit olusturdugunu algiladiginda ortaya cikan bir tepkidir. Kisa sureli stres faydali olabilir, ancak uzun sure devam ettiginde yorgunluk yaratabilir.\n\nKaygi genellikle gelecekte olabilecek bir durumla ilgili endise hissidir. Belirli bir duzeyde kaygi koruyucu bir islev gorur, ancak yogunlastiginda gunluk yasami zorlastirabilir.\n\nOkulla ilgili sorunlarla tek basina bas etmek zorunda degilsin. Okuldaki rehberlik servisleri seni dinler ve yardimci olur. Bircok sehirde genclik merkezleri ve projeler vardir, buralara randevusuz gidebilirsin."
+      }
+    ],
+    "furtherReading": []
+  },
+  "support": {
+    "categories": [
+      {
+        "title": "Yerel STK'lar",
+        "icon": "house",
+        "organizations": [
+          {
+            "name": "SGDD-ASAM",
+            "description": "Turkiye genelinde cok yaygin ofis agi. Psikososyal destek, egitim, yonlendirme. Cok dilli hizmet",
+            "website": "https://sgdd.org.tr",
+            "phones": ["+90 (0312) 212 60 12"]
+          },
+          {
+            "name": "MUDEM (Multeci Destek Dernegi)",
+            "description": "Hukuki destek, sosyal hizmetler. Ozellikle gencler ve kadinlara yonelik programlar",
+            "website": "https://mudem.org",
+            "phones": ["+90 312 427 27 62"]
+          },
+          {
+            "name": "Hayata Destek Dernegi (Support to Life)",
+            "description": "Egitim, koruma, cocuk ve genclik calismalari",
+            "website": "https://www.hayatadestek.org",
+            "phones": ["+90 800 670 1010"],
+            "isFree": true
+          },
+          {
+            "name": "Insan Kaynagini Gelistirme Vakfi (IKGV)",
+            "description": "Gocmen ve multecilere sosyal destek",
+            "website": "http://www.ikgv.org",
+            "phones": ["+902122931605"]
+          },
+          {
+            "name": "Maya Foundation",
+            "description": "Travma, savas ve afet sonrasi psikososyal destek. Cocuklar ve genclerle sanat terapisi",
+            "website": "https://mayavakfi.org",
+            "phones": ["+90 212 525 25 36"]
+          },
+          {
+            "name": "Turk Psikologlar Dernegi",
+            "description": "Gonullu psikolojik destek aglari. Kriz donemlerinde ucretsiz danismanlik",
+            "website": "https://psikolog.org.tr",
+            "phones": ["+90 312 425 67 65"]
+          },
+          {
+            "name": "Genc Hayat Vakfi",
+            "description": "Dezavantajli gencler icin psikososyal destek. Roman ve multeci genclerle calismalar",
+            "website": "https://www.genchayat.org/",
+            "phones": ["+90 850 377 77 30"]
+          },
+          {
+            "name": "ACEV",
+            "description": "Aile ve genc odakli destek programlari. Psikososyal gelisim calismalari",
+            "phones": ["+90 (212) 213 42 20"],
+            "email": "acev@acev.org"
+          }
+        ]
+      },
+      {
+        "title": "Roma ve Azinlik STK'lari",
+        "icon": "diversity_3",
+        "organizations": [
+          {
+            "name": "Romani Godi",
+            "description": "Roman gencler icin hak temelli calismalar",
+            "website": "https://romanigodi.org"
+          },
+          {
+            "name": "Sifir Ayrimcilik Dernegi",
+            "description": "Roman gencler icin hak temelli calismalar",
+            "website": "https://sifirayrimcilik.org/",
+            "phones": ["+90 212 241 02 71"]
+          },
+          {
+            "name": "Kirkayak Kultur",
+            "description": "Multeci ve Roman",
+            "website": "https://kirkayak.org",
+            "phones": ["(+90)5011242736"]
+          }
+        ]
+      },
+      {
+        "title": "LGBTQ+ Destek",
+        "icon": "transgender",
+        "organizations": [
+          {
+            "name": "Kaos GL",
+            "description": "LGBTQ+ haklari icin calisan dernek",
+            "website": "https://kaosgldernegi.org/"
+          },
+          {
+            "name": "SPoD",
+            "description": "Sosyal Politikalar, Cinsiyet Kimligi ve Cinsel Yonelim Calismalari Dernegi",
+            "website": "https://spod.org.tr",
+            "phones": ["+90 212 292 4802"]
+          }
+        ]
+      },
+      {
+        "title": "Ucretsiz Destek Hatlari",
+        "icon": "phone_in_talk",
+        "organizations": [
+          {
+            "name": "Alo 183 Sosyal Destek Hatti",
+            "description": "Psikolojik destek + sosyal hizmet. Kadin, cocuk, genc, engelli bireyler icin",
+            "phones": ["183"],
+            "isFree": true
+          },
+          {
+            "name": "YIMER 157",
+            "description": "Gocmenler icin cok dilli destek. Psikososyal yonlendirme",
+            "phones": ["157"],
+            "isFree": true
+          },
+          {
+            "name": "112 Acil",
+            "description": "Kriz ve akut durumlarda (intihar riski vb.)",
+            "phones": ["112"],
+            "isFree": true
+          }
+        ]
+      },
+      {
+        "title": "Kamu Saglik Hizmetleri",
+        "icon": "local_hospital",
+        "organizations": [
+          {
+            "name": "Devlet Hastaneleri & Sehir Hastaneleri",
+            "description": "Psikiyatri ve psikolog hizmetleri (ucretsiz/SGK kapsaminda)",
+            "isFree": true
+          },
+          {
+            "name": "Toplum Ruh Sagligi Merkezleri (TRSM)",
+            "description": "Uzun sureli psikososyal destek. Ozellikle dezavantajli gruplar icin",
+            "isFree": true
+          },
+          {
+            "name": "Gocmen Sagligi Merkezleri",
+            "description": "Ucretsiz psikolojik destek + tercuman. Arapca ve diger dillerde hizmet",
+            "isFree": true
+          }
+        ]
+      }
+    ]
+  },
+  "education": {
+    "items": [
+      {
+        "title": "Ayrimcilik (Discrimination)",
+        "videos": [
+          {
+            "title": "Discrimination",
+            "url": "https://www.youtube.com/watch?v=3DYhAShg_yU"
+          }
+        ]
+      },
+      {
+        "title": "Ayrimciliga Karsi Basvuru Mekanizmalari",
+        "videos": [
+          {
+            "title": "Anti-Discrimination Complaint Mechanisms",
+            "url": "https://www.youtube.com/watch?v=ZhCnRMRMfqQ"
+          }
+        ]
+      },
+      {
+        "title": "Engelli Haklari ve Basvuru Mekanizmalari",
+        "videos": [
+          {
+            "title": "Disability Rights and Application Mechanisms",
+            "url": "https://www.youtube.com/watch?v=zb4M1Gg2BOM"
+          }
+        ]
+      },
+      {
+        "title": "Irkcilik (Racism)",
+        "videos": [
+          {
+            "title": "Racism",
+            "url": "https://www.youtube.com/watch?v=wLg01ll9V_w"
+          }
+        ]
+      },
+      {
+        "title": "Insan Haklari (Human Rights)",
+        "videos": [
+          {
+            "title": "Human Rights",
+            "url": "https://www.youtube.com/watch?v=MsLeG6wkCAg"
+          }
+        ]
+      },
+      {
+        "title": "Siber Zorbalik (Cyber Bullying)",
+        "videos": [
+          {
+            "title": "Cyber Bullying",
+            "url": "https://www.youtube.com/watch?v=k4FF7KS6cZ0"
+          }
+        ]
+      },
+      {
+        "title": "Nefret Soylemi (Hate Speech)",
+        "videos": [
+          {
+            "title": "Hate Speech",
+            "url": "https://www.youtube.com/watch?v=08du-kYuNSw"
+          }
+        ]
+      },
+      {
+        "title": "Toplumsal Cinsiyet Esitligi (Gender Equality)",
+        "videos": [
+          {
+            "title": "Gender Equality",
+            "url": "https://www.youtube.com/watch?v=BVL8Eplw3xs"
+          }
+        ]
+      },
+      {
+        "title": "Genclik Haklari (Youth Rights)",
+        "videos": [
+          {
+            "title": "Youth Rights",
+            "url": "https://www.youtube.com/watch?v=lGewrvRyzHA"
+          }
+        ]
+      }
+    ],
+    "furtherReading": []
+  }
+}

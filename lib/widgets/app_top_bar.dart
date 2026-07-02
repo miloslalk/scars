@@ -8,6 +8,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.userInitial,
     this.userName,
+    this.userAvatarAssetPath,
     this.userAvatarUrl,
     this.onSettingsTap,
     this.onLogoutTap,
@@ -17,8 +18,10 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
 
   final String? userInitial;
   final String? userName;
+  final String? userAvatarAssetPath;
   final String? userAvatarUrl;
   final VoidCallback? onSettingsTap;
+
   final VoidCallback? onLogoutTap;
   final bool showUserAction;
   final List<Widget>? actions;
@@ -32,17 +35,32 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
     final String? initial = userInitial?.trim().isNotEmpty == true
         ? userInitial!.trim().substring(0, 1).toUpperCase()
         : null;
+    final trimmedAvatarAssetPath = userAvatarAssetPath?.trim();
     final trimmedAvatarUrl = userAvatarUrl?.trim();
-    final hasAvatar = trimmedAvatarUrl != null && trimmedAvatarUrl.isNotEmpty;
+    final hasAvatarAsset =
+        trimmedAvatarAssetPath != null && trimmedAvatarAssetPath.isNotEmpty;
+    final hasAvatarUrl =
+        trimmedAvatarUrl != null && trimmedAvatarUrl.isNotEmpty;
+    final ImageProvider? avatarImage = hasAvatarAsset
+        ? AssetImage(trimmedAvatarAssetPath)
+        : hasAvatarUrl
+        ? NetworkImage(trimmedAvatarUrl)
+        : null;
+    final hasAvatar = avatarImage != null;
     final safeInitial = initial ?? '?';
 
     return AppBar(
       toolbarHeight: 72,
-      leadingWidth: 96,
+      leadingWidth: 140,
       leading: Padding(
         padding: const EdgeInsets.only(left: 12),
         child: AppLogo(height: 64),
       ),
+      title: Image.asset(
+        'assets/icons/EN_Co-fundedbytheEU_RGB_POS-scaled.png',
+        height: 36,
+      ),
+      centerTitle: true,
       actions: [
         if (actions != null) ...actions!,
         if (showUserAction && initial != null)
@@ -71,11 +89,13 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
                       children: [
                         CircleAvatar(
                           radius: 14,
-                          backgroundColor: Colors.blue.shade100,
-                          foregroundColor: Colors.blue.shade900,
-                          backgroundImage: hasAvatar
-                              ? NetworkImage(trimmedAvatarUrl)
-                              : null,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primaryContainer,
+                          foregroundColor: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
+                          backgroundImage: avatarImage,
                           child: hasAvatar
                               ? null
                               : Text(
@@ -120,11 +140,11 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
               },
               child: CircleAvatar(
                 radius: 20,
-                backgroundColor: Colors.blue.shade100,
-                foregroundColor: Colors.blue.shade900,
-                backgroundImage: hasAvatar
-                    ? NetworkImage(trimmedAvatarUrl)
-                    : null,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                foregroundColor: Theme.of(
+                  context,
+                ).colorScheme.onPrimaryContainer,
+                backgroundImage: avatarImage,
                 child: hasAvatar
                     ? null
                     : Text(

@@ -11,8 +11,11 @@ class _MessagesContentState extends State<_MessagesContent>
   List<_BalloonSpec> _balloons = [];
   String? _balloonSvg;
   final Map<String, DateTime> _poppedAt = {};
-  String? _loadedLocaleCode;
-  String? _todayPoppedMessageId;
+  _MessageSpec? _shownMessage;
+  bool _saved = false;
+  bool _hasOpenedToday = false;
+  String _localeCode = 'en';
+  bool _messagesLoaded = false;
 
   @override
   void initState() {
@@ -23,15 +26,37 @@ class _MessagesContentState extends State<_MessagesContent>
     )..repeat();
 
     _loadBalloonSvg();
+    _checkOpenedToday();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final localeCode = Localizations.localeOf(context).languageCode;
-    if (_loadedLocaleCode == localeCode) return;
-    _loadedLocaleCode = localeCode;
-    _loadMessagesForLocale(localeCode);
+    final locale = Localizations.localeOf(context).languageCode;
+    if (!_messagesLoaded || locale != _localeCode) {
+      _messagesLoaded = true;
+      _localeCode = locale;
+      _loadMessages();
+    }
+  }
+
+  // Device-local day key so the daily limit resets at the user's midnight,
+  // consistent with daily_flow/daily_quotes/daily_messages keys.
+  static String _todayKey() {
+    final now = DateTime.now();
+    return '${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> _checkOpenedToday() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    final snapshot = await FirebaseDatabase.instance
+        .ref('users/${user.uid}/opened_messages/${_todayKey()}')
+        .get();
+    if (!mounted) return;
+    if (snapshot.exists) {
+      setState(() => _hasOpenedToday = true);
+    }
   }
 
   Future<void> _loadBalloonSvg() async {
@@ -50,122 +75,108 @@ class _MessagesContentState extends State<_MessagesContent>
     } catch (_) {}
   }
 
-  String _todayKey() {
-    final now = DateTime.now();
-    final yyyy = now.year.toString();
-    final mm = now.month.toString().padLeft(2, '0');
-    final dd = now.day.toString().padLeft(2, '0');
-    return '$yyyy$mm$dd';
-  }
-
-  Future<void> _loadMessagesForLocale(String localeCode) async {
-    final localized =
-        await _readMessageList(localeCode) ??
-        (localeCode == 'en'
-            ? <_MessageSpec>[]
-            : await _readMessageList('en')) ??
-        <_MessageSpec>[];
-
-    final english = localeCode == 'en'
-        ? localized
-        : await _readMessageList('en') ?? <_MessageSpec>[];
-    final englishById = <String, String>{
-      for (final message in english) message.id: message.text,
-    };
-    final merged = localized
-        .map(
-          (message) => _MessageSpec(
-            id: message.id,
-            text: message.text,
-            englishText: localeCode == 'en' ? null : englishById[message.id],
-          ),
-        )
+  Future<void> _loadMessages() async {
+    final results = await Future.wait([
+      _readMessages(),
+      _readPoppedMessageIds(),
+    ]);
+    final messages = results[0] as List<_MessageSpec>;
+    final popped = results[1] as Set<String>;
+    // Once popped, a message is never shown to this user again.
+    final unpopped = messages
+        .where((message) => !popped.contains(safeKey(message.id)))
         .toList();
-    final poppedToday = await _loadTodayPoppedMessageId();
     if (!mounted) return;
     setState(() {
-      _todayPoppedMessageId = poppedToday;
-      _balloons = _buildBalloons(merged);
+      _balloons = _buildBalloons(unpopped);
       _poppedAt.clear();
     });
   }
 
-  Future<List<_MessageSpec>?> _readMessageList(String localeCode) async {
-    final fromDatabase = await _readMessageListFromDatabase(localeCode);
-    if (fromDatabase != null && fromDatabase.isNotEmpty) {
-      return fromDatabase;
-    }
-    return _readMessageListFromAssets(localeCode);
-  }
-
-  Future<List<_MessageSpec>?> _readMessageListFromDatabase(
-    String localeCode,
-  ) async {
+  Future<Set<String>> _readPoppedMessageIds() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return {};
     try {
       final snapshot = await FirebaseDatabase.instance
-          .ref('messages/$localeCode')
+          .ref('users/${user.uid}/popped_messages')
           .get();
       final value = snapshot.value;
-      return _parseMessageValue(value);
-    } catch (_) {}
-    return null;
+      if (value is! Map) return {};
+      return value.keys.map((key) => key.toString()).toSet();
+    } catch (_) {
+      return {};
+    }
   }
 
-  Future<List<_MessageSpec>?> _readMessageListFromAssets(
-    String localeCode,
-  ) async {
+  Future<List<_MessageSpec>> _readMessages() async {
+    final fromDb = await _readMessagesFromDatabase();
+    if (fromDb != null && fromDb.isNotEmpty) return fromDb;
+    return [];
+  }
+
+  static bool _looksLikeMessage(Map item) {
+    return item['text'] is String || item['textEn'] is String;
+  }
+
+  Future<List<_MessageSpec>?> _readMessagesFromDatabase() async {
     try {
-      final raw = await rootBundle.loadString(
-        'assets/messages/messages_$localeCode.json',
-      );
-      return _parseMessageValue(jsonDecode(raw));
-    } catch (_) {}
-    return null;
-  }
-
-  List<_MessageSpec>? _parseMessageValue(Object? value) {
-    if (value is List) {
+      final snapshot = await FirebaseDatabase.instance.ref('messages').get();
+      final value = snapshot.value;
+      if (value is! Map) return null;
       final messages = <_MessageSpec>[];
-      for (var i = 0; i < value.length; i++) {
-        final item = value[i];
-        if (item is Map) {
-          final id = item['id'];
-          final text = item['text'];
-          final enabled = item['enabled'];
-          if (enabled is bool && !enabled) continue;
-          if (id is String && text is String && text.trim().isNotEmpty) {
-            messages.add(_MessageSpec(id: id, text: text.trim()));
-          }
-        } else if (item is String && item.trim().isNotEmpty) {
-          messages.add(_MessageSpec(id: 'msg_$i', text: item.trim()));
-        }
-      }
-      return messages;
-    }
+      final seenIds = <String>{};
 
-    if (value is Map) {
-      final entries = value.entries.toList()
-        ..sort((a, b) => a.key.toString().compareTo(b.key.toString()));
-      final messages = <_MessageSpec>[];
-      for (final entry in entries) {
-        final key = entry.key.toString();
+      // The DB holds two shapes: flat `messages/{id}` entries (bulk import
+      // tool) and per-locale buckets `messages/{locale}/{id}` (admin tool).
+      final localeBuckets = <String, Map>{};
+      for (final entry in value.entries) {
         final item = entry.value;
-        if (item is String && item.trim().isNotEmpty) {
-          messages.add(_MessageSpec(id: key, text: item.trim()));
-          continue;
-        }
-        if (item is Map) {
-          final text = item['text'];
+        if (item is! Map) continue;
+        if (_looksLikeMessage(item)) {
           final enabled = item['enabled'];
           if (enabled is bool && !enabled) continue;
-          if (text is String && text.trim().isNotEmpty) {
-            messages.add(_MessageSpec(id: key, text: text.trim()));
+          final id = (item['id'] ?? entry.key).toString();
+          final text = (item['text'] as String?)?.trim() ?? '';
+          final textEn = (item['textEn'] as String?)?.trim() ?? '';
+          if (text.isEmpty && textEn.isEmpty) continue;
+          if (!seenIds.add(id)) continue;
+          messages.add(
+            _MessageSpec(
+              id: id,
+              text: text.isNotEmpty ? text : textEn,
+              englishText: textEn.isNotEmpty ? textEn : null,
+            ),
+          );
+        } else {
+          localeBuckets[entry.key.toString()] = item;
+        }
+      }
+
+      final enBucket = localeBuckets['en'];
+      final bucket = localeBuckets[_localeCode] ?? enBucket;
+      if (bucket != null) {
+        for (final entry in bucket.entries) {
+          final item = entry.value;
+          if (item is! Map) continue;
+          final enabled = item['enabled'];
+          if (enabled is bool && !enabled) continue;
+          final id = (item['id'] ?? entry.key).toString();
+          final text = (item['text'] as String?)?.trim() ?? '';
+          if (text.isEmpty) continue;
+          if (!seenIds.add(id)) continue;
+          String? textEn;
+          if (!identical(bucket, enBucket)) {
+            final enItem = enBucket?[entry.key];
+            if (enItem is Map) {
+              final enText = (enItem['text'] as String?)?.trim();
+              if (enText != null && enText.isNotEmpty) textEn = enText;
+            }
           }
+          messages.add(_MessageSpec(id: id, text: text, englishText: textEn));
         }
       }
       return messages;
-    }
-
+    } catch (_) {}
     return null;
   }
 
@@ -203,52 +214,33 @@ class _MessagesContentState extends State<_MessagesContent>
     super.dispose();
   }
 
-  Future<String?> _loadTodayPoppedMessageId() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return null;
-    try {
-      final snapshot = await FirebaseDatabase.instance
-          .ref('users/${user.uid}/daily_popped_messages/${_todayKey()}')
-          .get();
-      if (!snapshot.exists || snapshot.value is! Map) return null;
-      final map = Map<String, dynamic>.from(snapshot.value as Map);
-      final id = map['messageId'];
-      return id is String && id.isNotEmpty ? id : null;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  Future<void> _markMessagePoppedToday(String messageId) async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
-    try {
-      await FirebaseDatabase.instance
-          .ref('users/${user.uid}/daily_popped_messages/${_todayKey()}')
-          .set({
-            'messageId': messageId,
-            'poppedAt': DateTime.now().toIso8601String(),
-          });
-    } catch (_) {}
-  }
-
   void _popBalloon(int index) {
-    final l10n = AppLocalizations.of(context)!;
-    if (_todayPoppedMessageId != null) {
+    if (_hasOpenedToday) {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text(l10n.oneBalloonPerDayMessage)));
+      ).showSnackBar(SnackBar(content: Text(l10n.messageAlreadyOpenedToday)));
       return;
     }
     final messageId = _balloons[index].message.id;
     if (_poppedAt.containsKey(messageId)) return;
     final balloon = _balloons[index];
-    _showMessageDialog(balloon);
     setState(() {
+      _shownMessage = balloon.message;
       _poppedAt[messageId] = DateTime.now();
-      _todayPoppedMessageId = messageId;
+      _hasOpenedToday = true;
     });
-    _markMessagePoppedToday(messageId);
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final now = DateTime.now();
+      FirebaseDatabase.instance
+          .ref('users/${user.uid}/opened_messages/${_todayKey()}')
+          .set({'openedAt': now.toIso8601String(), 'messageId': messageId});
+      // Permanent record: this message must never be shown again.
+      FirebaseDatabase.instance
+          .ref('users/${user.uid}/popped_messages/${safeKey(messageId)}')
+          .set({'messageId': messageId, 'poppedAt': now.toIso8601String()});
+    }
     Future.delayed(const Duration(milliseconds: 320), () {
       if (!mounted) return;
       setState(() {
@@ -258,71 +250,35 @@ class _MessagesContentState extends State<_MessagesContent>
     });
   }
 
-  Widget _buildDialogContent(_MessageSpec message) {
-    final l10n = AppLocalizations.of(context)!;
-    final english = message.englishText;
-    if (english == null ||
-        english.trim().isEmpty ||
-        english.trim() == message.text.trim()) {
-      return Text(message.text);
-    }
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(message.text),
-        const SizedBox(height: 12),
-        const Divider(height: 1),
-        const SizedBox(height: 12),
-        Text(
-          l10n.languageEnglishLabel,
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 6),
-        Text(english),
-      ],
-    );
-  }
-
-  Future<void> _showMessageDialog(_BalloonSpec balloon) async {
-    final l10n = AppLocalizations.of(context)!;
-    final message = balloon.message;
-    await showDialog<void>(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          title: Text(l10n.messageTitle),
-          content: _buildDialogContent(message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text(l10n.closeLabel),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.pop(dialogContext);
-                await _saveMessage(message);
-              },
-              child: Text(l10n.saveLabel),
-            ),
-          ],
-        );
-      },
-    );
+  void _dismissThoughtCloud() {
+    setState(() {
+      _shownMessage = null;
+      _saved = false;
+    });
   }
 
   Future<void> _saveMessage(_MessageSpec message) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
-    await FirebaseDatabase.instance
-        .ref('users/${user.uid}/library/messages')
-        .push()
-        .set({
-          'text': message.text,
-          'textEn': message.englishText ?? message.text,
-          'locale': _loadedLocaleCode ?? 'en',
-          'savedAt': DateTime.now().toIso8601String(),
-        });
+    final now = DateTime.now();
+    final dateKey = _todayKey();
+    await Future.wait([
+      FirebaseDatabase.instance
+          .ref('users/${user.uid}/library/messages')
+          .push()
+          .set({
+            'text': message.text,
+            'textEn': message.englishText ?? message.text,
+            'savedAt': now.toIso8601String(),
+          }),
+      FirebaseDatabase.instance
+          .ref('users/${user.uid}/daily_messages/$dateKey')
+          .set({
+            'text': message.text,
+            'textEn': message.englishText ?? message.text,
+            'savedAt': now.toIso8601String(),
+          }),
+    ]);
     if (!mounted) return;
     final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(
@@ -330,9 +286,154 @@ class _MessagesContentState extends State<_MessagesContent>
     ).showSnackBar(SnackBar(content: Text(l10n.savedToMySpace)));
   }
 
+  Widget _buildMessageOverlay() {
+    final message = _shownMessage!;
+    final english = message.englishText;
+    final hasTranslation =
+        english != null &&
+        english.trim().isNotEmpty &&
+        english.trim() != message.text.trim();
+
+    // Cloud SVG viewBox: 300x257 — roughly square
+    return GestureDetector(
+      onTap: _dismissThoughtCloud,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        color: Colors.black.withValues(alpha: 0.3),
+        child: Center(
+          child: GestureDetector(
+            onTap: () {},
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final svgWidth = constraints.maxWidth;
+                  final svgHeight = svgWidth * (257 / 300);
+
+                  return SizedBox(
+                    width: svgWidth,
+                    height: svgHeight,
+                    child: Stack(
+                      children: [
+                        svg.SvgPicture.asset(
+                          'assets/images/cloud_jon_phillips_01.svg',
+                          width: svgWidth,
+                          height: svgHeight,
+                          fit: BoxFit.contain,
+                        ),
+                        // Text area inside cloud body
+                        Positioned(
+                          left: svgWidth * 0.18,
+                          right: svgWidth * 0.18,
+                          top: svgHeight * 0.22,
+                          bottom: svgHeight * 0.24,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: SizedBox(
+                              width: svgWidth * 0.64,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (hasTranslation) ...[
+                                    Text(
+                                      english,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF2E1A47),
+                                        height: 1.3,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      message.text,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        fontStyle: FontStyle.italic,
+                                        color: Color(0xFF5C4A87),
+                                        height: 1.3,
+                                      ),
+                                    ),
+                                  ] else
+                                    Text(
+                                      message.text,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF2E1A47),
+                                        height: 1.3,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Save button — outside top-right of cloud
+                        Positioned(
+                          right: svgWidth * 0.06,
+                          top: svgHeight * 0.02,
+                          child: GestureDetector(
+                            onTap: _saved
+                                ? null
+                                : () async {
+                                    await _saveMessage(message);
+                                    if (!mounted) return;
+                                    setState(() => _saved = true);
+                                    Future.delayed(
+                                      const Duration(milliseconds: 1500),
+                                      () {
+                                        if (!mounted) return;
+                                        _dismissThoughtCloud();
+                                      },
+                                    );
+                                  },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.9),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.15),
+                                    blurRadius: 4,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 300),
+                                child: Icon(
+                                  _saved
+                                      ? Icons.favorite
+                                      : Icons.favorite_outline,
+                                  key: ValueKey(_saved),
+                                  size: 22,
+                                  color: _saved
+                                      ? const Color(0xFFB06FA8)
+                                      : const Color(0xFF5C4A87),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final background = isDark
         ? const [Color(0xFF1A1624), Color(0xFF2E2940)]
@@ -368,24 +469,7 @@ class _MessagesContentState extends State<_MessagesContent>
                         ),
                         child: _buildBalloon(_balloons[i], i),
                       ),
-                    if (_todayPoppedMessageId != null)
-                      Positioned(
-                        left: 16,
-                        right: 16,
-                        bottom: 16,
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.45),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            l10n.alreadyOpenedTodayMessage,
-                            style: TextStyle(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
+                    if (_shownMessage != null) _buildMessageOverlay(),
                   ],
                 );
               },

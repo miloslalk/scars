@@ -5,23 +5,35 @@ const nodemailer = require('nodemailer');
 
 admin.initializeApp();
 
-const smtpConfig = functions.config().smtp || {};
-const moderationConfig = functions.config().moderation || {};
-const transporter = nodemailer.createTransport({
-  host: smtpConfig.host,
-  port: Number(smtpConfig.port || 587),
-  secure: smtpConfig.secure === 'true',
-  auth: smtpConfig.user
-    ? {
-        user: smtpConfig.user,
-        pass: smtpConfig.pass,
-      }
-    : undefined,
-});
-
-const MODERATOR_EMAIL = moderationConfig.email || 'lalkovic91@gmail.com';
+// Configuration comes from environment variables (functions/.env — see
+// functions/.env.example). The legacy functions.config() API has been shut
+// down and deploys using it fail.
+let transporter = null;
+function getTransporter() {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT || 587),
+      secure: process.env.SMTP_SECURE === 'true',
+      auth: process.env.SMTP_USER
+        ? {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+          }
+        : undefined,
+    });
+  }
+  return transporter;
+}
 
 exports.reportMessage = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      'unauthenticated',
+      'Sign in to report a message.'
+    );
+  }
+
   const messageId = typeof data.messageId === 'string' ? data.messageId : '';
   const messageText =
     typeof data.messageText === 'string' ? data.messageText.trim() : '';
@@ -40,6 +52,18 @@ exports.reportMessage = functions.https.onCall(async (data, context) => {
     );
   }
 
+  const moderatorEmail = process.env.MODERATION_EMAIL;
+  if (!moderatorEmail) {
+    console.error('MODERATION_EMAIL not configured — set it in functions/.env');
+    throw new functions.https.HttpsError('failed-precondition', 'Moderation email not configured.');
+  }
+
+  const baseUrl = process.env.MODERATION_BASE_URL;
+  if (!baseUrl) {
+    console.error('MODERATION_BASE_URL not configured — set it in functions/.env (e.g. https://REGION-PROJECT.cloudfunctions.net)');
+    throw new functions.https.HttpsError('failed-precondition', 'Moderation base URL not configured.');
+  }
+
   const reportRef = admin.database().ref('message_reports').push();
   const reportId = reportRef.key;
   const token = crypto.randomBytes(16).toString('hex');
@@ -48,20 +72,18 @@ exports.reportMessage = functions.https.onCall(async (data, context) => {
   await reportRef.set({
     messageId,
     messageText,
-    reporterUid: context.auth ? context.auth.uid : null,
+    reporterUid: context.auth.uid,
     status: 'pending',
     token,
     createdAt,
   });
 
-  const baseUrl =
-    moderationConfig.base_url || 'https://YOUR_REGION-YOUR_PROJECT.cloudfunctions.net';
   const approveUrl = `${baseUrl}/moderateMessage?reportId=${reportId}&token=${token}&action=approve`;
   const rejectUrl = `${baseUrl}/moderateMessage?reportId=${reportId}&token=${token}&action=reject`;
 
-  await transporter.sendMail({
-    from: moderationConfig.from || 'Scars App <no-reply@scars.app>',
-    to: MODERATOR_EMAIL,
+  await getTransporter().sendMail({
+    from: process.env.MODERATION_FROM || 'Scars App <no-reply@scars.app>',
+    to: moderatorEmail,
     subject: 'Scars App: Message Report',
     text:
       `A message was reported.\n\n` +
@@ -229,6 +251,17 @@ async function sendNotificationTargets({
     const response = await admin.messaging().sendEachForMulticast({
       tokens: batch.map((item) => item.token),
       notification: { title, body },
+      apns: {
+        headers: {
+          'apns-priority': '10',
+        },
+        payload: {
+          aps: {
+            sound: 'default',
+            badge: 1,
+          },
+        },
+      },
     });
 
     const writes = [];
@@ -331,7 +364,7 @@ exports.sendDailyMorningNotifications = functions.pubsub
 
     const result = await sendNotificationTargets({
       targets,
-      title: 'Good morning',
+      title: 'Good morning ☀️',
       body: 'Take a gentle moment for yourself today.',
       buildSuccessUpdate: (meta) => ({
         dailyLastSentDate: meta.localDateKey,
@@ -402,7 +435,7 @@ exports.sendInactiveNotifications = functions.pubsub
     const result = await sendNotificationTargets({
       targets,
       title: 'We miss you',
-      body: 'Come back whenever you are ready. We are here for you.',
+      body: 'Counting the moments until you are back.',
       buildSuccessUpdate: () => ({
         inactiveLastSentAt: nowIso,
         lastNotificationType: 'inactive',

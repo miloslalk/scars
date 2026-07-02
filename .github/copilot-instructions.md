@@ -1,97 +1,67 @@
-# Copilot Instructions for when_scars_become_art
+# Copilot Instructions for When Scars Become Art
 
 ## Project Overview
-A Flutter mobile application focused on authentication and user login. The project uses mock data for credential validation and supports multiple login methods (Google, Apple, Facebook, and username/password).
 
-## Architecture
+This repository contains a Flutter mobile app for mental health and emotional well-being, with Firebase used for authentication, realtime data, storage, and scheduled notifications. The app includes registration and login, drawing and journaling flows, guided exercises, daily messages, body awareness, and a Care Corner resource hub.
 
-### Project Structure
-- **lib/main.dart**: Entry point; defines `MyApp` with MaterialApp and MaterialTheme
-- **lib/screens/landing_page.dart**: Primary UI with stateful widget managing login forms
-- **assets/mock_data/credentials.json**: Mock credential data loaded at runtime for testing
-- **Android & iOS**: Platform-specific build configurations in `android/` and `ios/` folders
+## Core Stack
 
-### Key Data Flow
-1. App starts → `main()` runs `MyApp`
-2. `MyApp` loads `LandingPage` as home screen
-3. `LandingPage` initializes with `_loadCredentials()` from `assets/mock_data/credentials.json`
-4. Credentials structure: `{ "credentials": [{ "username": "...", "password": "..." }] }`
-5. Login validation compares input against loaded credentials
+- Flutter / Dart for the mobile app
+- Firebase Auth for sign-in and account management
+- Firebase Realtime Database for app data
+- Firebase Storage for user-uploaded content
+- Firebase Cloud Functions in `functions/` for notification scheduling
 
-## Development Workflows
+## Repository Layout
 
-### Building & Running
+- `lib/main.dart` — app entry point, Firebase init, theme and locale wiring
+- `lib/screens/` — screens and feature pages
+- `lib/screens/home/` — `part` files used by `home_page.dart`
+- `lib/widgets/` — shared UI components
+- `lib/services/` — Firebase, notifications, audio, and manifest logic
+- `lib/utils/` — shared helper utilities
+- `lib/gen_l10n/` — generated localization output
+- `l10n/*.arb` — source localization files
+- `assets/` — images, fonts, audio, flags, messages, and other bundled assets
+- `functions/index.js` — Firebase Cloud Functions entry point
+- `database.rules.json` / `storage.rules` — Firebase security rules
+
+## Development Commands
+
 ```bash
-# Get dependencies
 flutter pub get
-
-# Run app on connected device/emulator
 flutter run
-
-# Run with specific target
-flutter run -t lib/main.dart
-
-# Build release APK (Android)
-flutter build apk
-
-# Build iOS app
-flutter build ios
+flutter analyze
+flutter test
+dart format lib test
+flutter gen-l10n
+cd functions && npm install
 ```
 
-### Code Quality
-- Uses `flutter_lints` (included in analysis_options.yaml)
-- Run analysis: `flutter analyze`
-- Auto-format code: `dart format lib/`
+## Working Conventions
 
-### Testing
-- Create tests in `test/` directory (directory doesn't exist yet)
-- Run: `flutter test`
+- Follow standard Flutter/Dart style with 2-space indentation and trailing commas in multi-line widget trees.
+- Use `PascalCase` for classes, `camelCase` for members, and `snake_case.dart` for file names.
+- Keep UI logic in screens/widgets and put Firebase, notification, audio, and manifest behavior in services.
+- Do not edit `lib/gen_l10n/` by hand; update `l10n/*.arb` and regenerate.
+- Dispose controllers and listeners in `dispose()`.
+- Prefer small, focused changes that preserve the existing Material 3 visual language.
 
-## Project Conventions
+## Product Rules
 
-### State Management
-- Uses built-in Flutter `StatefulWidget` and `setState()`
-- No external state management libraries (Provider, Riverpod, etc.)
-- Keep state localized to widgets that need it
+- Email/password registration is required, with email verification and username uniqueness checks.
+- Login supports email or username resolution through Realtime Database.
+- Firebase Auth is the source of truth for passwords and account changes.
+- Balloon messages should not reappear after a user pops them.
+- Drawing saves upload to Storage and write metadata to Realtime Database.
+- Sensitive account changes require re-authentication for password users.
+- New feature copy should stay English-only until translations are explicitly requested.
 
-### Asset Loading
-- All assets declared in `pubspec.yaml` under `flutter.assets`
-- Load JSON files with `rootBundle.loadString()` then `json.decode()`
-- Mock credentials pattern: nested structure with `credentials` array
+Consult `NOTES.md` before changing user-facing behavior, because product rules and feature decisions are tracked there.
 
-### UI Patterns
-- Use `Container` with width constraints: `MediaQuery.of(context).size.width * 0.8`
-- Standard Flutter Material widgets: `Scaffold`, `AppBar`, `ElevatedButton`, `TextField`
-- Show feedback via `ScaffoldMessenger` and `SnackBar`
-- Dispose `TextEditingController` in cleanup
+## Before Submitting Changes
 
-## Critical Integration Points
-
-### Dependencies (minimal setup)
-```yaml
-flutter:
-  sdk: flutter
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^6.0.0
-```
-
-### Login Feature Components
-- **Forms**: Two `TextEditingController` instances (`_usernameController`, `_passwordController`)
-- **Social buttons**: Placeholders for Google, Apple, Facebook (no implementation yet)
-- **Credentials source**: `assets/mock_data/credentials.json` (currently empty)
-
-### Platform-Specific Notes
-- Android: Gradle-based build system in `android/` (Gradle 8.x pattern)
-- iOS: Xcode workspace in `ios/` with Swift bridging headers
-- Both platforms auto-configured via Flutter toolchain
-
-## Before Making Changes
-
-1. **Credentials format**: Ensure `credentials.json` maintains `{ "credentials": [{ "username": "...", "password": "..." }] }` structure
-2. **Widget rebuilds**: Use `setState()` only for single-widget updates; consider Provider for larger refactors
-3. **Asset declarations**: Always add new asset paths to `pubspec.yaml` before using
-4. **Controller cleanup**: Always dispose of `TextEditingController` and other listeners in `dispose()`
-5. **Material design**: Follow Flutter Material Design defaults (already applied via `ThemeData`)
+- Run `flutter analyze`.
+- Run relevant tests if present.
+- Regenerate localization output after changing ARB files.
+- Call out Firebase rules, localization changes, and platform configuration updates in review notes.

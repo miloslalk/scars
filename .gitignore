@@ -74,4 +74,5 @@ ios/Runner/GoogleService-Info.plist
 service-account*.json
 firebase-service-account*.json
 
-NOTES.md
+# Cloud Functions runtime config (secrets)
+functions/.env

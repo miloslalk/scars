@@ -1,0 +1,259 @@
+{
+  "wellbeing": {
+    "items": [
+      {
+        "title": "Wellbeing Video 1",
+        "videoUrl": "https://www.youtube.com/watch?v=Q2gh8Z_tpMw"
+      },
+      {
+        "title": "Wellbeing Video 2",
+        "videoUrl": "https://www.youtube.com/watch?v=d3ZBxEkOXvc"
+      },
+      {
+        "title": "Wellbeing Video 3",
+        "videoUrl": "https://www.youtube.com/watch?v=1ZYbU82GVz4"
+      },
+      {
+        "title": "Wellbeing Video 4",
+        "videoUrl": "https://www.youtube.com/watch?v=ugYvhSvpbfo"
+      }
+    ],
+    "furtherReading": []
+  },
+  "support": {
+    "categories": [
+      {
+        "title": "\u039f\u03c1\u03b3\u03b1\u03bd\u03ce\u03c3\u03b5\u03b9\u03c2 & \u039c\u039a\u039f",
+        "icon": "house",
+        "organizations": [
+          {
+            "name": "United Societies of Balkans",
+            "description": "\u0391\u03bb. \u0394\u03b5\u03bb\u03bc\u03bf\u03cd\u03b6\u03bf\u03c5 8, \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03bf\u03bd\u03af\u03ba\u03b7 546 35",
+            "website": "https://www.usbngo.gr",
+            "phones": ["+30231 021 5629"],
+            "email": "info@usbngo.gr"
+          },
+          {
+            "name": "\u0398\u0391\u039b\u03a0\u039f\u03a3",
+            "description": "\u039b\u03b5\u03c9\u03c6. \u03a0\u03bf\u03c3\u03b5\u03b9\u03b4\u03ce\u03bd\u03bf\u03c2 15, \u039d\u03ad\u03b1 \u039c\u03ac\u03ba\u03c1\u03b7 190 05",
+            "website": "https://thalpos.org.gr",
+            "phones": ["+302294 096939"],
+            "email": "info@thalpos.org.gr"
+          },
+          {
+            "name": "\u0395\u039a\u039a\u0391",
+            "description": "\u0392\u03b1\u03c3. \u03a3\u03bf\u03c6\u03af\u03b1\u03c2 135 & \u0396\u03b1\u03c7\u03ac\u03c1\u03c9\u03c6, \u0391\u03b8\u03ae\u03bd\u03b1 115 21",
+            "website": "http://ekka.org.gr",
+            "phones": ["197", "1107"],
+            "email": "epikoinonia@ekka.org.gr"
+          },
+          {
+            "name": "\u0394\u03b9\u03bf\u03c4\u03af\u03bc\u03b1",
+            "description": "3\u03b7\u03c2 \u03a3\u03b5\u03c0\u03c4\u03b5\u03bc\u03b2\u03c1\u03af\u03bf\u03c5 43A, \u0391\u03b8\u03ae\u03bd\u03b1",
+            "website": "https://diotima.org.gr/",
+            "phones": ["+302103244380"],
+            "email": "diotima@otenet.gr"
+          },
+          {
+            "name": "Action Aid Hellas",
+            "description": "\u039b\u03b5\u03c9\u03c6\u03cc\u03c1\u03bf\u03c2 \u039c\u03b5\u03c3\u03bf\u03b3\u03b5\u03af\u03c9\u03bd 204, \u03a7\u03bf\u03bb\u03b1\u03c1\u03b3\u03cc\u03c2",
+            "website": "https://actionaid.gr/",
+            "phones": ["+30215 555 7345"],
+            "email": "info.hellas@actionaid.org"
+          },
+          {
+            "name": "\u0393\u03b9\u03b1\u03c4\u03c1\u03bf\u03af \u03c7\u03c9\u03c1\u03af\u03c2 \u03a3\u03cd\u03bd\u03bf\u03c1\u03b1",
+            "description": "\u039e\u03b5\u03bd\u03af\u03b1\u03c2 15, \u0391\u03b8\u03ae\u03bd\u03b1",
+            "website": "https://msf.gr/",
+            "phones": ["+30210 5 200 500"],
+            "email": "info@msf.gr"
+          }
+        ]
+      },
+      {
+        "title": "\u039a\u03ad\u03bd\u03c4\u03c1\u03b1 \u03a8\u03c5\u03c7\u03b9\u03ba\u03ae\u03c2 \u03a5\u03b3\u03b5\u03af\u03b1\u03c2",
+        "icon": "psychology",
+        "organizations": [
+          {
+            "name": "\u039a\u03ad\u03bd\u03c4\u03c1\u03bf \u03a8\u03c5\u03c7\u03b9\u03ba\u03ae\u03c2 \u03a5\u03b3\u03b5\u03af\u03b1\u03c2 \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03bf\u03bd\u03af\u03ba\u03b7\u03c2",
+            "description": "\u039a\u03b1\u03c1\u03b1\u03bf\u03bb\u03ae & \u0394\u03b7\u03bc\u03b7\u03c4\u03c1\u03af\u03bf\u03c5 1, \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03bf\u03bd\u03af\u03ba\u03b7",
+            "phones": ["+30 2313 310700"]
+          },
+          {
+            "name": "\u039a\u03ad\u03bd\u03c4\u03c1\u03bf \u03a8\u03c5\u03c7\u03b9\u03ba\u03ae\u03c2 \u03a5\u03b3\u03b5\u03af\u03b1\u03c2 \u039b\u03ac\u03c1\u03b9\u03c3\u03b1\u03c2",
+            "description": "\u0394\u03b7\u03bc\u03bf\u03ba\u03c1\u03b1\u03c4\u03af\u03b1\u03c2 111, \u039b\u03ac\u03c1\u03b9\u03c3\u03b1",
+            "website": "http://www.uhl.gr",
+            "phones": ["+30 2410 611002"]
+          },
+          {
+            "name": "\u039a\u03ad\u03bd\u03c4\u03c1\u03bf \u03a8\u03c5\u03c7\u03b9\u03ba\u03ae\u03c2 \u03a5\u03b3\u03b5\u03af\u03b1\u03c2 \u03a0\u03ac\u03c4\u03c1\u03b1\u03c2",
+            "description": "\u0395\u03c0\u03b9\u03b4\u03b1\u03cd\u03c1\u03bf\u03c5 8, \u03a0\u03ac\u03c4\u03c1\u03b1",
+            "website": "http://www.agandreashosp.gr",
+            "phones": ["+30 2610 439569"]
+          },
+          {
+            "name": "\u039a\u03ad\u03bd\u03c4\u03c1\u03bf \u03a8\u03c5\u03c7\u03b9\u03ba\u03ae\u03c2 \u03a5\u03b3\u03b5\u03af\u03b1\u03c2 \u0397\u03c1\u03b1\u03ba\u03bb\u03b5\u03af\u03bf\u03c5",
+            "description": "\u03a3\u03c0\u03b9\u03bd\u03b1\u03bb\u03cc\u03b3\u03ba\u03b1\u03c2 1, \u0397\u03c1\u03ac\u03ba\u03bb\u03b5\u03b9\u03bf",
+            "website": "http://www.venizeleio.gr",
+            "phones": ["+30 2810 333402"]
+          },
+          {
+            "name": "\u039a\u03ad\u03bd\u03c4\u03c1\u03bf \u03a8\u03c5\u03c7\u03b9\u03ba\u03ae\u03c2 \u03a5\u03b3\u03b5\u03af\u03b1\u03c2 \u0391\u03b8\u03b7\u03bd\u03ce\u03bd",
+            "description": "\u039d\u03b5\u03c1\u03bf\u03cd\u03c4\u03c3\u03bf\u03c5 24, \u0391\u03b8\u03ae\u03bd\u03b1",
+            "website": "http://www.sotiria.gr",
+            "phones": ["+30 210 8310130"]
+          }
+        ]
+      },
+      {
+        "title": "\u03a5\u03c0\u03b7\u03c1\u03b5\u03c3\u03af\u03b5\u03c2 \u03a1\u03bf\u03bc\u03ac",
+        "icon": "diversity_3",
+        "organizations": [
+          {
+            "name": "\u03a3\u03c5\u03bd\u03ae\u03b3\u03bf\u03c1\u03bf\u03c2 \u03c4\u03bf\u03c5 \u03a0\u03bf\u03bb\u03af\u03c4\u03b7 (\u03c4\u03bc\u03ae\u03bc\u03b1 \u03a1\u03bf\u03bc\u03ac)",
+            "description": "\u03a7\u03b1\u03bb\u03ba\u03bf\u03ba\u03bf\u03bd\u03b4\u03cd\u03bb\u03b7 17, \u0391\u03b8\u03ae\u03bd\u03b1",
+            "website": "https://www.synigoros.gr",
+            "phones": ["+30213 1306 600"],
+            "email": "press@synigoros.gr"
+          },
+          {
+            "name": "\u03a3\u03cd\u03bb\u03bb\u03bf\u03b3\u03bf\u03c2 \u0394\u03b9\u03b1\u03bc\u03b5\u03c3\u03bf\u03bb\u03b1\u03b2\u03b7\u03c4\u03ce\u03bd \u03a1\u03bf\u03bc\u03ac \u0395\u03bb\u03bb\u03ac\u03b4\u03b1\u03c2",
+            "description": "\u0395\u03c0\u03c4\u03b1\u03bd\u03ae\u03c3\u03bf\u03c5 45, \u0391\u03b3\u03af\u03b1 \u0392\u03b1\u03c1\u03b2\u03ac\u03c1\u03b1",
+            "email": "eldirom@gmail.com"
+          }
+        ]
+      },
+      {
+        "title": "\u039a\u03bf\u03b9\u03bd\u03c9\u03bd\u03b9\u03ba\u03ad\u03c2 \u03a5\u03c0\u03b7\u03c1\u03b5\u03c3\u03af\u03b5\u03c2",
+        "icon": "groups",
+        "organizations": [
+          {
+            "name": "\u03a4\u03c1\u03b5\u03bb\u03ae \u03a1\u03bf\u03b4\u03b9\u03ac",
+            "description": "\u039f\u03b4\u03c5\u03c3\u03c3\u03ad\u03c9\u03c2 19, \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03bf\u03bd\u03af\u03ba\u03b7",
+            "website": "https://trelirodia.gr",
+            "phones": ["+302396 024118", "+306983 911216"],
+            "email": "trelirodiakoinsep@gmail.com"
+          },
+          {
+            "name": "\u03a0\u03a0\u0391",
+            "description": "\u039f\u03b4\u03c5\u03c3\u03c3\u03ad\u03c9\u03c2 19, \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03bf\u03bd\u03af\u03ba\u03b7",
+            "website": "https://selfhelp.gr/",
+            "phones": ["+302310500477"],
+            "email": "thessaloniki@selfhelp.gr"
+          },
+          {
+            "name": "\u03a3\u03cd\u03bb\u03bb\u03bf\u03b3\u03bf\u03c2 \u03c6\u03af\u03bb\u03c9\u03bd \u0391\u03a1\u0393\u03a9",
+            "description": "\u039a\u03bf\u03c5\u03bd\u03c4\u03bf\u03c5\u03c1\u03b9\u03ce\u03c4\u03bf\u03c5 6, \u03a6\u03af\u03bb\u03c5\u03c1\u03bf",
+            "website": "https://www.argofriends.gr",
+            "phones": ["+302310 668616"],
+            "email": "info@argofriends.gr"
+          },
+          {
+            "name": "\u0399\u03b8\u03ac\u03ba\u03b7",
+            "description": "\u0395\u03c5\u03c1\u03b9\u03c0\u03af\u03b4\u03bf\u03c5 16, \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03bf\u03bd\u03af\u03ba\u03b7",
+            "website": "https://kethea-ithaki.gr",
+            "phones": ["+30231 021 2030"],
+            "email": "info@kethea-ithaki.gr"
+          }
+        ]
+      },
+      {
+        "title": "\u03a3\u03c5\u03bc\u03b2\u03bf\u03c5\u03bb\u03b5\u03c5\u03c4\u03b9\u03ba\u03ac \u039a\u03ad\u03bd\u03c4\u03c1\u03b1",
+        "icon": "support",
+        "organizations": [
+          {
+            "name": "\u039a\u0395\u0398\u0399 \u0391\u03b8\u03ae\u03bd\u03b1\u03c2 (\u03a0\u039f\u039b\u03a5\u039a\u0395\u039d\u03a4\u03a1\u039f)",
+            "description": "\u039a\u03c1\u03b1\u03c4\u03af\u03bd\u03bf\u03c5 11-13, \u039f\u03bc\u03cc\u03bd\u03bf\u03b9\u03b1",
+            "phones": ["+30 21052 02 800"],
+            "email": "polykentro@isotita.gr"
+          },
+          {
+            "name": "\u039a\u0395\u0398\u0399 \u03a0\u03ac\u03c4\u03c1\u03b1\u03c2",
+            "description": "\u039a\u03b1\u03bd\u03b1\u03ba\u03ac\u03c1\u03b7 101\u03b2, \u03a0\u03ac\u03c4\u03c1\u03b1",
+            "phones": ["+302610 620059"],
+            "email": "patra@isotita.gr"
+          },
+          {
+            "name": "\u039a\u0395\u0398\u0399 \u039b\u03ac\u03c1\u03b9\u03c3\u03b1\u03c2",
+            "description": "\u0393\u03b1\u03bb\u03b7\u03bd\u03bf\u03cd 4, \u039b\u03ac\u03c1\u03b9\u03c3\u03b1",
+            "phones": ["+302410 535840"],
+            "email": "larisa@isotita.gr"
+          },
+          {
+            "name": "\u039a\u0395\u0398\u0399 \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03bf\u03bd\u03af\u03ba\u03b7\u03c2",
+            "description": "\u0391\u03bb\u03b5\u03be\u03b1\u03bd\u03b4\u03c1\u03bf\u03c5\u03c0\u03cc\u03bb\u03b5\u03c9\u03c2 10, \u0398\u03b5\u03c3\u03c3\u03b1\u03bb\u03bf\u03bd\u03af\u03ba\u03b7",
+            "phones": ["+302310 528984"],
+            "email": "thessaloniki@isotita.gr"
+          }
+        ]
+      },
+      {
+        "title": "\u03a4\u03b7\u03bb\u03b5\u03c6\u03c9\u03bd\u03b9\u03ba\u03ad\u03c2 \u0393\u03c1\u03b1\u03bc\u03bc\u03ad\u03c2 SOS",
+        "icon": "phone_in_talk",
+        "organizations": [
+          {
+            "name": "\u0393\u03c1\u03b1\u03bc\u03bc\u03ae SOS \u03b3\u03b9\u03b1 \u03b8\u03cd\u03bc\u03b1\u03c4\u03b1 \u03ad\u03bc\u03c6\u03c5\u03bb\u03b7\u03c2 \u03b2\u03af\u03b1\u03c2",
+            "description": "Hotline for gender violence victims",
+            "phones": ["15900"],
+            "isFree": true
+          },
+          {
+            "name": "\u0395\u03b8\u03bd\u03b9\u03ba\u03ae \u0393\u03c1\u03b1\u03bc\u03bc\u03ae SOS \u03b3\u03b9\u03b1 \u03c0\u03b1\u03b9\u03b4\u03b9\u03ac",
+            "description": "National SOS line for children",
+            "phones": ["1056"],
+            "isFree": true
+          },
+          {
+            "name": "\u0393\u03c1\u03b1\u03bc\u03bc\u03ae \u03a8\u03c5\u03c7\u03bf\u03ba\u03bf\u03b9\u03bd\u03c9\u03bd\u03b9\u03ba\u03ae\u03c2 \u03a5\u03c0\u03bf\u03c3\u03c4\u03ae\u03c1\u03b9\u03be\u03b7\u03c2",
+            "description": "Psychosocial support line",
+            "phones": ["10306"],
+            "isFree": true
+          },
+          {
+            "name": "\u0393\u03c1\u03b1\u03bc\u03bc\u03ae SOS \u03c4\u03bf\u03c5 \u039f\u039a\u0391\u039d\u0391",
+            "description": "SOS line for substance abuse",
+            "phones": ["1031"],
+            "isFree": true
+          },
+          {
+            "name": "Silver Alert Hellas",
+            "description": "Missing elderly persons alert",
+            "phones": ["1065"],
+            "isFree": true
+          }
+        ]
+      }
+    ]
+  },
+  "education": {
+    "items": [
+      {
+        "title": "Education Video 1",
+        "videos": [
+          {"title": "Education Video", "url": "https://www.youtube.com/watch?v=6F7ie1Z07aM"}
+        ]
+      },
+      {
+        "title": "Education Video 2",
+        "videos": [
+          {"title": "Education Video", "url": "https://www.youtube.com/watch?v=hNP8mYbJ8Ko"}
+        ]
+      },
+      {
+        "title": "Education Video 3",
+        "videos": [
+          {"title": "Education Video", "url": "https://www.youtube.com/watch?v=m_UjYOfmkn8"}
+        ]
+      },
+      {
+        "title": "\u0391\u03bd\u03c4\u03b9\u03c4\u03c3\u03b9\u03b3\u03b3\u03b1\u03bd\u03b9\u03c3\u03bc\u03cc\u03c2 (Antigypsyism)",
+        "videos": [
+          {"title": "Antigypsyism", "url": "https://www.youtube.com/watch?v=juaCyy9Poww"}
+        ],
+        "referenceUrl": "https://www.living-democracy.com/el/textbooks/volume-5/part-3/documents-and-teaching-material-4/",
+        "referenceLabel": "Living Democracy - Teaching Material"
+      }
+    ],
+    "furtherReading": []
+  }
+}

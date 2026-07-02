@@ -6,6 +6,8 @@ class _MySpaceContent extends StatefulWidget {
 }
 
 class _MySpaceContentState extends State<_MySpaceContent> {
+  String? _subView; // null = grid, 'journal', 'library'
+
   Future<void> _openCalendar() async {
     showModalBottomSheet(
       context: context,
@@ -19,21 +21,29 @@ class _MySpaceContentState extends State<_MySpaceContent> {
   }
 
   void _openJournal() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => _MySpaceJournalPage()),
-    );
+    setState(() => _subView = 'journal');
   }
 
   void _openLibrary() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => _MySpaceLibraryPage()),
-    );
+    setState(() => _subView = 'library');
+  }
+
+  void _goBack() {
+    setState(() => _subView = null);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_subView == 'journal') {
+      return _MySpaceJournalView(onBack: _goBack);
+    }
+    if (_subView == 'library') {
+      return _MySpaceLibraryView(onBack: _goBack);
+    }
+    return _buildGrid(context);
+  }
+
+  Widget _buildGrid(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
     return LayoutBuilder(
@@ -160,15 +170,22 @@ class _MySpaceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(18),
       child: Ink(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.9),
+          color: isDark
+              ? const Color(0xFF2E2940)
+              : Colors.white.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.black.withValues(alpha: 0.06)),
+          border: Border.all(
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.10)
+                : Colors.black.withValues(alpha: 0.06),
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,7 +200,9 @@ class _MySpaceTile extends StatelessWidget {
                 const Spacer(),
                 Icon(
                   Icons.chevron_right_rounded,
-                  color: Colors.black.withValues(alpha: 0.35),
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.45)
+                      : Colors.black.withValues(alpha: 0.35),
                 ),
               ],
             ),
@@ -195,7 +214,10 @@ class _MySpaceTile extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               subtitle,
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+              style: TextStyle(
+                color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                fontSize: 12,
+              ),
             ),
           ],
         ),
@@ -251,18 +273,28 @@ class _MySpaceCalendarPickerSheetState
     }
 
     try {
-      final drawingsSnap = await FirebaseDatabase.instance
-          .ref('users/${user.uid}/drawings')
-          .get();
-      final journalSnap = await FirebaseDatabase.instance
-          .ref('users/${user.uid}/journal')
-          .get();
-      final bodySnap = await FirebaseDatabase.instance
-          .ref('users/${user.uid}/body_awareness')
-          .get();
-      final quoteSnap = await FirebaseDatabase.instance
-          .ref('users/${user.uid}/daily_quotes')
-          .get();
+      final results = await Future.wait([
+        FirebaseDatabase.instance
+            .ref('users/${user.uid}/drawings')
+            .once(DatabaseEventType.value),
+        FirebaseDatabase.instance
+            .ref('users/${user.uid}/journal')
+            .once(DatabaseEventType.value),
+        FirebaseDatabase.instance
+            .ref('users/${user.uid}/body_awareness')
+            .once(DatabaseEventType.value),
+        FirebaseDatabase.instance
+            .ref('users/${user.uid}/daily_quotes')
+            .once(DatabaseEventType.value),
+        FirebaseDatabase.instance
+            .ref('users/${user.uid}/daily_messages')
+            .once(DatabaseEventType.value),
+      ]);
+      final drawingsSnap = results[0].snapshot;
+      final journalSnap = results[1].snapshot;
+      final bodySnap = results[2].snapshot;
+      final quoteSnap = results[3].snapshot;
+      final dailyMsgSnap = results[4].snapshot;
       final drawingsStorageList = await FirebaseStorage.instance
           .ref('users/${user.uid}/drawings')
           .listAll();
@@ -312,6 +344,15 @@ class _MySpaceCalendarPickerSheetState
           final parsed = _parseDynamicDate(map['createdAt']);
           if (parsed != null) {
             keys.add(_dateKey(parsed));
+          }
+        }
+      }
+
+      if (dailyMsgSnap.exists && dailyMsgSnap.value is Map) {
+        final data = Map<String, dynamic>.from(dailyMsgSnap.value as Map);
+        for (final key in data.keys) {
+          if (key.length == 8) {
+            keys.add(key);
           }
         }
       }
@@ -411,19 +452,20 @@ class _MySpaceCalendarPickerSheetState
     bool isOutside = false,
   }) {
     final hasInput = _hasInputForDay(day);
+    final colorScheme = Theme.of(context).colorScheme;
     final textColor = isSelected
-        ? Colors.white
-        : (isOutside ? Colors.grey.shade500 : null);
+        ? colorScheme.onPrimary
+        : (isOutside ? colorScheme.onSurfaceVariant : null);
 
     return Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: isSelected
-            ? Colors.blue
-            : (isToday ? Colors.blue.shade50 : null),
+            ? colorScheme.primary
+            : (isToday ? colorScheme.primaryContainer : null),
         border: hasInput
-            ? Border.all(color: Colors.blue.shade800, width: 3)
+            ? Border.all(color: colorScheme.primary, width: 3)
             : null,
       ),
       child: Text(
@@ -459,7 +501,7 @@ class _MySpaceCalendarPickerSheetState
             Row(
               children: [
                 Text(
-                  'Calendar',
+                  AppLocalizations.of(context)!.calendarLabel,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const Spacer(),
@@ -557,7 +599,9 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
   List<_DayDrawing> _dayDrawings = [];
   String? _noteText;
   String? _quoteText;
-  Map<String, _BodyAwarenessPoint> _bodyPoints = {};
+  String? _dailyMessageText;
+  String? _dailyMessageTextEn;
+  Map<String, List<_BodyAwarenessPoint>> _bodyPoints = {};
 
   @override
   void initState() {
@@ -587,12 +631,20 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
       final journalSnap = await FirebaseDatabase.instance
           .ref('users/${user.uid}/journal')
           .get();
-      final bodySnap = await FirebaseDatabase.instance
-          .ref('users/${user.uid}/body_awareness/${_dateKey(widget.date)}')
-          .get();
+      final bodyEvent = await FirebaseDatabase.instance
+          .ref('users')
+          .child(user.uid)
+          .child('body_awareness')
+          .child(_dateKey(widget.date))
+          .once(DatabaseEventType.value);
+      final bodySnap = bodyEvent.snapshot;
       final quoteSnap = await FirebaseDatabase.instance
           .ref('users/${user.uid}/daily_quotes/${_dateKey(widget.date)}')
           .get();
+      final dailyMsgEvent = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/daily_messages/${_dateKey(widget.date)}')
+          .once(DatabaseEventType.value);
+      final dailyMsgSnap = dailyMsgEvent.snapshot;
       final drawingsStorageList = await FirebaseStorage.instance
           .ref('users/${user.uid}/drawings')
           .listAll();
@@ -648,6 +700,22 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
         }
       }
 
+      String? latestDailyMsgText;
+      String? latestDailyMsgTextEn;
+      if (dailyMsgSnap.exists && dailyMsgSnap.value is Map) {
+        final map = Map<String, dynamic>.from(dailyMsgSnap.value as Map);
+        final text = map['text'];
+        final textEn = map['textEn'];
+        if (text is String && text.trim().isNotEmpty) {
+          latestDailyMsgText = text.trim();
+        }
+        if (textEn is String &&
+            textEn.trim().isNotEmpty &&
+            textEn.trim() != (latestDailyMsgText ?? '')) {
+          latestDailyMsgTextEn = textEn.trim();
+        }
+      }
+
       final existingStoragePaths = drawingsForDay
           .map((drawing) => drawing.storagePath)
           .toSet();
@@ -679,21 +747,32 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
         }
       }
 
-      final bodyPoints = <String, _BodyAwarenessPoint>{};
+      final bodyPoints = <String, List<_BodyAwarenessPoint>>{};
       if (bodySnap.exists && bodySnap.value is Map) {
         final data = Map<String, dynamic>.from(bodySnap.value as Map);
-        final frontPoint = _parseBodyPoint(data[_frontSide]);
-        final backPoint = _parseBodyPoint(data[_backSide]);
-        if (frontPoint != null) {
-          bodyPoints[_frontSide] = frontPoint;
+        for (final entry in data.entries) {
+          if (entry.value is! Map) continue;
+          final map = Map<String, dynamic>.from(entry.value as Map);
+          // New format: push-key entries with 'side' field
+          if (map.containsKey('side')) {
+            final point = _parseBodyPoint(map);
+            if (point != null) {
+              final side = map['side'] as String? ?? _frontSide;
+              bodyPoints.putIfAbsent(side, () => []).add(point);
+            }
+          } else if (entry.key == _frontSide || entry.key == _backSide) {
+            // Legacy format: front/back direct children
+            final point = _parseBodyPoint(map);
+            if (point != null) {
+              bodyPoints.putIfAbsent(entry.key, () => []).add(point);
+            }
+          }
         }
-        if (backPoint != null) {
-          bodyPoints[_backSide] = backPoint;
-        }
+        // Fallback for very old data with x/y at root level
         if (bodyPoints.isEmpty) {
           final legacyPoint = _parseBodyPoint(data);
           if (legacyPoint != null) {
-            bodyPoints[_frontSide] = legacyPoint;
+            bodyPoints[_frontSide] = [legacyPoint];
           }
         }
       }
@@ -703,6 +782,8 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
         _dayDrawings = drawingsForDay;
         _noteText = latestNoteText;
         _quoteText = latestQuoteText;
+        _dailyMessageText = latestDailyMsgText;
+        _dailyMessageTextEn = latestDailyMsgTextEn;
         _bodyPoints = bodyPoints;
         if (!_bodyPoints.containsKey(_selectedBodySide) &&
             _bodyPoints.containsKey(_frontSide)) {
@@ -798,11 +879,11 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
     final x = data['x'];
     final y = data['y'];
     final colorValue = data['color'];
-    if (x is num && y is num && colorValue is int) {
+    if (x is num && y is num && colorValue is num) {
       return _BodyAwarenessPoint(
         x: x.toDouble(),
         y: y.toDouble(),
-        color: Color(colorValue),
+        color: Color(colorValue.toInt()),
       );
     }
     return null;
@@ -885,7 +966,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
     if (_bodyPoints.isEmpty) {
       return Center(child: Text(l10n.noBodyMapForDay));
     }
-    final selectedPoint = _bodyPoints[_selectedBodySide];
+    final selectedPoints = _bodyPoints[_selectedBodySide];
     return Column(
       children: [
         const SizedBox(height: 8),
@@ -897,7 +978,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
                   side: _selectedBodySide,
                   child: KeyedSubtree(
                     key: ValueKey(_selectedBodySide),
-                    child: selectedPoint == null
+                    child: selectedPoints == null || selectedPoints.isEmpty
                         ? Center(
                             child: Text(
                               _selectedBodySide == _frontSide
@@ -906,7 +987,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
                             ),
                           )
                         : _BodyAwarenessView(
-                            point: selectedPoint,
+                            points: selectedPoints,
                             interactive: false,
                             outlineColor: Colors.grey.shade500,
                           ),
@@ -946,7 +1027,12 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
               ? Container(
                   color: Colors.grey.shade200,
                   alignment: Alignment.center,
-                  child: Text(l10n.previewUnavailable),
+                  child: Text(
+                    l10n.previewUnavailable,
+                    // Overlay backgrounds are always light, so pin dark text
+                    // regardless of theme.
+                    style: const TextStyle(color: Colors.black87),
+                  ),
                 )
               : Image.network(drawing.downloadUrl!, fit: BoxFit.contain),
         ),
@@ -961,7 +1047,10 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
             ),
             child: Text(
               timestamp,
-              style: const TextStyle(fontWeight: FontWeight.w600),
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
             ),
           ),
         ),
@@ -973,7 +1062,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
             shape: const CircleBorder(),
             child: IconButton(
               tooltip: l10n.deleteDrawingTooltip,
-              icon: const Icon(Icons.delete_outline),
+              icon: const Icon(Icons.delete_outline, color: Colors.black87),
               onPressed: () => _confirmDeleteDrawing(drawing),
             ),
           ),
@@ -985,6 +1074,7 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     final dateLabel =
         '${widget.date.year}-${widget.date.month.toString().padLeft(2, '0')}-${widget.date.day.toString().padLeft(2, '0')}';
     return SafeArea(
@@ -1034,8 +1124,41 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
                         ),
                         _MySpaceCarouselPage(
                           title: l10n.quoteLabel,
-                          body: _quoteText ?? l10n.noQuoteForDay,
-                          icon: Icons.format_quote,
+                          icon: Icons.auto_awesome,
+                          content: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(_quoteText ?? l10n.noQuoteForDay),
+                              const SizedBox(height: 16),
+                              const Divider(),
+                              const SizedBox(height: 8),
+                              Text(
+                                l10n.dailyMessageLabel,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              if (_dailyMessageText == null)
+                                Text(l10n.noDailyMessageForDay)
+                              else ...[
+                                Text(_dailyMessageText!),
+                                if (_dailyMessageTextEn != null) ...[
+                                  const SizedBox(height: 8),
+                                  const Divider(height: 1),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    _dailyMessageTextEn!,
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ],
+                          ),
                         ),
                         _MySpaceCarouselPage(
                           title: l10n.noteLabel,
@@ -1057,8 +1180,8 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: index == _pageIndex
-                        ? Colors.blue
-                        : Colors.grey.shade400,
+                        ? colorScheme.primary
+                        : colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
                   ),
                 ),
               ),
@@ -1095,11 +1218,12 @@ class _MySpaceCarouselPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Colors.grey.shade300),
+        side: BorderSide(color: colorScheme.outlineVariant),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1110,8 +1234,9 @@ class _MySpaceCarouselPage extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 20,
-                  backgroundColor: Colors.blue.shade50,
-                  child: Icon(icon, color: Colors.blue),
+                  backgroundColor: colorScheme.primaryContainer,
+                  foregroundColor: colorScheme.onPrimaryContainer,
+                  child: Icon(icon),
                 ),
                 const SizedBox(width: 12),
                 Text(
@@ -1193,16 +1318,24 @@ class _BodyAwarenessPoint {
 
 class _BodyAwarenessView extends StatelessWidget {
   const _BodyAwarenessView({
-    required this.point,
+    this.point,
+    this.points,
     required this.interactive,
     this.onTap,
     this.outlineColor = Colors.white,
   });
 
   final _BodyAwarenessPoint? point;
+  final List<_BodyAwarenessPoint>? points;
   final bool interactive;
   final ValueChanged<Offset>? onTap;
   final Color outlineColor;
+
+  List<_BodyAwarenessPoint> get _allPoints {
+    if (points != null && points!.isNotEmpty) return points!;
+    if (point != null) return [point!];
+    return [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1222,7 +1355,9 @@ class _BodyAwarenessView extends StatelessWidget {
                 ),
               ),
               Positioned.fill(
-                child: CustomPaint(painter: _BodyGlowPainter(point: point)),
+                child: CustomPaint(
+                  painter: _BodyGlowPainter(points: _allPoints),
+                ),
               ),
             ],
           ),
@@ -1321,31 +1456,30 @@ class _BodySideToggleButton extends StatelessWidget {
 }
 
 class _BodyGlowPainter extends CustomPainter {
-  const _BodyGlowPainter({required this.point});
+  const _BodyGlowPainter({this.points = const []});
 
-  final _BodyAwarenessPoint? point;
+  final List<_BodyAwarenessPoint> points;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final active = point;
-    if (active == null) return;
-
-    final center = Offset(active.x * size.width, active.y * size.height);
-    final glow = Paint()
-      ..shader = RadialGradient(
-        colors: [
-          active.color.withValues(alpha: 0.85),
-          active.color.withValues(alpha: 0.15),
-          Colors.transparent,
-        ],
-        stops: const [0.0, 0.6, 1.0],
-      ).createShader(Rect.fromCircle(center: center, radius: 90));
-    canvas.drawCircle(center, 90, glow);
+    for (final active in points) {
+      final center = Offset(active.x * size.width, active.y * size.height);
+      final glow = Paint()
+        ..shader = RadialGradient(
+          colors: [
+            active.color.withValues(alpha: 0.85),
+            active.color.withValues(alpha: 0.15),
+            Colors.transparent,
+          ],
+          stops: const [0.0, 0.6, 1.0],
+        ).createShader(Rect.fromCircle(center: center, radius: 90));
+      canvas.drawCircle(center, 90, glow);
+    }
   }
 
   @override
   bool shouldRepaint(_BodyGlowPainter oldDelegate) {
-    return oldDelegate.point != point;
+    return oldDelegate.points != points;
   }
 }
 
@@ -1369,12 +1503,16 @@ class _JournalEntry {
   final String id;
 }
 
-class _MySpaceJournalPage extends StatefulWidget {
+class _MySpaceJournalView extends StatefulWidget {
+  const _MySpaceJournalView({required this.onBack});
+
+  final VoidCallback onBack;
+
   @override
-  State<_MySpaceJournalPage> createState() => _MySpaceJournalPageState();
+  State<_MySpaceJournalView> createState() => _MySpaceJournalViewState();
 }
 
-class _MySpaceJournalPageState extends State<_MySpaceJournalPage> {
+class _MySpaceJournalViewState extends State<_MySpaceJournalView> {
   final List<_JournalEntry> _entries = [];
   bool _isLoading = true;
 
@@ -1393,7 +1531,8 @@ class _MySpaceJournalPageState extends State<_MySpaceJournalPage> {
       return;
     }
     final ref = FirebaseDatabase.instance.ref('users/${user.uid}/journal');
-    final snapshot = await ref.get();
+    final event = await ref.once(DatabaseEventType.value);
+    final snapshot = event.snapshot;
     final loaded = <_JournalEntry>[];
     if (snapshot.exists && snapshot.value is Map) {
       final data = Map<String, dynamic>.from(snapshot.value as Map);
@@ -1470,13 +1609,9 @@ class _MySpaceJournalPageState extends State<_MySpaceJournalPage> {
         isBold: entry.isBold,
         isItalic: entry.isItalic,
       );
-    } on FirebaseException catch (error) {
-      debugPrint(
-        'Failed to save journal entry: ${error.code} ${error.message ?? ''}',
-      );
+    } on FirebaseException catch (_) {
       return null;
-    } catch (error) {
-      debugPrint('Failed to save journal entry: $error');
+    } catch (_) {
       return null;
     }
   }
@@ -1493,46 +1628,83 @@ class _MySpaceJournalPageState extends State<_MySpaceJournalPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.mySpaceJournalTitle)),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addEntry,
-        child: const Icon(Icons.edit),
-      ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : _entries.isEmpty
-          ? Center(child: Text(l10n.noJournalEntriesYet))
-          : ListView.separated(
-              padding: const EdgeInsets.all(16),
-              itemCount: _entries.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final entry = _entries[index];
-                return Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.grey.shade300),
+    return Stack(
+      children: [
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(4, 8, 16, 0),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios_new, size: 20),
+                    onPressed: widget.onBack,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        entry.title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(entry.body),
-                    ],
+                  Text(
+                    l10n.mySpaceJournalTitle,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                );
-              },
+                ],
+              ),
             ),
+            Expanded(
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _entries.isEmpty
+                  ? Center(child: Text(l10n.noJournalEntriesYet))
+                  : ListView.separated(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: _entries.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 12),
+                      itemBuilder: (context, index) {
+                        final entry = _entries[index];
+                        final isDark =
+                            Theme.of(context).brightness == Brightness.dark;
+                        return Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: isDark
+                                ? const Color(0xFF2E2940)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: isDark
+                                  ? Colors.grey.shade700
+                                  : Colors.grey.shade300,
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                entry.title,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(entry.body),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+        Positioned(
+          right: 16,
+          bottom: 16,
+          child: FloatingActionButton(
+            onPressed: _addEntry,
+            child: const Icon(Icons.edit),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -1612,7 +1784,10 @@ class _MySpaceJournalEditorPageState extends State<_MySpaceJournalEditorPage> {
             onPressed: _saveEntry,
             child: Text(
               l10n.saveLabel,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],
@@ -1691,13 +1866,123 @@ class _MySpaceJournalEditorPageState extends State<_MySpaceJournalEditorPage> {
   }
 }
 
-class _MySpaceLibraryPage extends StatefulWidget {
+class _MySpaceLibraryView extends StatelessWidget {
+  const _MySpaceLibraryView({required this.onBack});
+
+  final VoidCallback onBack;
+
   @override
-  State<_MySpaceLibraryPage> createState() => _MySpaceLibraryPageState();
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new, size: 20),
+                onPressed: onBack,
+              ),
+              Text(
+                l10n.mySpaceLibraryTitle,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Expanded(
+            child: _LibraryCard(
+              icon: Icons.mail_outline,
+              title: l10n.savedMessagesTitle,
+              isDark: isDark,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => _SavedMessagesPage()),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Expanded(
+            child: _LibraryCard(
+              icon: Icons.bookmark_outline,
+              title: l10n.libraryResourcesTitle,
+              isDark: isDark,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => _SavedResourcesPage()),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-class _MySpaceLibraryPageState extends State<_MySpaceLibraryPage> {
-  List<String> _savedMessages = const [];
+class _LibraryCard extends StatelessWidget {
+  const _LibraryCard({
+    required this.icon,
+    required this.title,
+    required this.isDark,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final bool isDark;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: isDark ? const Color(0xFF2E2940) : Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isDark ? Colors.grey.shade700 : Colors.grey.shade300,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 40, color: const Color(0xFF6B4F8A)),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Icon(Icons.chevron_right, color: Colors.grey.shade400),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SavedMessagesPage extends StatefulWidget {
+  @override
+  State<_SavedMessagesPage> createState() => _SavedMessagesPageState();
+}
+
+class _SavedMessagesPageState extends State<_SavedMessagesPage> {
+  List<_SavedMessage> _savedMessages = const [];
   bool _loading = true;
 
   @override
@@ -1716,75 +2001,496 @@ class _MySpaceLibraryPageState extends State<_MySpaceLibraryPage> {
       return;
     }
 
-    final snapshot = await FirebaseDatabase.instance
-        .ref('users/${user.uid}/library/messages')
-        .get();
+    try {
+      final event = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/library/messages')
+          .once(DatabaseEventType.value);
+      final snapshot = event.snapshot;
 
-    final values = snapshot.value;
-    final messages = <String>[];
-    if (values is Map) {
-      for (final entry in values.values) {
-        if (entry is Map) {
-          final text = entry['text'];
-          if (text is String && text.trim().isNotEmpty) {
-            messages.add(text);
+      final values = snapshot.value;
+      final messages = <_SavedMessage>[];
+      if (values is Map) {
+        for (final entry in values.entries) {
+          final item = entry.value;
+          if (item is Map) {
+            final text = (item['text'] as String?)?.trim() ?? '';
+            final textEn = (item['textEn'] as String?)?.trim() ?? '';
+            final savedAt = item['savedAt'] as String?;
+            if (text.isEmpty && textEn.isEmpty) continue;
+            DateTime? date;
+            if (savedAt != null) {
+              date = DateTime.tryParse(savedAt);
+            }
+            messages.add(
+              _SavedMessage(
+                text: text.isNotEmpty ? text : textEn,
+                textEn: textEn.isNotEmpty && textEn != text ? textEn : null,
+                savedAt: date,
+              ),
+            );
           }
         }
       }
-    }
 
-    if (!mounted) return;
-    setState(() {
-      _savedMessages = messages;
-      _loading = false;
-    });
+      messages.sort((a, b) {
+        if (a.savedAt == null && b.savedAt == null) return 0;
+        if (a.savedAt == null) return 1;
+        if (b.savedAt == null) return -1;
+        return b.savedAt!.compareTo(a.savedAt!);
+      });
+
+      if (!mounted) return;
+      setState(() {
+        _savedMessages = messages;
+        _loading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _savedMessages = const [];
+        _loading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.mySpaceLibraryTitle)),
+      appBar: const AppTopBar(showUserAction: false),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _librarySection(
-            title: l10n.savedMessagesTitle,
-            items: _loading
-                ? [l10n.loadingLabel]
-                : (_savedMessages.isEmpty
-                      ? [l10n.noSavedMessagesYet]
-                      : _savedMessages),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _librarySection({required String title, required List<String> items}) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 8),
-          ...items.map(
-            (item) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Text(item),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF2E2940) : Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: isDark ? Colors.grey.shade700 : Colors.grey.shade300,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (_loading)
+                  Text(l10n.loadingLabel)
+                else if (_savedMessages.isEmpty)
+                  Text(l10n.noSavedMessagesYet)
+                else
+                  ..._savedMessages.map(_buildMessageCard),
+              ],
             ),
           ),
         ],
       ),
     );
   }
+
+  Widget _buildMessageCard(_SavedMessage msg) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final mutedColor = isDark ? Colors.grey.shade400 : Colors.grey.shade600;
+    final dateStr = msg.savedAt != null
+        ? '${msg.savedAt!.year}-${msg.savedAt!.month.toString().padLeft(2, '0')}-${msg.savedAt!.day.toString().padLeft(2, '0')}'
+        : '';
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Divider(height: 1),
+          const SizedBox(height: 10),
+          if (dateStr.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Text(
+                dateStr,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: mutedColor,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          Text(msg.text),
+          if (msg.textEn != null) ...[
+            const SizedBox(height: 6),
+            Text(
+              msg.textEn!,
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                color: mutedColor,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _SavedMessage {
+  const _SavedMessage({required this.text, this.textEn, this.savedAt});
+
+  final String text;
+  final String? textEn;
+  final DateTime? savedAt;
+}
+
+class _SavedResourcesPage extends StatefulWidget {
+  @override
+  State<_SavedResourcesPage> createState() => _SavedResourcesPageState();
+}
+
+class _SavedResourcesPageState extends State<_SavedResourcesPage> {
+  List<_SavedResource> _resources = const [];
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadResources();
+  }
+
+  Future<void> _loadResources() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      setState(() {
+        _resources = const [];
+        _loading = false;
+      });
+      return;
+    }
+
+    try {
+      final event = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/library/resources')
+          .once(DatabaseEventType.value);
+      final snapshot = event.snapshot;
+
+      final values = snapshot.value;
+      final resources = <_SavedResource>[];
+      if (values is Map) {
+        for (final entry in values.entries) {
+          final item = entry.value;
+          if (item is Map) {
+            final title = (item['title'] as String?)?.trim() ?? '';
+            if (title.isEmpty) continue;
+            final phonesRaw = item['phones'];
+            final phones = <String>[];
+            if (phonesRaw is List) {
+              for (final p in phonesRaw) {
+                if (p is String) phones.add(p);
+              }
+            }
+            resources.add(
+              _SavedResource(
+                key: entry.key as String,
+                title: title,
+                section: (item['section'] as String?) ?? '',
+                country: (item['country'] as String?) ?? '',
+                description: item['description'] as String?,
+                phones: phones,
+                email: item['email'] as String?,
+                website: item['website'] as String?,
+                referenceUrl: item['referenceUrl'] as String?,
+                isFree: item['isFree'] == true,
+                savedAt: DateTime.tryParse(item['savedAt'] as String? ?? ''),
+              ),
+            );
+          }
+        }
+      }
+
+      resources.sort((a, b) {
+        if (a.savedAt == null && b.savedAt == null) return 0;
+        if (a.savedAt == null) return 1;
+        if (b.savedAt == null) return -1;
+        return b.savedAt!.compareTo(a.savedAt!);
+      });
+
+      if (!mounted) return;
+      setState(() {
+        _resources = resources;
+        _loading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _resources = const [];
+        _loading = false;
+      });
+    }
+  }
+
+  Future<void> _deleteResource(_SavedResource resource) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    await FirebaseDatabase.instance
+        .ref('users/${user.uid}/library/resources/${resource.key}')
+        .remove();
+    if (!mounted) return;
+    setState(() {
+      _resources = _resources.where((r) => r.key != resource.key).toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Scaffold(
+      appBar: const AppTopBar(showUserAction: false),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_new, size: 20),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                Text(
+                  l10n.libraryResourcesTitle,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: _loading
+                ? Center(child: Text(l10n.loadingLabel))
+                : _resources.isEmpty
+                    ? Center(child: Text(l10n.noSavedResourcesYet))
+                    : ListView.builder(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                        itemCount: _resources.length,
+                        itemBuilder: (context, index) =>
+                            _buildResourceCard(_resources[index], isDark),
+                      ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildResourceCard(_SavedResource resource, bool isDark) {
+    final sectionLabel = resource.section.isNotEmpty
+        ? resource.section[0].toUpperCase() + resource.section.substring(1)
+        : '';
+    final cardColor = isDark
+        ? const Color(0xFF3D2E55)
+        : const Color(0xFFD4C4E8);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Container(
+        decoration: BoxDecoration(
+          color: cardColor,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    resource.title.toUpperCase(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      color: isDark ? Colors.white : const Color(0xFF2E2940),
+                    ),
+                  ),
+                ),
+                if (resource.isFree)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.15)
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      'FREE',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 13,
+                        color: isDark ? Colors.white : const Color(0xFF4A3662),
+                      ),
+                    ),
+                  ),
+                const SizedBox(width: 4),
+                GestureDetector(
+                  onTap: () => _deleteResource(resource),
+                  child: Icon(
+                    Icons.bookmark_remove,
+                    size: 22,
+                    color: isDark ? Colors.white70 : const Color(0xFF4A3662),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              [sectionLabel, resource.country]
+                  .where((s) => s.isNotEmpty)
+                  .join(' · '),
+              style: TextStyle(
+                fontSize: 12,
+                color: isDark ? Colors.white54 : Colors.black45,
+              ),
+            ),
+            if (resource.description != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                resource.description!,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: isDark ? Colors.white60 : Colors.black54,
+                ),
+              ),
+            ],
+            const SizedBox(height: 14),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                if (resource.phones.isNotEmpty)
+                  _ResourceActionButton(
+                    icon: Icons.phone,
+                    label: 'Call',
+                    isDark: isDark,
+                    onTap: () {
+                      final phone = resource.phones.first.replaceAll(
+                        RegExp(r'[\s\-()]'),
+                        '',
+                      );
+                      launchUrl(
+                        Uri.parse('tel:$phone'),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                  ),
+                if (resource.email != null)
+                  _ResourceActionButton(
+                    icon: Icons.email,
+                    label: 'Email',
+                    isDark: isDark,
+                    onTap: () => launchUrl(
+                      Uri.parse('mailto:${resource.email}'),
+                      mode: LaunchMode.externalApplication,
+                    ),
+                  ),
+                if (resource.website != null)
+                  _ResourceActionButton(
+                    icon: Icons.language,
+                    label: 'Website',
+                    isDark: isDark,
+                    onTap: () => openExternalLink(context, resource.website!),
+                  ),
+                if (resource.referenceUrl != null)
+                  _ResourceActionButton(
+                    icon: Icons.menu_book,
+                    label: 'Reference',
+                    isDark: isDark,
+                    onTap: () => openExternalLink(context, resource.referenceUrl!),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ResourceActionButton extends StatelessWidget {
+  const _ResourceActionButton({
+    required this.icon,
+    required this.label,
+    required this.isDark,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final bool isDark;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final bgColor = isDark ? const Color(0xFF2A2236) : Colors.white;
+
+    return Material(
+      color: bgColor,
+      borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 18,
+                color: isDark ? Colors.white70 : const Color(0xFF6B4F8A),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: isDark ? Colors.white70 : const Color(0xFF4A3662),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SavedResource {
+  const _SavedResource({
+    required this.key,
+    required this.title,
+    required this.section,
+    required this.country,
+    this.description,
+    this.phones = const [],
+    this.email,
+    this.website,
+    this.referenceUrl,
+    this.isFree = false,
+    this.savedAt,
+  });
+
+  final String key;
+  final String title;
+  final String section;
+  final String country;
+  final String? description;
+  final List<String> phones;
+  final String? email;
+  final String? website;
+  final String? referenceUrl;
+  final bool isFree;
+  final DateTime? savedAt;
 }
