@@ -23,19 +23,33 @@ class _SettingsContentState extends State<_SettingsContent> {
   bool _inactiveNotificationsEnabled = false;
   int _dailyNotificationHour = 9;
   int _dailyNotificationMinute = 0;
+  Stream<DatabaseEvent>? _profileStream;
 
   @override
   void initState() {
     super.initState();
+    // Created once: building the stream inside build() would resubscribe on
+    // every setState and blank the profile fields while it reconnects.
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      _profileStream = FirebaseDatabase.instance
+          .ref('users/${user.uid}')
+          .onValue;
+    }
     _loadNotificationPreferences();
   }
 
   Future<void> _loadNotificationPreferences() async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
-    final snap = await FirebaseDatabase.instance
-        .ref('users/$uid/notificationPrefs')
-        .get();
+    final DataSnapshot snap;
+    try {
+      snap = await FirebaseDatabase.instance
+          .ref('users/$uid/notificationPrefs')
+          .get();
+    } catch (_) {
+      return; // Keep the defaults; the sheet re-reads on save anyway.
+    }
     final value = snap.value;
     if (value is! Map || !mounted) return;
     final data = Map<String, dynamic>.from(value);
@@ -321,11 +335,13 @@ class _SettingsContentState extends State<_SettingsContent> {
           );
         },
       );
-      if (password == null || password.trim().isEmpty) return false;
+      if (password == null || password.isEmpty) return false;
 
+      // Passwords are stored exactly as typed at registration — never trim,
+      // or accounts whose password has an edge space can't re-authenticate.
       final credential = EmailAuthProvider.credential(
         email: email,
-        password: password.trim(),
+        password: password,
       );
       await user.reauthenticateWithCredential(credential);
       return true;
@@ -336,11 +352,11 @@ class _SettingsContentState extends State<_SettingsContent> {
 
   String? _validatePassword(String value) {
     final l10n = AppLocalizations.of(context)!;
-    final trimmed = value.trim();
-    if (trimmed.length < 8) return l10n.passwordMustBeAtLeast8;
-    final hasUpper = RegExp(r'[A-Z]').hasMatch(trimmed);
-    final hasNumber = RegExp(r'\d').hasMatch(trimmed);
-    final hasSpecial = RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(trimmed);
+    // Validate the raw value — registration and login never trim passwords.
+    if (value.length < 8) return l10n.passwordMustBeAtLeast8;
+    final hasUpper = RegExp(r'[A-Z]').hasMatch(value);
+    final hasNumber = RegExp(r'\d').hasMatch(value);
+    final hasSpecial = RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value);
     if (!hasUpper || !hasNumber || !hasSpecial) {
       return l10n.passwordRequirementsSummary;
     }
@@ -463,7 +479,7 @@ class _SettingsContentState extends State<_SettingsContent> {
       return;
     }
     try {
-      await user.updatePassword(value.trim());
+      await user.updatePassword(value);
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
@@ -835,12 +851,12 @@ class _SettingsContentState extends State<_SettingsContent> {
               );
             },
           );
-          if (password == null || password.trim().isEmpty) {
+          if (password == null || password.isEmpty) {
             return;
           }
           final credential = EmailAuthProvider.credential(
             email: email,
-            password: password.trim(),
+            password: password,
           );
           await user.reauthenticateWithCredential(credential);
         } finally {
@@ -866,11 +882,16 @@ class _SettingsContentState extends State<_SettingsContent> {
         }
       }
 
-      try {
-        await _deleteStoragePathRecursively(
-          FirebaseStorage.instance.ref('users/${user.uid}'),
-        );
-      } catch (_) {}
+      // List separately per folder: storage.rules only grant read/list inside
+      // drawings/ and avatars/, so listing users/{uid} itself is denied and
+      // would silently delete nothing.
+      for (final folder in ['drawings', 'avatars']) {
+        try {
+          await _deleteStoragePathRecursively(
+            FirebaseStorage.instance.ref('users/${user.uid}/$folder'),
+          );
+        } catch (_) {}
+      }
 
       await userRef.remove();
       if (username != null) {
@@ -1085,6 +1106,7 @@ class _SettingsContentState extends State<_SettingsContent> {
         dailyHour: result.dailyHour,
         dailyMinute: result.dailyMinute,
       );
+      if (!mounted) return;
       setState(() {
         _dailyNotificationsEnabled = result.dailyEnabled;
         _inactiveNotificationsEnabled = result.inactiveEnabled;
@@ -1209,10 +1231,6 @@ class _SettingsContentState extends State<_SettingsContent> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final user = FirebaseAuth.instance.currentUser;
-    final profileStream = user == null
-        ? null
-        : FirebaseDatabase.instance.ref('users/${user.uid}').onValue;
-
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final panelColor = isDark
@@ -1292,7 +1310,7 @@ class _SettingsContentState extends State<_SettingsContent> {
         ),
         _sectionLabel(context, l10n.accountSectionTitle),
         StreamBuilder<DatabaseEvent>(
-          stream: profileStream,
+          stream: _profileStream,
           builder: (context, snapshot) {
             final value = snapshot.data?.snapshot.value;
             String? avatarUrl;
@@ -1460,6 +1478,15 @@ class _SettingsContentState extends State<_SettingsContent> {
                     onChanged: (value) {
                       if (value == null) return;
                       widget.themeModeNotifier.value = value;
+                      final uid = FirebaseAuth.instance.currentUser?.uid;
+                      if (uid != null) {
+                        unawaited(
+                          FirebaseDatabase.instance
+                              .ref('users/$uid/themeMode')
+                              .set(value.name)
+                              .catchError((_) {}),
+                        );
+                      }
                     },
                   );
                 },
@@ -1542,12 +1569,12 @@ class _SettingsContentState extends State<_SettingsContent> {
                           'users/$uid/locale',
                         );
                         if (value == null) {
-                          ref.remove();
+                          unawaited(ref.remove().catchError((_) {}));
                         } else {
                           final key = value.scriptCode != null
                               ? '${value.languageCode}_${value.scriptCode}'
                               : value.languageCode;
-                          ref.set(key);
+                          unawaited(ref.set(key).catchError((_) {}));
                         }
                       }
                     },
@@ -2028,24 +2055,22 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
                             interactive: _bodyRegionMask != null,
                             outlineColor: outlineColor,
                             onTap: (offset) {
-                              final region = _detectBodyRegion(
-                                offset,
-                                constraints.biggest,
-                              );
+                              final size = constraints.biggest;
+                              final region = _detectBodyRegion(offset, size);
                               if (region == 'outside') {
                                 _confirmOutsidePrompt().then((reflect) async {
                                   if (!mounted) return;
-                                  if (!reflect) {
+                                  if (reflect) {
+                                    // Record the sensation so Save can log it
+                                    // with the outside-the-body activity.
+                                    _setPoint(offset, size, region: region);
+                                  } else {
                                     await _skipStep();
                                   }
                                 });
                                 return;
                               }
-                              _setPoint(
-                                offset,
-                                constraints.biggest,
-                                region: region,
-                              );
+                              _setPoint(offset, size, region: region);
                             },
                           );
                         },
@@ -2921,9 +2946,10 @@ class _MonsterFeedbackPageState extends State<_MonsterFeedbackPage> {
         },
       );
       if (!mounted || _closed) return;
+      // _playUrl resolves when playback STARTS — Done must wait for onEnded,
+      // or the button covers the reaction clip while it is still playing.
       setState(() {
         _isBusy = false;
-        _showDone = true;
       });
     } catch (_) {
       if (mounted && !_closed) {

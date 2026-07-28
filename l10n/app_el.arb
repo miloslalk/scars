@@ -653,5 +653,11 @@
   "messageAlreadyOpenedToday": "Έχετε ήδη ανοίξει το σημερινό μήνυμα. Ελάτε ξανά αύριο!",
   "libraryResourcesTitle": "Πόροι",
   "savedToResources": "Saved to Resources",
-  "noSavedResourcesYet": "No saved resources yet."
+  "noSavedResourcesYet": "No saved resources yet.",
+  "messageOpenFailed": "Couldn't open the message. Please check your connection and try again.",
+  "genericLoadFailed": "Couldn't load. Please check your connection and try again.",
+  "genericSaveFailed": "Couldn't save. Please try again.",
+  "retryLabel": "Retry",
+  "careCornerActionReference": "REFERENCE",
+  "genericDeleteFailed": "Couldn't delete. Please try again."
 }

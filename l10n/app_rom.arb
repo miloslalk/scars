@@ -653,5 +653,11 @@
   "messageAlreadyOpenedToday": "Tu već putardan e ađivesutni poruka. Av palpale tehara!",
   "libraryResourcesTitle": "Resurse",
   "savedToResources": "Arakhlo ande Resurse",
-  "noSavedResourcesYet": "Mek nane arakhade resurse."
+  "noSavedResourcesYet": "Mek nane arakhade resurse.",
+  "messageOpenFailed": "Couldn't open the message. Please check your connection and try again.",
+  "genericLoadFailed": "Couldn't load. Please check your connection and try again.",
+  "genericSaveFailed": "Couldn't save. Please try again.",
+  "retryLabel": "Retry",
+  "careCornerActionReference": "REFERENCE",
+  "genericDeleteFailed": "Couldn't delete. Please try again."
 }

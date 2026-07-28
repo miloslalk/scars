@@ -3297,6 +3297,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No saved resources yet.'**
   String get noSavedResourcesYet;
+
+  /// No description provided for @messageOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open the message. Please check your connection and try again.'**
+  String get messageOpenFailed;
+
+  /// No description provided for @genericLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load. Please check your connection and try again.'**
+  String get genericLoadFailed;
+
+  /// No description provided for @genericSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save. Please try again.'**
+  String get genericSaveFailed;
+
+  /// No description provided for @retryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryLabel;
+
+  /// No description provided for @careCornerActionReference.
+  ///
+  /// In en, this message translates to:
+  /// **'REFERENCE'**
+  String get careCornerActionReference;
+
+  /// No description provided for @genericDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete. Please try again.'**
+  String get genericDeleteFailed;
 }
 
 class _AppLocalizationsDelegate

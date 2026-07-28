@@ -18,6 +18,7 @@ class _HomeContentState extends State<_HomeContent> {
   _HomeStepStatus _moodStatus = _HomeStepStatus.pending;
   _HomeStepStatus _bodyStatus = _HomeStepStatus.pending;
   bool _isMoodFullscreen = false;
+  bool _isMoodActionBusy = false;
   bool _isAnytimeActionsExpanded = false;
   String? _quoteText;
   bool _isLoadingQuote = false;
@@ -199,16 +200,25 @@ class _HomeContentState extends State<_HomeContent> {
   }
 
   Future<void> _handleMoodSkip() async {
-    setState(() {
-      _moodStatus = _HomeStepStatus.skipped;
-    });
-    _canvasKey.currentState?._clearCanvas();
-    await _persistDailyFlow();
-    await _showBodyTransitionDialogIfNeeded();
+    if (_isMoodActionBusy) return;
+    _isMoodActionBusy = true;
+    try {
+      setState(() {
+        _moodStatus = _HomeStepStatus.skipped;
+      });
+      _canvasKey.currentState?._clearCanvas();
+      await _persistDailyFlow();
+      await _showBodyTransitionDialogIfNeeded();
+    } finally {
+      _isMoodActionBusy = false;
+    }
   }
 
   Future<void> _handleMoodSave() async {
-    if (!mounted) return;
+    if (!mounted || _isMoodActionBusy) return;
+    // The busy flag closes the double-tap window while the upload is in
+    // flight; without it a second tap uploads the drawing twice.
+    _isMoodActionBusy = true;
     final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(
       context,
@@ -217,10 +227,10 @@ class _HomeContentState extends State<_HomeContent> {
       final result = await _canvasKey.currentState?.saveToFirebase();
       if (!mounted) return;
       final messenger = ScaffoldMessenger.of(context);
-      final message = result ?? l10n.canvasNotReady;
+      final message = result?.message ?? l10n.canvasNotReady;
       messenger.hideCurrentSnackBar();
       messenger.showSnackBar(SnackBar(content: Text(message)));
-      if (result == l10n.drawingSaved) {
+      if (result != null && result.success) {
         setState(() {
           _moodStatus = _HomeStepStatus.completed;
         });
@@ -234,6 +244,8 @@ class _HomeContentState extends State<_HomeContent> {
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.saveFailedWithError('$error'))),
       );
+    } finally {
+      _isMoodActionBusy = false;
     }
   }
 
@@ -324,7 +336,11 @@ class _HomeContentState extends State<_HomeContent> {
     final user = FirebaseAuth.instance.currentUser;
     final locale = Localizations.localeOf(context).languageCode;
     if (user == null) {
-      _pickLocalAffirmation();
+      // This method is entered from build(); calling setState synchronously
+      // here would throw "setState() called during build".
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _pickLocalAffirmation(),
+      );
       return;
     }
 

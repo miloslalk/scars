@@ -33,6 +33,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage>
   bool _isPlaying = false;
   bool _isLoadingTrack = true;
   bool _trackLoaded = false;
+  bool _usingFallbackAsset = false;
   String? _loadError;
   GuidedAudioTrack _track = const GuidedAudioTrack(
     title: '',
@@ -109,6 +110,18 @@ class _MusicPlayerPageState extends State<MusicPlayerPage>
           Navigator.pop(context);
         }
       }),
+    );
+    _playerSubscriptions.add(
+      _player.eventStream.listen(
+        (_) {},
+        // Network/decoder failures of the remote stream surface here, not
+        // through play()'s future — without this the player just goes
+        // silent instead of falling back to the bundled track.
+        onError: (Object _) {
+          if (_closed || !mounted) return;
+          unawaited(_fallbackToAsset());
+        },
+      ),
     );
 
     // Start preparing videos immediately.
@@ -240,14 +253,24 @@ class _MusicPlayerPageState extends State<MusicPlayerPage>
 
   Future<void> _startPlayback() async {
     final url = _track.remoteUrl;
-    if (url != null) {
+    if (url != null && !_usingFallbackAsset) {
       try {
         await _player.play(UrlSource(url));
         return;
       } catch (_) {}
     }
 
-    await _player.play(AssetSource(_track.fallbackAssetPath));
+    await _fallbackToAsset();
+  }
+
+  Future<void> _fallbackToAsset() async {
+    if (_usingFallbackAsset) return;
+    _usingFallbackAsset = true;
+    try {
+      await _player.play(AssetSource(_track.fallbackAssetPath));
+    } catch (_) {
+      // Both sources failed — leave the paused UI; the user can still exit.
+    }
   }
 
   void _skip() {

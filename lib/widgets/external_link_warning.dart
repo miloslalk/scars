@@ -27,7 +27,20 @@ Future<void> openExternalLink(
     ),
   );
 
-  if (confirmed == true) {
-    launchUrl(Uri.parse(url), mode: mode);
+  if (confirmed != true) return;
+
+  final uri = Uri.tryParse(url);
+  var launched = false;
+  if (uri != null) {
+    try {
+      launched = await launchUrl(uri, mode: mode);
+    } catch (_) {
+      launched = false;
+    }
+  }
+  if (!launched && context.mounted) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.genericLoadFailed)));
   }
 }

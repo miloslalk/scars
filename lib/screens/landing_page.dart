@@ -44,6 +44,16 @@ class _LandingPageState extends State<LandingPage> {
   bool _isGoogleSigningIn = false;
   bool _isAppleSigningIn = false;
   bool _obscurePassword = true;
+  bool _navigatedToHome = false;
+
+  /// Codes that mean the session itself is dead; anything else (e.g. a
+  /// network failure) must not destroy a valid persisted session.
+  static const _sessionFatalCodes = {
+    'user-not-found',
+    'user-disabled',
+    'user-token-expired',
+    'invalid-user-token',
+  };
 
   @override
   void initState() {
@@ -58,10 +68,14 @@ class _LandingPageState extends State<LandingPage> {
     // Reload to ensure the token is still valid
     try {
       await user.reload();
+    } on FirebaseAuthException catch (error) {
+      if (_sessionFatalCodes.contains(error.code)) {
+        await FirebaseAuth.instance.signOut();
+        return;
+      }
+      // Transient failure (offline, server hiccup) — keep the session.
     } catch (_) {
-      // Token expired or user deleted — stay on login page
-      await FirebaseAuth.instance.signOut();
-      return;
+      // Same: never sign the user out over an unknown transient failure.
     }
 
     final refreshedUser = FirebaseAuth.instance.currentUser;
@@ -78,14 +92,20 @@ class _LandingPageState extends State<LandingPage> {
       return;
     }
 
-    final snap = await FirebaseDatabase.instance
-        .ref('users/${refreshedUser.uid}')
-        .get();
-    final username =
-        (snap.value as Map?)?['username'] as String? ??
-        refreshedUser.displayName ??
-        refreshedUser.email ??
-        '';
+    var username = refreshedUser.displayName ?? refreshedUser.email ?? '';
+    try {
+      final snap = await FirebaseDatabase.instance
+          .ref('users/${refreshedUser.uid}')
+          .get();
+      final stored = (snap.value as Map?)?['username'];
+      if (stored is String && stored.trim().isNotEmpty) {
+        username = stored;
+      }
+    } catch (_) {
+      // Offline: fall back to the auth display name and continue.
+    }
+
+    await _reconcileEmail(refreshedUser);
 
     // Keep lastLoginAt fresh so the inactivity push doesn't fire for users
     // who open the app daily via a persisted session.
@@ -96,7 +116,43 @@ class _LandingPageState extends State<LandingPage> {
     // Restore saved locale
     await _restoreLocale(refreshedUser.uid);
 
-    if (!mounted) return;
+    _goHome(username);
+  }
+
+  /// After a verified email change (`verifyBeforeUpdateEmail`) only Firebase
+  /// Auth knows the new address; sync it back to the profile and the
+  /// usernames index, otherwise login-by-username keeps resolving the old
+  /// email and fails forever.
+  Future<void> _reconcileEmail(User user) async {
+    final email = user.email;
+    if (email == null || email.isEmpty) return;
+    try {
+      final ref = FirebaseDatabase.instance.ref('users/${user.uid}');
+      final snap = await ref.get();
+      if (snap.value is! Map) return;
+      final profile = Map<String, dynamic>.from(snap.value as Map);
+      if (profile['email'] == email) {
+        if (profile['pendingEmail'] != null) {
+          await ref.child('pendingEmail').remove();
+        }
+        return;
+      }
+      await ref.update({'email': email});
+      await ref.child('pendingEmail').remove();
+      final username = profile['username'];
+      if (username is String && username.trim().isNotEmpty) {
+        await FirebaseDatabase.instance
+            .ref('usernames/${safeKey(username)}/email')
+            .set(email);
+      }
+    } catch (_) {
+      // Best-effort; retried on the next login.
+    }
+  }
+
+  void _goHome(String username) {
+    if (!mounted || _navigatedToHome) return;
+    _navigatedToHome = true;
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -111,18 +167,38 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> _restoreLocale(String uid) async {
-    final snap = await FirebaseDatabase.instance.ref('users/$uid/locale').get();
-    if (snap.exists && snap.value != null) {
-      final stored = snap.value as String;
-      if (stored.contains('_')) {
-        final parts = stored.split('_');
-        widget.localeNotifier.value = Locale.fromSubtags(
-          languageCode: parts[0],
-          scriptCode: parts[1],
-        );
-      } else {
-        widget.localeNotifier.value = Locale(stored);
+    try {
+      final snap = await FirebaseDatabase.instance
+          .ref('users/$uid/locale')
+          .get();
+      final stored = snap.value;
+      if (stored is String && stored.isNotEmpty) {
+        if (stored.contains('_')) {
+          final parts = stored.split('_');
+          widget.localeNotifier.value = Locale.fromSubtags(
+            languageCode: parts[0],
+            scriptCode: parts[1],
+          );
+        } else {
+          widget.localeNotifier.value = Locale(stored);
+        }
       }
+    } catch (_) {
+      // Locale restore is cosmetic — never block login on it.
+    }
+    try {
+      final themeSnap = await FirebaseDatabase.instance
+          .ref('users/$uid/themeMode')
+          .get();
+      final storedTheme = themeSnap.value;
+      if (storedTheme is String) {
+        widget.themeModeNotifier.value = ThemeMode.values.firstWhere(
+          (mode) => mode.name == storedTheme,
+          orElse: () => ThemeMode.system,
+        );
+      }
+    } catch (_) {
+      // Theme restore is cosmetic too.
     }
   }
 
@@ -216,8 +292,8 @@ class _LandingPageState extends State<LandingPage> {
             await FirebaseDatabase.instance
                 .ref('users/${refreshedUser.uid}/verification')
                 .set({
-                  'sentAt': now.toIso8601String(),
-                  'expiresAt': newExpires.toIso8601String(),
+                  'sentAt': now.toUtc().toIso8601String(),
+                  'expiresAt': newExpires.toUtc().toIso8601String(),
                   'status': 'pending',
                 });
             expires = newExpires;
@@ -237,7 +313,7 @@ class _LandingPageState extends State<LandingPage> {
         await FirebaseDatabase.instance
             .ref('users/${refreshedUser.uid}/verification')
             .update({
-              'verifiedAt': DateTime.now().toIso8601String(),
+              'verifiedAt': DateTime.now().toUtc().toIso8601String(),
               'status': 'verified',
             });
       }
@@ -246,26 +322,25 @@ class _LandingPageState extends State<LandingPage> {
           ? (refreshedUser.displayName ?? loginName)
           : loginName;
 
+      await _reconcileEmail(refreshedUser);
+
       try {
         await NotificationService.instance.onLogin(refreshedUser.uid);
       } catch (_) {}
 
       await _restoreLocale(refreshedUser.uid);
 
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(
-            username: displayName,
-            localeNotifier: widget.localeNotifier,
-            supportedLocales: widget.supportedLocales,
-            themeModeNotifier: widget.themeModeNotifier,
-          ),
-        ),
-      );
+      _goHome(displayName);
     } on FirebaseAuthException catch (error) {
-      if (error.code == 'user-not-found' || error.code == 'wrong-password') {
+      // 'invalid-credential' is what projects with email-enumeration
+      // protection return for a wrong password.
+      const credentialCodes = {
+        'user-not-found',
+        'wrong-password',
+        'invalid-credential',
+        'invalid-email',
+      };
+      if (credentialCodes.contains(error.code)) {
         _showSnackBar(l10n.invalidCredentials);
       } else {
         _showSnackBar(l10n.unableToLoadCredentials);
@@ -325,7 +400,7 @@ class _LandingPageState extends State<LandingPage> {
           'email': email,
           'username': username,
           'avatarAssetPath': randomBundledAvatarAssetPath(),
-          'createdAt': DateTime.now().toIso8601String(),
+          'createdAt': DateTime.now().toUtc().toIso8601String(),
         });
         await usernamesRef.child(safeKey(username)).set({
           'uid': user.uid,
@@ -333,24 +408,15 @@ class _LandingPageState extends State<LandingPage> {
         });
       }
 
+      await _reconcileEmail(user);
+
       try {
         await NotificationService.instance.onLogin(user.uid);
       } catch (_) {}
 
       await _restoreLocale(user.uid);
 
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(
-            username: user.displayName ?? user.email ?? l10n.userFallbackName,
-            localeNotifier: widget.localeNotifier,
-            supportedLocales: widget.supportedLocales,
-            themeModeNotifier: widget.themeModeNotifier,
-          ),
-        ),
-      );
+      _goHome(user.displayName ?? user.email ?? l10n.userFallbackName);
     } catch (e) {
       if (!mounted) return;
       final l10n = AppLocalizations.of(context)!;
@@ -441,7 +507,7 @@ class _LandingPageState extends State<LandingPage> {
           'email': email,
           'username': username,
           'avatarAssetPath': randomBundledAvatarAssetPath(),
-          'createdAt': DateTime.now().toIso8601String(),
+          'createdAt': DateTime.now().toUtc().toIso8601String(),
         });
         await usernamesRef.child(safeKey(username)).set({
           'uid': user.uid,
@@ -449,24 +515,15 @@ class _LandingPageState extends State<LandingPage> {
         });
       }
 
+      await _reconcileEmail(user);
+
       try {
         await NotificationService.instance.onLogin(user.uid);
       } catch (_) {}
 
       await _restoreLocale(user.uid);
 
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(
-            username: user.displayName ?? user.email ?? l10n.userFallbackName,
-            localeNotifier: widget.localeNotifier,
-            supportedLocales: widget.supportedLocales,
-            themeModeNotifier: widget.themeModeNotifier,
-          ),
-        ),
-      );
+      _goHome(user.displayName ?? user.email ?? l10n.userFallbackName);
     } on SignInWithAppleAuthorizationException {
       // User cancelled — do nothing
     } catch (_) {

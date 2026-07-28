@@ -653,5 +653,11 @@
   "messageAlreadyOpenedToday": "Du hast die heutige Nachricht bereits geöffnet. Komm morgen wieder!",
   "libraryResourcesTitle": "Ressourcen",
   "savedToResources": "In Ressourcen gespeichert",
-  "noSavedResourcesYet": "Noch keine gespeicherten Ressourcen."
+  "noSavedResourcesYet": "Noch keine gespeicherten Ressourcen.",
+  "messageOpenFailed": "Couldn't open the message. Please check your connection and try again.",
+  "genericLoadFailed": "Couldn't load. Please check your connection and try again.",
+  "genericSaveFailed": "Couldn't save. Please try again.",
+  "retryLabel": "Retry",
+  "careCornerActionReference": "REFERENCE",
+  "genericDeleteFailed": "Couldn't delete. Please try again."
 }

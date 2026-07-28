@@ -14,6 +14,7 @@ class _MessagesContentState extends State<_MessagesContent>
   _MessageSpec? _shownMessage;
   bool _saved = false;
   bool _hasOpenedToday = false;
+  bool _popInFlight = false;
   String _localeCode = 'en';
   bool _messagesLoaded = false;
 
@@ -50,12 +51,16 @@ class _MessagesContentState extends State<_MessagesContent>
   Future<void> _checkOpenedToday() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
-    final snapshot = await FirebaseDatabase.instance
-        .ref('users/${user.uid}/opened_messages/${_todayKey()}')
-        .get();
-    if (!mounted) return;
-    if (snapshot.exists) {
-      setState(() => _hasOpenedToday = true);
+    try {
+      final snapshot = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/opened_messages/${_todayKey()}')
+          .get();
+      if (!mounted) return;
+      if (snapshot.exists) {
+        setState(() => _hasOpenedToday = true);
+      }
+    } catch (_) {
+      // Fail open: popping still requires its own successful write.
     }
   }
 
@@ -214,7 +219,7 @@ class _MessagesContentState extends State<_MessagesContent>
     super.dispose();
   }
 
-  void _popBalloon(int index) {
+  Future<void> _popBalloon(int index) async {
     if (_hasOpenedToday) {
       final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(
@@ -222,25 +227,43 @@ class _MessagesContentState extends State<_MessagesContent>
       ).showSnackBar(SnackBar(content: Text(l10n.messageAlreadyOpenedToday)));
       return;
     }
-    final messageId = _balloons[index].message.id;
-    if (_poppedAt.containsKey(messageId)) return;
     final balloon = _balloons[index];
+    final messageId = balloon.message.id;
+    if (_poppedAt.containsKey(messageId) || _popInFlight) return;
+
+    // Persist BEFORE showing the pop: "once popped, never shown again" must
+    // hold even if the app dies right after the animation.
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      _popInFlight = true;
+      try {
+        final now = DateTime.now();
+        await Future.wait([
+          FirebaseDatabase.instance
+              .ref('users/${user.uid}/opened_messages/${_todayKey()}')
+              .set({'openedAt': now.toIso8601String(), 'messageId': messageId}),
+          FirebaseDatabase.instance
+              .ref('users/${user.uid}/popped_messages/${safeKey(messageId)}')
+              .set({'messageId': messageId, 'poppedAt': now.toIso8601String()}),
+        ]);
+      } catch (_) {
+        if (mounted) {
+          final l10n = AppLocalizations.of(context)!;
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.messageOpenFailed)));
+        }
+        return;
+      } finally {
+        _popInFlight = false;
+      }
+    }
+    if (!mounted) return;
     setState(() {
       _shownMessage = balloon.message;
       _poppedAt[messageId] = DateTime.now();
       _hasOpenedToday = true;
     });
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final now = DateTime.now();
-      FirebaseDatabase.instance
-          .ref('users/${user.uid}/opened_messages/${_todayKey()}')
-          .set({'openedAt': now.toIso8601String(), 'messageId': messageId});
-      // Permanent record: this message must never be shown again.
-      FirebaseDatabase.instance
-          .ref('users/${user.uid}/popped_messages/${safeKey(messageId)}')
-          .set({'messageId': messageId, 'poppedAt': now.toIso8601String()});
-    }
     Future.delayed(const Duration(milliseconds: 320), () {
       if (!mounted) return;
       setState(() {
@@ -380,7 +403,22 @@ class _MessagesContentState extends State<_MessagesContent>
                             onTap: _saved
                                 ? null
                                 : () async {
-                                    await _saveMessage(message);
+                                    try {
+                                      await _saveMessage(message);
+                                    } catch (_) {
+                                      if (!context.mounted) return;
+                                      final l10n = AppLocalizations.of(
+                                        context,
+                                      )!;
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(l10n.genericSaveFailed),
+                                        ),
+                                      );
+                                      return;
+                                    }
                                     if (!mounted) return;
                                     setState(() => _saved = true);
                                     Future.delayed(

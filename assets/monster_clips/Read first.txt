@@ -1,0 +1,53 @@
+Hey Milos, here are some info about the clips:
+- each clip has an android (.webm) and IOS (.mov with alpha) version, because webP as we initially discussed was not suitable for 8+ seconds videos due to increase size (aprox 10mb per file = 200+mb only for the clips). Therefore, the current compression keeps the quality while decreasing the size considerably. The drawback is that it's more work for you, I guess.
+- those artifacts around the character in android and apple files should be harmless (NUL artifacts) and should not affect the final clip on the app. If they do, I can reexport them without these artifacts, just let me know.
+- all of the clips are loop-able, so you can add one after another with seamless transition, or just loop one infinitely also with seamless transition.
+- In some instances, inside the clip folder you will see only 1 clip for that activity. If needed, you can loop that clip until the activity is done. 
+- In other instances, inside the clip folder, there are 3 clips. The first one is the intro of activity, the middle one is to be looped, and the last one is for when the activity ends. So you just loop the middle one as much as its needed.
+- In some cases, you can add clips from "2 Loop animations" folder wherever they are needed, since it represents the monster in idle/low movement mode.
+
+Now, i will go through each folder and reveal where its intended and how:
+
+*** The following clips are for the actions before the specific activities:
+
+0 Intro - you can add this when app starts and before the "how are you feeling today" prompt
+1 Hello - you can add this when "how are you feeling today" prompt appears
+2 Loop animations - you can add these whenever there is a pause moment, and also 
+3 Body scan - you can add this after the "drawing your mood" part finishes, just when the " would you like to take a moment to gently tune in ....etc" prompt appears. 
+4 Guided meditation - you can add this during the guided meditation (guided body scan). There are 3 clips there, use the first one at the beginning, then loop the middle one for a long time until the guided meditation ends, and then use the 3rd one as outro
+5 Location in the body - use this with "where does this feeling seem to rest in your body?" prompt, before switching to "genderless body" part
+6 Will you join - use this after the user chooses a part of the body where the feeling is, as invitation for the specific exercise of that part
+7 Outside the body - use this before "6 Will you join", if the user chooses outside the "genderless body", with "When you imagine a place where you feel at ease, what physical sensations do you notice in your body?" prompt. After that, go back to the genderless body for the user to choose inside
+
+*** The following clips are for the specific activities:
+
+8 Forehead contact - 3 clips, use the middle one as a loop for as long as needed, with the specific prompt from Fatos
+9 Slow breathing - same as above
+10 Weight of the head - same ad above
+11 478 Breathing - you have the 3 clips as well, with the middle on to be looped, but you have 2 version of those. One with a balloon animation in the background and one without. You can use the one with the balloon if you like it, or use the one without if you intend to make a visual countdown yourself
+12 Abdominal awareness - 3 clips, use the middle one as a loop for as long as needed, with the specific prompt from Fatos
+13 Hearth center - same as above
+14 Ball squeezing - same as above
+15 Finger meditation - same as above
+16 Hand message - same as above
+17 Shoulder drop - there is only 1 clip....loop it as needed (i dont like how it was generated but this is what we got)
+18 Back opening - only 1 clip, loop it
+19 Relaxing burden - 3 clips, use the middle one as a loop for as long as needed, with the specific prompt from Fatos
+20 Relaxing facial muscles - same as above
+21 Jaw drop - same as above
+22 Smile to yourself - same as above
+23 EFT tapping - only 1 clip, loop it
+24 Rising on tiptoes - same as above
+
+*** The following clips are for after the activity:
+
+25 Feedback - use "25.1 Feedback" during the "How was this experience for you?" prompt. Depending on the user's answer from the 5 choices (very good/good/meh/bad/awful), use the remaining clips accordingly
+0 Outro - you can use this to finish the interactive part of the application, before the user returns to homepage
+0 colored moving background - use this as background only if you need it, its the one used in the presentation video, but highly compressed and optimized for android and IOS app
+
+
+
+
+Please contact me if you'll need anything.
+I didn't included the original clips before conversion due to their file size, let me know if you need them.
+Thank you!

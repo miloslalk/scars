@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
+import 'package:when_scars_become_art/models/care_corner_data.dart';
 import 'package:when_scars_become_art/screens/care_corner/education_page.dart';
 import 'package:when_scars_become_art/screens/care_corner/support_page.dart';
 import 'package:when_scars_become_art/screens/care_corner/wellbeing_page.dart';
@@ -29,6 +30,7 @@ class _CareCornerPageState extends State<CareCornerPage>
 
   int? _selectedIndex;
   bool _showInner = false;
+  bool _openingCategory = false;
   AnimationController? _controller;
   List<double> _floatPhases = const [];
   final List<double> _orbitPhases = const [0.0, 2.1, 4.2];
@@ -273,7 +275,24 @@ class _CareCornerPageState extends State<CareCornerPage>
   }
 
   Future<void> _openCategory(String countryId, String category) async {
-    final data = await CareCornerService.instance.loadCountry(countryId);
+    // Double-tap during the awaited load would push the page twice.
+    if (_openingCategory) return;
+    _openingCategory = true;
+    final CareCornerCountryData data;
+    try {
+      data = await CareCornerService.instance.loadCountry(countryId);
+    } catch (_) {
+      _openingCategory = false;
+      // A missing/malformed country JSON must not turn the tap into a
+      // silent no-op (EU data is still pending, so this path is real).
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.genericLoadFailed)));
+      return;
+    }
+    _openingCategory = false;
 
     if (data.isRedirectOnly) return;
     if (!mounted) return;

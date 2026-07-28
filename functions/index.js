@@ -81,19 +81,38 @@ exports.reportMessage = functions.https.onCall(async (data, context) => {
   const approveUrl = `${baseUrl}/moderateMessage?reportId=${reportId}&token=${token}&action=approve`;
   const rejectUrl = `${baseUrl}/moderateMessage?reportId=${reportId}&token=${token}&action=reject`;
 
-  await getTransporter().sendMail({
-    from: process.env.MODERATION_FROM || 'Scars App <no-reply@scars.app>',
-    to: moderatorEmail,
-    subject: 'Scars App: Message Report',
-    text:
-      `A message was reported.\n\n` +
-      `Message:\n${messageText}\n\n` +
-      `Approve: ${approveUrl}\n` +
-      `Reject: ${rejectUrl}\n`,
-  });
+  try {
+    await getTransporter().sendMail({
+      from: process.env.MODERATION_FROM || 'Scars App <no-reply@scars.app>',
+      to: moderatorEmail,
+      subject: 'Scars App: Message Report',
+      text:
+        `A message was reported.\n\n` +
+        `Message:\n${messageText}\n\n` +
+        `Approve: ${approveUrl}\n` +
+        `Reject: ${rejectUrl}\n`,
+    });
+  } catch (error) {
+    // Email is the only way moderators learn about a report; mark the row so
+    // stuck reports are findable, and give the client a real error instead of
+    // an opaque INTERNAL.
+    console.error('Failed to send moderation email:', error);
+    await reportRef.update({ status: 'email_failed' }).catch(() => {});
+    throw new functions.https.HttpsError(
+      'unavailable',
+      'Report saved, but moderators could not be notified. Please try again.'
+    );
+  }
 
   return { ok: true };
 });
+
+function tokensMatch(expected, provided) {
+  const a = Buffer.from(String(expected));
+  const b = Buffer.from(String(provided));
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
 
 exports.moderateMessage = functions.https.onRequest(async (req, res) => {
   const reportId = req.query.reportId;
@@ -118,8 +137,32 @@ exports.moderateMessage = functions.https.onRequest(async (req, res) => {
   }
 
   const report = snapshot.val();
-  if (report.token !== token) {
+  if (!tokensMatch(report.token, token)) {
     res.status(403).send('Invalid token.');
+    return;
+  }
+
+  if (report.status === 'approved' || report.status === 'rejected') {
+    res.status(200).send(`Report was already ${report.status}.`);
+    return;
+  }
+
+  // Mutating on GET is unsafe here: corporate mail gateways prefetch links,
+  // which would silently approve/reject reports. GET renders a confirmation
+  // form; only the explicit POST applies the action.
+  if (req.method !== 'POST') {
+    const actionUrl =
+      `?reportId=${encodeURIComponent(reportId)}` +
+      `&token=${encodeURIComponent(token)}&action=${action}`;
+    res.status(200).send(
+      `<!DOCTYPE html><html><head><meta charset="utf-8">` +
+        `<title>Confirm moderation</title></head>` +
+        `<body style="font-family:sans-serif;max-width:480px;margin:40px auto;">` +
+        `<h3>Confirm: ${action} this report?</h3>` +
+        `<form method="POST" action="${actionUrl}">` +
+        `<button type="submit" style="padding:10px 24px;font-size:16px;">` +
+        `Yes, ${action}</button></form></body></html>`
+    );
     return;
   }
 
@@ -257,8 +300,9 @@ async function sendNotificationTargets({
         },
         payload: {
           aps: {
+            // No badge: nothing in the app ever clears it, so setting it
+            // left a permanent red "1" on the icon.
             sound: 'default',
-            badge: 1,
           },
         },
       },

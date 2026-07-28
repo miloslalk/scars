@@ -16,8 +16,10 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(keystorePropertiesFile.inputStream())
 }
 val isReleaseBuildRequested = gradle.startParameter.taskNames.any { taskName ->
+    // No bare "bundle" match: bundleRelease already contains "release", while
+    // matching "bundle" wrongly failed bundleDebug builds without key.properties.
     val lower = taskName.lowercase()
-    lower.contains("release") || lower.contains("bundle") || lower.contains("publish")
+    lower.contains("release") || lower.contains("publish")
 }
 
 android {
@@ -43,6 +45,11 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        ndk {
+            // x86/x86_64 excluded: emulator-only targets, and fvp's ffmpeg libs
+            // add ~12 MB per ABI to the bundle.
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+        }
     }
 
     signingConfigs {

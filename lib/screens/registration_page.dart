@@ -30,6 +30,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   bool? _usernameAvailable;
   bool _checkingUsername = false;
   Timer? _usernameDebounce;
+  int _usernameCheckGeneration = 0;
 
   @override
   void dispose() {
@@ -81,27 +82,46 @@ class _RegistrationPageState extends State<RegistrationPage> {
         _showSnackBar(l10n.registrationFailed);
         return;
       }
-      await credential.user?.updateDisplayName(username);
-      await credential.user?.getIdToken(true);
-      await credential.user?.sendEmailVerification();
+      try {
+        await credential.user?.updateDisplayName(username);
+        await credential.user?.getIdToken(true);
 
-      final expiresAt = DateTime.now().add(const Duration(days: 5));
-      await usersRef.child(uid).set({
-        'fullName': _fullNameController.text.trim(),
-        'email': _emailController.text.trim(),
-        'username': username,
-        'avatarAssetPath': randomBundledAvatarAssetPath(),
-        'createdAt': DateTime.now().toIso8601String(),
-        'verification': {
-          'sentAt': DateTime.now().toIso8601String(),
-          'expiresAt': expiresAt.toIso8601String(),
-        },
-      });
+        final now = DateTime.now().toUtc();
+        final expiresAt = now.add(const Duration(days: 5));
+        await usersRef.child(uid).set({
+          'fullName': _fullNameController.text.trim(),
+          'email': _emailController.text.trim(),
+          'username': username,
+          'avatarAssetPath': randomBundledAvatarAssetPath(),
+          'createdAt': now.toIso8601String(),
+          'verification': {
+            'sentAt': now.toIso8601String(),
+            'expiresAt': expiresAt.toIso8601String(),
+          },
+        });
 
-      await usernamesRef.child(usernameKey).set({
-        'uid': uid,
-        'email': _emailController.text.trim(),
-      });
+        await usernamesRef.child(usernameKey).set({
+          'uid': uid,
+          'email': _emailController.text.trim(),
+        });
+
+        await credential.user?.sendEmailVerification();
+      } catch (error) {
+        // Roll back the half-created account; otherwise a retry hits
+        // email-already-in-use against an account with no profile.
+        try {
+          await usernamesRef.child(usernameKey).remove();
+        } catch (_) {}
+        try {
+          await usersRef.child(uid).remove();
+        } catch (_) {}
+        try {
+          await credential.user?.delete();
+        } catch (_) {
+          await FirebaseAuth.instance.signOut();
+        }
+        rethrow;
+      }
 
       // createUserWithEmailAndPassword signs the new (unverified) user in;
       // sign out so the session cannot be used before email verification.
@@ -115,7 +135,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     } on TimeoutException {
       _showSnackBar(l10n.registrationTimedOut);
     } catch (error) {
-      _showSnackBar(l10n.registrationFailedWithError('$error'));
+      _showSnackBar(l10n.registrationFailed);
     } finally {
       if (mounted) {
         setState(() {
@@ -127,6 +147,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   void _checkUsernameAvailability(String value) {
     _usernameDebounce?.cancel();
+    // Invalidates any in-flight lookup so a slow response for older input
+    // can't overwrite the result for what's currently typed.
+    final generation = ++_usernameCheckGeneration;
     final trimmed = value.trim();
     if (trimmed.isEmpty || trimmed.length < 6) {
       setState(() {
@@ -145,13 +168,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
             .ref('usernames')
             .child(key)
             .get();
-        if (!mounted) return;
+        if (!mounted || generation != _usernameCheckGeneration) return;
         setState(() {
           _usernameAvailable = !snapshot.exists;
           _checkingUsername = false;
         });
       } catch (_) {
-        if (!mounted) return;
+        if (!mounted || generation != _usernameCheckGeneration) return;
         setState(() {
           _usernameAvailable = null;
           _checkingUsername = false;

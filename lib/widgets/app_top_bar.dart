@@ -63,7 +63,9 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       actions: [
         if (actions != null) ...actions!,
-        if (showUserAction && initial != null)
+        // Not gated on initial: a user whose display name resolves empty
+        // must still be able to reach Settings and Logout ('?' avatar).
+        if (showUserAction)
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: PopupMenuButton<_UserMenuAction>(

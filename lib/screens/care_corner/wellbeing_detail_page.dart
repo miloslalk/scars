@@ -25,6 +25,7 @@ class WellbeingDetailPage extends StatefulWidget {
 class _WellbeingDetailPageState extends State<WellbeingDetailPage> {
   static const _purpleDark = Color(0xFF4A3662);
   bool _saved = false;
+  bool _saving = false;
 
   @override
   void initState() {
@@ -35,42 +36,62 @@ class _WellbeingDetailPageState extends State<WellbeingDetailPage> {
   Future<void> _checkIfSaved() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
-    final snap = await FirebaseDatabase.instance
-        .ref('users/${user.uid}/library/resources')
-        .orderByChild('title')
-        .equalTo(widget.item.title)
-        .once(DatabaseEventType.value);
-    if (!mounted) return;
-    if (snap.snapshot.value != null) {
-      final values = snap.snapshot.value as Map;
-      final match = values.values.any(
-        (v) => v is Map && v['section'] == 'wellbeing',
-      );
-      if (match) setState(() => _saved = true);
+    try {
+      final snap = await FirebaseDatabase.instance
+          .ref('users/${user.uid}/library/resources')
+          .orderByChild('title')
+          .equalTo(widget.item.title)
+          .once(DatabaseEventType.value);
+      if (!mounted) return;
+      if (snap.snapshot.value != null) {
+        final values = snap.snapshot.value as Map;
+        final match = values.values.any(
+          (v) => v is Map && v['section'] == 'wellbeing',
+        );
+        if (match) setState(() => _saved = true);
+      }
+    } catch (_) {
+      // Bookmark state stays unknown; cosmetic only.
     }
   }
 
   Future<void> _toggleBookmark() async {
-    if (_saved) return;
+    // _saving closes the double-tap window between the guard and the
+    // awaited write; without it two quick taps create duplicate entries.
+    if (_saved || _saving) return;
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
-    final ref = FirebaseDatabase.instance
-        .ref('users/${user.uid}/library/resources')
-        .push();
-    await ref.set({
-      'title': widget.item.title,
-      'section': 'wellbeing',
-      'country': widget.country,
-      if (widget.item.description != null) 'description': widget.item.description,
-      if (widget.item.referenceUrl != null) 'referenceUrl': widget.item.referenceUrl,
-      'savedAt': DateTime.now().toIso8601String(),
-    });
+    _saving = true;
+    try {
+      final ref = FirebaseDatabase.instance
+          .ref('users/${user.uid}/library/resources')
+          .push();
+      await ref.set({
+        'title': widget.item.title,
+        'section': 'wellbeing',
+        'country': widget.country,
+        if (widget.item.description != null)
+          'description': widget.item.description,
+        if (widget.item.referenceUrl != null)
+          'referenceUrl': widget.item.referenceUrl,
+        'savedAt': DateTime.now().toIso8601String(),
+      });
+    } catch (_) {
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.genericSaveFailed)));
+      return;
+    } finally {
+      _saving = false;
+    }
     if (!mounted) return;
     setState(() => _saved = true);
     final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.savedToResources)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.savedToResources)));
   }
 
   @override
@@ -159,7 +180,10 @@ class _WellbeingDetailPageState extends State<WellbeingDetailPage> {
                   ],
                 ] else if (videoId != null) ...[
                   const SizedBox(height: 20),
-                  _YouTubeThumbnail(videoId: videoId, videoUrl: widget.item.videoUrl!),
+                  _YouTubeThumbnail(
+                    videoId: videoId,
+                    videoUrl: widget.item.videoUrl!,
+                  ),
                 ],
                 if (widget.item.referenceUrl != null) ...[
                   const SizedBox(height: 20),
@@ -316,7 +340,8 @@ class _ReferenceLink extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                label ?? 'Reference',
+                label ??
+                    AppLocalizations.of(context)!.careCornerActionReference,
                 style: TextStyle(
                   fontSize: 14,
                   color: isDark ? Colors.white70 : Colors.black87,

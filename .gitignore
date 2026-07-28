@@ -4,6 +4,7 @@
 *.pyc
 *.swp
 .DS_Store
+node_modules/
 .atom/
 .build/
 .buildlog/
@@ -44,9 +45,17 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/build/
 /android/.gradle
 /android/local.properties
 /android/key.properties
+
+# Working documents and local backups (not needed for builds)
+/Android_player.rtf
+/assistant/
+/tools/asset_backup/
+/tools/*.docx
+/tools/*.xlsx
 
 # iOS build artifacts and dependencies
 /ios/Pods/

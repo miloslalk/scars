@@ -376,11 +376,13 @@ class _MySpaceCalendarPickerSheetState
     }
   }
 
+  // Uses the date's face components: timestamps are localized when parsed,
+  // and table_calendar hands over UTC date-only markers whose y/m/d ARE the
+  // calendar day — .toLocal() would shift them a day back west of UTC.
   String _dateKey(DateTime date) {
-    final local = date.toLocal();
-    final yyyy = local.year.toString();
-    final mm = local.month.toString().padLeft(2, '0');
-    final dd = local.day.toString().padLeft(2, '0');
+    final yyyy = date.year.toString();
+    final mm = date.month.toString().padLeft(2, '0');
+    final dd = date.day.toString().padLeft(2, '0');
     return '$yyyy$mm$dd';
   }
 
@@ -802,17 +804,17 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
     }
   }
 
+  // Face-component comparisons — see the note on the calendar's _dateKey:
+  // parsed timestamps are already local, and the sheet's widget.date is a
+  // UTC date-only marker that must not be timezone-shifted.
   bool _isSameDay(DateTime a, DateTime b) {
-    final al = a.toLocal();
-    final bl = b.toLocal();
-    return al.year == bl.year && al.month == bl.month && al.day == bl.day;
+    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 
   String _dateKey(DateTime date) {
-    final local = date.toLocal();
-    final yyyy = local.year.toString();
-    final mm = local.month.toString().padLeft(2, '0');
-    final dd = local.day.toString().padLeft(2, '0');
+    final yyyy = date.year.toString();
+    final mm = date.month.toString().padLeft(2, '0');
+    final dd = date.day.toString().padLeft(2, '0');
     return '$yyyy$mm$dd';
   }
 
@@ -913,10 +915,19 @@ class _MySpaceCalendarSheetState extends State<_MySpaceCalendarSheet> {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
     try {
-      await FirebaseStorage.instance.ref(drawing.storagePath).delete();
-      await FirebaseDatabase.instance
-          .ref('users/${user.uid}/drawings/${drawing.key}')
-          .remove();
+      try {
+        await FirebaseStorage.instance.ref(drawing.storagePath).delete();
+      } on FirebaseException catch (error) {
+        // A file that's already gone must not block removing its metadata.
+        if (error.code != 'object-not-found') rethrow;
+      }
+      // Storage-discovered entries use the raw file name as their key; '.'
+      // is illegal in RTDB paths and such entries have no metadata anyway.
+      if (!drawing.key.contains('.')) {
+        await FirebaseDatabase.instance
+            .ref('users/${user.uid}/drawings/${drawing.key}')
+            .remove();
+      }
       if (!mounted) return;
       setState(() {
         _dayDrawings.removeWhere((item) => item.key == drawing.key);
@@ -1515,6 +1526,7 @@ class _MySpaceJournalView extends StatefulWidget {
 class _MySpaceJournalViewState extends State<_MySpaceJournalView> {
   final List<_JournalEntry> _entries = [];
   bool _isLoading = true;
+  bool _loadFailed = false;
 
   @override
   void initState() {
@@ -1531,7 +1543,18 @@ class _MySpaceJournalViewState extends State<_MySpaceJournalView> {
       return;
     }
     final ref = FirebaseDatabase.instance.ref('users/${user.uid}/journal');
-    final event = await ref.once(DatabaseEventType.value);
+    final DatabaseEvent event;
+    try {
+      event = await ref.once(DatabaseEventType.value);
+    } catch (_) {
+      // Without this the spinner runs forever and the failure is invisible.
+      if (!mounted) return;
+      setState(() {
+        _isLoading = false;
+        _loadFailed = true;
+      });
+      return;
+    }
     final snapshot = event.snapshot;
     final loaded = <_JournalEntry>[];
     if (snapshot.exists && snapshot.value is Map) {
@@ -1563,6 +1586,7 @@ class _MySpaceJournalViewState extends State<_MySpaceJournalView> {
         ..clear()
         ..addAll(loaded);
       _isLoading = false;
+      _loadFailed = false;
     });
   }
 
@@ -1572,16 +1596,28 @@ class _MySpaceJournalViewState extends State<_MySpaceJournalView> {
       MaterialPageRoute(builder: (context) => _MySpaceJournalEditorPage()),
     );
     if (entry == null) return;
+    await _persistEntry(entry);
+  }
+
+  Future<void> _persistEntry(_JournalEntry entry) async {
     final saved = await _saveEntryToDatabase(entry);
+    if (!mounted) return;
     if (saved == null) {
-      if (!mounted) return;
+      // The editor has already popped — keep the typed text recoverable
+      // through a retry instead of silently dropping it.
       final l10n = AppLocalizations.of(context)!;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.failedToSaveJournalEntry)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.failedToSaveJournalEntry),
+          duration: const Duration(seconds: 10),
+          action: SnackBarAction(
+            label: l10n.retryLabel,
+            onPressed: () => _persistEntry(entry),
+          ),
+        ),
+      );
       return;
     }
-    if (!mounted) return;
     setState(() {
       _entries.insert(0, saved);
     });
@@ -1653,6 +1689,26 @@ class _MySpaceJournalViewState extends State<_MySpaceJournalView> {
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
+                  : _loadFailed
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(l10n.genericLoadFailed),
+                          const SizedBox(height: 12),
+                          OutlinedButton(
+                            onPressed: () {
+                              setState(() {
+                                _isLoading = true;
+                                _loadFailed = false;
+                              });
+                              _loadEntries();
+                            },
+                            child: Text(l10n.retryLabel),
+                          ),
+                        ],
+                      ),
+                    )
                   : _entries.isEmpty
                   ? Center(child: Text(l10n.noJournalEntriesYet))
                   : ListView.separated(
@@ -2118,10 +2174,7 @@ class _SavedMessagesPageState extends State<_SavedMessagesPage> {
             const SizedBox(height: 6),
             Text(
               msg.textEn!,
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                color: mutedColor,
-              ),
+              style: TextStyle(fontStyle: FontStyle.italic, color: mutedColor),
             ),
           ],
         ],
@@ -2227,9 +2280,18 @@ class _SavedResourcesPageState extends State<_SavedResourcesPage> {
   Future<void> _deleteResource(_SavedResource resource) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
-    await FirebaseDatabase.instance
-        .ref('users/${user.uid}/library/resources/${resource.key}')
-        .remove();
+    try {
+      await FirebaseDatabase.instance
+          .ref('users/${user.uid}/library/resources/${resource.key}')
+          .remove();
+    } catch (_) {
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.genericDeleteFailed)));
+      return;
+    }
     if (!mounted) return;
     setState(() {
       _resources = _resources.where((r) => r.key != resource.key).toList();
@@ -2266,13 +2328,13 @@ class _SavedResourcesPageState extends State<_SavedResourcesPage> {
             child: _loading
                 ? Center(child: Text(l10n.loadingLabel))
                 : _resources.isEmpty
-                    ? Center(child: Text(l10n.noSavedResourcesYet))
-                    : ListView.builder(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                        itemCount: _resources.length,
-                        itemBuilder: (context, index) =>
-                            _buildResourceCard(_resources[index], isDark),
-                      ),
+                ? Center(child: Text(l10n.noSavedResourcesYet))
+                : ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    itemCount: _resources.length,
+                    itemBuilder: (context, index) =>
+                        _buildResourceCard(_resources[index], isDark),
+                  ),
           ),
         ],
       ),
@@ -2280,6 +2342,7 @@ class _SavedResourcesPageState extends State<_SavedResourcesPage> {
   }
 
   Widget _buildResourceCard(_SavedResource resource, bool isDark) {
+    final l10n = AppLocalizations.of(context)!;
     final sectionLabel = resource.section.isNotEmpty
         ? resource.section[0].toUpperCase() + resource.section.substring(1)
         : '';
@@ -2324,7 +2387,7 @@ class _SavedResourcesPageState extends State<_SavedResourcesPage> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      'FREE',
+                      l10n.careCornerFreeBadge,
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 13,
@@ -2345,9 +2408,10 @@ class _SavedResourcesPageState extends State<_SavedResourcesPage> {
             ),
             const SizedBox(height: 4),
             Text(
-              [sectionLabel, resource.country]
-                  .where((s) => s.isNotEmpty)
-                  .join(' · '),
+              [
+                sectionLabel,
+                resource.country,
+              ].where((s) => s.isNotEmpty).join(' · '),
               style: TextStyle(
                 fontSize: 12,
                 color: isDark ? Colors.white54 : Colors.black45,
@@ -2371,7 +2435,7 @@ class _SavedResourcesPageState extends State<_SavedResourcesPage> {
                 if (resource.phones.isNotEmpty)
                   _ResourceActionButton(
                     icon: Icons.phone,
-                    label: 'Call',
+                    label: l10n.careCornerActionCall,
                     isDark: isDark,
                     onTap: () {
                       final phone = resource.phones.first.replaceAll(
@@ -2387,7 +2451,7 @@ class _SavedResourcesPageState extends State<_SavedResourcesPage> {
                 if (resource.email != null)
                   _ResourceActionButton(
                     icon: Icons.email,
-                    label: 'Email',
+                    label: l10n.careCornerActionEmail,
                     isDark: isDark,
                     onTap: () => launchUrl(
                       Uri.parse('mailto:${resource.email}'),
@@ -2397,16 +2461,17 @@ class _SavedResourcesPageState extends State<_SavedResourcesPage> {
                 if (resource.website != null)
                   _ResourceActionButton(
                     icon: Icons.language,
-                    label: 'Website',
+                    label: l10n.careCornerActionVisitWebsite,
                     isDark: isDark,
                     onTap: () => openExternalLink(context, resource.website!),
                   ),
                 if (resource.referenceUrl != null)
                   _ResourceActionButton(
                     icon: Icons.menu_book,
-                    label: 'Reference',
+                    label: l10n.careCornerActionReference,
                     isDark: isDark,
-                    onTap: () => openExternalLink(context, resource.referenceUrl!),
+                    onTap: () =>
+                        openExternalLink(context, resource.referenceUrl!),
                   ),
               ],
             ),

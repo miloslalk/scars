@@ -17,6 +17,7 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter/services.dart';
 import 'package:when_scars_become_art/gen_l10n/app_localizations.dart';
 import 'package:when_scars_become_art/services/monster_manifest_service.dart';
+import 'package:when_scars_become_art/services/notification_service.dart';
 import 'package:when_scars_become_art/utils/bundled_avatars.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:when_scars_become_art/utils/safe_key.dart';
@@ -88,7 +89,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _logout() async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid != null) {
+      // Must happen while still authenticated, or the rules reject it.
+      await NotificationService.instance.onLogout(uid);
+    }
     await FirebaseAuth.instance.signOut();
+    // Reset per-account presentation so the next account on this device
+    // doesn't inherit the previous one's language/theme.
+    widget.themeModeNotifier.value = ThemeMode.system;
+    widget.localeNotifier.value = null;
     if (!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
@@ -203,7 +213,15 @@ class _HomePageState extends State<HomePage> {
         onLogoutTap: _logout,
         actions: const [],
       ),
-      body: IndexedStack(index: safeSelectedIndex, children: pages),
+      body: IndexedStack(
+        index: safeSelectedIndex,
+        children: [
+          // TickerMode stops the hidden tabs' repeating animations (balloon
+          // field, star field) from burning CPU at 60fps while not visible.
+          for (var i = 0; i < pages.length; i++)
+            TickerMode(enabled: i == safeSelectedIndex, child: pages[i]),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: navItems,

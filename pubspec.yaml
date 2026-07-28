@@ -1,7 +1,7 @@
 name: when_scars_become_art
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.1.4+15
+version: 1.1.4+16
 
 environment:
   sdk: ^3.10.7

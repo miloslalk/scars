@@ -32,7 +32,7 @@
     },
     "message_reports": {
       ".read": false,
-      ".write": "auth != null",
+      ".write": false,
       "$reportId": {
         ".validate": "newData.hasChildren(['messageId', 'messageText']) && newData.child('messageId').isString() && newData.child('messageText').isString() && newData.child('messageText').val().length <= 1000"
       }

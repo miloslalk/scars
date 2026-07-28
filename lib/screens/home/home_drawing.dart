@@ -40,6 +40,16 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
     Color(0xFFFF00FF),
   ];
 
+  @override
+  void dispose() {
+    // _fillLayer always aliases the newest _fills image, so this releases
+    // every native bitmap the canvas holds.
+    for (final fill in _fills) {
+      fill.image.dispose();
+    }
+    super.dispose();
+  }
+
   void _clearCanvas() {
     setState(() {
       _strokes.clear();
@@ -91,24 +101,31 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
     return color.withValues(alpha: 1.0);
   }
 
-  Future<String?> saveToFirebase() async {
+  // Returns success as data rather than encoding it in a localized message
+  // string, which callers could not compare reliably.
+  Future<({bool success, String message})> saveToFirebase() async {
     final l10n = AppLocalizations.of(context)!;
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      return l10n.pleaseLogInAgain;
+      return (success: false, message: l10n.pleaseLogInAgain);
     }
     final boundary =
         _canvasKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
     if (boundary == null) {
-      return l10n.unableToCaptureDrawing;
+      return (success: false, message: l10n.unableToCaptureDrawing);
     }
 
     final image = await boundary.toImage(
       pixelRatio: MediaQuery.of(context).devicePixelRatio,
     );
-    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    final ByteData? byteData;
+    try {
+      byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    } finally {
+      image.dispose();
+    }
     if (byteData == null) {
-      return l10n.unableToExportDrawing;
+      return (success: false, message: l10n.unableToExportDrawing);
     }
 
     final pngBytes = byteData.buffer.asUint8List();
@@ -125,11 +142,11 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
             'storagePath': storagePath,
             'createdAt': DateTime.now().toIso8601String(),
           });
-      return l10n.drawingSaved;
+      return (success: true, message: l10n.drawingSaved);
     } on FirebaseException catch (error) {
-      return l10n.failedToSaveWithCode(error.code);
+      return (success: false, message: l10n.failedToSaveWithCode(error.code));
     } catch (_) {
-      return l10n.failedToSaveDrawing;
+      return (success: false, message: l10n.failedToSaveDrawing);
     }
   }
 
@@ -404,12 +421,19 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
     try {
       final size = renderBox.size;
       final image = await _renderToImage(size);
-      final bytes = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+      final int width;
+      final int height;
+      final ByteData? bytes;
+      try {
+        bytes = await image.toByteData(format: ui.ImageByteFormat.rawRgba);
+        width = image.width;
+        height = image.height;
+      } finally {
+        image.dispose();
+      }
       if (bytes == null) {
         return;
       }
-      final width = image.width;
-      final height = image.height;
       final data = bytes.buffer.asUint8List();
 
       final x = position.dx.clamp(0, width - 1).round();
@@ -444,10 +468,17 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
       }
 
       final filled = await _imageFromPixels(data, width, height);
+      if (!mounted) {
+        filled.dispose();
+        return;
+      }
       setState(() {
         _fills.add(_FillLayer(image: filled, timestamp: DateTime.now()));
         _fillLayer = filled;
       });
+    } catch (_) {
+      // A failed fill leaves the canvas untouched; the caller doesn't await
+      // this future, so the error must not escape as an unhandled exception.
     } finally {
       if (mounted) {
         setState(() {
@@ -536,39 +567,48 @@ class _DrawingCanvasState extends State<DrawingCanvas> {
     }
     canvas.restore();
     final picture = recorder.endRecording();
-    return picture.toImage(size.width.round(), size.height.round());
+    try {
+      return await picture.toImage(size.width.round(), size.height.round());
+    } finally {
+      picture.dispose();
+    }
   }
 
   Future<void> _addTextAt(Offset position) async {
     final l10n = AppLocalizations.of(context)!;
     final controller = TextEditingController();
-    final result = await showDialog<String>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(l10n.addTextTitle),
-          content: TextField(
-            controller: controller,
-            maxLines: 2,
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(hintText: l10n.writeUpToTwoLinesHint),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(l10n.cancelLabel),
+    final String? result;
+    try {
+      result = await showDialog<String>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(l10n.addTextTitle),
+            content: TextField(
+              controller: controller,
+              maxLines: 2,
+              textInputAction: TextInputAction.done,
+              decoration: InputDecoration(hintText: l10n.writeUpToTwoLinesHint),
             ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, controller.text),
-              child: Text(l10n.addLabel),
-            ),
-          ],
-        );
-      },
-    );
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(l10n.cancelLabel),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, controller.text),
+                child: Text(l10n.addLabel),
+              ),
+            ],
+          );
+        },
+      );
+    } finally {
+      controller.dispose();
+    }
 
     final text = result?.trim();
-    if (text == null || text.isEmpty) {
+    if (text == null || text.isEmpty || !mounted) {
       return;
     }
 

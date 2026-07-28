@@ -105,6 +105,13 @@ class MonsterManifestService {
     '11_breathing': ['with_balloon_timer', 'without_balloon_timer'],
   };
 
+  /// All defined activity keys, so tests can validate the whole catalog.
+  static List<String> get activityKeys => List.unmodifiable(_clips.keys);
+
+  /// Variants defined for [activityKey] (empty for non-variant clips).
+  static List<String> variantsFor(String activityKey) =>
+      List.unmodifiable(_variants[activityKey] ?? const []);
+
   MonsterPlaybackPlan? resolvePlaybackPlan(
     String activityKey, {
     required TargetPlatform platform,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +67,13 @@ Future<void> main() async {
   );
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await NotificationService.instance.initialize();
+  // Not awaited: the permission dialog, APNs token retries, and network I/O
+  // inside must not delay (or, on failure, prevent) the first frame.
+  unawaited(
+    NotificationService.instance.initialize().catchError((Object error) {
+      debugPrint('Notification setup failed: $error');
+    }),
+  );
 
   runApp(const MyApp());
 }
@@ -336,6 +344,7 @@ class _MyAppState extends State<MyApp> {
           valueListenable: _localeNotifier,
           builder: (context, locale, _) {
             return MaterialApp(
+              scaffoldMessengerKey: appScaffoldMessengerKey,
               debugShowCheckedModeBanner: false,
               onGenerateTitle: (context) =>
                   AppLocalizations.of(context)!.appTitle,

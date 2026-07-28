@@ -1828,4 +1828,24 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get noSavedResourcesYet => 'No saved resources yet.';
+
+  @override
+  String get messageOpenFailed =>
+      'Couldn\'t open the message. Please check your connection and try again.';
+
+  @override
+  String get genericLoadFailed =>
+      'Couldn\'t load. Please check your connection and try again.';
+
+  @override
+  String get genericSaveFailed => 'Couldn\'t save. Please try again.';
+
+  @override
+  String get retryLabel => 'Retry';
+
+  @override
+  String get careCornerActionReference => 'REFERENCE';
+
+  @override
+  String get genericDeleteFailed => 'Couldn\'t delete. Please try again.';
 }
