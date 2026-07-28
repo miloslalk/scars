@@ -291,445 +291,812 @@ class AppLocalizationsMk extends AppLocalizations {
   String get thereFallback => 'ти';
 
   @override
-  String get dailyAffirmation1 =>
-      'Дозволено ти е да го преживееш овој ден дишејќи еден здив по еден.';
+  String get dailyAffirmation1 => 'Вистинското чудо е да веруваш во себе.';
 
   @override
-  String get dailyAffirmation2 =>
-      'Твоите чувства се важни, а твоето тело заслужува нежна грижа.';
+  String get dailyAffirmation2 => 'Различноста го прави светот убав.';
 
   @override
-  String get dailyAffirmation3 => 'Посилен си отколку што се чини овој момент.';
+  String get dailyAffirmation3 => 'По дождот доаѓа виножито.';
 
   @override
   String get dailyAffirmation4 =>
-      'Малите чекори денес сепак се значаен напредок.';
+      'Дозволи си да бидеш тоа што си, дури и таму каде што се очекува сите да бидат исти.';
 
   @override
   String get dailyAffirmation5 =>
-      'Припаѓаш токму онаков каков што си, тука и сега.';
+      'Твојата вредност не е во тоа што го имаш, туку во тоа што си.';
 
   @override
-  String get dailyAffirmation6 =>
-      'Твојот глас, твоето темпо и твоето исцелување се важни.';
+  String get dailyAffirmation6 => 'Океј е да не си океј.';
 
   @override
-  String get dailyAffirmation7 => 'Може да се одмараш и сепак да растеш.';
+  String get dailyAffirmation7 =>
+      'Тебе те чека место и на маси што уште не ги имаш ни видено.';
 
   @override
-  String get dailyAffirmation8 =>
-      'Вистината е: природниот свет се менува. И ние сме целосно зависни од тој свет.';
+  String get dailyAffirmation8 => 'Можеш сè — ама не мораш.';
 
   @override
-  String get dailyAffirmation9 => 'Сите сме направени од ѕвездена прашина.';
+  String get dailyAffirmation9 =>
+      'Ако разделбата боли, значи убаво го имаш поминато времето.';
 
   @override
-  String get dailyAffirmation10 =>
-      'Сонувајте со страст, живејте со одговорност.';
+  String get dailyAffirmation10 => 'Сети се кој навистина мисли на тебе.';
 
   @override
   String get dailyAffirmation11 =>
-      'Само погледнете што можеме да направиме кога ќе се собереме.';
+      'А што ако испадне подобро отколку што замислуваш?';
 
   @override
-  String get dailyAffirmation12 =>
-      'Страдај сега и живеј го остатокот од животот како шампион.';
+  String get dailyAffirmation12 => 'Тоа што си, доволно е.';
 
   @override
-  String get dailyAffirmation13 => 'Се ќе биде во ред. Кажи уште еднаш.';
+  String get dailyAffirmation13 => 'Својот пат си го правам јас.';
 
   @override
-  String get dailyAffirmation14 =>
-      'Само направете го тој чекор и обидете се, доста е.';
+  String get dailyAffirmation14 => 'Денес е нов ден. Блесни!';
 
   @override
-  String get dailyAffirmation15 => 'Направете бран на позитивни промени.';
+  String get dailyAffirmation15 =>
+      'Не губи надеж. Бурите ги прават луѓето посилни — и никогаш не траат вечно.';
 
   @override
-  String get dailyAffirmation16 => 'Старите начини нема да отворат нови врати.';
+  String get dailyAffirmation16 =>
+      'Исплачи се. Прости. Научи. Продолжи. Нека солзите го полеат семето на твојата идна среќа.';
 
   @override
-  String get dailyAffirmation17 => 'Грешките се доказ дека се трудите.';
+  String get dailyAffirmation17 => 'Можеби нема да биде лесно, ама ќе вреди.';
 
   @override
   String get dailyAffirmation18 =>
-      'Вашето срце е со големина на океан. Оди најди се во нејзините скриени длабочини.';
+      'Не заборавај да се фокусираш на убавите работи.';
 
   @override
-  String get dailyAffirmation19 =>
-      'Бидете чудни, бидете уникатни, бидете свои.';
+  String get dailyAffirmation19 => 'Не е себичност — тоа е грижа за себе.';
 
   @override
-  String get dailyAffirmation20 =>
-      'Што и да се случи, се случува на најдоброто.';
+  String get dailyAffirmation20 => 'Супер си, само продолжи.';
 
   @override
-  String get dailyAffirmation21 =>
-      'Дејствата можат да зборуваат погласно од зборовите.';
+  String get dailyAffirmation21 => 'Верувај во себе. Можеш да правиш чуда.';
 
   @override
-  String get dailyAffirmation22 =>
-      'Откако постоевме, макар и за момент, тогаш постоиме засекогаш.';
+  String get dailyAffirmation22 => 'Како што тече животот, ќе помине и ова.';
 
   @override
   String get dailyAffirmation23 =>
-      'Ако збогувањето ве боли, тоа значи дека добро сте го поминале времето.';
+      'Секој предизвик пред мене е можност да зајакнам.';
 
   @override
   String get dailyAffirmation24 =>
-      'Ако животот ви дава моменти, направете им убави спомени.';
+      'Ги прифаќам прашањата во моето срце, а одговорите ги пречекувам кога ќе дојде нивното време.';
 
   @override
-  String get dailyAffirmation25 => 'Она што оди наоколу, доаѓа наоколу.';
+  String get dailyAffirmation25 => 'Не мораш да бидеш совршенство.';
 
   @override
-  String get dailyAffirmation26 => 'Различноста го прави светот убав.';
-
-  @override
-  String get dailyAffirmation27 => 'Се е во ред, нема проблем.';
-
-  @override
-  String get dailyAffirmation28 =>
-      'Што мислиш, стануваш. Тоа што го чувствуваш, го привлекуваш. Она што го замислувате, го создавате.';
-
-  @override
-  String get dailyAffirmation29 => 'Силните умови растат во безбедни простори.';
-
-  @override
-  String get dailyAffirmation30 =>
-      'Сè е можно, само обидете се. Можете да го направите тоа.';
-
-  @override
-  String get dailyAffirmation31 =>
-      'На крајот на краиштата, секој почеток е само продолжение, а книгата на настани е секогаш отворена на половина пат.';
-
-  @override
-  String get dailyAffirmation32 =>
-      'Јас сум приземјен, издржлив и отворен за раст дури и во несигурни времиња.';
-
-  @override
-  String get dailyAffirmation33 =>
-      'Бидете личноста која ви била потребна кога сте биле помлади.';
-
-  @override
-  String get dailyAffirmation34 =>
-      'Во се има пукнатина, така влегува светлината.';
-
-  @override
-  String get dailyAffirmation35 =>
-      'Стојам и се борам да си ги најдам соништата.';
-
-  @override
-  String get dailyAffirmation36 =>
-      'Не дозволувајте другиот да одлучува за вашата иднина.';
-
-  @override
-  String get dailyAffirmation37 => 'На светот му требаат повеќе лути жени.';
-
-  @override
-  String get dailyAffirmation38 =>
-      'Сонцето ќе изгрее и ќе се обидеме повторно.';
-
-  @override
-  String get dailyAffirmation39 =>
-      'Скитник, нема патека. Патеката ја правиш додека одиш.';
-
-  @override
-  String get dailyAffirmation40 => 'Не мора да бидете совршени.';
-
-  @override
-  String get dailyAffirmation41 =>
+  String get dailyAffirmation26 =>
       'Совршенството е утопија. Служи само како компас.';
 
   @override
+  String get dailyAffirmation27 =>
+      'Стојам исправено и се борам за своите соништа.';
+
+  @override
+  String get dailyAffirmation28 =>
+      'Не дозволувај другите да ти ја одлучуваат иднината.';
+
+  @override
+  String get dailyAffirmation29 =>
+      'Стојам цврсто на земја, издржувам, а срцето ми е отворено за раст — дури и во несигурни времиња.';
+
+  @override
+  String get dailyAffirmation30 =>
+      'Ако животот ти дава мигови, претвори ги во убави спомени.';
+
+  @override
+  String get dailyAffirmation31 => 'Старите патишта не отвораат нови врати.';
+
+  @override
+  String get dailyAffirmation32 => 'Грешките се доказ дека се обидуваш.';
+
+  @override
+  String get dailyAffirmation33 =>
+      'Само направи чекор и обиди се — тоа е доволно.';
+
+  @override
+  String get dailyAffirmation34 =>
+      'Само погледни што сè можеме кога ќе се здружиме.';
+
+  @override
+  String get dailyAffirmation35 =>
+      'Кога не знаеш каде одиш, сите патишта те водат таму.';
+
+  @override
+  String get dailyAffirmation36 => 'Животот е еден ден — и тој ден е денес.';
+
+  @override
+  String get dailyAffirmation37 => 'Сите сме создадени од ѕвезден прав.';
+
+  @override
+  String get dailyAffirmation38 => 'Сонувај страсно, живеј одговорно.';
+
+  @override
+  String get dailyAffirmation39 =>
+      'Сè ќе биде во ред. Ајде, кажи го тоа уште еднаш.';
+
+  @override
+  String get dailyAffirmation40 =>
+      'Чудно? Супер. Поинакво? Уште подобро. Биди си ти.';
+
+  @override
+  String get dailyAffirmation41 => 'Силните умови растат на безбедни места.';
+
+  @override
   String get dailyAffirmation42 =>
-      'Сè има почеток и крај, а крајот може да биде убав, без разлика колку е темно сега.';
+      'Секој почеток е само продолжение, а книгата на настаните е секогаш отворена на половина.';
 
   @override
   String get dailyAffirmation43 =>
-      'Го кревам гласот - не за да можам да викам, туку за да се слушнат оние без глас.';
+      'Сè има почеток и крај — а крајот може да биде убав, колку и да изгледа мрачно сега.';
 
   @override
   String get dailyAffirmation44 =>
-      'Сè што изгледа дека ве дави, всушност само ве учи да пливате.';
+      'Единственото одобрување што некогаш ќе ми треба е моето.';
 
   @override
-  String get dailyAffirmation45 => 'Ако имаш цел, ќе најдеш начин.';
+  String get dailyAffirmation45 =>
+      'Не треба да бараме херои — треба да бараме добри идеи.';
 
   @override
-  String get dailyAffirmation46 => 'По дождот доаѓа виножитото.';
+  String get dailyAffirmation46 =>
+      'И најмалото добро дело вреди повеќе од најголемата добра намера.';
 
   @override
   String get dailyAffirmation47 =>
-      'Секој предизвик со кој се соочувам е можност да станам посилен.';
+      'Твоето потекло не е причина да се смалуваш. Тоа е тло на кое стоиш.';
 
   @override
   String get dailyAffirmation48 =>
-      'Ги прифаќам прашањата во моето срце и ги дочекувам одговорите во свое време.';
+      'Твоето име, твојот јазик, приказната на твоето семејство — сето тоа е твое, носи го со гордост.';
 
   @override
   String get dailyAffirmation49 =>
-      'Единственото одобрение што некогаш ќе ми треба е моето.';
+      'Не ти треба ничија дозвола за да заземеш место во овој свет.';
 
   @override
   String get dailyAffirmation50 =>
-      'Убијте ја желбата да бидете избрани. Изберете сами.';
+      'Не си „премногу“ од ништо. Тебе те има точно колку што треба.';
 
   @override
   String get dailyAffirmation51 =>
-      'Во тешкотии, продолжете да се смеете. Тоа ги прави загрижени.';
+      'Твоите корени не те задржуваат — токму тие ти даваат да растеш високо.';
 
   @override
   String get dailyAffirmation52 =>
-      'Не може да се смени сето она што е соочено, но ништо не може да се смени додека не се соочи.';
+      'Нема само еден начин да припаѓаш некаде. Ти го пишуваш својот.';
 
   @override
   String get dailyAffirmation53 =>
-      'Не треба да бараме херои, треба да бараме добри идеи.';
+      'Твојата приказна е важна — дури и деловите за кои никој уште не прашал.';
 
   @override
   String get dailyAffirmation54 =>
-      'Го гледам сонцето, а ако не го видам сонцето, знам дека е таму.';
+      'Во себе носиш повеќе од еден дом — и тоа не е товар, туку богатство.';
 
   @override
   String get dailyAffirmation55 =>
-      'Секој кој никогаш не направил грешка, никогаш не пробал ништо ново.';
+      'За да се гордееш со тоа што си, не ти треба прво ничие одобрување.';
 
   @override
   String get dailyAffirmation56 =>
-      'Има цел живот во тоа - знаејќи дека сонцето е таму.';
+      'Не мораш да го заслужуваш своето место тука. Веќе го имаш.';
 
   @override
   String get dailyAffirmation57 =>
-      'Само будалите никогаш не го менуваат мислењето.';
+      'Некаде има отворена врата за тебе, дури и во деновите кога не ти се чини така.';
 
   @override
   String get dailyAffirmation58 =>
-      'Секогаш изгледа невозможно додека не се заврши.';
+      'Смееш да изградиш дом на повеќе од едно место.';
 
   @override
   String get dailyAffirmation59 =>
-      'Никогаш не се сомневајте дека мала група внимателни, посветени граѓани може да го промени светот; навистина, тоа е единственото нешто што некогаш го имало.';
+      'Луѓето што вредат ќе ти направат место — нема да бараат да се смалиш.';
 
   @override
-  String get dailyAffirmation60 => 'Само направете го тоа веќе!';
+  String get dailyAffirmation60 => 'Не си на гости во сопствениот живот.';
 
   @override
-  String get dailyAffirmation61 => 'Победете го плачењето со длабока насмевка.';
+  String get dailyAffirmation61 =>
+      'Каде и да стоиш денес — имаш полно право да стоиш токму таму.';
 
   @override
   String get dailyAffirmation62 =>
-      'Подобро да умрам како маж отколку да живеам како кукавица.';
+      'Заедницата не е нешто што се чека. Понекогаш таа почнува токму од тебе.';
 
   @override
   String get dailyAffirmation63 =>
-      'Дозволете си да бидете автентични, дури и на места каде што се очекува сите да бидат исти.';
+      'Не мораш да избираш меѓу тоа од каде си и тоа каде си сега.';
 
   @override
-  String get dailyAffirmation64 => 'Најдобри сте, продолжете.';
+  String get dailyAffirmation64 =>
+      'Утрешниот ден не мора да личи на денешниот.';
 
   @override
   String get dailyAffirmation65 =>
-      'Верувај во себе. Можете да направите чуда да се случуваат.';
+      'Некаде понатаму постои верзија од твојот живот што уште не ја имаш ни замислено — и убава е.';
 
   @override
   String get dailyAffirmation66 =>
-      'Ако можеш да се грижиш за тоа, тоа значи дека си жив и тоа не те убиело и нема да те убие.';
+      'Тешките поглавја завршуваат. Ќе заврши и твоето.';
 
   @override
-  String get dailyAffirmation67 => 'Со текот на животот и ова ќе помине.';
+  String get dailyAffirmation67 =>
+      'Имаш право да сакаш повеќе за себе — и да отидеш по тоа.';
 
   @override
-  String get dailyAffirmation68 => 'Продолжете, еден ден ќе вреди.';
+  String get dailyAffirmation68 =>
+      'Иднината не е запишана во камен. Ти сè уште имаш збор.';
 
   @override
-  String get dailyAffirmation69 =>
-      'Никогаш не биди она што другиот сака да бидеш, биди секогаш свој.';
+  String get dailyAffirmation69 => 'И малите чекори се движење напред.';
 
   @override
   String get dailyAffirmation70 =>
-      'Не заборавајте да се фокусирате на добрите работи.';
+      'Не доцниш во животот. Точно си таму каде што те донесе твојот пат.';
 
   @override
-  String get dailyAffirmation71 => 'Тоа не е себично, тоа е грижа за себе.';
+  String get dailyAffirmation71 =>
+      'Она што ти следува уште не се случило. Остави му простор да те изненади.';
 
   @override
   String get dailyAffirmation72 =>
-      'Стравот ве прави слаби; гневот ве прави силни.';
+      'Од тука натаму, ти одлучуваш како изгледа твојата приказна.';
 
   @override
   String get dailyAffirmation73 =>
-      'Кога некој се дави, не прашувате дали знае да плива - само скокате и помагате.';
+      'Досега имаш поминато низ секој тежок ден. Тоа не е среќа — тоа си ти.';
 
   @override
   String get dailyAffirmation74 =>
-      'Најмалото добро дело е далеку подобро од најголемата добра намера.';
+      'Умората не значи дека потфрлаш. Значи дека носиш многу.';
 
   @override
-  String get dailyAffirmation75 => 'Преземете ризик или изгубите шанса.';
+  String get dailyAffirmation75 =>
+      'Не мораш да си од челик. Доволно е да одиш напред со своето темпо.';
 
   @override
   String get dailyAffirmation76 =>
-      'Верувајте дека можете и сте на половина пат.';
+      'Силата не значи никогаш да не ти биде тешко. Значи да продолжиш и покрај тоа.';
 
   @override
   String get dailyAffirmation77 =>
-      'Изберете го оној кој го прави вашиот свет убав.';
+      'Смееш да се гордееш што имаш поминато низ тоа, дури и ако не изгледаше убаво.';
 
   @override
   String get dailyAffirmation78 =>
-      'Најмалиот чин на добрина вреди повеќе од најголемата намера.';
+      'Најтешките делови од твојата приказна го немаат последниот збор.';
 
   @override
   String get dailyAffirmation79 =>
-      'Никогаш не жали за ниту еден ден во животот. Добрите денови ви носат среќа, а лошите денови ви носат искуство.';
+      'Имаш преживеано работи што луѓето не ги гледаат. И тоа вреди нешто.';
 
   @override
   String get dailyAffirmation80 =>
-      'Секој професионалец прво бил аматер. Започнете го вашиот сон сега.';
+      'Во ред е ако заздравувањето трае подолго отколку што очекуваше.';
 
   @override
-  String get dailyAffirmation81 => 'Можеби не е лесно, но ќе вреди.';
+  String get dailyAffirmation81 =>
+      'Не мора да ти е сè јасно за да продолжиш напред.';
 
   @override
   String get dailyAffirmation82 =>
-      'Никогаш не е доцна да бидете она што можеби сте биле.';
+      'Секој ден кога повторно се појавуваш е тивок вид храброст.';
 
   @override
-  String get dailyAffirmation83 => 'Сè што можете да замислите е реално.';
+  String get dailyAffirmation83 =>
+      'Имаш законско право на сосема просечен ден. Дозвола не ти треба.';
 
   @override
   String get dailyAffirmation84 =>
-      'Нема поголема агонија од тоа да носите нераскажана приказна во себе.';
+      'Понекогаш животот е само одлучување што ќе јадеш, три пати на ден, засекогаш. Можеш ти тоа.';
 
   @override
   String get dailyAffirmation85 =>
-      'Следете го она што ви го фаќа срцето, а не она што ви привлекува очи.';
+      'Не мора секој ден да биде ремек-дело. Некои денови само треба да се случат.';
 
   @override
   String get dailyAffirmation86 =>
-      'Осмели се да бидеш најдобар што можеш. Во секое време, Осмели се да бидеш!';
+      'Ти оди подобро отколку што кажуваат нотификациите од групниот чет.';
 
   @override
   String get dailyAffirmation87 =>
-      'Никогаш не губи надеж. Бурите ги прават луѓето посилни и никогаш не траат вечно.';
+      'Самодовербата е само да се правиш дека знаеш каде одиш — сè додека навистина не дознаеш.';
 
   @override
   String get dailyAffirmation88 =>
-      'Плачете. Прости. Научете. Продолжи понатаму. Нека твоите солзи го наводнуваат семето на твојата идна среќа.';
+      'Имаш преживеано 100% од своите најлоши денови. Солидна статистика.';
 
   @override
   String get dailyAffirmation89 =>
-      'Кога се плашите да не се изгубите во светлината, само држете се за рака со вашата сенка.';
+      'Никој нема сè средено. Оние што изгледаат така само поладнокрвно ги оставаат пораките на „видено“.';
 
   @override
   String get dailyAffirmation90 =>
-      'Онаму каде што земјата се одвојува за да создаде простор, таму можете да засадите семе.';
+      'Денес не ти треба петгодишен план. Доволен е пристоен појадок.';
 
   @override
   String get dailyAffirmation91 =>
-      'Ако немате што да танцувате, најдете причина да пеете.';
+      'Личниот раст најчесто изгледа вака: се сопнуваш нанапред и го викаш тоа напредок.';
 
   @override
   String get dailyAffirmation92 =>
-      'Понекогаш единствениот начин да се пронајдете е целосно да се изгубите.';
+      'Некои денови победа е и самото станување од кревет. И тоа се брои.';
 
   @override
-  String get dailyAffirmation93 => 'Сè е во ваша моќ, а вашата моќ е во вас.';
+  String get dailyAffirmation93 =>
+      'Не мораш да носиш сè без помош — пушти ги луѓето да ти помогнат.';
 
   @override
   String get dailyAffirmation94 =>
-      'Вашата вредност не е она што го имате, туку тоа кој сте.';
+      'Некој таму ти го чува грбот, дури и во деновите кога тоа тешко се чувствува.';
 
   @override
-  String get dailyAffirmation95 => 'Во ред е да не си ок.';
+  String get dailyAffirmation95 =>
+      'Да побараш помош не е слабост. Токму така се градат вистински пријателства.';
 
   @override
   String get dailyAffirmation96 =>
-      'По бура со грмотевици секогаш има виножито.';
+      'На луѓето околу тебе им требаш исто онолку колку што тие ти требаат тебе.';
 
   @override
-  String get dailyAffirmation97 => 'Утре е нов ден. Блеснете!';
+  String get dailyAffirmation97 =>
+      'Дел си од нешто поголемо, дури и во деновите кога се чувствуваш како воздух.';
 
   @override
-  String get dailyAffirmation98 => 'Капките дожд се мали бакнежи од океанот.';
+  String get dailyAffirmation98 =>
+      'Смееш да се одмориш и пред да паднеш од умор.';
 
   @override
   String get dailyAffirmation99 =>
-      'Сè што правите нека биде направено во љубов.';
+      'Денешната тага не ја откажува утрешната насмевка.';
 
   @override
-  String get dailyAffirmation100 => 'Верба над стравот.';
+  String get dailyAffirmation100 => 'Никому не му должиш постојана позитива.';
 
   @override
   String get dailyAffirmation101 =>
-      'Правете повеќе и повеќе со помалку и помалку додека не можете да направите нешто со ништо.';
+      'Сосема е во ред да немаш одговор во моментов.';
 
   @override
   String get dailyAffirmation102 =>
-      'Бидете љубовта што сакате да ја видите во светот.';
+      'Да се грижиш за себе денес не е себично — неопходно е.';
 
   @override
   String get dailyAffirmation103 =>
-      'Ве чека место на маси кои не сте ги ни виделе.';
+      'Туѓите предрасуди не се доказ за тоа кој си ти.';
 
   @override
   String get dailyAffirmation104 =>
-      'Движете се како да сè ќе успее. Затоа што е.';
+      'Ти не си приказната што другите ја раскажуваат за тебе.';
 
   @override
-  String get dailyAffirmation105 => 'Секогаш сум заштитен.';
+  String get dailyAffirmation105 =>
+      'Ако мислиш дека заслужуваш помалку — тоа никогаш не е точно. Заслужуваш целосна почит.';
 
   @override
   String get dailyAffirmation106 =>
-      'Никогаш нема да го пропуштите она што е наменето за вас.';
+      'Твојата вредност никогаш не е тема за расправа, кој и да те тера да мислиш поинаку.';
 
   @override
-  String get dailyAffirmation107 => 'Никој не е професионален човек.';
+  String get dailyAffirmation107 =>
+      'Невидливоста е чувство, а не факт. Некој тука гледа точно кој си.';
 
   @override
   String get dailyAffirmation108 =>
-      'На врвот на облаците сонцето секогаш сјае.';
+      'Тоа што некои те превидуваат не значи дека никој не те гледа.';
 
   @override
-  String get dailyAffirmation109 => 'Запомнете кој се грижи за вас.';
+  String get dailyAffirmation109 =>
+      'Вредиш, дури и во простории каде што никој не го кажува тоа наглас.';
 
   @override
-  String get dailyAffirmation110 => 'Ништо не е важно, уживајте.';
+  String get dailyAffirmation110 =>
+      'Некој те забележа. Те гледаат повеќе отколку што ти се чини.';
 
   @override
   String get dailyAffirmation111 =>
-      'Да се ​​биде несреќен е причината поради која можете да ги цените подобрите денови.';
+      'Не мораш да се смалиш за да те забележат од вистинските причини.';
 
   @override
   String get dailyAffirmation112 =>
-      'Што ако се сврти подобро отколку што сте замислиле?';
+      'Да те видат другите почнува со тоа како се гледаш ти — и смееш да почнеш токму таму.';
 
   @override
-  String get dailyAffirmation113 => 'Доволни сте.';
+  String get dailyAffirmation113 =>
+      'Не си ни „премногу“ ни „недоволно“. Едноставно — те гледаат.';
 
   @override
-  String get dailyAffirmation114 => 'Јас го правам својот пат.';
+  String get dailyAffirmation114 =>
+      'Има луѓе што ценат токму тоа што те прави да бидеш ти.';
 
   @override
   String get dailyAffirmation115 =>
-      'Бидете промената што сакате да ја видите во светот.';
+      'Твоето присуство ја менува просторијата, дури и кога ти се чини дека не е така.';
 
   @override
   String get dailyAffirmation116 =>
-      'Не грижете се за ништо, бидејќи секоја ситница ќе биде во ред.';
+      'Те знаат повеќе луѓе, и на повеќе начини, отколку што ти се чини.';
 
   @override
-  String get dailyAffirmation117 => 'Дајте му важност на она што е важно.';
+  String get dailyAffirmation117 =>
+      'Не контролираш сè што ти се случува. Но контролираш како ќе го пречекаш.';
 
   @override
-  String get dailyAffirmation118 => 'Можете да направите сè, но не морате.';
+  String get dailyAffirmation118 => 'Ти одлучуваш што доаѓа следно за тебе.';
 
   @override
-  String get dailyAffirmation119 => 'Сонцето во срцето.';
+  String get dailyAffirmation119 =>
+      'Малите избори сè уште се твои, дури и во тешки околности.';
 
   @override
-  String get dailyAffirmation120 => 'Сите се корисни, никој не е незаменлив.';
+  String get dailyAffirmation120 =>
+      'Не си патник во сопствениот живот. Ти возиш.';
+
+  @override
+  String get dailyAffirmation121 =>
+      'Да побараш тоа што ти треба е моќ, а не слабост.';
+
+  @override
+  String get dailyAffirmation122 =>
+      'Имаш збор и во ова, дури и кога не ти се чини така.';
+
+  @override
+  String get dailyAffirmation123 =>
+      'Никој друг освен тебе не го пишува твоето следно поглавје.';
+
+  @override
+  String get dailyAffirmation124 =>
+      'Дури и во системи што не се градени за тебе, твоите избори сепак вредат.';
+
+  @override
+  String get dailyAffirmation125 =>
+      'Смееш да сакаш работите да бидат поинакви — и да работиш на тоа.';
+
+  @override
+  String get dailyAffirmation126 =>
+      'Што ќе направиш со денешниот ден — тоа е сè уште твоја одлука.';
+
+  @override
+  String get dailyAffirmation127 =>
+      'Не мораш да го менуваш тоа што си за да имаш место тука.';
+
+  @override
+  String get dailyAffirmation128 =>
+      'Има луѓе што ќе направат место токму за тоа што си.';
+
+  @override
+  String get dailyAffirmation129 =>
+      'Припаѓаш на повеќе од едно место — и тоа не е противречност.';
+
+  @override
+  String get dailyAffirmation130 =>
+      'Вистинската блискост не бара да криеш ниту еден дел од себе.';
+
+  @override
+  String get dailyAffirmation131 =>
+      'Некаде таму, некому му е мило што постоиш.';
+
+  @override
+  String get dailyAffirmation132 => 'Не мораш да се објаснуваш за да припаѓаш.';
+
+  @override
+  String get dailyAffirmation133 =>
+      'Заедницата не е нешто за што треба да се квалификуваш. Веќе си во неа.';
+
+  @override
+  String get dailyAffirmation134 =>
+      'Тоа што си далеку од таму каде што сè почна не значи дека си без дом.';
+
+  @override
+  String get dailyAffirmation135 =>
+      'Не мораш да носиш сè на свој грб, дури и кога ти се чини дека немаш никого.';
+
+  @override
+  String get dailyAffirmation136 =>
+      'Има луѓе што градат живот покрај тебе, а не само гледаат однадвор.';
+
+  @override
+  String get dailyAffirmation137 =>
+      'Твоите корени носат сила од генерации — таа сила е и твоја.';
+
+  @override
+  String get dailyAffirmation138 =>
+      'Твојот јазик, твоите обичаи, приказната на твоето семејство — вредат да се чуваат живи.';
+
+  @override
+  String get dailyAffirmation139 =>
+      'Тоа што ја прави твојата заедница поинаква е токму тоа што ја прави вредна да ѝ припаѓаш.';
+
+  @override
+  String get dailyAffirmation140 =>
+      'Никому не му должиш извинување за тоа од каде доаѓаш.';
+
+  @override
+  String get dailyAffirmation141 =>
+      'Твоето наследство не е задача за средување. Тоа е причина за гордост.';
+
+  @override
+  String get dailyAffirmation142 =>
+      'Твојата култура не е проблем за решавање. Таа е дел од твојата сила.';
+
+  @override
+  String get dailyAffirmation143 =>
+      'Да се гордееш со тоа што си не значи да го гледаш светот со розови очила.';
+
+  @override
+  String get dailyAffirmation144 =>
+      'Твојот идентитет не е товар што го носиш. Тој е темел на кој стоиш.';
+
+  @override
+  String get dailyAffirmation145 =>
+      'Она што ти е предадено, заслужува да го предадеш понатаму.';
+
+  @override
+  String get dailyAffirmation146 =>
+      'Во ред е ако денес ти е празно. Не мораш да глумиш дека си добро.';
+
+  @override
+  String get dailyAffirmation147 =>
+      'Во ред е да ти е преку глава од тоа постојано да се објаснуваш.';
+
+  @override
+  String get dailyAffirmation148 =>
+      'Тагата не значи слабост. Значи дека забележуваш нешто вистинско.';
+
+  @override
+  String get dailyAffirmation149 =>
+      'Не мораш да имаш надеж баш секој ден. Некои денови е доволно само да ги поминеш.';
+
+  @override
+  String get dailyAffirmation150 =>
+      'Во ред е да се лутиш на работи што никогаш не биле фер.';
+
+  @override
+  String get dailyAffirmation151 =>
+      'Да плачеш за нешто вистинско не значи дека се распаѓаш.';
+
+  @override
+  String get dailyAffirmation152 =>
+      'Не мораш да докажуваш зошто нешто боли. Боли. Тоа е доволна причина.';
+
+  @override
+  String get dailyAffirmation153 =>
+      'Некои денови летвата е „успеав да се облечам“. Почитувај ја летвата.';
+
+  @override
+  String get dailyAffirmation154 =>
+      'Имаш преживеано 100% од понеделниците. Без ниту еден пораз.';
+
+  @override
+  String get dailyAffirmation155 =>
+      'Ничиј живот не е навистина како на фотографиите. Ни твојот не мора да биде.';
+
+  @override
+  String get dailyAffirmation156 =>
+      'Возрасниот живот е 10% мудрост, 90% преправање дека знаеш како работи принтерот.';
+
+  @override
+  String get dailyAffirmation157 =>
+      'Едни грицки те делат од малку подобра верзија на себе. Ајде, земи си.';
+
+  @override
+  String get dailyAffirmation158 =>
+      'Самодоверба е да влезеш некаде како да имаш тапија на местото.';
+
+  @override
+  String get dailyAffirmation159 =>
+      'Понекогаш е сосема во ред да ги преспиеш чувствата. Трпеливи се, ќе те почекаат.';
+
+  @override
+  String get dailyAffirmation160 =>
+      'Не мораш да го сакаш утрото. Доволно е да го преживееш.';
+
+  @override
+  String get dailyAffirmation161 =>
+      'Прекумерното размислување сигурно троши и калории. Десертот е заслужен.';
+
+  @override
+  String get dailyAffirmation162 =>
+      'За некои одлуки најдобро е да фрлиш паричка, па да ти олесни како и да се заврти.';
+
+  @override
+  String get dailyAffirmation163 =>
+      'Статистички гледано, ти оди одлично — споредено со ракун во контејнер.';
+
+  @override
+  String get dailyAffirmation164 =>
+      'Длабокото дишење се смета за цела велнес-рутина. Практично цветаш.';
+
+  @override
+  String get dailyAffirmation165 =>
+      'Да беше денешниот ден групен проект, ќе имаше направено повеќе од пола екипа.';
+
+  @override
+  String get dailyAffirmation166 =>
+      'Никому не му преживуваат цвеќињата од прва. Подобро ти оди отколку што мислиш.';
+
+  @override
+  String get dailyAffirmation167 =>
+      'Технички, досега имаш преживеано секој „најлош ден во животот“.';
+
+  @override
+  String get dailyAffirmation168 =>
+      'Умората е само начинот на кој телото ти аплаудира затоа што постоеше цел ден.';
+
+  @override
+  String get dailyAffirmation169 =>
+      'Не му треба на секој ден пресврт во дејството. На некои денови им требаат само грицки и дремка.';
+
+  @override
+  String get dailyAffirmation170 =>
+      'Смееш да бидеш „во изградба“ и сепак да бидеш цел човек уште денес.';
+
+  @override
+  String get dailyAffirmation171 =>
+      'Одложувањето на страшните работи е само твојот мозок што ти е добар другар.';
+
+  @override
+  String get dailyAffirmation172 =>
+      'Животот не доаѓа со упатство, па искрено — импровизираш прекрасно.';
+
+  @override
+  String get dailyAffirmation173 =>
+      'Денес ти си главниот лик, дури и ако целото дејство е само перење алишта.';
+
+  @override
+  String get dailyAffirmation174 =>
+      'Во ред е да не ти е сè средено во животот. Никому не му е — само некои имаат подобро осветлување.';
+
+  @override
+  String get dailyAffirmation175 =>
+      'Денешниот ден го имаш поминато без упатство за употреба. Тоа е практично суперсила.';
+
+  @override
+  String get dailyAffirmation176 =>
+      'Малите победи се бројат — дури и „конечно одговорив на онаа порака“.';
+
+  @override
+  String get dailyAffirmation177 =>
+      'Не мораш да го победиш денот. Да го преживееш со грицки е сосема легитимна стратегија.';
+
+  @override
+  String get dailyAffirmation178 =>
+      'Некои денови си лав. Некои денови си лав што сака само ќебе. И двете се во ред.';
+
+  @override
+  String get dailyAffirmation179 =>
+      'Смееш да се смееш на хаосот. Обично тоа е најздравата реакција.';
+
+  @override
+  String get dailyAffirmation180 =>
+      'Твоето идно јас ќе ти биде благодарно за дремката што ти претстои.';
+
+  @override
+  String get dailyAffirmation181 =>
+      'Заслужуваш љубов што не бара прво да се промениш.';
+
+  @override
+  String get dailyAffirmation182 =>
+      'Заслужуваш одмор, дури и во деновите кога не е „заработен“.';
+
+  @override
+  String get dailyAffirmation183 =>
+      'Заслужуваш свој простор во светот, точно со тоа што си.';
+
+  @override
+  String get dailyAffirmation184 =>
+      'Заслужуваш да те избираат, а не само да те трпат.';
+
+  @override
+  String get dailyAffirmation185 =>
+      'Заслужуваш добрина — вклучително и од себеси.';
+
+  @override
+  String get dailyAffirmation186 =>
+      'Заслужуваш убави работи — дури и оние што не ги имаш ни побарано.';
+
+  @override
+  String get dailyAffirmation187 =>
+      'Заслужуваш луѓе што се тука кога навистина треба.';
+
+  @override
+  String get dailyAffirmation188 =>
+      'Заслужуваш живот што го чувствуваш како свој.';
+
+  @override
+  String get dailyAffirmation189 => 'Заслужуваш да ти веруваат кога зборуваш.';
+
+  @override
+  String get dailyAffirmation190 => 'Заслужуваш благост, дури и во суров свет.';
+
+  @override
+  String get dailyAffirmation191 =>
+      'Заслужуваш радост што не мора да се објаснува.';
+
+  @override
+  String get dailyAffirmation192 => 'Заслужуваш безбедност, каде и да си.';
+
+  @override
+  String get dailyAffirmation193 =>
+      'Заслужуваш да те сакаат — без прво да го „заработуваш“ тоа.';
+
+  @override
+  String get dailyAffirmation194 =>
+      'Заслужуваш стол на масата, а не само ќоше во собата.';
+
+  @override
+  String get dailyAffirmation195 =>
+      'Заслужуваш соништа што се твои, а не позајмени од друг.';
+
+  @override
+  String get dailyAffirmation196 => 'Заслужуваш трпение, особено своето.';
+
+  @override
+  String get dailyAffirmation197 =>
+      'Заслужуваш да те разбираат, а не само да те поднесуваат.';
+
+  @override
+  String get dailyAffirmation198 =>
+      'Заслужуваш да ти се случуваат убави работи, а не само да преживуваш.';
+
+  @override
+  String get dailyAffirmation199 =>
+      'Заслужуваш да те слават, а не само да те прифаќаат.';
+
+  @override
+  String get dailyAffirmation200 =>
+      'Заслужуваш, точно со она што си денес — заедно со сето недовршено.';
+
+  @override
+  String get dailyAffirmation201 =>
+      'Заслужуваш иднина што не ги повторува твоите најтешки денови.';
+
+  @override
+  String get dailyAffirmation202 =>
+      'Заслужуваш да се гордееш со себе — без никакви услови.';
+
+  @override
+  String get dailyAffirmation203 =>
+      'Заслужуваш луѓе покрај кои не мораш да се смалуваш.';
+
+  @override
+  String get dailyAffirmation204 =>
+      'Заслужуваш сопствена почит — пред сè и засекогаш.';
+
+  @override
+  String get dailyAffirmation205 =>
+      'Заслужуваш нежност во деновите кога чувствуваш дека најмалку ја заслужуваш.';
+
+  @override
+  String get dailyAffirmation206 =>
+      'Заслужуваш да бидеш нечија омилена личност.';
+
+  @override
+  String get dailyAffirmation207 => 'Заслужуваш живот со повеќе леснотија.';
+
+  @override
+  String get dailyAffirmation208 =>
+      'Заслужуваш — не поради она што го правиш, туку затоа што постоиш.';
+
+  @override
+  String get dailyAffirmation209 =>
+      'Заслужуваш да те посакуваат, а не само да им требаш.';
+
+  @override
+  String get dailyAffirmation210 => 'Заслужуваш повторно да си веруваш.';
 
   @override
   String get pleaseLogInAgain => 'Те молиме повторно пријави се.';

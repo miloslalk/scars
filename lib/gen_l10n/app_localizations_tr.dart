@@ -286,440 +286,811 @@ class AppLocalizationsTr extends AppLocalizations {
   String get thereFallback => 'merhaba';
 
   @override
-  String get dailyAffirmation1 =>
-      'Bu güne her seferinde tek bir nefesle başlamana izin var.';
+  String get dailyAffirmation1 => 'Asıl mucize, kendine inanmak.';
 
   @override
-  String get dailyAffirmation2 =>
-      'Hislerin önemlidir ve bedenin nazik bir özen hak ediyor.';
+  String get dailyAffirmation2 => 'Farklılıklar dünyayı güzelleştirir.';
 
   @override
-  String get dailyAffirmation3 => 'Şu an hissettiğinden çok daha güçlüsün.';
+  String get dailyAffirmation3 => 'Yağmurun ardından gökkuşağı gelir.';
 
   @override
   String get dailyAffirmation4 =>
-      'Bugünkü küçük adımlar bile anlamlı bir ilerlemedir.';
+      'Herkesin aynı olmasının beklendiği yerlerde bile kendin olmana izin ver.';
 
   @override
   String get dailyAffirmation5 =>
-      'Burada ve şu anda olduğun gibi tam olarak buraya aitsin.';
+      'Değerin sahip olduklarında değil, kim olduğunda saklı.';
 
   @override
-  String get dailyAffirmation6 =>
-      'Sesin, hızın ve iyileşmen — hepsi değerlidir.';
+  String get dailyAffirmation6 => 'İyi olmamak da gayet normal.';
 
   @override
-  String get dailyAffirmation7 => 'Dinlenirken de büyüyebilirsin.';
+  String get dailyAffirmation7 =>
+      'Henüz görmediğin sofralarda bile seni bekleyen bir yer var.';
 
   @override
   String get dailyAffirmation8 =>
-      'Gerçek şu ki: doğal dünya değişiyor. Ve biz tamamen o dünyaya bağımlıyız.';
+      'Her şeyi yapabilirsin — ama yapmak zorunda değilsin.';
 
   @override
-  String get dailyAffirmation9 => 'Hepimiz yıldız tozundan yapıldık.';
+  String get dailyAffirmation9 =>
+      'Veda etmek canını acıtıyorsa, zamanını iyi geçirmişsin demektir.';
 
   @override
-  String get dailyAffirmation10 => 'Tutkuyla hayal edin, sorumlulukla yaşayın.';
+  String get dailyAffirmation10 => 'Seni önemseyenleri unutma.';
 
   @override
   String get dailyAffirmation11 =>
-      'Bir araya geldiğimizde neler yapabileceğimize bir bakın.';
+      'Ya her şey hayal ettiğinden daha güzel olursa?';
 
   @override
-  String get dailyAffirmation12 =>
-      'Şimdi acı çek ve hayatının geri kalanını şampiyon olarak yaşa.';
+  String get dailyAffirmation12 => 'Sen yeterlisin';
 
   @override
-  String get dailyAffirmation13 =>
-      'Her şey yoluna girecek. Bir kez daha söyle.';
+  String get dailyAffirmation13 => 'Kendi yolumu kendim çizerim';
 
   @override
-  String get dailyAffirmation14 =>
-      'Sadece o adımı atın ve deneyin, bu yeterli.';
+  String get dailyAffirmation14 => 'Bugün yeni bir gün. Parla!';
 
   @override
-  String get dailyAffirmation15 => 'Olumlu değişiklikler dalgası yapın.';
+  String get dailyAffirmation15 =>
+      'Umudunu asla kaybetme. Fırtınalar insanı güçlendirir ve hiçbiri sonsuza dek sürmez.';
 
   @override
-  String get dailyAffirmation16 => 'Eski yollar yeni kapılar açmayacak.';
+  String get dailyAffirmation16 =>
+      'Ağla. Affet. Öğren. Yoluna devam et. Gözyaşların, gelecekteki mutluluğunun tohumlarını sulasın.';
 
   @override
-  String get dailyAffirmation17 => 'Hatalar denediğinizin kanıtıdır.';
+  String get dailyAffirmation17 => 'Kolay olmayabilir ama buna değecek.';
 
   @override
-  String get dailyAffirmation18 =>
-      'Kalbin bir okyanus büyüklüğündedir. Git kendini onun gizli derinliklerinde bul.';
+  String get dailyAffirmation18 => 'Güzel şeylere odaklanmayı unutma.';
 
   @override
-  String get dailyAffirmation19 => 'Tuhaf ol, benzersiz ol, kendin ol.';
+  String get dailyAffirmation19 => 'Bu bencillik değil, kendine iyi bakmak.';
 
   @override
-  String get dailyAffirmation20 => 'Ne olursa olsun, en iyisi için olur.';
+  String get dailyAffirmation20 => 'Harikasın, devam et.';
 
   @override
-  String get dailyAffirmation21 =>
-      'Eylemler kelimelerden daha yüksek sesle konuşabilir.';
+  String get dailyAffirmation21 => 'Kendine inan. Mucizeler yaratabilirsin';
 
   @override
-  String get dailyAffirmation22 =>
-      'Bir an için bile var olduğumuza göre sonsuza kadar varız.';
+  String get dailyAffirmation22 => 'Hayatın akışı içinde bu da geçecek.';
 
   @override
   String get dailyAffirmation23 =>
-      'Eğer veda etmek canınızı acıtıyorsa, zamanınızı iyi geçirmişsiniz demektir.';
+      'Karşılaştığım her zorluk, daha da güçlenmem için bir fırsat.';
 
   @override
   String get dailyAffirmation24 =>
-      'Hayat sana anlar veriyorsa, onları güzel anılar haline getir.';
+      'Kalbimdeki soruları kucaklıyorum; cevaplar zamanı gelince gelecek.';
 
   @override
-  String get dailyAffirmation25 => 'Ne ekersen onu biçersin.';
+  String get dailyAffirmation25 => 'Mükemmel olmak zorunda değilsin.';
 
   @override
-  String get dailyAffirmation26 => 'Çeşitlilik dünyayı güzelleştirir.';
+  String get dailyAffirmation26 =>
+      'Mükemmellik bir ütopya. Olsa olsa pusula işi görür.';
 
   @override
-  String get dailyAffirmation27 => 'Her şey yolunda, sorun yok.';
+  String get dailyAffirmation27 =>
+      'Hayallerimi bulmak için ayakta duruyor ve mücadele ediyorum.';
 
   @override
-  String get dailyAffirmation28 =>
-      'Ne düşünürsen ona dönüşürsün. Ne hissedersen onu çekersin. Neyi hayal edersen onu yaratırsın.';
+  String get dailyAffirmation28 => 'Geleceğine başkaları karar vermesin.';
 
   @override
-  String get dailyAffirmation29 => 'Güçlü beyinler güvenli alanlarda yetişir.';
+  String get dailyAffirmation29 =>
+      'Ayaklarım yere sağlam basıyor; belirsiz zamanlarda bile dayanıklıyım ve büyümeye açığım.';
 
   @override
   String get dailyAffirmation30 =>
-      'Her şey mümkün, sadece deneyin. Yapabilirsin.';
+      'Hayat sana anlar sunuyorsa, onları güzel anılara dönüştür.';
 
   @override
-  String get dailyAffirmation31 =>
-      'Sonuçta her başlangıç ​​bir devamıdır ve olaylar kitabı her zaman yarı yolda açıktır.';
+  String get dailyAffirmation31 => 'Eski yollar yeni kapılar açmaz.';
 
   @override
-  String get dailyAffirmation32 =>
-      'Belirsiz zamanlarda bile ayakları yere basan, dayanıklı ve büyümeye açığım.';
+  String get dailyAffirmation32 => 'Hatalar, denediğinin kanıtıdır.';
 
   @override
-  String get dailyAffirmation33 => 'Gençken ihtiyaç duyduğunuz kişi olun.';
+  String get dailyAffirmation33 =>
+      'Sadece o adımı at ve dene; bu kadarı yeter.';
 
   @override
   String get dailyAffirmation34 =>
-      'Her şeyde bir çatlak vardır, ışık o şekilde içeri girer.';
+      'Bir araya geldiğimizde neler başarabildiğimize bir bak.';
 
   @override
   String get dailyAffirmation35 =>
-      'Hayallerimi bulmak için ayakta duruyorum ve savaşıyorum.';
+      'Nereye gittiğini bilmiyorsan, her yol seni oraya götürür.';
 
   @override
-  String get dailyAffirmation36 =>
-      'Geleceğinize başkalarının karar vermesine izin vermeyin.';
+  String get dailyAffirmation36 => 'Hayat tek bir gündür — o da bugün.';
 
   @override
-  String get dailyAffirmation37 =>
-      'Dünyanın daha fazla öfkeli kadına ihtiyacı var.';
+  String get dailyAffirmation37 => 'Hepimiz yıldız tozundan yapıldık.';
 
   @override
-  String get dailyAffirmation38 => 'Güneş doğacak ve tekrar deneyeceğiz.';
+  String get dailyAffirmation38 => 'Tutkuyla hayal et, sorumlulukla yaşa.';
 
   @override
   String get dailyAffirmation39 =>
-      'Gezgin, yol yok. Yürürken yolu açıyorsunuz.';
+      'Her şey yoluna girecek. Hadi, bir kez daha söyle.';
 
   @override
-  String get dailyAffirmation40 => 'Mükemmel olmak zorunda değilsin.';
+  String get dailyAffirmation40 => 'Tuhaf ol, eşsiz ol, kendin ol.';
 
   @override
-  String get dailyAffirmation41 =>
-      'Mükemmellik bir ütopyadır. Yalnızca pusula görevi görür.';
+  String get dailyAffirmation41 => 'Güçlü zihinler güvenli alanlarda yeşerir.';
 
   @override
   String get dailyAffirmation42 =>
-      'Her şeyin bir başlangıcı ve sonu vardır ve şu anda ne kadar karanlık görünürse görünsün sonu güzel olabilir.';
+      'Ne de olsa her başlangıç yalnızca bir devamdır ve olayların kitabı hep ortasından açıktır.';
 
   @override
   String get dailyAffirmation43 =>
-      'Bağırmak için değil, sesi olmayanlar duysun diye sesimi yükseltiyorum.';
+      'Her şeyin bir başlangıcı ve bir sonu var — şu an ne kadar karanlık görünse de son güzel olabilir.';
 
   @override
-  String get dailyAffirmation44 =>
-      'Seni boğuyormuş gibi görünen her şey aslında sana yüzmeyi öğretiyor.';
+  String get dailyAffirmation44 => 'İhtiyaç duyacağım tek onay, kendi onayım.';
 
   @override
-  String get dailyAffirmation45 => 'Bir hedefin varsa bir yolunu bulursun.';
+  String get dailyAffirmation45 =>
+      'Kahraman aramamalıyız; iyi fikirler aramalıyız.';
 
   @override
-  String get dailyAffirmation46 => 'Yağmurun ardından gökkuşağı gelir.';
+  String get dailyAffirmation46 =>
+      'En küçük iyilik, en büyük iyi niyetten kat kat değerlidir.';
 
   @override
   String get dailyAffirmation47 =>
-      'Karşılaştığım her zorluk, daha da güçlenmem için bir fırsattır.';
+      'Geldiğin yer, küçültüp saklayacağın bir şey değil — içinde dimdik durabileceğin bir yer.';
 
   @override
   String get dailyAffirmation48 =>
-      'Soruları kalbimde kucaklıyor ve cevaplarını kendi zamanında karşılıyorum.';
+      'Adın, dilin, ailenin hikâyesi — hepsi senin ve hepsini gururla taşıyabilirsin.';
 
   @override
-  String get dailyAffirmation49 => 'İhtiyacım olan tek onay benimkidir.';
+  String get dailyAffirmation49 =>
+      'Bu dünyada yer kaplamak için kimseden izin almana gerek yok.';
 
   @override
-  String get dailyAffirmation50 => 'Seçilme dürtüsünü öldürün. Kendini seç.';
+  String get dailyAffirmation50 =>
+      'Sen hiçbir şeyin “fazlası” değilsin. Tam kararında bir sensin.';
 
   @override
   String get dailyAffirmation51 =>
-      'Zorluklarda gülümsemeye devam edin. Bu onları endişelendiriyor.';
+      'Köklerin seni geri çekmez; tam tersine, seni yükselten onlardır.';
 
   @override
   String get dailyAffirmation52 =>
-      'Yüzleşilen her şey değiştirilemez ama yüzleşilene kadar da hiçbir şey değiştirilemez.';
+      'Bir yere ait olmanın tek bir yolu yok. Kendi yolunu kendin yazabilirsin.';
 
   @override
   String get dailyAffirmation53 =>
-      'Kahraman aramamalıyız, iyi fikirler aramalıyız.';
+      'Hikâyen önemli — henüz kimsenin sormadığı kısımları bile.';
 
   @override
   String get dailyAffirmation54 =>
-      'Güneşi görüyorum ve eğer güneşi göremiyorsam orada olduğunu biliyorum.';
+      'İçinde birden fazla ev taşıyorsun; bu bir yük değil, bir zenginlik.';
 
   @override
   String get dailyAffirmation55 =>
-      'Hiç hata yapmamış olan hiç kimse yeni bir şey denememiştir.';
+      'Kim olduğunla gurur duymak için önce kimsenin onayını almana gerek yok.';
 
   @override
   String get dailyAffirmation56 =>
-      'Bunda, güneşin orada olduğunu bilmekte koca bir hayat var.';
+      'Buradaki yerini kazanmak zorunda değilsin. Zaten bir yerin var.';
 
   @override
   String get dailyAffirmation57 =>
-      'Sadece aptallar asla fikirlerini değiştirmezler.';
+      'Bir yerlerde sana açık bir kapı var — öyle hissettirmeyen günlerde bile.';
 
   @override
   String get dailyAffirmation58 =>
-      'Tamamlanana kadar her zaman imkansız görünür.';
+      'Birden fazla yerde yuva kurmaya hakkın var.';
 
   @override
   String get dailyAffirmation59 =>
-      'Küçük bir grup düşünceli, kendini adamış vatandaşın dünyayı değiştirebileceğinden asla şüphe etmeyin; aslında şimdiye kadar sahip olan tek şey budur.';
+      'Gerçekten önemli olan insanlar sana yer açar; senden küçülmeni istemez.';
 
   @override
-  String get dailyAffirmation60 => 'Sadece bunu zaten yap!';
+  String get dailyAffirmation60 => 'Kendi hayatında misafir değilsin.';
 
   @override
-  String get dailyAffirmation61 => 'Ağlamayı derin bir gülümsemeyle bastırın.';
+  String get dailyAffirmation61 =>
+      'Bugün nerede duruyorsan, orada durmaya sonuna kadar hakkın var.';
 
   @override
   String get dailyAffirmation62 =>
-      'Korkak olarak yaşamaktansa insan gibi ölmeyi tercih ederim.';
+      'Topluluk beklemekle olmaz; bazen onu başlatan kişi sensindir.';
 
   @override
   String get dailyAffirmation63 =>
-      'Herkesin aynı olmasının beklendiği yerlerde bile özgün olmanıza izin verin.';
+      'Nereden geldiğinle nerede olduğun arasında seçim yapmak zorunda değilsin.';
 
   @override
-  String get dailyAffirmation64 => 'Sen en iyisisin, devam et.';
+  String get dailyAffirmation64 => 'Yarın, bugüne benzemek zorunda değil.';
 
   @override
   String get dailyAffirmation65 =>
-      'Kendine inan. Mucizelerin gerçekleşmesini sağlayabilirsiniz.';
+      'İleride seni henüz hayal bile etmediğin bir hayat bekliyor — ve güzel bir hayat bu.';
 
   @override
-  String get dailyAffirmation66 =>
-      'Eğer bu konuda endişelenebilirsen bu, hayatta olduğun ve seni öldürmediği ve öldürmeyeceği anlamına gelir.';
+  String get dailyAffirmation66 => 'Zor bölümler biter. Seninki de bitecek.';
 
   @override
-  String get dailyAffirmation67 => 'Hayatın akışıyla bu da geçecek.';
+  String get dailyAffirmation67 =>
+      'Kendin için daha fazlasını istemeye ve gidip onu almaya hakkın var.';
 
   @override
-  String get dailyAffirmation68 => 'Devam et, bir gün buna değecek.';
+  String get dailyAffirmation68 =>
+      'Gelecek taşa kazınmış değil. Hâlâ söz hakkın var.';
 
   @override
-  String get dailyAffirmation69 =>
-      'Asla diğerinin olmanı istediği kişi olma, her zaman kendin ol.';
+  String get dailyAffirmation69 => 'Küçük adımlar da ilerlemektir.';
 
   @override
-  String get dailyAffirmation70 => 'İyi şeylere odaklanmayı unutmayın.';
+  String get dailyAffirmation70 =>
+      'Geride kalmadın. Tam olarak yolunun seni getirdiği yerdesin.';
 
   @override
-  String get dailyAffirmation71 => 'Bu bencillik değil, kişisel bakımdır.';
+  String get dailyAffirmation71 =>
+      'Senin için yolda olanlar henüz yaşanmadı — onlara seni şaşırtma payı bırak.';
 
   @override
   String get dailyAffirmation72 =>
-      'Korku seni zayıflatır; Öfke seni güçlü kılar.';
+      'Hikâyenin bundan sonrasına sen karar verirsin.';
 
   @override
   String get dailyAffirmation73 =>
-      'Birisi boğulurken ona yüzme bilip bilmediğini sormazsınız; sadece suya atlar ve yardım edersiniz.';
+      'Bugüne kadar her zor günü atlattın. Bu şans değil — bu sensin.';
 
   @override
   String get dailyAffirmation74 =>
-      'En küçük iyilik, en büyük iyi niyetten çok daha iyidir.';
+      'Yorgun olman başarısız olduğun anlamına gelmez. Çok şey taşıdığın anlamına gelir.';
 
   @override
-  String get dailyAffirmation75 => 'Riski alın ya da şansı kaybedin.';
+  String get dailyAffirmation75 =>
+      'Kırılmaz olmak zorunda değilsin. Kendi hızında devam etmen yeter.';
 
   @override
   String get dailyAffirmation76 =>
-      'Yapabileceğinize inanın ve yarı yoldasınız.';
+      'Güç, hiç zorlanmamak değil; her şeye rağmen yeniden sahaya çıkmaktır.';
 
   @override
-  String get dailyAffirmation77 => 'Dünyanızı güzelleştireni seçin.';
+  String get dailyAffirmation77 =>
+      'Atlatmış olmanla gurur duyabilirsin — süreç hiç şık görünmese bile.';
 
   @override
   String get dailyAffirmation78 =>
-      'En küçük iyilik eylemi, en büyük niyetten daha değerlidir.';
+      'Hikâyenin en zor bölümleri son sözü söyleyemez.';
 
   @override
   String get dailyAffirmation79 =>
-      'Hayatınızda bir günden asla pişman olmayın. İyi günler mutluluk, kötü günler ise tecrübe getirir.';
+      'İnsanların hiç görmediği şeyleri atlattın — ve bu az şey değil.';
 
   @override
   String get dailyAffirmation80 =>
-      'Her profesyonel öncelikle bir amatördü. Hayalinize şimdi başlayın.';
+      'İyileşmek beklediğinden uzun sürüyorsa, sorun değil.';
 
   @override
-  String get dailyAffirmation81 => 'Kolay olmayabilir ama buna değecektir.';
+  String get dailyAffirmation81 =>
+      'Yola devam etmek için her şeyi çözmüş olman gerekmiyor.';
 
   @override
   String get dailyAffirmation82 =>
-      'Olabileceğiniz kişi olmak için asla geç değildir.';
+      'Her gün pes etmeyip yeniden denemen, sessiz bir cesarettir.';
 
   @override
-  String get dailyAffirmation83 => 'Hayal edebileceğiniz her şey gerçektir.';
+  String get dailyAffirmation83 =>
+      'Vasat bir gün geçirmek tamamen yasal. Ruhsat gerekmiyor.';
 
   @override
   String get dailyAffirmation84 =>
-      'Anlatılmamış bir hikayeyi içinizde taşımaktan daha büyük bir ıstırap yoktur.';
+      'Bazen hayat, günde üç kez “ne yesem?” demekten ibarettir — sonsuza dek. Sen bunu halledersin.';
 
   @override
   String get dailyAffirmation85 =>
-      'Gözünüze çarpanın değil, kalbinize çarpanın peşinden gidin.';
+      'Her gün bir başyapıt olmak zorunda değil. Bazı günler sadece yaşansın diye vardır.';
 
   @override
   String get dailyAffirmation86 =>
-      'Yapabildiğinizin en iyisi olmaya cesaret edin. Her zaman, olmaya cesaret edin!';
+      'Grup sohbetindeki bildirim sayısı ne derse desin, gayet iyi gidiyorsun.';
 
   @override
   String get dailyAffirmation87 =>
-      'Umudunuzu asla kaybetmeyin. Fırtınalar insanları daha güçlü kılar ve asla sonsuza kadar sürmez.';
+      'Özgüven: nereye gittiğini gerçekten öğrenene kadar biliyormuş gibi yapmak.';
 
   @override
   String get dailyAffirmation88 =>
-      'Ağlamak. Affetmek. Öğrenmek. Devam et. Gözyaşlarınızın gelecekteki mutluluğunuzun tohumlarını sulamasına izin verin.';
+      'En kötü günlerinin %100\'ünü atlattın. Gayet sağlam bir sicil.';
 
   @override
   String get dailyAffirmation89 =>
-      'Kendinizi ışığın içinde kaybetmekten korktuğunuzda, gölgenizle el ele tutuşun.';
+      'Kimse hayatı çözmüş değil. Çözmüş gibi görünenler sadece mesajlara geç dönme konusunda daha iyi.';
 
   @override
   String get dailyAffirmation90 =>
-      'Dünyanın uzay yaratmak için ayrıldığı yere, oraya bir tohum ekebilirsiniz.';
+      'Bugün beş yıllık plana ihtiyacın yok. Düzgün bir kahvaltı yeter.';
 
   @override
   String get dailyAffirmation91 =>
-      'Dans edecek bir şeyin yoksa şarkı söylemek için bir sebep bul.';
+      'Büyümek çoğu zaman şuna benzer: öne doğru tökezlersin, adına da “ilerleme” dersin.';
 
   @override
   String get dailyAffirmation92 =>
-      'Bazen kendinizi bulmanın tek yolu tamamen kaybolmaktır.';
+      'Bazı günler kazanmak şudur: yataktan kalktın. Bu da sayılır.';
 
   @override
   String get dailyAffirmation93 =>
-      'Her şey sizin gücünüz dahilindedir ve gücünüz de sizin içinizdedir.';
+      'Her şeyi tek başına taşımak zorunda değilsin; bırak insanlar yardım etsin.';
 
   @override
   String get dailyAffirmation94 =>
-      'Değeriniz sahip olduklarınız değil, kim olduğunuzdur.';
+      'Dışarıda bir yerde arkanı kollayan biri var — bunu hissetmenin zor olduğu günlerde bile.';
 
   @override
-  String get dailyAffirmation95 => 'İyi olmamak sorun değil.';
+  String get dailyAffirmation95 =>
+      'Yardım istemek zayıflık değildir. Gerçek dostluklar böyle kurulur.';
 
   @override
   String get dailyAffirmation96 =>
-      'Fırtınadan sonra her zaman gökkuşağı çıkar.';
+      'Çevrendeki insanların sana ihtiyacı, tam olarak senin onlara ihtiyacın kadar.';
 
   @override
-  String get dailyAffirmation97 => 'Yarın yeni bir gün. Parlamak!';
+  String get dailyAffirmation97 =>
+      'Kendini görünmez hissettiğin günlerde bile daha büyük bir şeyin parçasısın.';
 
   @override
   String get dailyAffirmation98 =>
-      'Yağmur damlaları Okyanustan gelen küçük öpücüklerdir.';
+      'Dinlenmek için önce tamamen tükenmen gerekmiyor.';
 
   @override
   String get dailyAffirmation99 =>
-      'Yaptığınız her şeyin sevgiyle yapılmasına izin verin.';
+      'Bugün üzgün olman, yarın iyi hissetmene engel değil.';
 
   @override
-  String get dailyAffirmation100 => 'Korku yerine inanç.';
+  String get dailyAffirmation100 =>
+      'Kimseye sürekli pozitiflik borçlu değilsin.';
 
   @override
-  String get dailyAffirmation101 =>
-      'Hiçbir şey olmadan her şeyi yapana kadar, giderek daha azıyla daha fazlasını yapın.';
+  String get dailyAffirmation101 => 'Şu an bir cevabın olmaması gayet normal.';
 
   @override
-  String get dailyAffirmation102 => 'Dünyada görmek istediğin aşk ol.';
+  String get dailyAffirmation102 =>
+      'Bugün kendine bakman bencillik değil, ihtiyaç.';
 
   @override
   String get dailyAffirmation103 =>
-      'Görmediğiniz masalarda sizi bekleyen bir koltuk var.';
+      'Başkasının önyargısı, senin kim olduğunun kanıtı değildir.';
 
   @override
   String get dailyAffirmation104 =>
-      'Her şey yoluna girecekmiş gibi hareket et. Çünkü öyle.';
+      'Sen, başkalarının senin hakkında anlattığı hikâye değilsin.';
 
   @override
-  String get dailyAffirmation105 => 'Her zaman korunuyorum.';
+  String get dailyAffirmation105 =>
+      'Daha azını hak ettiğin düşüncesi asla doğru değil. Saygının tamamını hak ediyorsun.';
 
   @override
   String get dailyAffirmation106 =>
-      'Sizin için ne anlama geldiğini asla kaçırmayacaksınız.';
+      'Değerin asla tartışmaya açık değil — sana aksini hissettiren kim olursa olsun.';
 
   @override
-  String get dailyAffirmation107 => 'Hiç kimse profesyonel bir insan değildir.';
+  String get dailyAffirmation107 =>
+      'Görünmez değilsin. Burada biri, senin tam olarak kim olduğunu görüyor.';
 
   @override
   String get dailyAffirmation108 =>
-      'Bulutların üstünde güneş her zaman parlar.';
+      'Bazılarının seni görmezden gelmesi, herkesin görmediği anlamına gelmez.';
 
   @override
-  String get dailyAffirmation109 => 'Seni kimin umursadığını unutma.';
+  String get dailyAffirmation109 =>
+      'Kimsenin bunu yüksek sesle söylemediği odalarda bile önemlisin.';
 
   @override
-  String get dailyAffirmation110 => 'Hiçbir şeyin önemi yok, tadını çıkarın.';
+  String get dailyAffirmation110 =>
+      'Birileri fark etti. Hissettiğin kadar görünmez değilsin.';
 
   @override
   String get dailyAffirmation111 =>
-      'Mutsuz olmak, daha iyi günlerin kıymetini bilmenin sebebidir.';
+      'Doğru sebeplerle fark edilmek için küçülmene gerek yok.';
 
   @override
-  String get dailyAffirmation112 => 'Ya hayal ettiğinizden daha iyi olursa?';
+  String get dailyAffirmation112 =>
+      'Görülmek, kendini nasıl gördüğünle başlar — ve sen oradan başlayabilirsin.';
 
   @override
-  String get dailyAffirmation113 => 'Sen yeterlisin.';
+  String get dailyAffirmation113 =>
+      'Ne “fazla”sın ne “eksik” — sen sadece olduğun gibi görülüyorsun.';
 
   @override
-  String get dailyAffirmation114 => 'Kendi yolumu çiziyorum.';
+  String get dailyAffirmation114 =>
+      'Seni sen yapan şeylerin kıymetini bilen insanlar var.';
 
   @override
   String get dailyAffirmation115 =>
-      'Dünyada görmek istediğiniz değişimin kendisi olun.';
+      'Varlığın bir odanın havasını değiştirir — öyle hissettirmediğinde bile.';
 
   @override
   String get dailyAffirmation116 =>
-      'Hiçbir şey için endişelenme, çünkü her küçük şey yoluna girecek.';
+      'Sandığından daha çok insan, sandığından daha çok yönünle tanıyor seni.';
 
   @override
-  String get dailyAffirmation117 => 'Önemli olana önem verin.';
+  String get dailyAffirmation117 =>
+      'Başına gelen her şeyi kontrol edemezsin. Ama onu nasıl karşılayacağın senin elinde.';
 
   @override
   String get dailyAffirmation118 =>
-      'Her şeyi yapabilirsin ama yapmak zorunda değilsin.';
+      'Bundan sonra ne olacağına karar verecek olan sensin.';
 
   @override
-  String get dailyAffirmation119 => 'Güneş kalpte.';
+  String get dailyAffirmation119 =>
+      'Zor koşullarda bile küçük seçimler hâlâ senin elinde.';
 
   @override
   String get dailyAffirmation120 =>
-      'Herkes faydalıdır, kimse vazgeçilmez değildir.';
+      'Kendi hayatında yolcu koltuğunda değilsin.';
+
+  @override
+  String get dailyAffirmation121 =>
+      'İhtiyacın olanı istemek zayıflık değil, güçtür.';
+
+  @override
+  String get dailyAffirmation122 =>
+      'Bu konuda söz hakkın var — öyle hissettirmediğinde bile.';
+
+  @override
+  String get dailyAffirmation123 =>
+      'Bir sonraki bölümünü senden başka kimse yazamaz.';
+
+  @override
+  String get dailyAffirmation124 =>
+      'Senin için kurulmamış sistemlerde bile seçimlerin sayılır.';
+
+  @override
+  String get dailyAffirmation125 =>
+      'Bir şeylerin farklı olmasını istemeye ve bunun için çabalamaya hakkın var.';
+
+  @override
+  String get dailyAffirmation126 => 'Bugünle ne yapacağın hâlâ senin kararın.';
+
+  @override
+  String get dailyAffirmation127 =>
+      'Buradaki yerini hak etmek için kim olduğunu değiştirmene gerek yok.';
+
+  @override
+  String get dailyAffirmation128 =>
+      'Tam olarak olduğun haline yer açacak insanlar var.';
+
+  @override
+  String get dailyAffirmation129 =>
+      'Birden fazla yere aitsin — ve bu bir çelişki değil.';
+
+  @override
+  String get dailyAffirmation130 =>
+      'Gerçek bağ, hiçbir yanını saklamanı istemez.';
+
+  @override
+  String get dailyAffirmation131 =>
+      'Bir yerlerde biri, senin var olmana seviniyor.';
+
+  @override
+  String get dailyAffirmation132 =>
+      'Ait olmak için kendini açıklamak zorunda değilsin.';
+
+  @override
+  String get dailyAffirmation133 =>
+      'Topluluğa girmek için sınav yok. Sen zaten içindesin.';
+
+  @override
+  String get dailyAffirmation134 =>
+      'Başladığın yerden uzakta olman, yuvasız olduğun anlamına gelmez.';
+
+  @override
+  String get dailyAffirmation135 =>
+      'Bunu tek başına yapmak zorunda değilsin — öyle hissettirse bile.';
+
+  @override
+  String get dailyAffirmation136 =>
+      'Seni sadece dışarıdan izleyenler değil, hayatı seninle yan yana kuran insanlar da var.';
+
+  @override
+  String get dailyAffirmation137 =>
+      'Köklerin kuşaklar boyu biriken bir gücü taşıyor — o güç sana da miras.';
+
+  @override
+  String get dailyAffirmation138 =>
+      'Dilin, geleneklerin, ailenin hikâyesi — hepsi yaşatılmaya değer.';
+
+  @override
+  String get dailyAffirmation139 =>
+      'Topluluğunu farklı kılan şey, tam da ona ait olmayı değerli kılan şeydir.';
+
+  @override
+  String get dailyAffirmation140 =>
+      'Geldiğin yer için kimseye özür borçlu değilsin.';
+
+  @override
+  String get dailyAffirmation141 =>
+      'Mirasın idare edilecek bir şey değil, gurur duyulacak bir şeydir.';
+
+  @override
+  String get dailyAffirmation142 =>
+      'Kültürün çözülmesi gereken bir sorun değil, gücünün bir parçasıdır.';
+
+  @override
+  String get dailyAffirmation143 =>
+      'Kim olduğunla gurur duymak, dünyayı toz pembe görmek demek değildir.';
+
+  @override
+  String get dailyAffirmation144 =>
+      'Kimliğin sırtında taşıdığın bir yük değil, üzerinde durduğun sağlam bir zemindir.';
+
+  @override
+  String get dailyAffirmation145 =>
+      'Sana emanet edilenler, ileriye taşınmayı hak ediyor.';
+
+  @override
+  String get dailyAffirmation146 =>
+      'Bugün içinde bir boşluk varsa sorun değil. İyiymiş gibi rol yapmak zorunda değilsin.';
+
+  @override
+  String get dailyAffirmation147 => 'Kendini anlatmaktan yorulmaya hakkın var.';
+
+  @override
+  String get dailyAffirmation148 =>
+      'Üzülmek zayıf olduğunu göstermez. Gerçek bir şeye kulak verdiğini gösterir.';
+
+  @override
+  String get dailyAffirmation149 =>
+      'Her gün umutlu olmak zorunda değilsin. Bazı günler, günü bitirebilmek bile yeterli.';
+
+  @override
+  String get dailyAffirmation150 =>
+      'Hiçbir zaman adil olmamış şeylere öfkelenmek gayet normal.';
+
+  @override
+  String get dailyAffirmation151 =>
+      'Gerçek bir şeye ağlamak, dağılmakla aynı şey değil.';
+
+  @override
+  String get dailyAffirmation152 =>
+      'Bir şeyin neden canını yaktığını kanıtlamak zorunda değilsin. Yaktı işte. Bu yeterli bir sebep.';
+
+  @override
+  String get dailyAffirmation153 =>
+      'Bazı günler çıta sadece “giyinebildin” olur. O çıtaya saygı duy.';
+
+  @override
+  String get dailyAffirmation154 =>
+      'Pazartesilerinin %100\'ünü atlattın. Namağlupsun.';
+
+  @override
+  String get dailyAffirmation155 =>
+      'Kimsenin hayatı fotoğraflarındaki gibi değil. Seninkinin de öyle olması gerekmiyor.';
+
+  @override
+  String get dailyAffirmation156 =>
+      'Yetişkinlik: %10 bilgelik, %90 yazıcının nasıl çalıştığını biliyormuş gibi yapmak.';
+
+  @override
+  String get dailyAffirmation157 =>
+      'Kendini birazcık daha iyi biri gibi hissetmene tek bir atıştırmalık kaldı. Git al onu.';
+
+  @override
+  String get dailyAffirmation158 =>
+      'Özgüven: bir yere, kirasını sen ödüyormuşsun gibi girmek.';
+
+  @override
+  String get dailyAffirmation159 =>
+      'Bazen duyguların üstüne kestirmek de serbest. Duygular sabırlıdır, bekler.';
+
+  @override
+  String get dailyAffirmation160 =>
+      'Sabah insanı olmak zorunda değilsin. Sabahı sağ atlatman yeter.';
+
+  @override
+  String get dailyAffirmation161 =>
+      'Fazla düşünmek de kalori yakıyordur… muhtemelen. Tatlıyı hak ettin.';
+
+  @override
+  String get dailyAffirmation162 =>
+      'Bazı kararların en iyisi yazı turayla verilir — hangisi gelirse gelsin, için rahatlar.';
+
+  @override
+  String get dailyAffirmation163 =>
+      'İstatistiksel olarak harika gidiyorsun — en azından çöp kutusundaki bir rakundan iyi durumdasın.';
+
+  @override
+  String get dailyAffirmation164 =>
+      'Derin nefes almak başlı başına bir öz bakım rutini sayılır. Resmen çiçek gibisin.';
+
+  @override
+  String get dailyAffirmation165 =>
+      'Bugün bir grup ödevi olsaydı, çoğu kişiden fazlasını yapmış olurdun.';
+
+  @override
+  String get dailyAffirmation166 =>
+      'Kimsenin bitkisi ilk denemede hayatta kalmaz. Sandığından iyi gidiyorsun.';
+
+  @override
+  String get dailyAffirmation167 =>
+      'Teknik olarak, şimdiye kadarki her “hayatımın en kötü günü”nü sağ atlattın.';
+
+  @override
+  String get dailyAffirmation168 =>
+      'Yorgunluk, bedeninin bütün gün var olduğun için seni alkışlamasıdır.';
+
+  @override
+  String get dailyAffirmation169 =>
+      'Her gün ters köşe olmak zorunda değil. Bazı günlere atıştırmalık ve bir şekerleme yeter.';
+
+  @override
+  String get dailyAffirmation170 =>
+      'Yapım aşamasında olabilirsin ve yine de bugün bütün bir insansın.';
+
+  @override
+  String get dailyAffirmation171 =>
+      'Korkutucu bir işi ertelemek, aslında beyninin sana iyi arkadaşlık etmesidir.';
+
+  @override
+  String get dailyAffirmation172 =>
+      'Hayat kullanma kılavuzuyla gelmiyor. Açıkçası, doğaçlamayı harika götürüyorsun.';
+
+  @override
+  String get dailyAffirmation173 =>
+      'Bugün başrol sensin — senaryo sadece çamaşır yıkamak olsa bile.';
+
+  @override
+  String get dailyAffirmation174 =>
+      'Hayatını toparlayamamış olman normal. Kimse toparlayamadı; onların sadece ışığı daha iyi.';
+
+  @override
+  String get dailyAffirmation175 =>
+      'Bugünü kullanım kılavuzu olmadan idare ettin — bu resmen bir süper güç.';
+
+  @override
+  String get dailyAffirmation176 =>
+      'Küçük zaferler de zaferdir — “o mesaja sonunda cevap verdim” bile.';
+
+  @override
+  String get dailyAffirmation177 =>
+      'Günü kazanmak zorunda değilsin. Atıştırmalıklarla atlatmak da gayet meşru bir strateji.';
+
+  @override
+  String get dailyAffirmation178 =>
+      'Bazı günler aslansın. Bazı günlerse sadece battaniye isteyen bir aslan. İkisi de gayet normal.';
+
+  @override
+  String get dailyAffirmation179 =>
+      'Kaosa gülmek serbest. Çoğu zaman en aklı başında tepki budur.';
+
+  @override
+  String get dailyAffirmation180 =>
+      'Gelecekteki sen, birazdan yapacağın şekerleme için sana teşekkür edecek.';
+
+  @override
+  String get dailyAffirmation181 =>
+      'Önce değişmeni istemeyen bir sevgiyi hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation182 =>
+      'Dinlenmeyi hak ediyorsun — bunu “kazanmadığın” günlerde bile.';
+
+  @override
+  String get dailyAffirmation183 =>
+      'Tam da olduğun halinle yer kaplamayı hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation184 =>
+      'Sadece katlanılmayı değil, seçilmeyi hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation185 =>
+      'Şefkati hak ediyorsun — kendi şefkatin de dahil.';
+
+  @override
+  String get dailyAffirmation186 =>
+      'Güzel şeyleri hak ediyorsun — istemeyi akıl etmediklerini bile.';
+
+  @override
+  String get dailyAffirmation187 =>
+      'Senin için gerçekten orada olan insanları hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation188 =>
+      'Sana ait hissettiren bir hayatı hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation189 =>
+      'Konuştuğunda sana inanılmasını hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation190 =>
+      'Yumuşaklığı hak ediyorsun — sert bir dünyada bile.';
+
+  @override
+  String get dailyAffirmation191 =>
+      'Hiçbir açıklama gerektirmeyen bir sevinci hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation192 =>
+      'Nerede olursan ol, güvende olmayı hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation193 =>
+      'Önce kazanmana gerek olmadan sevilmeyi hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation194 =>
+      'Odada bir köşeyi değil, masada bir sandalyeyi hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation195 =>
+      'Kimseden ödünç alınmamış, tamamen sana ait hayalleri hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation196 =>
+      'Sabrı hak ediyorsun — en başta kendi sabrını.';
+
+  @override
+  String get dailyAffirmation197 =>
+      'Sadece hoş görülmeyi değil, anlaşılmayı hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation198 =>
+      'Sadece ayakta kalmayı değil, başına güzel şeyler gelmesini hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation199 =>
+      'Sadece kabul edilmeyi değil, kutlanmayı hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation200 =>
+      'Bugün, tam da olduğun halinle değerlisin — eksik kalmış yanlarınla bile.';
+
+  @override
+  String get dailyAffirmation201 =>
+      'En zor günlerini tekrarlamayan bir geleceği hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation202 =>
+      'Kendinle gurur duymayı hak ediyorsun — hiçbir şarta bağlı olmadan.';
+
+  @override
+  String get dailyAffirmation203 =>
+      'Seni küçülmek zorunda bırakmayan insanları hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation204 =>
+      'Herkesten önce ve her zaman, kendi saygını hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation205 =>
+      'En az hak ettiğini hissettiğin günlerde bile nazik davranılmayı hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation206 =>
+      'Birinin en sevdiği insan olmayı hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation207 => 'Daha rahat akan bir hayatı hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation208 =>
+      'Yaptıkların için değil, sırf var olduğun için değerlisin.';
+
+  @override
+  String get dailyAffirmation209 =>
+      'Sadece ihtiyaç duyulmayı değil, istenmeyi hak ediyorsun.';
+
+  @override
+  String get dailyAffirmation210 => 'Kendine yeniden güvenmeyi hak ediyorsun.';
 
   @override
   String get pleaseLogInAgain => 'Lütfen tekrar giriş yap.';

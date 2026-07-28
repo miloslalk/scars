@@ -290,457 +290,825 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dailyAffirmation1 =>
-      'Du darfst diesen Tag einen Atemzug nach dem anderen nehmen.';
+      'Das wahre Wunder ist, an dich selbst zu glauben.';
 
   @override
-  String get dailyAffirmation2 =>
-      'Deine Gefühle sind wichtig, und dein Körper verdient liebevolle Fürsorge.';
+  String get dailyAffirmation2 => 'Vielfalt macht die Welt schön.';
 
   @override
-  String get dailyAffirmation3 =>
-      'Du bist stärker, als sich dieser Moment gerade anfühlt.';
+  String get dailyAffirmation3 => 'Nach dem Regen kommt der Regenbogen.';
 
   @override
   String get dailyAffirmation4 =>
-      'Kleine Schritte heute sind trotzdem bedeutsamer Fortschritt.';
+      'Erlaub dir, echt zu sein – auch dort, wo alle gleich sein sollen.';
 
   @override
   String get dailyAffirmation5 =>
-      'Du gehörst genau so dazu, wie du bist, hier und jetzt.';
+      'Dein Wert ist nicht, was du hast, sondern wer du bist.';
 
   @override
-  String get dailyAffirmation6 =>
-      'Deine Stimme, dein Tempo und deine Heilung zählen alle.';
+  String get dailyAffirmation6 => 'Es ist okay, nicht okay zu sein.';
 
   @override
-  String get dailyAffirmation7 => 'Du kannst ausruhen und trotzdem wachsen.';
+  String get dailyAffirmation7 =>
+      'An Tischen, die du noch gar nicht kennst, wartet schon ein Platz auf dich.';
 
   @override
   String get dailyAffirmation8 =>
-      'Die Wahrheit ist: Die natürliche Welt verändert sich. Und wir sind völlig von dieser Welt abhängig.';
+      'Du kannst alles schaffen – aber du musst nicht.';
 
   @override
-  String get dailyAffirmation9 => 'Wir bestehen alle aus Sternenstaub.';
+  String get dailyAffirmation9 =>
+      'Wenn der Abschied wehtut, heißt das nur: Die Zeit davor war es wert.';
 
   @override
-  String get dailyAffirmation10 =>
-      'Träumen Sie mit Leidenschaft, leben Sie mit Verantwortung.';
+  String get dailyAffirmation10 => 'Denk daran, wem du wichtig bist.';
 
   @override
   String get dailyAffirmation11 =>
-      'Schauen Sie sich einfach an, was wir tun können, wenn wir zusammenkommen.';
+      'Was, wenn es besser wird, als du es dir vorgestellt hast?';
 
   @override
-  String get dailyAffirmation12 =>
-      'Leiden Sie jetzt und leben Sie den Rest Ihres Lebens als Champion.';
+  String get dailyAffirmation12 => 'Du bist genug';
 
   @override
-  String get dailyAffirmation13 => 'Es wird alles gut. Sag es noch einmal.';
+  String get dailyAffirmation13 => 'Ich gehe meinen eigenen Weg';
 
   @override
-  String get dailyAffirmation14 =>
-      'Machen Sie einfach diesen Schritt und versuchen Sie es, es reicht.';
+  String get dailyAffirmation14 => 'Heute ist ein neuer Tag. Zeit zu strahlen!';
 
   @override
   String get dailyAffirmation15 =>
-      'Machen Sie eine Welle positiver Veränderungen.';
+      'Verlier nie die Hoffnung. Stürme machen dich stärker – und keiner dauert ewig.';
 
   @override
-  String get dailyAffirmation16 => 'Alte Wege werden keine neuen Türen öffnen.';
+  String get dailyAffirmation16 =>
+      'Weine. Verzeih. Lerne. Geh weiter. Lass deine Tränen die Saat für dein Glück von morgen gießen.';
 
   @override
   String get dailyAffirmation17 =>
-      'Fehler sind der Beweis dafür, dass Sie es versuchen.';
+      'Leicht wird es vielleicht nicht – aber es wird sich lohnen.';
 
   @override
   String get dailyAffirmation18 =>
-      'Dein Herz hat die Größe eines Ozeans. Finden Sie sich in seinen verborgenen Tiefen wieder.';
+      'Vergiss nicht, auch auf das Gute zu schauen.';
 
   @override
   String get dailyAffirmation19 =>
-      'Sei seltsam, sei einzigartig, sei du selbst.';
+      'Das ist nicht egoistisch, das ist Selbstfürsorge.';
 
   @override
-  String get dailyAffirmation20 =>
-      'Was auch immer passiert, es geschieht zum Besten.';
+  String get dailyAffirmation20 => 'Du bist großartig. Bleib dran!';
 
   @override
-  String get dailyAffirmation21 => 'Taten können mehr sagen als Worte.';
+  String get dailyAffirmation21 =>
+      'Glaub an dich. Du kannst Wunder vollbringen';
 
   @override
   String get dailyAffirmation22 =>
-      'Da wir existierten, auch nur für einen Moment, existieren wir für immer.';
+      'Das Leben fließt weiter – und auch das geht vorbei.';
 
   @override
   String get dailyAffirmation23 =>
-      'Wenn der Abschied weh tut, bedeutet das, dass Sie Ihre Zeit gut verbracht haben.';
+      'Jede Herausforderung, vor der ich stehe, ist eine Chance, stärker zu werden.';
 
   @override
   String get dailyAffirmation24 =>
-      'Wenn das Leben Ihnen Momente schenkt, machen Sie daraus schöne Erinnerungen.';
+      'Ich nehme die Fragen in meinem Herzen an – die Antworten dürfen kommen, wenn ihre Zeit da ist.';
 
   @override
-  String get dailyAffirmation25 => 'Alles rächt sich irgendwann.';
+  String get dailyAffirmation25 => 'Du musst nicht perfekt sein.';
 
   @override
-  String get dailyAffirmation26 => 'Vielfalt macht die Welt schön.';
+  String get dailyAffirmation26 =>
+      'Perfektion ist eine Utopie. Sie taugt nur als Kompass.';
 
   @override
-  String get dailyAffirmation27 => 'Alles ist in Ordnung, kein Problem.';
+  String get dailyAffirmation27 => 'Ich stehe auf und kämpfe für meine Träume.';
 
   @override
   String get dailyAffirmation28 =>
-      'Was du denkst, wirst du. Was du fühlst, ziehst du an. Was Sie sich vorstellen, erschaffen Sie.';
+      'Lass nicht andere über deine Zukunft entscheiden.';
 
   @override
-  String get dailyAffirmation29 => 'Starke Köpfe wachsen in sicheren Räumen.';
+  String get dailyAffirmation29 =>
+      'Ich bin geerdet, widerstandsfähig und offen dafür, auch in unsicheren Zeiten zu wachsen.';
 
   @override
   String get dailyAffirmation30 =>
-      'Alles ist möglich, probieren Sie es einfach aus. Du kannst es schaffen.';
+      'Wenn das Leben dir Momente schenkt, mach schöne Erinnerungen draus.';
 
   @override
-  String get dailyAffirmation31 =>
-      'Schließlich ist jeder Anfang nur eine Fortsetzung, und das Buch der Ereignisse ist immer zur Hälfte geöffnet.';
+  String get dailyAffirmation31 => 'Alte Wege öffnen keine neuen Türen.';
 
   @override
   String get dailyAffirmation32 =>
-      'Ich bin geerdet, belastbar und offen für Wachstum, auch in unsicheren Zeiten.';
+      'Fehler sind der Beweis, dass du es versuchst.';
 
   @override
   String get dailyAffirmation33 =>
-      'Seien Sie die Person, die Sie brauchten, als Sie jünger waren.';
+      'Mach einfach diesen einen Schritt und versuch es – das reicht.';
 
   @override
   String get dailyAffirmation34 =>
-      'Alles hat einen Riss, dadurch kommt das Licht hinein.';
+      'Schau nur, was wir schaffen, wenn wir zusammenhalten.';
 
   @override
   String get dailyAffirmation35 =>
-      'Ich stehe und kämpfe, um meine Träume zu finden.';
+      'Wenn du nicht weißt, wohin du willst, führt dich jeder Weg ans Ziel.';
 
   @override
   String get dailyAffirmation36 =>
-      'Lass den anderen nicht über deine Zukunft entscheiden.';
+      'Das Leben ist ein einziger Tag – und der ist heute.';
 
   @override
-  String get dailyAffirmation37 => 'Die Welt braucht mehr wütende Frauen.';
+  String get dailyAffirmation37 => 'Wir alle bestehen aus Sternenstaub.';
 
   @override
   String get dailyAffirmation38 =>
-      'Die Sonne wird aufgehen und wir werden es noch einmal versuchen.';
+      'Träume mit Leidenschaft, lebe mit Verantwortung.';
 
   @override
-  String get dailyAffirmation39 =>
-      'Wanderer, es gibt keinen Weg. Du erschaffst den Weg beim Gehen.';
+  String get dailyAffirmation39 => 'Alles wird gut. Sag es noch einmal.';
 
   @override
-  String get dailyAffirmation40 => 'Du musst nicht perfekt sein.';
+  String get dailyAffirmation40 =>
+      'Sei schräg, sei einzigartig, sei du selbst.';
 
   @override
-  String get dailyAffirmation41 =>
-      'Perfektion ist eine Utopie. Es dient nur als Kompass.';
+  String get dailyAffirmation41 => 'Starke Köpfe wachsen in sicheren Räumen.';
 
   @override
   String get dailyAffirmation42 =>
-      'Alles hat einen Anfang und ein Ende, und das Ende kann schön sein, egal wie düster es jetzt erscheint.';
+      'Jeder Anfang ist ja doch nur eine Fortsetzung, und das Buch der Ereignisse ist immer in der Mitte aufgeschlagen.';
 
   @override
   String get dailyAffirmation43 =>
-      'Ich erhebe meine Stimme – nicht, damit ich schreien kann, sondern damit diejenigen, die keine Stimme haben, gehört werden können.';
+      'Alles hat einen Anfang und ein Ende – und das Ende kann schön sein, egal wie dunkel es gerade aussieht.';
 
   @override
   String get dailyAffirmation44 =>
-      'Alles, was so aussieht, als würde es Sie ertränken, bringt Ihnen in Wirklichkeit nur das Schwimmen bei.';
+      'Die einzige Zustimmung, die ich je brauchen werde, ist meine eigene.';
 
   @override
   String get dailyAffirmation45 =>
-      'Wenn Sie ein Ziel haben, werden Sie einen Weg finden.';
+      'Wir sollten nicht nach Helden suchen, sondern nach guten Ideen.';
 
   @override
-  String get dailyAffirmation46 => 'Nach dem Regen kommt der Regenbogen.';
+  String get dailyAffirmation46 =>
+      'Die kleinste gute Tat ist mehr wert als der größte gute Vorsatz.';
 
   @override
   String get dailyAffirmation47 =>
-      'Jede Herausforderung, der ich gegenüberstehe, ist eine Chance, stärker zu werden.';
+      'Wo du herkommst, ist nichts, was du kleinreden musst – es ist ein Boden, auf dem du stehen kannst.';
 
   @override
   String get dailyAffirmation48 =>
-      'Ich nehme die Fragen in meinem Herzen an und begrüße die Antworten, wenn sie zu ihrer Zeit kommen.';
+      'Dein Name, deine Sprache, die Geschichte deiner Familie – das alles darfst du mit Stolz tragen.';
 
   @override
   String get dailyAffirmation49 =>
-      'Die einzige Genehmigung, die ich jemals brauchen werde, ist meine.';
+      'Du brauchst keine Erlaubnis, um in dieser Welt Raum einzunehmen.';
 
   @override
   String get dailyAffirmation50 =>
-      'Töte den Drang, ausgewählt zu werden. Wählen Sie sich selbst.';
+      'Du bist nicht \"zu viel\" von irgendwas. Du bist genau die richtige Menge du.';
 
   @override
   String get dailyAffirmation51 =>
-      'Auch in schwierigen Zeiten lächle weiter. Es macht ihnen Sorgen.';
+      'Deine Wurzeln halten dich nicht zurück. Sie sind es, die dich groß wachsen lassen.';
 
   @override
   String get dailyAffirmation52 =>
-      'Nicht alles, was vor uns liegt, kann geändert werden, aber nichts kann geändert werden, bis man sich damit auseinandersetzt.';
+      'Es gibt nicht nur einen Weg, irgendwo dazuzugehören. Du darfst deinen eigenen schreiben.';
 
   @override
   String get dailyAffirmation53 =>
-      'Wir sollten nicht nach Helden suchen, wir sollten nach guten Ideen suchen.';
+      'Deine Geschichte zählt – auch die Teile, nach denen noch niemand gefragt hat.';
 
   @override
   String get dailyAffirmation54 =>
-      'Ich sehe die Sonne, und wenn ich sie nicht sehe, weiß ich, dass sie da ist.';
+      'Du trägst mehr als ein Zuhause in dir – das ist keine Last, das ist ein Reichtum.';
 
   @override
   String get dailyAffirmation55 =>
-      'Wer noch nie einen Fehler gemacht hat, hat nie etwas Neues ausprobiert.';
+      'Um stolz darauf zu sein, wer du bist, brauchst du niemandes Zustimmung.';
 
   @override
   String get dailyAffirmation56 =>
-      'Darin steckt ein ganzes Leben – in dem Wissen, dass die Sonne da ist.';
+      'Du musst dir deinen Platz hier nicht verdienen. Du hast schon einen.';
 
   @override
-  String get dailyAffirmation57 => 'Nur Dummköpfe ändern nie ihre Meinung.';
+  String get dailyAffirmation57 =>
+      'Irgendwo steht eine Tür für dich offen – auch an Tagen, an denen es sich nicht so anfühlt.';
 
   @override
   String get dailyAffirmation58 =>
-      'Es scheint immer unmöglich, bis es fertig ist.';
+      'Du darfst dir an mehr als einem Ort ein Zuhause bauen.';
 
   @override
   String get dailyAffirmation59 =>
-      'Zweifle nie daran, dass eine kleine Gruppe nachdenklicher, engagierter Bürger die Welt verändern kann; Tatsächlich ist es das Einzige, was es jemals gab.';
+      'Die Menschen, die zählen, machen Platz für dich – sie verlangen nicht, dass du dich klein machst.';
 
   @override
-  String get dailyAffirmation60 => 'Mach es einfach schon!';
+  String get dailyAffirmation60 => 'Du bist kein Gast in deinem eigenen Leben.';
 
   @override
   String get dailyAffirmation61 =>
-      'Besiege das Weinen mit einem tiefen Lächeln.';
+      'Wo auch immer du heute stehst: Du hast jedes Recht, genau dort zu stehen.';
 
   @override
   String get dailyAffirmation62 =>
-      'Ich würde lieber wie ein Mann sterben, als als Feigling zu leben.';
+      'Gemeinschaft ist nichts, worauf du warten musst – manchmal fängt sie mit dir an.';
 
   @override
   String get dailyAffirmation63 =>
-      'Erlauben Sie sich, authentisch zu sein, auch an Orten, an denen erwartet wird, dass alle gleich sind.';
+      'Du musst dich nicht entscheiden zwischen dem Ort, aus dem du kommst, und dem Ort, an dem du gerade bist.';
 
   @override
-  String get dailyAffirmation64 => 'Du bist der Beste, mach weiter.';
+  String get dailyAffirmation64 => 'Heute muss nicht so aussehen wie morgen.';
 
   @override
   String get dailyAffirmation65 =>
-      'An sich selbst glauben. Du kannst Wunder bewirken.';
+      'Irgendwo weiter vorn wartet eine Version deines Lebens, die du dir noch gar nicht ausgemalt hast – und sie ist gut.';
 
   @override
-  String get dailyAffirmation66 =>
-      'Wenn Sie sich darüber Sorgen machen können, bedeutet das, dass Sie am Leben sind und es Sie nicht getötet hat und auch nicht töten wird.';
+  String get dailyAffirmation66 => 'Schwere Kapitel gehen zu Ende. Deins auch.';
 
   @override
   String get dailyAffirmation67 =>
-      'Mit dem Fluss des Lebens wird auch dies vorübergehen.';
+      'Du darfst mehr für dich wollen – und es dir holen.';
 
   @override
   String get dailyAffirmation68 =>
-      'Machen Sie weiter, eines Tages wird es sich lohnen.';
+      'Die Zukunft steht nicht fest. Du kannst noch mitbestimmen.';
 
   @override
-  String get dailyAffirmation69 =>
-      'Sei niemals das, was der andere von dir will, sei immer du selbst.';
+  String get dailyAffirmation69 => 'Auch kleine Schritte bringen dich voran.';
 
   @override
   String get dailyAffirmation70 =>
-      'Vergessen Sie nicht, sich auf die guten Dinge zu konzentrieren.';
+      'Du hängst nicht hinterher. Du bist genau da, wohin dein Weg dich gebracht hat.';
 
   @override
   String get dailyAffirmation71 =>
-      'Es ist nicht egoistisch, es ist Selbstfürsorge.';
+      'Was auf dich zukommt, ist noch nicht passiert. Lass ihm Raum, dich zu überraschen.';
 
   @override
   String get dailyAffirmation72 =>
-      'Angst macht dich schwach; Wut macht dich stark.';
+      'Wie deine Geschichte ab hier weitergeht, entscheidest du.';
 
   @override
   String get dailyAffirmation73 =>
-      'Wenn jemand ertrinkt, fragt man nicht, ob er schwimmen kann – man springt einfach ein und hilft.';
+      'Du hast bisher jeden schweren Tag überstanden. Das ist kein Glück – das bist du.';
 
   @override
   String get dailyAffirmation74 =>
-      'Die kleinste gute Tat ist weitaus besser als die größte gute Absicht.';
+      'Müde zu sein heißt nicht, dass du versagst. Es heißt, dass du viel getragen hast.';
 
   @override
   String get dailyAffirmation75 =>
-      'Gehen Sie das Risiko ein oder verpassen Sie die Chance.';
+      'Du musst nicht unzerbrechlich sein. Du musst nur in deinem eigenen Tempo weitergehen.';
 
   @override
   String get dailyAffirmation76 =>
-      'Glauben Sie, dass Sie es können und Sie haben die Hälfte geschafft.';
+      'Stärke heißt nicht, nie zu kämpfen. Stärke heißt, trotzdem wieder aufzustehen.';
 
   @override
   String get dailyAffirmation77 =>
-      'Wählen Sie denjenigen, der Ihre Welt schön macht.';
+      'Du darfst stolz darauf sein, dass du durchgekommen bist – auch wenn es nicht schön aussah.';
 
   @override
   String get dailyAffirmation78 =>
-      'Der kleinste Akt der Freundlichkeit ist mehr wert als die größte Absicht.';
+      'Die härtesten Teile deiner Geschichte haben nicht das letzte Wort.';
 
   @override
   String get dailyAffirmation79 =>
-      'Bereue niemals einen Tag in deinem Leben. Gute Tage bringen dir Glück und schlechte Tage bringen dir Erfahrung.';
+      'Du hast Dinge überstanden, die niemand sieht – und das zählt.';
 
   @override
   String get dailyAffirmation80 =>
-      'Jeder Profi war zunächst Amateur. Beginnen Sie jetzt Ihren Traum.';
+      'Es ist okay, wenn Heilung länger dauert als gedacht.';
 
   @override
   String get dailyAffirmation81 =>
-      'Es ist vielleicht nicht einfach, aber es wird sich lohnen.';
+      'Du musst nicht erst alles verstehen, um weiterzugehen.';
 
   @override
   String get dailyAffirmation82 =>
-      'Es ist nie zu spät, das zu sein, was man hätte sein können.';
+      'Jeder Tag, an dem du weitermachst, ist eine leise Form von Mut.';
 
   @override
   String get dailyAffirmation83 =>
-      'Alles, was Sie sich vorstellen können, ist real.';
+      'Du darfst ganz legal einen mittelmäßigen Tag haben. Genehmigung nicht erforderlich.';
 
   @override
   String get dailyAffirmation84 =>
-      'Es gibt keine größere Qual, als eine unerzählte Geschichte in sich zu tragen.';
+      'Manchmal besteht das Leben nur daraus, dreimal am Tag zu entscheiden, was du isst. Für immer. Du schaffst das.';
 
   @override
   String get dailyAffirmation85 =>
-      'Verfolge das, was dein Herz fesselt, nicht das, was deine Augen fesselt.';
+      'Nicht jeder Tag muss ein Meisterwerk sein. Manche Tage müssen einfach nur stattfinden.';
 
   @override
   String get dailyAffirmation86 =>
-      'Trauen Sie sich, Ihr Bestes zu geben. Trauen Sie sich jederzeit, es zu sein!';
+      'Du kriegst dein Leben besser hin, als deine ungelesenen Gruppenchats vermuten lassen.';
 
   @override
   String get dailyAffirmation87 =>
-      'Verliere niemals die Hoffnung. Stürme machen Menschen stärker und dauern nie ewig.';
+      'Selbstvertrauen ist einfach so zu tun, als wüsstest du, wo es langgeht – bis du es wirklich weißt.';
 
   @override
   String get dailyAffirmation88 =>
-      'Weinen. Verzeihen. Lernen. Weitergehen. Lassen Sie Ihre Tränen den Samen Ihres zukünftigen Glücks bewässern.';
+      'Du hast 100% deiner schlimmsten Tage überlebt. Solide Bilanz.';
 
   @override
   String get dailyAffirmation89 =>
-      'Wenn Sie Angst haben, sich im Licht zu verlieren, halten Sie einfach die Hände Ihres Schattens.';
+      'Niemand hat alles im Griff. Wer so wirkt, ist nur besser darin, erst Stunden später zurückzuschreiben.';
 
   @override
   String get dailyAffirmation90 =>
-      'Wo sich die Erde trennt, um Platz zu schaffen, da kann man einen Samen pflanzen.';
+      'Du brauchst heute keinen Fünfjahresplan. Ein ordentliches Frühstück reicht.';
 
   @override
   String get dailyAffirmation91 =>
-      'Wenn Sie nichts zum Tanzen haben, finden Sie einen Grund zum Singen.';
+      'Wachstum sieht meistens so aus: vorwärtsstolpern und es Fortschritt nennen.';
 
   @override
   String get dailyAffirmation92 =>
-      'Manchmal ist der einzige Weg, sich selbst zu finden, völlig verloren zu gehen.';
+      'An manchen Tagen ist der Sieg einfach: Du bist aufgestanden. Das zählt.';
 
   @override
   String get dailyAffirmation93 =>
-      'Alles liegt in deiner Macht, und deine Macht liegt in dir.';
+      'Du musst nicht alles allein tragen – lass dir helfen.';
 
   @override
   String get dailyAffirmation94 =>
-      'Dein Wert ist nicht das, was du hast, sondern wer du bist.';
+      'Da draußen hält dir jemand den Rücken frei – auch an Tagen, an denen du es kaum spürst.';
 
   @override
   String get dailyAffirmation95 =>
-      'Es ist in Ordnung, nicht in Ordnung zu sein.';
+      'Um Hilfe zu bitten ist keine Schwäche. Genau so entstehen echte Freundschaften.';
 
   @override
   String get dailyAffirmation96 =>
-      'Nach einem Gewitter gibt es immer einen Regenbogen.';
+      'Die Menschen um dich herum brauchen dich genauso sehr wie du sie.';
 
   @override
-  String get dailyAffirmation97 => 'Morgen ist ein neuer Tag. Glanz!';
+  String get dailyAffirmation97 =>
+      'Du bist Teil von etwas Größerem – auch an Tagen, an denen du dich unsichtbar fühlst.';
 
   @override
   String get dailyAffirmation98 =>
-      'Regentropfen sind kleine Küsse aus dem Ozean.';
+      'Du darfst dich ausruhen, bevor du komplett erschöpft bist.';
 
   @override
   String get dailyAffirmation99 =>
-      'Lass alles, was du tust, in Liebe geschehen.';
+      'Dass du heute traurig bist, schließt nicht aus, dass es dir morgen wieder gut geht.';
 
   @override
-  String get dailyAffirmation100 => 'Glaube statt Angst.';
+  String get dailyAffirmation100 =>
+      'Du schuldest niemandem ständig gute Laune.';
 
   @override
   String get dailyAffirmation101 =>
-      'Machen Sie immer mehr mit immer weniger, bis Sie mit nichts alles erreichen können.';
+      'Es ist völlig okay, gerade keine Antwort zu haben.';
 
   @override
   String get dailyAffirmation102 =>
-      'Sei die Liebe, die du in der Welt sehen willst.';
+      'Heute gut für dich zu sorgen ist nicht egoistisch – es ist nötig.';
 
   @override
   String get dailyAffirmation103 =>
-      'An Tischen, die Sie noch nicht einmal gesehen haben, wartet ein Platz auf Sie.';
+      'Die Vorurteile anderer sagen nichts darüber aus, wer du bist.';
 
   @override
   String get dailyAffirmation104 =>
-      'Bewegen Sie sich, als würde alles klappen. Weil es so ist.';
+      'Du bist nicht die Geschichte, die andere über dich erzählen.';
 
   @override
-  String get dailyAffirmation105 => 'Ich bin immer beschützt.';
+  String get dailyAffirmation105 =>
+      'Zu glauben, du hättest weniger verdient, ist nie wahr. Du verdienst vollen Respekt.';
 
   @override
   String get dailyAffirmation106 =>
-      'Sie werden nie das verpassen, was für Sie bestimmt ist.';
+      'Dein Wert steht nie zur Debatte – egal, wer dir ein anderes Gefühl geben will.';
 
   @override
-  String get dailyAffirmation107 => 'Niemand ist ein professioneller Mensch.';
+  String get dailyAffirmation107 =>
+      'Du bist nicht unsichtbar. Jemand hier sieht genau, wer du bist.';
 
   @override
-  String get dailyAffirmation108 => 'Über den Wolken scheint immer die Sonne.';
+  String get dailyAffirmation108 =>
+      'Dass manche dich übersehen, heißt nicht, dass alle es tun.';
 
   @override
   String get dailyAffirmation109 =>
-      'Denken Sie daran, wer sich um Sie kümmert.';
+      'Du bist wichtig – auch in Räumen, in denen das niemand laut ausspricht.';
 
   @override
-  String get dailyAffirmation110 => 'Nichts ist wichtig, viel Spaß.';
+  String get dailyAffirmation110 =>
+      'Jemand hat dich bemerkt. Du bist nicht so unsichtbar, wie es sich anfühlt.';
 
   @override
   String get dailyAffirmation111 =>
-      'Unglücklich zu sein ist der Grund, warum man bessere Tage schätzen kann.';
+      'Du musst dich nicht klein machen, um aus den richtigen Gründen gesehen zu werden.';
 
   @override
   String get dailyAffirmation112 =>
-      'Was ist, wenn es besser wird, als Sie es sich vorgestellt haben?';
+      'Gesehen werden beginnt damit, wie du dich selbst siehst – und genau da darfst du anfangen.';
 
   @override
-  String get dailyAffirmation113 => 'Du bist genug.';
+  String get dailyAffirmation113 =>
+      'Du bist nicht \"zu viel\" und nicht \"zu wenig\". Du wirst einfach gesehen.';
 
   @override
-  String get dailyAffirmation114 => 'Ich gehe meinen eigenen Weg.';
+  String get dailyAffirmation114 =>
+      'Es gibt Menschen, die genau das schätzen, was dich zu dir macht.';
 
   @override
   String get dailyAffirmation115 =>
-      'Seien Sie die Veränderung, die Sie in der Welt sehen möchten.';
+      'Deine Anwesenheit verändert einen Raum – auch wenn es sich nicht so anfühlt.';
 
   @override
   String get dailyAffirmation116 =>
-      'Mach dir um nichts Sorgen, denn alles wird gut.';
+      'Mehr Menschen kennen dich – auf mehr Arten – als du ahnst.';
 
   @override
-  String get dailyAffirmation117 => 'Geben Sie dem Wichtigen Bedeutung.';
+  String get dailyAffirmation117 =>
+      'Du kannst nicht alles kontrollieren, was dir passiert. Aber wie du dem begegnest, entscheidest du.';
 
   @override
-  String get dailyAffirmation118 => 'Du kannst alles tun, musst es aber nicht.';
+  String get dailyAffirmation118 =>
+      'Was als Nächstes für dich kommt, bestimmst du.';
 
   @override
-  String get dailyAffirmation119 => 'Die Sonne im Herzen.';
+  String get dailyAffirmation119 =>
+      'Kleine Entscheidungen gehören immer noch dir – auch wenn die Umstände schwer sind.';
 
   @override
   String get dailyAffirmation120 =>
-      'Jeder ist nützlich, niemand ist unverzichtbar.';
+      'In deinem eigenen Leben sitzt du nicht auf dem Beifahrersitz.';
+
+  @override
+  String get dailyAffirmation121 =>
+      'Zu sagen, was du brauchst, ist eine Form von Stärke – nicht von Schwäche.';
+
+  @override
+  String get dailyAffirmation122 =>
+      'Du hast hier ein Wörtchen mitzureden – auch wenn es sich gerade nicht so anfühlt.';
+
+  @override
+  String get dailyAffirmation123 =>
+      'Dein nächstes Kapitel schreibt niemand außer dir.';
+
+  @override
+  String get dailyAffirmation124 =>
+      'Auch in Systemen, die nicht für dich gebaut wurden, zählen deine Entscheidungen.';
+
+  @override
+  String get dailyAffirmation125 =>
+      'Du darfst dir wünschen, dass es anders wird – und daran arbeiten.';
+
+  @override
+  String get dailyAffirmation126 =>
+      'Was du aus dem heutigen Tag machst, liegt immer noch bei dir.';
+
+  @override
+  String get dailyAffirmation127 =>
+      'Du musst dich nicht verändern, um deinen Platz hier verdient zu haben.';
+
+  @override
+  String get dailyAffirmation128 =>
+      'Es gibt Menschen, die dir Raum geben, genau so zu sein, wie du bist.';
+
+  @override
+  String get dailyAffirmation129 =>
+      'Du gehörst zu mehr als einem Ort – und das ist kein Widerspruch.';
+
+  @override
+  String get dailyAffirmation130 =>
+      'Echte Verbundenheit verlangt nicht, dass du einen Teil von dir versteckst.';
+
+  @override
+  String get dailyAffirmation131 =>
+      'Irgendwo ist jemand froh, dass es dich gibt.';
+
+  @override
+  String get dailyAffirmation132 =>
+      'Du musst dich nicht erklären, um dazuzugehören.';
+
+  @override
+  String get dailyAffirmation133 =>
+      'Für Gemeinschaft musst du dich nicht qualifizieren. Du bist längst mittendrin.';
+
+  @override
+  String get dailyAffirmation134 =>
+      'Weit entfernt von dort zu sein, wo du angefangen hast, heißt nicht, dass du kein Zuhause hast.';
+
+  @override
+  String get dailyAffirmation135 =>
+      'Du musst das nicht allein durchstehen – auch wenn es sich gerade so anfühlt.';
+
+  @override
+  String get dailyAffirmation136 =>
+      'Es gibt Menschen, die ihr Leben an deiner Seite bauen – nicht nur welche, die von außen zuschauen.';
+
+  @override
+  String get dailyAffirmation137 =>
+      'In deinen Wurzeln steckt die Stärke von Generationen – und die hast du mitgeerbt.';
+
+  @override
+  String get dailyAffirmation138 =>
+      'Deine Sprache, deine Traditionen, die Geschichte deiner Familie – es lohnt sich, sie lebendig zu halten.';
+
+  @override
+  String get dailyAffirmation139 =>
+      'Genau das, was deine Gemeinschaft anders macht, macht es so wertvoll, dazuzugehören.';
+
+  @override
+  String get dailyAffirmation140 =>
+      'Du schuldest niemandem eine Entschuldigung für deine Herkunft.';
+
+  @override
+  String get dailyAffirmation141 =>
+      'Dein Erbe ist nichts, was du in den Griff kriegen musst. Es ist etwas, worauf du stolz sein kannst.';
+
+  @override
+  String get dailyAffirmation142 =>
+      'Deine Kultur ist kein Problem, das gelöst werden muss. Sie ist Teil deiner Stärke.';
+
+  @override
+  String get dailyAffirmation143 =>
+      'Stolz darauf zu sein, wer du bist, heißt nicht, naiv durch die Welt zu gehen.';
+
+  @override
+  String get dailyAffirmation144 =>
+      'Deine Identität ist keine Last, die du trägst. Sie ist ein Fundament, auf dem du stehst.';
+
+  @override
+  String get dailyAffirmation145 =>
+      'Was dir weitergegeben wurde, verdient es, weitergetragen zu werden.';
+
+  @override
+  String get dailyAffirmation146 =>
+      'Es ist okay, wenn sich heute alles leer anfühlt. Du musst nicht so tun, als wäre alles gut.';
+
+  @override
+  String get dailyAffirmation147 =>
+      'Du darfst es leid sein, dich ständig erklären zu müssen.';
+
+  @override
+  String get dailyAffirmation148 =>
+      'Traurig zu sein heißt nicht, dass du schwach bist. Es heißt, dass du etwas Echtes wahrnimmst.';
+
+  @override
+  String get dailyAffirmation149 =>
+      'Du musst nicht jeden einzelnen Tag Hoffnung haben. An manchen Tagen reicht es, einfach durchzukommen.';
+
+  @override
+  String get dailyAffirmation150 =>
+      'Es ist okay, wütend zu sein über Dinge, die nie fair waren.';
+
+  @override
+  String get dailyAffirmation151 =>
+      'Über etwas Echtes zu weinen ist nicht dasselbe wie auseinanderzufallen.';
+
+  @override
+  String get dailyAffirmation152 =>
+      'Du musst nicht begründen, warum etwas wehgetan hat. Es hat wehgetan. Das reicht.';
+
+  @override
+  String get dailyAffirmation153 =>
+      'An manchen Tagen liegt die Messlatte bei \"Ich hab mich angezogen\". Respektier die Messlatte.';
+
+  @override
+  String get dailyAffirmation154 =>
+      'Du hast 100% deiner Montage überstanden. Ungeschlagen.';
+
+  @override
+  String get dailyAffirmation155 =>
+      'Niemandes Leben sieht wirklich so aus wie auf den Fotos. Deins muss das auch nicht.';
+
+  @override
+  String get dailyAffirmation156 =>
+      'Erwachsensein ist 10% Weisheit und 90% so tun, als wüsstest du, wie der Drucker funktioniert.';
+
+  @override
+  String get dailyAffirmation157 =>
+      'Du bist genau einen Snack davon entfernt, dich wie ein etwas besserer Mensch zu fühlen. Hol ihn dir.';
+
+  @override
+  String get dailyAffirmation158 =>
+      'Selbstbewusstsein heißt, einen Raum so zu betreten, als wärst du dort gemeldet.';
+
+  @override
+  String get dailyAffirmation159 =>
+      'Es ist okay, deine Gefühle manchmal einfach wegzuschlafen. Gefühle sind geduldig.';
+
+  @override
+  String get dailyAffirmation160 =>
+      'Du musst kein \"Morgenmensch\" sein. Du musst den Morgen nur überleben.';
+
+  @override
+  String get dailyAffirmation161 =>
+      'Grübeln verbrennt wahrscheinlich auch Kalorien. Du hast dir den Nachtisch verdient.';
+
+  @override
+  String get dailyAffirmation162 =>
+      'Manche Entscheidungen triffst du am besten per Münzwurf – erleichtert bist du so oder so.';
+
+  @override
+  String get dailyAffirmation163 =>
+      'Rein statistisch machst du das großartig – verglichen mit einem Waschbären in der Mülltonne.';
+
+  @override
+  String get dailyAffirmation164 =>
+      'Tief durchatmen zählt schon als komplette Wellness-Routine. Läuft bei dir.';
+
+  @override
+  String get dailyAffirmation165 =>
+      'Wäre heute ein Gruppenprojekt, hättest du mehr gemacht als die halbe Gruppe.';
+
+  @override
+  String get dailyAffirmation166 =>
+      'Beim ersten Versuch überlebt niemandes Zimmerpflanze. Du machst das besser, als du denkst.';
+
+  @override
+  String get dailyAffirmation167 =>
+      'Rein technisch gesehen hast du bisher jeden einzelnen \"schlimmsten Tag aller Zeiten\" überlebt.';
+
+  @override
+  String get dailyAffirmation168 =>
+      'Müdigkeit ist nur dein Körper, der dir applaudiert, weil du den ganzen Tag existiert hast.';
+
+  @override
+  String get dailyAffirmation169 =>
+      'Nicht jeder Tag braucht einen Plot-Twist. Manche Tage brauchen nur Snacks und ein Nickerchen.';
+
+  @override
+  String get dailyAffirmation170 =>
+      'Du darfst unfertig sein und trotzdem heute schon ein ganzer Mensch.';
+
+  @override
+  String get dailyAffirmation171 =>
+      'Etwas Beängstigendes aufzuschieben ist nur dein Gehirn, das ein guter Kumpel sein will.';
+
+  @override
+  String get dailyAffirmation172 =>
+      'Das Leben kommt ohne Gebrauchsanweisung. Also ehrlich: Du improvisierst großartig.';
+
+  @override
+  String get dailyAffirmation173 =>
+      'Du spielst heute die Hauptrolle – auch wenn der Plot nur Wäsche ist.';
+
+  @override
+  String get dailyAffirmation174 =>
+      'Es ist okay, wenn dein Leben gerade nicht aufgeräumt ist. Das ist es bei niemandem – die anderen haben nur besseres Licht.';
+
+  @override
+  String get dailyAffirmation175 =>
+      'Du hast dich heute ohne Anleitung durch den Tag navigiert – im Grunde eine Superkraft.';
+
+  @override
+  String get dailyAffirmation176 =>
+      'Kleine Siege zählen auch – sogar solche wie \"auf die eine Nachricht geantwortet\".';
+
+  @override
+  String get dailyAffirmation177 =>
+      'Du musst den Tag nicht gewinnen. Ihn mit Snacks zu überstehen ist eine völlig legitime Strategie.';
+
+  @override
+  String get dailyAffirmation178 =>
+      'An manchen Tagen bist du ein Löwe. An anderen ein Löwe, der einfach nur eine Decke will. Beides ist okay.';
+
+  @override
+  String get dailyAffirmation179 =>
+      'Du darfst über das Chaos lachen. Meistens ist das die gesündeste Reaktion.';
+
+  @override
+  String get dailyAffirmation180 =>
+      'Dein zukünftiges Ich wird dir für das Nickerchen danken, das du gleich machst.';
+
+  @override
+  String get dailyAffirmation181 =>
+      'Du verdienst Liebe, die nicht verlangt, dass du dich erst veränderst.';
+
+  @override
+  String get dailyAffirmation182 =>
+      'Du verdienst Ruhe – auch an Tagen, an denen du sie dir nicht \"verdient\" hast.';
+
+  @override
+  String get dailyAffirmation183 =>
+      'Du verdienst es, Raum einzunehmen – genau so, wie du bist.';
+
+  @override
+  String get dailyAffirmation184 =>
+      'Du verdienst es, dass man sich für dich entscheidet – nicht nur, dass man dich duldet.';
+
+  @override
+  String get dailyAffirmation185 =>
+      'Du verdienst Freundlichkeit – auch deine eigene.';
+
+  @override
+  String get dailyAffirmation186 =>
+      'Du verdienst gute Dinge – auch die, um die du nie gebeten hast.';
+
+  @override
+  String get dailyAffirmation187 =>
+      'Du verdienst Menschen, die für dich da sind.';
+
+  @override
+  String get dailyAffirmation188 =>
+      'Du verdienst ein Leben, das sich wie deins anfühlt.';
+
+  @override
+  String get dailyAffirmation189 =>
+      'Du verdienst es, dass man dir glaubt, wenn du etwas sagst.';
+
+  @override
+  String get dailyAffirmation190 =>
+      'Du verdienst Sanftheit – auch in einer harten Welt.';
+
+  @override
+  String get dailyAffirmation191 =>
+      'Du verdienst Freude, die keine Erklärung braucht.';
+
+  @override
+  String get dailyAffirmation192 =>
+      'Du verdienst Sicherheit – egal, wo du bist.';
+
+  @override
+  String get dailyAffirmation193 =>
+      'Du verdienst Liebe, die du dir nicht erst verdienen musst.';
+
+  @override
+  String get dailyAffirmation194 =>
+      'Du verdienst einen Platz am Tisch – nicht nur eine Ecke im Raum.';
+
+  @override
+  String get dailyAffirmation195 =>
+      'Du verdienst Träume, die deine eigenen sind – nicht von anderen geliehen.';
+
+  @override
+  String get dailyAffirmation196 =>
+      'Du verdienst Geduld – vor allem deine eigene.';
+
+  @override
+  String get dailyAffirmation197 =>
+      'Du verdienst es, verstanden zu werden – nicht nur geduldet.';
+
+  @override
+  String get dailyAffirmation198 =>
+      'Du verdienst es, dass dir Gutes passiert – nicht nur, dass du überlebst.';
+
+  @override
+  String get dailyAffirmation199 =>
+      'Du verdienst es, gefeiert zu werden – nicht nur akzeptiert.';
+
+  @override
+  String get dailyAffirmation200 =>
+      'Du verdienst Wertschätzung – genau so, wie du heute bist, mit allen Baustellen.';
+
+  @override
+  String get dailyAffirmation201 =>
+      'Du verdienst eine Zukunft, die deine schwersten Tage nicht wiederholt.';
+
+  @override
+  String get dailyAffirmation202 =>
+      'Du verdienst es, stolz auf dich zu sein – ganz ohne Bedingungen.';
+
+  @override
+  String get dailyAffirmation203 =>
+      'Du verdienst Menschen, neben denen du dich nicht klein machen musst.';
+
+  @override
+  String get dailyAffirmation204 =>
+      'Du verdienst deinen eigenen Respekt – zuerst und immer.';
+
+  @override
+  String get dailyAffirmation205 =>
+      'Du verdienst liebevolle Nachsicht – gerade an den Tagen, an denen du glaubst, sie nicht zu verdienen.';
+
+  @override
+  String get dailyAffirmation206 =>
+      'Du verdienst es, für jemanden der Lieblingsmensch zu sein.';
+
+  @override
+  String get dailyAffirmation207 =>
+      'Du verdienst ein Leben mit mehr Leichtigkeit.';
+
+  @override
+  String get dailyAffirmation208 =>
+      'Du verdienst Liebe und Respekt – nicht für das, was du tust, sondern weil es dich gibt.';
+
+  @override
+  String get dailyAffirmation209 =>
+      'Du verdienst es, gewollt zu werden – nicht nur gebraucht.';
+
+  @override
+  String get dailyAffirmation210 =>
+      'Du verdienst es, dir selbst wieder zu vertrauen.';
 
   @override
   String get pleaseLogInAgain => 'Bitte melde dich erneut an.';

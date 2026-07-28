@@ -285,411 +285,781 @@ class AppLocalizationsAr extends AppLocalizations {
   String get thereFallback => 'صديقي';
 
   @override
-  String get dailyAffirmation1 =>
-      'يُسمح لك بأن تأخذ هذا اليوم نفسًا واحدًا في كل مرة.';
+  String get dailyAffirmation1 => 'المعجزة الحقيقية هي أن تؤمن بنفسك.';
 
   @override
-  String get dailyAffirmation2 => 'مشاعرك مهمة، وجسدك يستحق رعاية لطيفة.';
+  String get dailyAffirmation2 => 'التنوع هو ما يجعل العالم جميلًا.';
 
   @override
-  String get dailyAffirmation3 => 'أنت أقوى مما تشعر به في هذه اللحظة.';
+  String get dailyAffirmation3 => 'بعد المطر يأتي قوس قزح.';
 
   @override
   String get dailyAffirmation4 =>
-      'الخطوات الصغيرة اليوم لا تزال تقدمًا ذا معنى.';
+      'اسمح لنفسك أن تكون على طبيعتك، حتى في الأماكن التي يُتوقَّع فيها من الجميع أن يتشابهوا.';
 
   @override
-  String get dailyAffirmation5 => 'أنت تنتمي تمامًا كما أنت، هنا والآن.';
+  String get dailyAffirmation5 => 'قيمتك ليست فيما تملك، بل في من تكون.';
 
   @override
-  String get dailyAffirmation6 => 'صوتك وإيقاعك وشفاؤك — كلها تُحتسب.';
+  String get dailyAffirmation6 => 'لا بأس ألا تكون بخير.';
 
   @override
-  String get dailyAffirmation7 => 'يمكنك أن ترتاح وتستمر في النمو.';
+  String get dailyAffirmation7 => 'هناك مقعد بانتظارك حول طاولات لم ترها بعد.';
 
   @override
   String get dailyAffirmation8 =>
-      'الحقيقة هي: العالم الطبيعي يتغير. ونحن نعتمد كليا على هذا العالم.';
+      'بإمكانك أن تفعل أي شيء، لكنك لست مضطرًا إلى فعل كل شيء.';
 
   @override
-  String get dailyAffirmation9 => 'نحن جميعا مصنوعون من غبار النجوم.';
+  String get dailyAffirmation9 =>
+      'إذا كان الوداع يؤلم، فهذا يعني أنك أحسنت قضاء وقتك.';
 
   @override
-  String get dailyAffirmation10 => 'احلم بشغف، عش بمسؤولية.';
+  String get dailyAffirmation10 => 'تذكّر من يهتم لأمرك.';
 
   @override
-  String get dailyAffirmation11 =>
-      'انظر فقط إلى ما يمكننا فعله عندما نجتمع معًا.';
+  String get dailyAffirmation11 => 'ماذا لو جاءت النتيجة أجمل مما تخيلت؟';
 
   @override
-  String get dailyAffirmation12 => 'عاني الآن وعش بقية حياتك كبطل.';
+  String get dailyAffirmation12 => 'أنت كافٍ كما أنت';
 
   @override
-  String get dailyAffirmation13 => 'كل شيء سيكون على ما يرام. قلها مرة أخرى.';
+  String get dailyAffirmation13 => 'أنا أشقّ طريقي بنفسي';
 
   @override
-  String get dailyAffirmation14 => 'فقط اتخذ تلك الخطوة وحاول، هذا يكفي.';
+  String get dailyAffirmation14 => 'اليوم يوم جديد. تألّق!';
 
   @override
-  String get dailyAffirmation15 => 'قم بإجراء موجة من التغييرات الإيجابية.';
+  String get dailyAffirmation15 =>
+      'لا تفقد الأمل أبدًا؛ فالعواصف تجعلنا أقوى، وهي لا تدوم إلى الأبد.';
 
   @override
-  String get dailyAffirmation16 => 'الطرق القديمة لن تفتح أبوابا جديدة.';
+  String get dailyAffirmation16 =>
+      'ابكِ. سامح. تعلّم. وامضِ قدمًا. دع دموعك تسقي بذور سعادتك القادمة.';
 
   @override
-  String get dailyAffirmation17 => 'الأخطاء دليل على أنك تحاول.';
+  String get dailyAffirmation17 => 'قد لا يكون الأمر سهلًا، لكنه يستحق العناء.';
 
   @override
-  String get dailyAffirmation18 =>
-      'قلبك بحجم المحيط. اذهب لتجد نفسك في أعماقه الخفية.';
+  String get dailyAffirmation18 => 'لا تنسَ أن تركّز على الأشياء الجميلة.';
 
   @override
-  String get dailyAffirmation19 => 'كن غريبًا، كن فريدًا، كن نفسك.';
+  String get dailyAffirmation19 => 'هذه ليست أنانية، بل عناية بنفسك.';
 
   @override
-  String get dailyAffirmation20 => 'مهما حدث، فإنه يحدث للأفضل.';
+  String get dailyAffirmation20 => 'أنت الأفضل، واصل المسير.';
 
   @override
-  String get dailyAffirmation21 =>
-      'الأفعال يمكن أن تتحدث بصوت أعلى من الكلمات.';
+  String get dailyAffirmation21 => 'آمن بنفسك. بإمكانك أن تصنع المعجزات';
 
   @override
-  String get dailyAffirmation22 =>
-      'وبما أننا موجودون، ولو للحظة واحدة، فإننا موجودون إلى الأبد.';
+  String get dailyAffirmation22 => 'مع جريان الحياة، سيمضي هذا أيضًا.';
 
   @override
-  String get dailyAffirmation23 =>
-      'إذا كان الوداع مؤلمًا، فهذا يعني أنك قضيت وقتك جيدًا.';
+  String get dailyAffirmation23 => 'كل تحدٍّ أواجهه هو فرصة لأزداد قوة.';
 
   @override
   String get dailyAffirmation24 =>
+      'أحتضن الأسئلة في قلبي، وأرحّب بالإجابات حين يحين وقتها.';
+
+  @override
+  String get dailyAffirmation25 => 'ليس عليك أن تكون مثاليًا.';
+
+  @override
+  String get dailyAffirmation26 =>
+      'الكمال حلم لا يتحقق؛ كل فائدته أنه بوصلة تدلنا على الاتجاه.';
+
+  @override
+  String get dailyAffirmation27 => 'أقف وأكافح لأصل إلى أحلامي.';
+
+  @override
+  String get dailyAffirmation28 => 'لا تدع أحدًا غيرك يقرر مستقبلك.';
+
+  @override
+  String get dailyAffirmation29 =>
+      'أنا متجذّر ومرن ومنفتح على النمو، حتى في الأوقات غير الواضحة.';
+
+  @override
+  String get dailyAffirmation30 =>
       'إذا منحتك الحياة لحظات، فاجعلها ذكريات جميلة.';
 
   @override
-  String get dailyAffirmation25 => 'ما يدور حولها ويأتي حولها.';
+  String get dailyAffirmation31 => 'الطرق القديمة لا تفتح أبوابًا جديدة.';
 
   @override
-  String get dailyAffirmation26 => 'التنوع يجعل العالم جميلا.';
+  String get dailyAffirmation32 => 'الأخطاء دليل على أنك تحاول.';
 
   @override
-  String get dailyAffirmation27 => 'كل شيء على ما يرام، لا توجد مشكلة.';
+  String get dailyAffirmation33 => 'اخطُ تلك الخطوة وحاول، هذا وحده يكفي.';
 
   @override
-  String get dailyAffirmation28 =>
-      'ما تعتقده، سوف تصبح. ما تشعر به، تجذبه. ما تتخيله، أنت تصنعه.';
+  String get dailyAffirmation34 =>
+      'فقط انظر ماذا يمكننا أن نصنع حين نجتمع معًا.';
 
   @override
-  String get dailyAffirmation29 => 'العقول القوية تنمو في الأماكن الآمنة.';
+  String get dailyAffirmation35 =>
+      'حين لا تعرف إلى أين تتجه، فكل الطرق ستوصلك إلى هناك.';
 
   @override
-  String get dailyAffirmation30 => 'كل شيء ممكن، فقط جربه. يمكنك أن تفعل ذلك.';
+  String get dailyAffirmation36 => 'الحياة يوم واحد، وهو اليوم.';
 
   @override
-  String get dailyAffirmation31 =>
-      'كل بداية هي مجرد تكملة، وكتاب الأحداث مفتوح دائمًا في منتصف الطريق.';
+  String get dailyAffirmation37 => 'كلنا مخلوقون من غبار النجوم.';
 
   @override
-  String get dailyAffirmation32 =>
-      'أنا راسخ ومرن ومنفتح على النمو حتى في الأوقات المضطربة.';
+  String get dailyAffirmation38 => 'احلم بشغف، وعِش بمسؤولية.';
 
   @override
-  String get dailyAffirmation33 => 'كن الشخص الذي تحتاجه عندما كنت أصغر سنا.';
+  String get dailyAffirmation39 => 'كل شيء سيكون على ما يرام. قلها مرة أخرى.';
 
   @override
-  String get dailyAffirmation34 => 'هناك صدع في كل شيء، هكذا يدخل الضوء.';
+  String get dailyAffirmation40 => 'كن غريبًا، كن فريدًا، كن نفسك.';
 
   @override
-  String get dailyAffirmation35 => 'أقف وأقاتل من أجل العثور على أحلامي.';
-
-  @override
-  String get dailyAffirmation36 => 'لا تدع الآخر يقرر مستقبلك.';
-
-  @override
-  String get dailyAffirmation37 =>
-      'العالم يحتاج إلى المزيد من النساء الغاضبات.';
-
-  @override
-  String get dailyAffirmation38 => 'ستشرق الشمس وسنحاول مرة أخرى.';
-
-  @override
-  String get dailyAffirmation39 =>
-      'أيها المتجول، ليس هناك طريق. أنت تصنع المسار أثناء المشي.';
-
-  @override
-  String get dailyAffirmation40 => 'ليس عليك أن تكون مثاليًا.';
-
-  @override
-  String get dailyAffirmation41 =>
-      'الكمال هو المدينة الفاضلة. انها بمثابة البوصلة فقط.';
+  String get dailyAffirmation41 => 'العقول القوية تنمو في المساحات الآمنة.';
 
   @override
   String get dailyAffirmation42 =>
-      'لكل شيء بداية ونهاية، والنهاية يمكن أن تكون جميلة، مهما بدت مظلمة الآن.';
+      'كل بداية ليست سوى تتمة، وكتاب الأحداث مفتوح دائمًا عند منتصفه.';
 
   @override
   String get dailyAffirmation43 =>
-      'أرفع صوتي – ليس لكي أتمكن من الصراخ، ولكن حتى يمكن سماع من لا صوت لهم.';
+      'لكل شيء بداية ونهاية، وقد تكون النهاية جميلة مهما بدت الأمور قاتمة الآن.';
 
   @override
   String get dailyAffirmation44 =>
-      'كل ما يبدو أنه يغرقك هو في الواقع مجرد تعليمك السباحة.';
+      'الموافقة الوحيدة التي سأحتاج إليها يومًا هي موافقتي أنا.';
 
   @override
-  String get dailyAffirmation45 => 'إذا كان لديك هدف، سوف تجد وسيلة.';
+  String get dailyAffirmation45 =>
+      'لا ينبغي أن نبحث عن أبطال، بل عن أفكار جيدة.';
 
   @override
-  String get dailyAffirmation46 => 'بعد المطر يأتي قوس قزح.';
+  String get dailyAffirmation46 => 'أصغر عمل طيّب خيرٌ من أعظم نيّة طيبة.';
 
   @override
-  String get dailyAffirmation47 => 'كل تحد أواجهه هو فرصة لكي أصبح أقوى.';
+  String get dailyAffirmation47 =>
+      'أصلك ليس شيئًا تتصاغر بسببه — بل أرض تقف عليها بكامل قامتك.';
 
   @override
   String get dailyAffirmation48 =>
-      'أحتضن الأسئلة في قلبي وأرحب بالإجابات في وقتها الخاص.';
+      'اسمك ولغتك وحكاية عائلتك — كلها لك، فاحملها بفخر.';
 
   @override
-  String get dailyAffirmation49 => 'الموافقة الوحيدة التي سأحتاجها هي موافقتي.';
+  String get dailyAffirmation49 =>
+      'لا تحتاج إلى إذن من أحد لتأخذ مساحتك في هذا العالم.';
 
   @override
-  String get dailyAffirmation50 => 'قتل الرغبة في الاختيار. اختر نفسك.';
+  String get dailyAffirmation50 =>
+      'أنت لست «أكثر من اللازم» في أي شيء. أنت نفسك بالمقدار الصحيح تمامًا.';
 
   @override
-  String get dailyAffirmation51 => 'في الشدائد ابتسم. يجعلهم يشعرون بالقلق.';
+  String get dailyAffirmation51 =>
+      'جذورك لا تشدّك إلى الوراء، بل هي ما يجعلك تنمو عاليًا.';
 
   @override
   String get dailyAffirmation52 =>
-      'ليس كل ما نواجهه يمكن تغييره، لكن لا شيء يمكن تغييره إلا بعد مواجهته.';
+      'لا توجد طريقة واحدة للانتماء إلى مكان ما. لك أن تكتب طريقتك الخاصة.';
 
   @override
   String get dailyAffirmation53 =>
-      'لا ينبغي لنا أن نبحث عن الأبطال، بل يجب أن نبحث عن الأفكار الجيدة.';
+      'قصتك مهمة، حتى الفصول التي لم يسأل عنها أحد بعد.';
 
   @override
   String get dailyAffirmation54 =>
-      'أرى الشمس، وإذا لم أر الشمس، أعرف أنها هناك.';
+      'تحمل في داخلك أكثر من وطن، وهذا ليس عبئًا، بل غنى.';
 
   @override
   String get dailyAffirmation55 =>
-      'أي شخص لم يرتكب أي خطأ لم يجرب أي شيء جديد.';
+      'أن تفخر بمن تكون لا يحتاج إلى موافقة أحد أولًا.';
 
   @override
   String get dailyAffirmation56 =>
-      'هناك حياة كاملة في ذلك - في معرفة أن الشمس موجودة.';
+      'ليس عليك أن تكسب مكانك هنا بجهدك. لديك مكان بالفعل.';
 
   @override
-  String get dailyAffirmation57 => 'الحمقى فقط لا يغيرون رأيهم أبدًا.';
+  String get dailyAffirmation57 =>
+      'في مكان ما، هناك باب مفتوح لك، حتى في الأيام التي لا تشعر فيها بذلك.';
 
   @override
-  String get dailyAffirmation58 => 'يبدو الأمر دائمًا مستحيلًا حتى يتم إنجازه.';
+  String get dailyAffirmation58 => 'من حقك أن تبني بيتًا في أكثر من مكان.';
 
   @override
   String get dailyAffirmation59 =>
-      'لا تشك أبدًا في أن مجموعة صغيرة من المواطنين الملتزمين والمفكرين يمكنها تغيير العالم؛ في الواقع، هذا هو الشيء الوحيد الذي كان على الإطلاق.';
+      'من يهمّهم أمرُك سيفسحون لك المكان، ولن يطلبوا منك أن تتصاغر.';
 
   @override
-  String get dailyAffirmation60 => 'فقط افعلها بالفعل!';
+  String get dailyAffirmation60 => 'أنت لست ضيفًا في حياتك أنت.';
 
   @override
-  String get dailyAffirmation61 => 'تغلب على البكاء بابتسامة عميقة.';
+  String get dailyAffirmation61 =>
+      'أينما تقف اليوم، فلك كل الحق في أن تقف هناك.';
 
   @override
-  String get dailyAffirmation62 => 'أفضل أن أموت كرجل على أن أعيش كجبان.';
+  String get dailyAffirmation62 =>
+      'المجتمع ليس شيئًا تنتظر وصوله؛ أحيانًا تكون أنت من يبدؤه.';
 
   @override
   String get dailyAffirmation63 =>
-      'اسمح لنفسك بأن تكون أصيلاً، حتى في الأماكن التي يُتوقع فيها أن يكون الجميع متماثلين.';
+      'ليس عليك أن تختار بين المكان الذي جئت منه والمكان الذي أنت فيه الآن.';
 
   @override
-  String get dailyAffirmation64 => 'أنت الأفضل، استمر.';
+  String get dailyAffirmation64 => 'ليس على غدك أن يشبه يومك هذا.';
 
   @override
   String get dailyAffirmation65 =>
-      'عليك ان تؤمن  بنفسك. يمكنك أن تجعل المعجزات تحدث.';
+      'في مكان ما أمامك نسخة من حياتك لم تتخيلها بعد — وهي نسخة جميلة.';
 
   @override
   String get dailyAffirmation66 =>
-      'إذا كان بإمكانك القلق بشأن ذلك، فهذا يعني أنك على قيد الحياة ولم يقتلك ولن يقتلك.';
+      'الفصول الصعبة تنتهي. وفصلك الصعب سينتهي أيضًا.';
 
   @override
-  String get dailyAffirmation67 => 'ومع تدفق الحياة، سوف يمر هذا أيضًا.';
+  String get dailyAffirmation67 => 'من حقك أن تريد لنفسك أكثر، وأن تسعى إليه.';
 
   @override
-  String get dailyAffirmation68 => 'استمر، يومًا ما سيكون الأمر يستحق ذلك.';
+  String get dailyAffirmation68 =>
+      'المستقبل ليس مكتوبًا سلفًا. ما زالت لك كلمة فيه.';
 
   @override
-  String get dailyAffirmation69 =>
-      'لا تكن أبدًا كما يريدك الآخرون أن تكون، كن دائمًا نفسك.';
+  String get dailyAffirmation69 => 'الخطوات الصغيرة تُحتسب تقدّمًا أيضًا.';
 
   @override
-  String get dailyAffirmation70 => 'لا تنس التركيز على الأشياء الجيدة.';
+  String get dailyAffirmation70 =>
+      'أنت لست متأخرًا. أنت بالضبط حيث أوصلك طريقك.';
 
   @override
-  String get dailyAffirmation71 => 'إنها ليست أنانية، إنها رعاية ذاتية.';
+  String get dailyAffirmation71 =>
+      'ما هو قادم إليك لم يحدث بعد، فاترك له مجالًا ليفاجئك.';
 
   @override
-  String get dailyAffirmation72 => 'الخوف يجعلك ضعيفا؛ الغضب يجعلك قويا.';
+  String get dailyAffirmation72 => 'أنت من يقرر شكل قصتك من هنا فصاعدًا.';
 
   @override
   String get dailyAffirmation73 =>
-      'عندما يغرق شخص ما، لا تسأل إذا كان يستطيع السباحة، بل فقط تقفز وساعده.';
+      'لقد تجاوزت كل يوم صعب مرّ بك حتى الآن. هذا ليس حظًا — هذا أنت.';
 
   @override
-  String get dailyAffirmation74 => 'أصغر عمل صالح أفضل بكثير من أكبر نية حسنة.';
+  String get dailyAffirmation74 =>
+      'تعبك لا يعني أنك تفشل، بل يعني أنك تحمل الكثير.';
 
   @override
-  String get dailyAffirmation75 => 'خذ المخاطرة أو اخسر الفرصة.';
+  String get dailyAffirmation75 =>
+      'ليس عليك أن تكون غير قابل للكسر. يكفي أن تواصل بإيقاعك الخاص.';
 
   @override
-  String get dailyAffirmation76 => 'آمن بأنك تستطيع وستكون في منتصف الطريق.';
+  String get dailyAffirmation76 =>
+      'القوة ليست ألا تتعثر أبدًا، بل أن تعود وتحاول رغم كل شيء.';
 
   @override
-  String get dailyAffirmation77 => 'اختر الشخص الذي يجعل عالمك جميلاً.';
+  String get dailyAffirmation77 =>
+      'من حقك أن تفخر بأنك تجاوزت الصعب، حتى لو لم يكن التجاوز جميل المنظر.';
 
   @override
-  String get dailyAffirmation78 => 'إن أصغر عمل طيب يستحق أكثر من أعظم نية.';
+  String get dailyAffirmation78 => 'أصعب فصول قصتك لا تملك الكلمة الأخيرة.';
 
   @override
   String get dailyAffirmation79 =>
-      'لا تندم أبدا على يوم في حياتك. الأيام الجيدة تجلب لك السعادة والأيام السيئة تجلب لك الخبرة.';
+      'لقد نجوت من أشياء لا يراها الناس، وهذا يُحتسب لك.';
 
   @override
   String get dailyAffirmation80 =>
-      'كل محترف كان في البداية هاوٍ. ابدأ حلمك الآن.';
+      'لا بأس إن استغرق الشفاء وقتًا أطول مما توقعت.';
 
   @override
-  String get dailyAffirmation81 => 'قد لا يكون الأمر سهلاً ولكنه يستحق ذلك.';
+  String get dailyAffirmation81 => 'لست بحاجة إلى فهم كل شيء لكي تواصل التقدم.';
 
   @override
   String get dailyAffirmation82 =>
-      'لم يفت الأوان أبدًا لتكون ما كان من الممكن أن تكونه.';
+      'كل يوم تواصل فيه الحضور هو شجاعة من النوع الهادئ.';
 
   @override
-  String get dailyAffirmation83 => 'كل ما يمكنك تخيله حقيقي.';
+  String get dailyAffirmation83 =>
+      'مسموح لك قانونيًا أن تمرّ بيوم عادي جدًا. لا حاجة إلى أي تصريح رسمي.';
 
   @override
   String get dailyAffirmation84 =>
-      'ليس هناك عذاب أعظم من أن تحمل في داخلك قصة لم تُروى.';
+      'أحيانًا تكون الحياة كلها مجرد قرار: ماذا نأكل؟ ثلاث مرات في اليوم، إلى الأبد. وأنت قادر على هذه المهمة.';
 
   @override
-  String get dailyAffirmation85 => 'اتبع ما يلفت قلبك، وليس ما يلفت انتباهك.';
+  String get dailyAffirmation85 =>
+      'ليس على كل يوم أن يكون تحفة فنية. بعض الأيام يكفي أن تمرّ.';
 
   @override
   String get dailyAffirmation86 =>
-      'تجرؤ على أن تكون أفضل ما تستطيع. في جميع الأوقات، يجرؤ على أن يكون!';
+      'حالك أفضل مما توحي به إشعارات مجموعات الدردشة.';
 
   @override
   String get dailyAffirmation87 =>
-      'لا تفقد الأمل أبدا. العواصف تجعل الناس أقوى ولا تدوم أبدًا إلى الأبد.';
+      'الثقة بالنفس هي أن تتظاهر بأنك تعرف إلى أين تمضي… إلى أن تعرف فعلًا.';
 
   @override
   String get dailyAffirmation88 =>
-      'يبكي. يغفر. يتعلم. استمر. دع دموعك تسقي بذور سعادتك المستقبلية.';
+      'لقد نجوت من 100% من أسوأ أيامك حتى الآن. سجلّ إنجازات ممتاز.';
 
   @override
   String get dailyAffirmation89 =>
-      'عندما تخاف من فقدان نفسك داخل الضوء، فقط أمسك يديك بظلك.';
+      'لا أحد يفهم الحياة تمامًا. والذين يبدون كذلك بارعون فقط في تأخير الردّ على الرسائل.';
 
   @override
   String get dailyAffirmation90 =>
-      'حيث تنفصل الأرض لتكوين مساحة، هناك يمكنك زراعة بذرة.';
+      'لا تحتاج اليوم إلى خطة خمسية. فطور جيد يفي بالغرض.';
 
   @override
   String get dailyAffirmation91 =>
-      'إذا لم يكن لديك ما ترقص من أجله، ابحث عن سبب للغناء.';
+      'النمو يشبه كثيرًا أن تتعثر إلى الأمام وتسمّي ذلك تقدمًا.';
 
   @override
   String get dailyAffirmation92 =>
-      'في بعض الأحيان تكون الطريقة الوحيدة للعثور على نفسك هي أن تضيع تمامًا.';
+      'في بعض الأيام يكون الإنجاز ببساطة: أنك نهضت من السرير. وهذا يُحتسب.';
 
   @override
-  String get dailyAffirmation93 => 'كل شيء في قدرتك، وقوتك في داخلك.';
+  String get dailyAffirmation93 =>
+      'ليس عليك أن تحمل كل شيء وحدك، دع الناس يساعدونك.';
 
   @override
-  String get dailyAffirmation94 => 'قيمتك ليست ما لديك، ولكن من أنت.';
+  String get dailyAffirmation94 =>
+      'هناك من يسندك، حتى في الأيام التي يصعب فيها أن تشعر بذلك.';
 
   @override
-  String get dailyAffirmation95 => 'لا بأس أن لا تكون على ما يرام.';
+  String get dailyAffirmation95 =>
+      'طلب المساعدة ليس ضعفًا؛ فهكذا تُبنى الصداقات الحقيقية.';
 
   @override
-  String get dailyAffirmation96 => 'بعد عاصفة رعدية هناك دائما قوس قزح.';
+  String get dailyAffirmation96 =>
+      'من حولك يحتاجون إليك تمامًا بقدر ما تحتاج إليهم.';
 
   @override
-  String get dailyAffirmation97 => 'غدا يوم جديد. يشرق!';
+  String get dailyAffirmation97 =>
+      'أنت جزء من شيء أكبر، حتى في الأيام التي تشعر فيها أنك غير مرئي.';
 
   @override
-  String get dailyAffirmation98 => 'قطرات المطر هي قبلات صغيرة من المحيط.';
+  String get dailyAffirmation98 =>
+      'من حقك أن ترتاح قبل أن تصل إلى الإنهاك التام.';
 
   @override
-  String get dailyAffirmation99 => 'دع كل ما تفعله يتم في الحب.';
+  String get dailyAffirmation99 =>
+      'حزنك اليوم لا يلغي إمكانية أن تكون بخير غدًا.';
 
   @override
-  String get dailyAffirmation100 => 'الإيمان على الخوف.';
+  String get dailyAffirmation100 => 'لست مدينًا لأحد بإيجابية دائمة.';
 
   @override
-  String get dailyAffirmation101 =>
-      'افعل المزيد والمزيد بموارد أقل وأقل حتى تتمكن من فعل أي شيء بلا شيء.';
+  String get dailyAffirmation101 => 'لا بأس ألا تملك إجابة الآن.';
 
   @override
-  String get dailyAffirmation102 => 'كن الحب الذي تريد أن تراه في العالم.';
+  String get dailyAffirmation102 => 'اعتناؤك بنفسك اليوم ليس أنانية، بل ضرورة.';
 
   @override
   String get dailyAffirmation103 =>
-      'هناك مقعد في انتظارك على طاولات لم ترها من قبل.';
+      'الأحكام المسبقة عند الآخرين ليست دليلًا على حقيقتك.';
 
   @override
-  String get dailyAffirmation104 => 'تحرك وكأن كل شيء سينجح. لأنه كذلك.';
+  String get dailyAffirmation104 => 'أنت لست الحكاية التي يرويها الآخرون عنك.';
 
   @override
-  String get dailyAffirmation105 => 'أنا دائما محمي.';
+  String get dailyAffirmation105 =>
+      'أن تصدّق أنك تستحق أقل ليس صحيحًا أبدًا. أنت تستحق الاحترام كاملًا.';
 
   @override
-  String get dailyAffirmation106 => 'لن تفوت أبدًا ما هو مخصص لك.';
+  String get dailyAffirmation106 =>
+      'قيمتك ليست موضوعًا للنقاش أبدًا، مهما حاول أحدهم أن يُشعرك بغير ذلك.';
 
   @override
-  String get dailyAffirmation107 => 'لا أحد إنسان محترف.';
+  String get dailyAffirmation107 =>
+      'أنت لست غير مرئي. هناك من يراك هنا على حقيقتك تمامًا.';
 
   @override
-  String get dailyAffirmation108 => 'فوق السحاب تشرق الشمس دائما.';
+  String get dailyAffirmation108 =>
+      'أن يتجاهلك البعض لا يعني أن الجميع لا يراك.';
 
   @override
-  String get dailyAffirmation109 => 'تذكر من يهتم بك.';
+  String get dailyAffirmation109 =>
+      'وجودك مهم، حتى في الأماكن التي لا يقول فيها أحد ذلك بصوت مسموع.';
 
   @override
-  String get dailyAffirmation110 => 'لا شيء يهم، استمتع.';
+  String get dailyAffirmation110 =>
+      'هناك من لاحظك. أنت لست خفيًا بقدر ما يبدو لك.';
 
   @override
   String get dailyAffirmation111 =>
-      'كونك غير سعيد هو السبب الذي يجعلك تقدر الأيام الأفضل.';
+      'ليس عليك أن تتصاغر لكي يلاحظك الناس للأسباب الصحيحة.';
 
   @override
-  String get dailyAffirmation112 => 'ماذا لو أصبح أفضل مما تخيلت؟';
+  String get dailyAffirmation112 =>
+      'أن يراك الآخرون يبدأ من نظرتك أنت إلى نفسك، ومن حقك أن تبدأ من هناك.';
 
   @override
-  String get dailyAffirmation113 => 'أنت كافية.';
+  String get dailyAffirmation113 =>
+      'أنت لست «أكثر من اللازم» ولا «أقل من اللازم»، أنت ببساطة مرئي كما أنت.';
 
   @override
-  String get dailyAffirmation114 => 'أنا أصنع طريقي الخاص.';
+  String get dailyAffirmation114 =>
+      'هناك أشخاص يقدّرون بالضبط ما يجعلك أنت… أنت.';
 
   @override
   String get dailyAffirmation115 =>
-      'كن أنت التغيير الذي تريد أن تراه في العالم.';
+      'حضورك يغيّر المكان، حتى حين يبدو لك أنه لا يغيّر شيئًا.';
 
   @override
   String get dailyAffirmation116 =>
-      'لا تقلق بشأن أي شيء، لأن كل شيء صغير سيكون على ما يرام.';
+      'يعرفك أشخاص أكثر مما تظن، وبطرق أكثر مما تتخيل.';
 
   @override
-  String get dailyAffirmation117 => 'إعطاء أهمية لما هو مهم.';
+  String get dailyAffirmation117 =>
+      'لا تتحكم في كل ما يحدث لك، لكنك تتحكم في طريقة مواجهته.';
 
   @override
-  String get dailyAffirmation118 =>
-      'يمكنك أن تفعل أي شيء ولكن ليس عليك القيام بذلك.';
+  String get dailyAffirmation118 => 'أنت من يقرر ما يأتي بعد ذلك في حياتك.';
 
   @override
-  String get dailyAffirmation119 => 'الشمس في القلب .';
+  String get dailyAffirmation119 =>
+      'الخيارات الصغيرة ما زالت بيدك، حتى في الظروف الصعبة.';
 
   @override
-  String get dailyAffirmation120 => 'الجميع مفيد، لا أحد لا غنى عنه.';
+  String get dailyAffirmation120 => 'أنت لست مجرد راكب في حياتك أنت.';
+
+  @override
+  String get dailyAffirmation121 =>
+      'أن تطلب ما تحتاج إليه شكل من أشكال القوة، لا الضعف.';
+
+  @override
+  String get dailyAffirmation122 =>
+      'لك كلمة في هذا الأمر، حتى حين لا يبدو لك ذلك.';
+
+  @override
+  String get dailyAffirmation123 => 'لا أحد يملك أن يكتب فصلك القادم سواك.';
+
+  @override
+  String get dailyAffirmation124 =>
+      'حتى داخل أنظمة لم تُبنَ من أجلك، خياراتك ما زالت تُحتسب.';
+
+  @override
+  String get dailyAffirmation125 =>
+      'من حقك أن تريد للأمور أن تكون مختلفة، وأن تعمل من أجل ذلك.';
+
+  @override
+  String get dailyAffirmation126 => 'ما تفعله بيومك هذا ما زال قرارك أنت.';
+
+  @override
+  String get dailyAffirmation127 =>
+      'لا تحتاج إلى تغيير من تكون لكي تستحق مكانك هنا.';
+
+  @override
+  String get dailyAffirmation128 =>
+      'هناك أشخاص سيفسحون لك مساحة لتكون نفسك تمامًا.';
+
+  @override
+  String get dailyAffirmation129 =>
+      'أنت تنتمي إلى أكثر من مكان، وهذا ليس تناقضًا.';
+
+  @override
+  String get dailyAffirmation130 =>
+      'التواصل الحقيقي لا يطلب منك إخفاء أي جزء من نفسك.';
+
+  @override
+  String get dailyAffirmation131 => 'في مكان ما، هناك من يفرح لأنك موجود.';
+
+  @override
+  String get dailyAffirmation132 => 'ليس عليك أن تشرح نفسك لكي تنتمي.';
+
+  @override
+  String get dailyAffirmation133 =>
+      'المجتمع ليس امتحان قبول عليك اجتيازه. أنت جزء منه بالفعل.';
+
+  @override
+  String get dailyAffirmation134 =>
+      'ابتعادك عن المكان الذي بدأت منه لا يعني أنك بلا وطن.';
+
+  @override
+  String get dailyAffirmation135 =>
+      'ليس عليك أن تخوض هذا وحدك، حتى حين تشعر بعكس ذلك.';
+
+  @override
+  String get dailyAffirmation136 =>
+      'هناك من يبني حياته إلى جانبك، لا من يكتفي بالمشاهدة من بعيد.';
+
+  @override
+  String get dailyAffirmation137 =>
+      'جذورك تحمل قوة أجيال كاملة — وقد ورثت أنت تلك القوة أيضًا.';
+
+  @override
+  String get dailyAffirmation138 =>
+      'لغتك وتقاليدك وحكاية عائلتك — كلها تستحق أن تبقى حيّة.';
+
+  @override
+  String get dailyAffirmation139 =>
+      'ما يجعل مجتمعك مختلفًا هو بالضبط ما يجعله جديرًا بأن تنتمي إليه.';
+
+  @override
+  String get dailyAffirmation140 =>
+      'لست مدينًا لأحد باعتذار عن المكان الذي جئت منه.';
+
+  @override
+  String get dailyAffirmation141 =>
+      'تراثك ليس شيئًا تتعامل معه بحذر، بل شيء تفخر به.';
+
+  @override
+  String get dailyAffirmation142 =>
+      'ثقافتك ليست مشكلة تحتاج إلى حلّ، بل جزء من قوتك.';
+
+  @override
+  String get dailyAffirmation143 =>
+      'أن تفخر بمن تكون لا يعني أنك ساذج في نظرتك إلى العالم.';
+
+  @override
+  String get dailyAffirmation144 => 'هويتك ليست عبئًا تحمله، بل أساس تقف عليه.';
+
+  @override
+  String get dailyAffirmation145 =>
+      'ما وصل إليك ممن سبقوك يستحق أن تنقله إلى من يأتي بعدك.';
+
+  @override
+  String get dailyAffirmation146 =>
+      'لا بأس إن كان يومك بلا ملامح. لست مضطرًا إلى تمثيل دور «أنا بخير».';
+
+  @override
+  String get dailyAffirmation147 => 'من حقك أن تتعب من كثرة شرح نفسك.';
+
+  @override
+  String get dailyAffirmation148 =>
+      'الحزن لا يعني أنك ضعيف، بل يعني أنك منتبه إلى شيء حقيقي.';
+
+  @override
+  String get dailyAffirmation149 =>
+      'ليس عليك أن تحمل الأمل كل يوم. في بعض الأيام، مجرد العبور يكفي.';
+
+  @override
+  String get dailyAffirmation150 =>
+      'من حقك أن تغضب من أشياء لم تكن عادلة يومًا.';
+
+  @override
+  String get dailyAffirmation151 => 'أن تبكي على شيء حقيقي لا يعني أنك تنهار.';
+
+  @override
+  String get dailyAffirmation152 =>
+      'لا تحتاج إلى تبرير لماذا آلمك شيء ما. لقد آلمك، وهذا سبب كافٍ.';
+
+  @override
+  String get dailyAffirmation153 =>
+      'في بعض الأيام يكون سقف الإنجاز: «ارتديت ملابسي». احترم هذا السقف.';
+
+  @override
+  String get dailyAffirmation154 =>
+      'لقد عبرت 100% من أيام الإثنين في حياتك حتى الآن. بلا هزيمة واحدة.';
+
+  @override
+  String get dailyAffirmation155 =>
+      'لا حياة أحد تشبه صوره فعلًا. وحياتك ليست مضطرة إلى ذلك أيضًا.';
+
+  @override
+  String get dailyAffirmation156 =>
+      'أن تكون شخصًا بالغًا: 10% حكمة، و90% تظاهر بأنك تعرف كيف تعمل الطابعة.';
+
+  @override
+  String get dailyAffirmation157 =>
+      'تفصلك وجبة خفيفة واحدة عن الشعور بأنك إنسان أفضل قليلًا. اذهب وأحضرها.';
+
+  @override
+  String get dailyAffirmation158 =>
+      'الثقة بالنفس هي أن تدخل المكان وكأن عقد الإيجار باسمك.';
+
+  @override
+  String get dailyAffirmation159 =>
+      'لا بأس أن تهرب من مشاعرك إلى قيلولة أحيانًا؛ فالمشاعر صبورة وستنتظرك.';
+
+  @override
+  String get dailyAffirmation160 =>
+      'ليس عليك أن تكون «شخصًا صباحيًا». يكفي أن تنجو من الصباح.';
+
+  @override
+  String get dailyAffirmation161 =>
+      'التفكير الزائد يحرق سعرات حرارية أيضًا… على الأرجح. إذًا أنت تستحق قطعة حلوى.';
+
+  @override
+  String get dailyAffirmation162 =>
+      'بعض القرارات تُتّخذ برمي عملة معدنية، ثم الشعور بالارتياح أيًّا كانت النتيجة.';
+
+  @override
+  String get dailyAffirmation163 =>
+      'إحصائيًا، أنت تبلي بلاءً حسنًا جدًا مقارنة بقطة عالقة في حاوية قمامة.';
+
+  @override
+  String get dailyAffirmation164 =>
+      'الأنفاس العميقة وحدها تُحتسب روتينًا كاملًا للعناية بالنفس. أنت عمليًا تزدهر.';
+
+  @override
+  String get dailyAffirmation165 =>
+      'لو كان هذا اليوم مشروعًا جماعيًا، لكنت أنجزت أكثر من نصف المجموعة.';
+
+  @override
+  String get dailyAffirmation166 =>
+      'لا أحد تنجو نباتاته المنزلية من المحاولة الأولى. أنت تبلي أفضل مما تظن.';
+
+  @override
+  String get dailyAffirmation167 =>
+      'من الناحية التقنية، لقد نجوت من كل «أسوأ يوم في حياتك» حتى الآن.';
+
+  @override
+  String get dailyAffirmation168 =>
+      'التعب ما هو إلا تصفيق جسدك لك لأنك صمدت يومًا كاملًا.';
+
+  @override
+  String get dailyAffirmation169 =>
+      'ليس كل يوم يحتاج إلى حبكة مثيرة. بعض الأيام تحتاج فقط إلى وجبة خفيفة وقيلولة.';
+
+  @override
+  String get dailyAffirmation170 =>
+      'من حقك أن تكون «قيد الإنجاز» وأن تكون إنسانًا كاملًا اليوم، في الوقت نفسه.';
+
+  @override
+  String get dailyAffirmation171 =>
+      'حين تؤجل شيئًا مخيفًا، فهذا مجرد دماغك يحاول أن يكون صديقًا لطيفًا معك.';
+
+  @override
+  String get dailyAffirmation172 =>
+      'الحياة لا تأتي مع كتيّب تعليمات، لذا بصراحة، أنت ترتجل ببراعة.';
+
+  @override
+  String get dailyAffirmation173 =>
+      'أنت الشخصية الرئيسية اليوم، حتى لو كانت الحبكة كلها عن الغسيل.';
+
+  @override
+  String get dailyAffirmation174 =>
+      'لا بأس إن لم تكن أمور حياتك مرتّبة تمامًا. لا أحد حياته كذلك، هم فقط يملكون إضاءة أفضل.';
+
+  @override
+  String get dailyAffirmation175 =>
+      'لقد خضت هذا اليوم كله من دون دليل استخدام — وهذه عمليًا قوة خارقة.';
+
+  @override
+  String get dailyAffirmation176 =>
+      'الانتصارات الصغيرة تُحتسب أيضًا، حتى تلك من نوع «رددت أخيرًا على تلك الرسالة».';
+
+  @override
+  String get dailyAffirmation177 =>
+      'ليس عليك أن تنتصر على اليوم. أن تعبره بصحبة وجبة خفيفة — استراتيجية مشروعة تمامًا.';
+
+  @override
+  String get dailyAffirmation178 =>
+      'في بعض الأيام تكون أسدًا. وفي أيام أخرى تكون أسدًا يريد بطانية فقط. وكلاهما مقبول تمامًا.';
+
+  @override
+  String get dailyAffirmation179 =>
+      'من حقك أن تضحك على الفوضى؛ فغالبًا هذا هو أعقل ردّ ممكن.';
+
+  @override
+  String get dailyAffirmation180 =>
+      'نسختك المستقبلية ستشكرك على القيلولة التي أنت على وشك أخذها.';
+
+  @override
+  String get dailyAffirmation181 =>
+      'أنت تستحق حبًا لا يطلب منك أن تتغير أولًا.';
+
+  @override
+  String get dailyAffirmation182 =>
+      'أنت تستحق الراحة، حتى في الأيام التي لم «تتعب» فيها بما يكفي.';
+
+  @override
+  String get dailyAffirmation183 =>
+      'أنت تستحق أن تأخذ مساحتك في هذا العالم كما أنت تمامًا.';
+
+  @override
+  String get dailyAffirmation184 =>
+      'أنت تستحق أن يختارك الناس، لا أن يتحملوك فقط.';
+
+  @override
+  String get dailyAffirmation185 =>
+      'أنت تستحق اللطف، بما في ذلك لطفك أنت مع نفسك.';
+
+  @override
+  String get dailyAffirmation186 =>
+      'أنت تستحق الأشياء الجميلة، حتى تلك التي لم تطلبها.';
+
+  @override
+  String get dailyAffirmation187 =>
+      'أنت تستحق أشخاصًا يقفون إلى جانبك حين تحتاج إليهم.';
+
+  @override
+  String get dailyAffirmation188 => 'أنت تستحق حياة تشعر أنها حياتك فعلًا.';
+
+  @override
+  String get dailyAffirmation189 => 'أنت تستحق أن يصدّقك الناس حين تتكلم.';
+
+  @override
+  String get dailyAffirmation190 => 'أنت تستحق الرقّة، حتى في عالم قاسٍ.';
+
+  @override
+  String get dailyAffirmation191 => 'أنت تستحق فرحًا لا يحتاج إلى تفسير.';
+
+  @override
+  String get dailyAffirmation192 => 'أنت تستحق الأمان، أينما كنت.';
+
+  @override
+  String get dailyAffirmation193 =>
+      'أنت تستحق أن تُحَب من دون أن تضطر إلى كسب هذا الحب أولًا.';
+
+  @override
+  String get dailyAffirmation194 =>
+      'أنت تستحق مقعدًا إلى الطاولة، لا مجرد زاوية في الغرفة.';
+
+  @override
+  String get dailyAffirmation195 =>
+      'أنت تستحق أحلامًا تخصك أنت، لا أحلامًا مستعارة من أحد.';
+
+  @override
+  String get dailyAffirmation196 =>
+      'أنت تستحق الصبر، وخصوصًا صبرك أنت على نفسك.';
+
+  @override
+  String get dailyAffirmation197 => 'أنت تستحق أن تُفهَم، لا أن تُحتمَل فقط.';
+
+  @override
+  String get dailyAffirmation198 =>
+      'أنت تستحق أن تحدث لك أشياء جميلة، لا مجرد النجاة.';
+
+  @override
+  String get dailyAffirmation199 => 'أنت تستحق أن يُحتفى بك، لا أن تُقبَل فقط.';
+
+  @override
+  String get dailyAffirmation200 =>
+      'أنت تستحق كما أنت اليوم تمامًا، بكل ما لم يكتمل فيك بعد.';
+
+  @override
+  String get dailyAffirmation201 =>
+      'أنت تستحق مستقبلًا لا يعيد عليك أصعب أيامك.';
+
+  @override
+  String get dailyAffirmation202 => 'أنت تستحق أن تفخر بنفسك، من دون أي شروط.';
+
+  @override
+  String get dailyAffirmation203 => 'أنت تستحق أشخاصًا لا يجعلونك تتصاغر.';
+
+  @override
+  String get dailyAffirmation204 =>
+      'أنت تستحق احترامك أنت لنفسك، أولًا ودائمًا.';
+
+  @override
+  String get dailyAffirmation205 =>
+      'أنت تستحق الرفق في الأيام التي تشعر فيها أنك لا تستحقه.';
+
+  @override
+  String get dailyAffirmation206 =>
+      'أنت تستحق أن تكون الشخص المفضّل لدى أحدهم.';
+
+  @override
+  String get dailyAffirmation207 => 'أنت تستحق حياة أكثر يسرًا.';
+
+  @override
+  String get dailyAffirmation208 =>
+      'أنت تستحق — لا بسبب ما تفعله، بل لأنك موجود.';
+
+  @override
+  String get dailyAffirmation209 =>
+      'أنت تستحق أن تكون مرغوبًا، لا مجرد شخص يُحتاج إليه.';
+
+  @override
+  String get dailyAffirmation210 => 'أنت تستحق أن تثق بنفسك من جديد.';
 
   @override
   String get pleaseLogInAgain => 'يرجى تسجيل الدخول مرة أخرى.';

@@ -289,443 +289,807 @@ class AppLocalizationsRo extends AppLocalizations {
   String get thereFallback => 'tu';
 
   @override
-  String get dailyAffirmation1 =>
-      'Ai voie să trăiești această zi o respirație pe rând.';
+  String get dailyAffirmation1 => 'Adevăratul miracol e să crezi în tine.';
 
   @override
-  String get dailyAffirmation2 =>
-      'Sentimentele tale contează, iar corpul tău merită grijă blândă.';
+  String get dailyAffirmation2 => 'Diversitatea face lumea frumoasă.';
 
   @override
-  String get dailyAffirmation3 =>
-      'Ești mai puternic decât pare acest moment chiar acum.';
+  String get dailyAffirmation3 => 'După ploaie vine curcubeul.';
 
   @override
   String get dailyAffirmation4 =>
-      'Pașii mici de astăzi sunt totuși un progres semnificativ.';
+      'Dă-ți voie să fii tu, chiar și acolo unde se așteaptă ca toți să fie la fel.';
 
   @override
-  String get dailyAffirmation5 => 'Aparții exact așa cum ești, aici și acum.';
+  String get dailyAffirmation5 =>
+      'Valoarea ta nu stă în ce ai, ci în cine ești.';
 
   @override
-  String get dailyAffirmation6 =>
-      'Vocea ta, ritmul tău și vindecarea ta — toate contează.';
+  String get dailyAffirmation6 => 'E ok să nu fii ok.';
 
   @override
-  String get dailyAffirmation7 => 'Te poți odihni și totuși să crești.';
+  String get dailyAffirmation7 =>
+      'Te așteaptă un loc la mese pe care nici nu le-ai văzut încă.';
 
   @override
-  String get dailyAffirmation8 =>
-      'Adevărul este că lumea naturală se schimbă. Și suntem total dependenți de acea lume.';
+  String get dailyAffirmation8 => 'Poți face orice, dar nu e obligatoriu.';
 
   @override
-  String get dailyAffirmation9 => 'Cu toții suntem făcuți din praf de stele.';
+  String get dailyAffirmation9 =>
+      'Dacă despărțirea doare, înseamnă că timpul a fost bine petrecut.';
 
   @override
-  String get dailyAffirmation10 =>
-      'Visează cu pasiune, trăiește cu responsabilitate.';
+  String get dailyAffirmation10 => 'Nu uita cine ține la tine.';
 
   @override
-  String get dailyAffirmation11 => 'Uită-te la ce putem face când ne adunăm.';
+  String get dailyAffirmation11 =>
+      'Și dacă iese mai bine decât ți-ai imaginat?';
 
   @override
-  String get dailyAffirmation12 =>
-      'Suferă acum și trăiește restul vieții ca un campion.';
+  String get dailyAffirmation12 => 'Ești de ajuns';
 
   @override
-  String get dailyAffirmation13 => 'Totul va fi bine. Mai spune o dată.';
+  String get dailyAffirmation13 => 'Îmi croiesc propriul drum';
 
   @override
-  String get dailyAffirmation14 => 'Fă acel pas și încearcă, e suficient.';
+  String get dailyAffirmation14 => 'Azi e o zi nouă. Strălucește!';
 
   @override
-  String get dailyAffirmation15 => 'Fă un val de schimbări pozitive.';
+  String get dailyAffirmation15 =>
+      'Nu-ți pierde niciodată speranța. Furtunile ne fac mai puternici și nu țin o veșnicie.';
 
   @override
-  String get dailyAffirmation16 => 'Vechile metode nu vor deschide uși noi.';
+  String get dailyAffirmation16 =>
+      'Plângi. Iartă. Învață. Mergi mai departe. Lasă-ți lacrimile să ude semințele fericirii tale de mâine.';
 
   @override
-  String get dailyAffirmation17 => 'Greșelile sunt dovada că încerci.';
+  String get dailyAffirmation17 => 'S-ar putea să nu fie ușor, dar va merita.';
 
   @override
   String get dailyAffirmation18 =>
-      'Inima ta este de mărimea unui ocean. Du-te și regăsește-te în adâncurile sale ascunse.';
+      'Nu uita să te concentrezi pe lucrurile bune.';
 
   @override
-  String get dailyAffirmation19 => 'Fii ciudat, fii unic, fii tu însuți.';
+  String get dailyAffirmation19 => 'Nu e egoism — e grijă de tine.';
 
   @override
-  String get dailyAffirmation20 => 'Orice s-ar întâmpla, se întâmplă în bine.';
+  String get dailyAffirmation20 => 'Ești super, ține-o tot așa.';
 
   @override
-  String get dailyAffirmation21 =>
-      'Acțiunile pot vorbi mai tare decât cuvintele.';
+  String get dailyAffirmation21 => 'Crede în tine. Poți face minuni';
 
   @override
-  String get dailyAffirmation22 =>
-      'De când am existat, chiar și pentru o clipă, atunci existăm pentru totdeauna.';
+  String get dailyAffirmation22 => 'Așa cum curge viața, va trece și asta.';
 
   @override
   String get dailyAffirmation23 =>
-      'Dacă a-ți lua rămas bun doare, înseamnă că ți-ai petrecut bine timpul.';
+      'Fiecare provocare pe care o întâlnesc e o șansă să mă întăresc.';
 
   @override
   String get dailyAffirmation24 =>
-      'Dacă viața îți oferă momente, fă-le amintiri bune.';
+      'Îmi îmbrățișez întrebările din suflet și las răspunsurile să vină la timpul lor.';
 
   @override
-  String get dailyAffirmation25 => 'Ce oferi aia primeşti.';
+  String get dailyAffirmation25 => 'Nu-ți cere nimeni perfecțiune.';
 
   @override
-  String get dailyAffirmation26 => 'Diversitatea face lumea frumoasă.';
+  String get dailyAffirmation26 =>
+      'Perfecțiunea e o utopie. E bună doar ca busolă.';
 
   @override
-  String get dailyAffirmation27 => 'Totul este OK, nicio problemă.';
+  String get dailyAffirmation27 =>
+      'Rămân în picioare și lupt pentru visurile mele.';
 
   @override
-  String get dailyAffirmation28 =>
-      'Ceea ce crezi, devii. Ceea ce simți, atragi. Ceea ce îți imaginezi, creezi.';
+  String get dailyAffirmation28 => 'Nu-i lăsa pe alții să-ți decidă viitorul.';
 
   @override
-  String get dailyAffirmation29 => 'Mințile puternice cresc în spații sigure.';
+  String get dailyAffirmation29 =>
+      'Stau bine pe picioarele mele, rezist și cresc chiar și în vremuri nesigure.';
 
   @override
   String get dailyAffirmation30 =>
-      'Totul este posibil, doar încercați. O poți face.';
+      'Dacă viața îți dă momente, fă din ele amintiri frumoase.';
 
   @override
-  String get dailyAffirmation31 =>
-      'Fiecare început este doar o continuare, la urma urmei, iar cartea evenimentelor este întotdeauna deschisă la jumătatea drumului.';
+  String get dailyAffirmation31 => 'Cu obiceiuri vechi nu deschizi uși noi.';
 
   @override
-  String get dailyAffirmation32 =>
-      'Sunt întemeiat, rezistent și deschis spre creștere chiar și în vremuri incerte.';
+  String get dailyAffirmation32 => 'Greșelile sunt dovada că încerci.';
 
   @override
-  String get dailyAffirmation33 =>
-      'Fii persoana de care aveai nevoie când erai mai tânăr.';
+  String get dailyAffirmation33 => 'Fă pasul ăla și încearcă — e de ajuns.';
 
   @override
-  String get dailyAffirmation34 => 'E o crăpătură în toate, așa intră lumina.';
+  String get dailyAffirmation34 => 'Uite ce putem face când ne unim.';
 
   @override
-  String get dailyAffirmation35 => 'Stau și lupt pentru a-mi găsi visele.';
+  String get dailyAffirmation35 =>
+      'Când nu știi încotro mergi, orice drum te duce acolo.';
 
   @override
-  String get dailyAffirmation36 =>
-      'Nu-l lăsa pe celălalt să decidă viitorul tău.';
+  String get dailyAffirmation36 => 'Viața e o singură zi — ziua de azi.';
 
   @override
-  String get dailyAffirmation37 =>
-      'Lumea are nevoie de mai multe femei supărate.';
+  String get dailyAffirmation37 => 'Cu toții suntem făcuți din praf de stele.';
 
   @override
-  String get dailyAffirmation38 => 'Soarele va rasari si vom incerca din nou.';
+  String get dailyAffirmation38 =>
+      'Visează cu pasiune, trăiește cu responsabilitate.';
 
   @override
-  String get dailyAffirmation39 =>
-      'Rătăcitor, nu există cale. Faci calea în timp ce mergi.';
+  String get dailyAffirmation39 => 'Totul va fi bine. Mai spune-o o dată.';
 
   @override
-  String get dailyAffirmation40 => 'Nu trebuie să fii perfect.';
+  String get dailyAffirmation40 => 'Fii altfel, fii unicat, fii tu.';
 
   @override
-  String get dailyAffirmation41 =>
-      'Perfecțiunea este o utopie. Servește doar ca busolă.';
+  String get dailyAffirmation41 => 'Mințile puternice cresc în locuri sigure.';
 
   @override
   String get dailyAffirmation42 =>
-      'Totul are un început și un sfârșit, iar sfârșitul poate fi frumos, oricât de întunecat ar părea acum.';
+      'Orice început e doar o continuare, la urma urmei, iar cartea întâmplărilor e mereu deschisă pe la jumătate.';
 
   @override
   String get dailyAffirmation43 =>
-      'Îmi ridic vocea – nu pentru a putea striga, ci pentru ca cei fără voce să poată fi auziți.';
+      'Toate au un început și un sfârșit — iar sfârșitul poate fi frumos, oricât de întunecat pare acum.';
 
   @override
   String get dailyAffirmation44 =>
-      'Tot ceea ce pare că te îneacă, de fapt, doar te învață să înoți.';
+      'Singura aprobare de care voi avea vreodată nevoie e a mea.';
 
   @override
-  String get dailyAffirmation45 => 'Dacă ai un scop, vei găsi o cale.';
+  String get dailyAffirmation45 => 'N-ar trebui să căutăm eroi, ci idei bune.';
 
   @override
-  String get dailyAffirmation46 => 'După ploaie vine curcubeul.';
+  String get dailyAffirmation46 =>
+      'Cea mai mică faptă bună face mai mult decât cea mai mare intenție bună.';
 
   @override
   String get dailyAffirmation47 =>
-      'Fiecare provocare cu care mă confrunt este o oportunitate de a deveni mai puternic.';
+      'Locul din care vii nu e ceva de ascuns — e un loc în care poți sta cu fruntea sus.';
 
   @override
   String get dailyAffirmation48 =>
-      'Îmbrățișez întrebările în inima mea și salut răspunsurile în timpul lor.';
+      'Numele tău, limba ta, povestea familiei tale — sunt ale tale, să le porți cu mândrie.';
 
   @override
   String get dailyAffirmation49 =>
-      'Singura aprobare de care voi avea nevoie este a mea.';
+      'N-ai nevoie de permisiune ca să-ți ocupi locul în lumea asta.';
 
   @override
   String get dailyAffirmation50 =>
-      'Omoara pofta de a fi ales. Alege-te singur.';
+      'Nu ești „prea mult” din nimic. Ești exact doza potrivită de tine.';
 
   @override
   String get dailyAffirmation51 =>
-      'În greutăți continuă să zâmbești. Îi face să-și facă griji.';
+      'Rădăcinile tale nu te țin pe loc. Ele te ajută să crești mare.';
 
   @override
   String get dailyAffirmation52 =>
-      'Nu tot ceea ce este înfruntat poate fi schimbat, dar nimic nu poate fi schimbat până nu este înfruntat.';
+      'Nu există un singur mod de a aparține de un loc. Tu poți să-l scrii pe al tău.';
 
   @override
   String get dailyAffirmation53 =>
-      'Nu ar trebui să căutăm eroi, ar trebui să căutăm idei bune.';
+      'Povestea ta contează — chiar și părțile despre care nu te-a întrebat nimeni încă.';
 
   @override
   String get dailyAffirmation54 =>
-      'Văd soarele, iar dacă nu văd soarele, știu că este acolo.';
+      'Porți în tine mai mult de un acasă — și asta nu e o povară, e o bogăție.';
 
   @override
   String get dailyAffirmation55 =>
-      'Oricine nu a greșit niciodată nu a încercat nimic nou.';
+      'Ca să te mândrești cu cine ești, n-ai nevoie de aprobarea nimănui.';
 
   @override
   String get dailyAffirmation56 =>
-      'Există o viață întreagă în asta - în a ști că soarele este acolo.';
+      'Nu trebuie să-ți câștigi locul aici. Îl ai deja.';
 
   @override
-  String get dailyAffirmation57 => 'Doar proștii nu se răzgândesc niciodată.';
+  String get dailyAffirmation57 =>
+      'Undeva, o ușă e deschisă pentru tine — chiar și în zilele în care nu pare.';
 
   @override
   String get dailyAffirmation58 =>
-      'Întotdeauna pare imposibil până nu este gata.';
+      'Ai voie să-ți construiești un acasă în mai mult de un loc.';
 
   @override
   String get dailyAffirmation59 =>
-      'Nu vă îndoiți niciodată că un mic grup de cetățeni atenți și dedicați poate schimba lumea; într-adevăr, este singurul lucru care a avut vreodată.';
+      'Oamenii care contează îți fac loc — nu-ți cer să te micșorezi.';
 
   @override
-  String get dailyAffirmation60 => 'Doar fă-o deja!';
+  String get dailyAffirmation60 =>
+      'Nu ești doar în vizită în propria ta viață.';
 
   @override
-  String get dailyAffirmation61 => 'Învinge plânsul cu un zâmbet adânc.';
+  String get dailyAffirmation61 =>
+      'Oriunde te afli azi, ai tot dreptul să fii acolo.';
 
   @override
   String get dailyAffirmation62 =>
-      'Prefer să mor ca un bărbat decât să trăiesc ca un laș.';
+      'Comunitatea nu e ceva ce aștepți să apară. Uneori, tu ești scânteia care o aprinde.';
 
   @override
   String get dailyAffirmation63 =>
-      'Permite-ți să fii autentic, chiar și în locurile în care se așteaptă ca toată lumea să fie la fel.';
+      'Nu trebuie să alegi între locul din care vii și locul în care ești.';
 
   @override
-  String get dailyAffirmation64 => 'Ești cel mai bun, continuă.';
+  String get dailyAffirmation64 =>
+      'Ziua de azi nu trebuie să semene cu cea de mâine.';
 
   @override
   String get dailyAffirmation65 =>
-      'Crede în tine. Poți face minuni să se întâmple.';
+      'Undeva, mai încolo, există o versiune a vieții tale pe care nici n-ai imaginat-o încă. Și e una bună.';
 
   @override
   String get dailyAffirmation66 =>
-      'Dacă îți poți face griji pentru asta, înseamnă că ești în viață și nu te-a ucis și nu te va ucide.';
+      'Capitolele grele se termină. Se va termina și al tău.';
 
   @override
   String get dailyAffirmation67 =>
-      'Odată cu curgerea vieții, și aceasta va trece.';
+      'Ai voie să-ți dorești mai mult — și să te duci după asta.';
 
   @override
-  String get dailyAffirmation68 => 'Continuă, într-o zi va merita.';
+  String get dailyAffirmation68 =>
+      'Viitorul nu e bătut în cuie. Încă ai un cuvânt de spus.';
 
   @override
-  String get dailyAffirmation69 =>
-      'Nu fii niciodată ceea ce celălalt vrea să fii, fii mereu tu însuți.';
+  String get dailyAffirmation69 => 'Și pașii mici tot înainte te duc.';
 
   @override
   String get dailyAffirmation70 =>
-      'Nu uitați să vă concentrați asupra lucrurilor bune.';
+      'Nu ești în urmă. Ești exact acolo unde te-a adus drumul tău.';
 
   @override
-  String get dailyAffirmation71 => 'Nu este egoist, este grijă de sine.';
+  String get dailyAffirmation71 =>
+      'Ce urmează pentru tine încă nu s-a întâmplat — lasă-i loc să te surprindă.';
 
   @override
   String get dailyAffirmation72 =>
-      'Frica te face slab; furia te face puternic.';
+      'De aici înainte, tu decizi cum arată povestea ta.';
 
   @override
   String get dailyAffirmation73 =>
-      'Când cineva se îneacă, nu întrebi dacă poate să înoate, ci doar sari și ajuți.';
+      'Ai trecut prin toate zilele grele de până acum. Nu e noroc — ești tu.';
 
   @override
   String get dailyAffirmation74 =>
-      'Cea mai mică faptă bună este mult mai bună decât cea mai mare intenție bună.';
+      'Oboseala nu înseamnă că dai greș. Înseamnă că duci multe în spate.';
 
   @override
-  String get dailyAffirmation75 => 'Asumați-vă riscul sau pierdeți șansa.';
+  String get dailyAffirmation75 =>
+      'Nu trebuie să fii de fier. E de ajuns să mergi mai departe, în ritmul tău.';
 
   @override
   String get dailyAffirmation76 =>
-      'Crede că poți și ești la jumătatea drumului.';
+      'Puterea nu înseamnă să nu-ți fie greu niciodată — înseamnă să continui oricum.';
 
   @override
   String get dailyAffirmation77 =>
-      'Alege-l pe cel care îți face lumea frumoasă.';
+      'Ai voie să te mândrești că ai răzbit, chiar dacă n-a arătat elegant.';
 
   @override
   String get dailyAffirmation78 =>
-      'Cel mai mic act de bunătate valorează mai mult decât cea mai mare intenție.';
+      'Părțile cele mai grele din povestea ta nu au ultimul cuvânt.';
 
   @override
   String get dailyAffirmation79 =>
-      'Nu regreta nicio zi din viata ta. Zilele bune vă aduc fericire, iar zilele rele vă aduc experiență.';
+      'Ai supraviețuit unor lucruri pe care nimeni nu le vede. Și asta înseamnă ceva.';
 
   @override
   String get dailyAffirmation80 =>
-      'Fiecare profesionist a fost mai întâi amator. Începe-ți visul acum.';
+      'E în regulă dacă vindecarea durează mai mult decât te așteptai.';
 
   @override
-  String get dailyAffirmation81 => 'S-ar putea să nu fie ușor, dar va merita.';
+  String get dailyAffirmation81 =>
+      'Nu trebuie să ai toate răspunsurile ca să mergi mai departe.';
 
   @override
   String get dailyAffirmation82 =>
-      'Niciodată nu este prea târziu pentru a fi ceea ce ai fi putut fi.';
+      'Fiecare zi în care o iei de la capăt e un fel tăcut de curaj.';
 
   @override
-  String get dailyAffirmation83 => 'Tot ce vă puteți imagina este real.';
+  String get dailyAffirmation83 =>
+      'Ai voie, perfect legal, să ai o zi mediocră. Nu-ți trebuie nicio adeverință.';
 
   @override
   String get dailyAffirmation84 =>
-      'Nu există agonie mai mare decât să porți o poveste nespusă în tine.';
+      'Uneori viața înseamnă doar să hotărăști ce mănânci. De trei ori pe zi. La nesfârșit. Te descurci.';
 
   @override
   String get dailyAffirmation85 =>
-      'Urmăriți ceea ce vă atrage inima, nu ceea ce vă atrage privirea.';
+      'Nu fiecare zi trebuie să fie o capodoperă. Unele zile trebuie doar să treacă.';
 
   @override
   String get dailyAffirmation86 =>
-      'Îndrăznește să fii cel mai bun posibil. În orice moment, Îndrăznește să fii!';
+      'Te descurci mai bine decât lasă de înțeles notificările din grupul tău de WhatsApp.';
 
   @override
   String get dailyAffirmation87 =>
-      'Nu-ți pierde niciodată speranța. Furtunile îi fac pe oameni mai puternici și nu durează niciodată pentru totdeauna.';
+      'Încrederea în tine e să te prefaci că știi încotro mergi, până chiar știi.';
 
   @override
   String get dailyAffirmation88 =>
-      'Strigăt. Ierta. Învăţa. Mergi mai departe. Lasă-ți lacrimile să ude semințele fericirii tale viitoare.';
+      'Ai supraviețuit la 100% din cele mai rele zile ale tale. Palmares impecabil.';
 
   @override
   String get dailyAffirmation89 =>
-      'Când ți-e frică să nu te pierzi în lumină, ține-ți umbra de mână.';
+      'Nimeni nu le are pe toate. Cei care par că le au sunt doar mai talentați la lăsat mesajele pe văzut.';
 
   @override
   String get dailyAffirmation90 =>
-      'Acolo unde pământul se separă pentru a crea spațiu, acolo poți planta o sămânță.';
+      'N-ai nevoie azi de un plan pe cinci ani. Un mic dejun ca lumea e de ajuns.';
 
   @override
   String get dailyAffirmation91 =>
-      'Dacă nu ai despre ce să dansezi, găsește un motiv să cânți.';
+      'De multe ori, evoluția înseamnă să te împiedici în față și să-i zici progres.';
 
   @override
   String get dailyAffirmation92 =>
-      'Uneori, singura modalitate de a te regăsi este să te pierzi complet.';
+      'În unele zile, victoria e simplă: te-ai ridicat din pat. Se pune.';
 
   @override
   String get dailyAffirmation93 =>
-      'Totul este în puterea ta, iar puterea ta este în tine.';
+      'Nu trebuie să duci totul pe umerii tăi. Lasă oamenii să te ajute.';
 
   @override
   String get dailyAffirmation94 =>
-      'Valoarea ta nu este ceea ce ai, ci cine ești.';
+      'Cineva, undeva, e de partea ta — chiar și în zilele în care e greu să simți asta.';
 
   @override
-  String get dailyAffirmation95 => 'E ok sa nu fii ok.';
+  String get dailyAffirmation95 =>
+      'Să ceri ajutor nu e slăbiciune. Așa se leagă prieteniile adevărate.';
 
   @override
   String get dailyAffirmation96 =>
-      'După o furtună există întotdeauna un curcubeu.';
+      'Oamenii din jurul tău au nevoie de tine exact atât cât ai tu nevoie de ei.';
 
   @override
-  String get dailyAffirmation97 => 'Mâine este o nouă zi. Strălucire!';
+  String get dailyAffirmation97 =>
+      'Faci parte din ceva mai mare, chiar și în zilele în care pare că nu te vede nimeni.';
 
   @override
   String get dailyAffirmation98 =>
-      'Picăturile de ploaie sunt mici sărutări din Ocean.';
+      'Ai voie să te odihnești înainte să ajungi la capătul puterilor.';
 
   @override
   String get dailyAffirmation99 =>
-      'Lasă tot ceea ce faci să se facă în dragoste.';
+      'Tristețea de azi nu anulează binele de mâine.';
 
   @override
-  String get dailyAffirmation100 => 'Credința peste frică.';
+  String get dailyAffirmation100 => 'Nu-i datorezi nimănui veselie non-stop.';
 
   @override
   String get dailyAffirmation101 =>
-      'Fă din ce în ce mai mult cu din ce în ce mai puțin până când poți face orice fără nimic.';
+      'E în regulă să nu ai un răspuns chiar acum.';
 
   @override
   String get dailyAffirmation102 =>
-      'Fii dragostea pe care vrei să o vezi în lume.';
+      'Să ai grijă de tine azi nu e egoism — e o necesitate.';
 
   @override
   String get dailyAffirmation103 =>
-      'Există un loc care te așteaptă la mese pe care nici măcar nu le-ai văzut.';
+      'Prejudecățile altora nu sunt dovezi despre cine ești tu.';
 
   @override
   String get dailyAffirmation104 =>
-      'Mișcă-te de parcă totul va merge. Pentru că este.';
+      'Nu ești povestea pe care o spun alții despre tine.';
 
   @override
-  String get dailyAffirmation105 => 'Sunt mereu protejat.';
+  String get dailyAffirmation105 =>
+      'Să crezi că meriți mai puțin nu e niciodată adevărat. Meriți tot respectul.';
 
   @override
   String get dailyAffirmation106 =>
-      'Nu vei rata niciodată ceea ce este destinat pentru tine.';
+      'Valoarea ta nu se pune la vot, indiferent cine te face să crezi altceva.';
 
   @override
-  String get dailyAffirmation107 => 'Nimeni nu este un om profesionist.';
+  String get dailyAffirmation107 =>
+      'Nu e adevărat că nu te vede nimeni. Cineva de aici vede exact cine ești.';
 
   @override
   String get dailyAffirmation108 =>
-      'Deasupra norilor soarele strălucește mereu.';
+      'Dacă unii se uită pe lângă tine, nu înseamnă că nimeni nu te vede.';
 
   @override
-  String get dailyAffirmation109 => 'Amintește-ți cui îi pasă de tine.';
+  String get dailyAffirmation109 =>
+      'Contezi — chiar și în încăperile unde nimeni n-o spune cu voce tare.';
 
   @override
-  String get dailyAffirmation110 => 'Nimic nu contează, bucură-te.';
+  String get dailyAffirmation110 =>
+      'Cineva a băgat de seamă. Doar ți se pare că nu te vede nimeni.';
 
   @override
   String get dailyAffirmation111 =>
-      'A fi nefericit este motivul pentru care poți aprecia zile mai bune.';
+      'Nu trebuie să te micșorezi ca lumea să te remarce din motivele potrivite.';
 
   @override
   String get dailyAffirmation112 =>
-      'Dacă se întoarce mai bine decât ți-ai imaginat?';
+      'Să te vadă lumea începe cu felul în care te vezi tu — și ai voie să începi de acolo.';
 
   @override
-  String get dailyAffirmation113 => 'Ești suficient.';
+  String get dailyAffirmation113 =>
+      'Nu ești nici „prea mult”, nici „prea puțin”. Ești tu — și asta se vede.';
 
   @override
-  String get dailyAffirmation114 => 'Îmi fac singur drumul.';
+  String get dailyAffirmation114 =>
+      'Există oameni care prețuiesc exact lucrurile care te fac să fii tu.';
 
   @override
   String get dailyAffirmation115 =>
-      'Fii schimbarea pe care vrei să o vezi în lume.';
+      'Prezența ta schimbă atmosfera dintr-o încăpere, chiar și când ție nu ți se pare.';
 
   @override
   String get dailyAffirmation116 =>
-      'Nu-ți face griji pentru nimic, pentru că fiecare lucru mic va fi în regulă.';
+      'Mai mulți oameni te cunosc, în mai multe feluri, decât îți dai seama.';
 
   @override
   String get dailyAffirmation117 =>
-      'Acordați importanță ceea ce este important.';
+      'Nu controlezi tot ce ți se întâmplă. Controlezi însă felul în care îi faci față.';
 
   @override
-  String get dailyAffirmation118 => 'Poți face orice, dar nu trebuie.';
+  String get dailyAffirmation118 =>
+      'Tu decizi ce se întâmplă mai departe cu tine.';
 
   @override
-  String get dailyAffirmation119 => 'Soarele în inimă.';
+  String get dailyAffirmation119 =>
+      'Alegerile mici rămân tot ale tale, chiar și în situații grele.';
 
   @override
   String get dailyAffirmation120 =>
-      'Toți sunt folositori, nimeni nu este indispensabil.';
+      'Nu ești pe scaunul din dreapta în propria ta viață. Tu ești la volan.';
+
+  @override
+  String get dailyAffirmation121 =>
+      'Să ceri ce-ți trebuie e o formă de putere, nu de slăbiciune.';
+
+  @override
+  String get dailyAffirmation122 =>
+      'Ai un cuvânt de spus aici, chiar și când nu pare.';
+
+  @override
+  String get dailyAffirmation123 =>
+      'Următorul tău capitol nu-l poate scrie nimeni în locul tău.';
+
+  @override
+  String get dailyAffirmation124 =>
+      'Chiar și în sisteme care n-au fost construite pentru tine, alegerile tale tot contează.';
+
+  @override
+  String get dailyAffirmation125 =>
+      'Ai voie să vrei ca lucrurile să fie altfel — și să muncești pentru asta.';
+
+  @override
+  String get dailyAffirmation126 => 'Ce faci cu ziua de azi rămâne decizia ta.';
+
+  @override
+  String get dailyAffirmation127 =>
+      'Nu trebuie să schimbi cine ești ca să-ți meriți locul aici.';
+
+  @override
+  String get dailyAffirmation128 =>
+      'Există oameni care au loc pentru tine exact așa cum ești.';
+
+  @override
+  String get dailyAffirmation129 =>
+      'Aparții mai multor locuri — și asta nu e o contradicție.';
+
+  @override
+  String get dailyAffirmation130 =>
+      'O legătură adevărată nu-ți cere să ascunzi nicio parte din tine.';
+
+  @override
+  String get dailyAffirmation131 => 'Undeva, cineva se bucură că exiști.';
+
+  @override
+  String get dailyAffirmation132 =>
+      'Nu trebuie să dai explicații ca să aparții.';
+
+  @override
+  String get dailyAffirmation133 =>
+      'Comunitatea nu e un concurs de admitere. Ești deja înăuntru.';
+
+  @override
+  String get dailyAffirmation134 =>
+      'Faptul că ești departe de unde ai pornit nu înseamnă că n-ai un acasă.';
+
+  @override
+  String get dailyAffirmation135 =>
+      'Nu trebuie să treci prin asta fără sprijin, chiar dacă uneori așa se simte.';
+
+  @override
+  String get dailyAffirmation136 =>
+      'Există oameni care își construiesc viața alături de tine, nu doar se uită din afară.';
+
+  @override
+  String get dailyAffirmation137 =>
+      'Rădăcinile tale poartă puterea unor generații întregi. Ai moștenit-o și tu.';
+
+  @override
+  String get dailyAffirmation138 =>
+      'Limba ta, tradițiile tale, povestea familiei tale — toate merită ținute în viață.';
+
+  @override
+  String get dailyAffirmation139 =>
+      'Exact ce face comunitatea ta diferită o face să merite să-i aparții.';
+
+  @override
+  String get dailyAffirmation140 =>
+      'Nu datorezi nimănui scuze pentru locul din care vii.';
+
+  @override
+  String get dailyAffirmation141 =>
+      'Moștenirea ta nu e ceva de gestionat. E ceva de purtat cu mândrie.';
+
+  @override
+  String get dailyAffirmation142 =>
+      'Cultura ta nu e o problemă de rezolvat. E parte din puterea ta.';
+
+  @override
+  String get dailyAffirmation143 =>
+      'Să te mândrești cu cine ești nu înseamnă că nu știi cum e lumea.';
+
+  @override
+  String get dailyAffirmation144 =>
+      'Identitatea ta nu e o povară pe care o cari. E o temelie pe care stai.';
+
+  @override
+  String get dailyAffirmation145 =>
+      'Ce ai primit de la cei dinaintea ta merită dus mai departe.';
+
+  @override
+  String get dailyAffirmation146 =>
+      'E în regulă dacă ziua de azi se simte goală. Nu trebuie să te prefaci că ești bine.';
+
+  @override
+  String get dailyAffirmation147 => 'Ai voie să te saturi să te tot explici.';
+
+  @override
+  String get dailyAffirmation148 =>
+      'Tristețea nu e slăbiciune. E semn că iei în seamă ceva real.';
+
+  @override
+  String get dailyAffirmation149 =>
+      'Nu trebuie să ai speranță în fiecare zi. În unele zile, e de ajuns doar să treci prin ele.';
+
+  @override
+  String get dailyAffirmation150 =>
+      'E în regulă să te înfurie lucrurile care n-au fost niciodată drepte.';
+
+  @override
+  String get dailyAffirmation151 =>
+      'Să plângi pentru ceva real nu e totuna cu a te prăbuși.';
+
+  @override
+  String get dailyAffirmation152 =>
+      'Nu trebuie să justifici de ce te-a durut ceva. Te-a durut. E motiv suficient.';
+
+  @override
+  String get dailyAffirmation153 =>
+      'În unele zile, ștacheta e „m-am îmbrăcat”. Respectă ștacheta.';
+
+  @override
+  String get dailyAffirmation154 =>
+      'Ai trecut prin 100% din zilele tale de luni. Zero înfrângeri până acum.';
+
+  @override
+  String get dailyAffirmation155 =>
+      'Viața nimănui nu arată în realitate ca în poze. Nici a ta nu trebuie.';
+
+  @override
+  String get dailyAffirmation156 =>
+      'Viața de adult e 10% înțelepciune și 90% să te prefaci că știi de ce nu merge imprimanta.';
+
+  @override
+  String get dailyAffirmation157 =>
+      'Ești la o gustare distanță de a te simți un om un pic mai bun. Du-te și ia-o.';
+
+  @override
+  String get dailyAffirmation158 =>
+      'Încrederea în tine înseamnă să intri în încăpere de parcă tu plătești chiria acolo.';
+
+  @override
+  String get dailyAffirmation159 =>
+      'E în regulă să mai tragi câte un pui de somn peste sentimente. Ele au răbdare.';
+
+  @override
+  String get dailyAffirmation160 =>
+      'Nu trebuie să fii „om matinal”. Trebuie doar să supraviețuiești dimineții.';
+
+  @override
+  String get dailyAffirmation161 =>
+      'Gânditul prea mult arde și el calorii, probabil. Ți-ai câștigat desertul.';
+
+  @override
+  String get dailyAffirmation162 =>
+      'Unele decizii se iau cel mai bine dând cu banul — orice pică, simți o ușurare.';
+
+  @override
+  String get dailyAffirmation163 =>
+      'Statistic vorbind, te descurci excelent — mai ales în comparație cu un porumbel căzut în tomberon.';
+
+  @override
+  String get dailyAffirmation164 =>
+      'Câteva respirații adânci se pun ca o întreagă rutină de wellness. Practic, înflorești.';
+
+  @override
+  String get dailyAffirmation165 =>
+      'Dacă ziua de azi ar fi fost un proiect de grup, tu ai fi făcut mai mult decât jumătate dintre colegi.';
+
+  @override
+  String get dailyAffirmation166 =>
+      'Nimănui nu-i supraviețuiesc plantele din prima. Te descurci mai bine decât crezi.';
+
+  @override
+  String get dailyAffirmation167 =>
+      'Tehnic vorbind, ai supraviețuit până acum fiecărei zile din categoria „cea mai rea zi din viața mea”.';
+
+  @override
+  String get dailyAffirmation168 =>
+      'Oboseala e doar corpul tău care te aplaudă pentru că ai existat toată ziua.';
+
+  @override
+  String get dailyAffirmation169 =>
+      'Nu orice zi are nevoie de o răsturnare de situație. Unele au nevoie doar de ronțăieli și un pui de somn.';
+
+  @override
+  String get dailyAffirmation170 =>
+      'Ai voie să fii încă „în construcție” și, în același timp, un om întreg azi.';
+
+  @override
+  String get dailyAffirmation171 =>
+      'Să amâni ceva care te sperie e doar felul creierului tău de a-ți fi prieten bun.';
+
+  @override
+  String get dailyAffirmation172 =>
+      'Viața nu vine cu instrucțiuni, așa că, sincer, improvizezi minunat.';
+
+  @override
+  String get dailyAffirmation173 =>
+      'Azi ești personajul principal, chiar dacă tot scenariul e doar spălatul rufelor.';
+
+  @override
+  String get dailyAffirmation174 =>
+      'E ok să nu ai viața pusă la punct. Nimeni n-o are — doar că unii au lumină mai bună în poze.';
+
+  @override
+  String get dailyAffirmation175 =>
+      'Ai trecut prin ziua de azi fără manual de utilizare — practic, o superputere.';
+
+  @override
+  String get dailyAffirmation176 =>
+      'Victoriile mici se pun și ele, chiar și cele de genul „am răspuns în sfârșit la mesajul ăla”.';
+
+  @override
+  String get dailyAffirmation177 =>
+      'Nu trebuie să câștigi ziua. S-o scoți la capăt cu ronțăieli e o strategie perfect legitimă.';
+
+  @override
+  String get dailyAffirmation178 =>
+      'În unele zile ești leu. În altele, ești un leu care vrea doar o păturică. Ambele variante sunt valabile.';
+
+  @override
+  String get dailyAffirmation179 =>
+      'Ai voie să râzi de haos. De obicei, e cea mai sănătoasă reacție.';
+
+  @override
+  String get dailyAffirmation180 =>
+      'Versiunea ta din viitor îți va mulțumi pentru puiul de somn pe care urmează să-l tragi.';
+
+  @override
+  String get dailyAffirmation181 =>
+      'Meriți o iubire care nu-ți cere să te schimbi mai întâi.';
+
+  @override
+  String get dailyAffirmation182 =>
+      'Meriți odihnă, chiar și în zilele în care n-ai „câștigat-o”.';
+
+  @override
+  String get dailyAffirmation183 =>
+      'Meriți să-ți ocupi locul exact așa cum ești.';
+
+  @override
+  String get dailyAffirmation184 =>
+      'Meriți ca cineva să te aleagă, nu doar să te tolereze.';
+
+  @override
+  String get dailyAffirmation185 => 'Meriți bunătate, inclusiv de la tine.';
+
+  @override
+  String get dailyAffirmation186 =>
+      'Meriți lucruri bune, chiar și pe cele pe care nu le-ai cerut.';
+
+  @override
+  String get dailyAffirmation187 =>
+      'Meriți oameni care sunt lângă tine când contează.';
+
+  @override
+  String get dailyAffirmation188 =>
+      'Meriți o viață care se simte cu adevărat a ta.';
+
+  @override
+  String get dailyAffirmation189 =>
+      'Meriți ca oamenii să te creadă când vorbești.';
+
+  @override
+  String get dailyAffirmation190 =>
+      'Meriți blândețe, chiar și într-o lume dură.';
+
+  @override
+  String get dailyAffirmation191 => 'Meriți bucurie fără explicații atașate.';
+
+  @override
+  String get dailyAffirmation192 => 'Meriți siguranță, oriunde te-ai afla.';
+
+  @override
+  String get dailyAffirmation193 =>
+      'Meriți iubire fără să fie nevoie s-o câștigi înainte.';
+
+  @override
+  String get dailyAffirmation194 =>
+      'Meriți un loc la masă, nu doar un colț în încăpere.';
+
+  @override
+  String get dailyAffirmation195 =>
+      'Meriți vise care sunt ale tale, nu împrumutate de la altcineva.';
+
+  @override
+  String get dailyAffirmation196 => 'Meriți răbdare — mai ales de la tine.';
+
+  @override
+  String get dailyAffirmation197 =>
+      'Meriți ca cineva să te înțeleagă cu adevărat, nu doar să te suporte.';
+
+  @override
+  String get dailyAffirmation198 =>
+      'Meriți să ți se întâmple lucruri bune, nu doar să supraviețuiești.';
+
+  @override
+  String get dailyAffirmation199 =>
+      'Meriți să te sărbătorească lumea, nu doar să te accepte.';
+
+  @override
+  String get dailyAffirmation200 =>
+      'Meriți, exact așa cum ești azi — cu tot cu părțile neterminate.';
+
+  @override
+  String get dailyAffirmation201 =>
+      'Meriți un viitor care nu repetă cele mai grele zile ale tale.';
+
+  @override
+  String get dailyAffirmation202 =>
+      'Meriți să te mândrești cu tine, fără condiții atașate.';
+
+  @override
+  String get dailyAffirmation203 =>
+      'Meriți oameni lângă care nu trebuie să te micșorezi.';
+
+  @override
+  String get dailyAffirmation204 =>
+      'Meriți propriul tău respect — înainte de toate și pentru totdeauna.';
+
+  @override
+  String get dailyAffirmation205 =>
+      'Meriți blândețe tocmai în zilele în care simți că o meriți cel mai puțin.';
+
+  @override
+  String get dailyAffirmation206 => 'Meriți să fii omul preferat al cuiva.';
+
+  @override
+  String get dailyAffirmation207 =>
+      'Meriți o viață în care să respiri mai ușor.';
+
+  @override
+  String get dailyAffirmation208 =>
+      'Meriți — nu pentru ce faci, ci pentru că exiști.';
+
+  @override
+  String get dailyAffirmation209 =>
+      'Meriți ca oamenii să te vrea aproape, nu doar să aibă nevoie de tine.';
+
+  @override
+  String get dailyAffirmation210 => 'Meriți să ai din nou încredere în tine.';
 
   @override
   String get pleaseLogInAgain => 'Te rugăm să te autentifici din nou.';

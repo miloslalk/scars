@@ -287,441 +287,808 @@ class AppLocalizationsRom extends AppLocalizations {
   String get thereFallback => 'amale';
 
   @override
-  String get dailyAffirmation1 =>
-      'Slobodno si tuke te les akava đive po jekh dah.';
+  String get dailyAffirmation1 => 'O čačo čudo si te paćas ande tute.';
 
   @override
-  String get dailyAffirmation2 =>
-      'Tire haćarimata si vazne, thaj tiro trupo zaslužinel nezno pharipe.';
+  String get dailyAffirmation2 => 'I diverziteto kerel e lumja šukar.';
 
   @override
-  String get dailyAffirmation3 => 'Zoraleder san nego so ađive dikhel pes.';
+  String get dailyAffirmation3 => 'Pala o bršind avel i duga.';
 
   @override
   String get dailyAffirmation4 =>
-      'Tikne phiramne ađive si mek but baro anglunipe.';
-
-  @override
-  String get dailyAffirmation5 =>
-      'Akate pripadis sar so san, akate thaj akana.';
-
-  @override
-  String get dailyAffirmation6 =>
-      'Tiro krlo, tiro tempo thaj tiro sastaripe — sa si baro.';
-
-  @override
-  String get dailyAffirmation7 => 'Šaj te odmoriis thaj mek te barjoves.';
-
-  @override
-  String get dailyAffirmation8 =>
-      'O čačipe si: i naturalno lumja paruvel pes. Thaj amen sam phangle kotar kodi lumja.';
-
-  @override
-  String get dailyAffirmation9 =>
-      'Amen savore sam kerdine kotar o čerainengo praho.';
-
-  @override
-  String get dailyAffirmation10 =>
-      'Suno e zoralipasa, džuvdi e odgovornostjasa.';
-
-  @override
-  String get dailyAffirmation11 => 'Numa dikh so šaj keras kana avas khetane.';
-
-  @override
-  String get dailyAffirmation12 =>
-      'Dukhav akana thaj dživdin o resto tire džuvdipasko sar jekh šampiono.';
-
-  @override
-  String get dailyAffirmation13 =>
-      'Sa ka ovel mišto. Phen les jekhvar maj but.';
-
-  @override
-  String get dailyAffirmation14 =>
-      'Numa ker kodo phiramno thaj zumav, dosta si.';
-
-  @override
-  String get dailyAffirmation15 => 'Keren jekh časo lačhe paruvipasko.';
-
-  @override
-  String get dailyAffirmation16 => 'Le purane droma na ka putren neve vudara.';
-
-  @override
-  String get dailyAffirmation17 => 'Le grešake si doša so zumaves.';
-
-  @override
-  String get dailyAffirmation18 =>
-      'Tiro ilo si baro sar o baro paj. Dža te arakhes tut ande leske garavde thana.';
-
-  @override
-  String get dailyAffirmation19 =>
-      'Te aves bisterdo, te aves jekhtuno, te aves tu korkori.';
-
-  @override
-  String get dailyAffirmation20 => 'So goda ka ovel, ka ovel ko majšukar.';
-
-  @override
-  String get dailyAffirmation21 =>
-      'Le akcie šaj te den duma maj zurales sar le vorbe.';
-
-  @override
-  String get dailyAffirmation22 =>
-      'Sar amen egzistisaras, vi jekh momento, atunči amen egzistisaras sajekh.';
-
-  @override
-  String get dailyAffirmation23 =>
-      'Te phenes lačhes dukhal, kodo značil ke nakhles tiri vrama mišto.';
-
-  @override
-  String get dailyAffirmation24 =>
-      'Te o džuvdipe del tut momentura, ker lenge lačhe haćarimata.';
-
-  @override
-  String get dailyAffirmation25 => 'So phirel krujal, avel krujal.';
-
-  @override
-  String get dailyAffirmation26 => 'I diverziteto kerel e lumja šukar.';
-
-  @override
-  String get dailyAffirmation27 => 'Sa si mišto, naj problemo.';
-
-  @override
-  String get dailyAffirmation28 =>
-      'So tu gindis, tu aves. So tu haćares, tu atraktis. So tu gindisares, tu keres.';
-
-  @override
-  String get dailyAffirmation29 => 'Zurale gindura barjon ano sekurno thana.';
-
-  @override
-  String get dailyAffirmation30 =>
-      'Sa si šajdo, numaj zumav les. Tu šaj te keres les.';
-
-  @override
-  String get dailyAffirmation31 =>
-      'Sako anglunipe si numaj jekh kotor, palal sa, thaj i lil e eventurengi si sajekh putardi ko maškar.';
-
-  @override
-  String get dailyAffirmation32 =>
-      'Me sem fundavno, zoralo thaj putardo vaš o barvalipe vi ano na sigurime vrama.';
-
-  @override
-  String get dailyAffirmation33 =>
-      'Te aves o manuš savo trubulas tut kana sanas maj terno.';
-
-  @override
-  String get dailyAffirmation34 =>
-      'Ande sako falo si jekh pharipe, kade andre resel o nuro.';
-
-  @override
-  String get dailyAffirmation35 =>
-      'Me uštav thaj marav man te arakhav mire sune.';
-
-  @override
-  String get dailyAffirmation36 => 'Na mukh o aver te decidil tiro avutnipe.';
-
-  @override
-  String get dailyAffirmation37 => 'E lumja trubul maj but xoljarde džuvlja.';
-
-  @override
-  String get dailyAffirmation38 =>
-      'O kham ka ikljol thaj amen ka zumavas pale.';
-
-  @override
-  String get dailyAffirmation39 =>
-      'Phirutno, naj drom. Tu keres o drom kana phires.';
-
-  @override
-  String get dailyAffirmation40 => 'Na trubul te aves perfektno.';
-
-  @override
-  String get dailyAffirmation41 =>
-      'I perfekcia si jekh utopia. Vov numaj kerel bući sar kompas.';
-
-  @override
-  String get dailyAffirmation42 =>
-      'Sakofalo si les jekh anglunipe thaj jekh agor, thaj o agor šaj avel šukar, či dikhel pe sode tunjariko dičol akana.';
-
-  @override
-  String get dailyAffirmation43 =>
-      'Vazdav muro krlo — na te dav muj, numa te ašunen kodola kaj nane len krlo.';
-
-  @override
-  String get dailyAffirmation44 =>
-      'Sa so dikhel pes sar te tasavel tut ando paj si čačes numaj te sikavel tut te ćhives tut.';
-
-  @override
-  String get dailyAffirmation45 =>
-      'Te si tut jekh ciljo, ka arakhes jekh drom.';
-
-  @override
-  String get dailyAffirmation46 => 'Pala o bršind avel i duga.';
-
-  @override
-  String get dailyAffirmation47 =>
-      'Sako pharipe savo me arakhav si jekh šansa te barjovav maj zoralo.';
-
-  @override
-  String get dailyAffirmation48 =>
-      'Me astarav e phučhimata ande muro ilo thaj lav e odgovorimata ande lengo vaxt.';
-
-  @override
-  String get dailyAffirmation49 =>
-      'Jekh aprobacija savi ka trubul man si miri.';
-
-  @override
-  String get dailyAffirmation50 =>
-      'Mudar o mangipe te aves alosardo. Alosar tu korkori.';
-
-  @override
-  String get dailyAffirmation51 =>
-      'Ano pharipa ačhav te asaves. Kerel len te daran.';
-
-  @override
-  String get dailyAffirmation52 =>
-      'Na sa so si anglal šaj te paruvel pes, numaj khanči naštine te paruvel pes dži kana na si anglal.';
-
-  @override
-  String get dailyAffirmation53 =>
-      'Na trubul te rodas heroja, trubul te rodas lačhe ideje.';
-
-  @override
-  String get dailyAffirmation54 =>
-      'Me dikhav o kham, thaj te na dikhav o kham, džanav ke si kothe.';
-
-  @override
-  String get dailyAffirmation55 =>
-      'Kodo savo nisar na kerdas bilačhipe nisar na zumadas vareso nevo.';
-
-  @override
-  String get dailyAffirmation56 =>
-      'Si jekh sasto džuvdipe ande kodo — ande kodo te džanes ke o kham si odothe.';
-
-  @override
-  String get dailyAffirmation57 =>
-      'Numaj le dile nisar na paruven pengo gindo.';
-
-  @override
-  String get dailyAffirmation58 =>
-      'Dikhel pes sajekh bišajdo dži kana na kerel pes.';
-
-  @override
-  String get dailyAffirmation59 =>
-      'Nikana na dukhaven pes kaj jekh tikno grupo gindindo, angažirime manušenge šaj te paruvel e lumja; čačimasa, si jekh bući so varekana kerdas.';
-
-  @override
-  String get dailyAffirmation60 => 'Numa ker les akana!';
-
-  @override
-  String get dailyAffirmation61 => 'Maren o rovipe e zurale asapasa.';
-
-  @override
-  String get dailyAffirmation62 =>
-      'Maj mišto te merav sar jekh manuš nego sar te dživdiv sar jekh darano.';
-
-  @override
-  String get dailyAffirmation63 =>
       'Mukh tut te aves autentikano, vi ko thana kote so savore si ažukerde te oven sa jekh.';
 
   @override
-  String get dailyAffirmation64 => 'Tu san o maj lačho, dža maj dur.';
+  String get dailyAffirmation5 => 'Tiro molipe naj so si tut, numaj kon san.';
 
   @override
-  String get dailyAffirmation65 =>
-      'Pačav ande tute. Tu šaj te keres čudimata te oven.';
+  String get dailyAffirmation6 => 'Si mišto te na aves mišto.';
 
   @override
-  String get dailyAffirmation66 =>
-      'Te šaj te daran pal-e kodo, kodo značil ke san džuvindo thaj kodo na mudarda tut thaj na ka mudarel tut.';
-
-  @override
-  String get dailyAffirmation67 => 'Sar phirel o džuvdipe, vi akava ka nakhel.';
-
-  @override
-  String get dailyAffirmation68 => 'Dža maj dur, jekh đive ka ovel lačho.';
-
-  @override
-  String get dailyAffirmation69 =>
-      'Nikana na aves so o aver mangel te aves, aves sajekh tu korkori.';
-
-  @override
-  String get dailyAffirmation70 => 'Na bister te fokusiris tut pe lačhe bući.';
-
-  @override
-  String get dailyAffirmation71 => 'Na si egoistikano, si korkoro pharipe.';
-
-  @override
-  String get dailyAffirmation72 =>
-      'E dar kerel tut bizuralo; o xoli kerel tut zoralo.';
-
-  @override
-  String get dailyAffirmation73 =>
-      'Kana varekon perel ando paj, tu na phučhes les te šaj te paśel — tu numaj čhives tut andre thaj žutis.';
-
-  @override
-  String get dailyAffirmation74 =>
-      'O maj tikno lačho bući si but maj lačho sar o maj baro lačho gindo.';
-
-  @override
-  String get dailyAffirmation75 => 'Te lel o riziko ja te xasarel i šansa.';
-
-  @override
-  String get dailyAffirmation76 => 'Pačav kaj šaj thaj san ko maškar.';
-
-  @override
-  String get dailyAffirmation77 =>
-      'Alosar kodoles savo kerel tiri lumja šukar.';
-
-  @override
-  String get dailyAffirmation78 =>
-      'O maj tikno akto lačhipasko si maj but sar o maj baro gindo.';
-
-  @override
-  String get dailyAffirmation79 =>
-      'Nikana na žalis ni jekh đive ko tiro džuvdipe. Le lačhe đivesa anen tumenge bax thaj le nasul đivesa anen tumenge eksperienza.';
-
-  @override
-  String get dailyAffirmation80 =>
-      'Sako profesionalco sas anglal amateris. Akana šuru tiro suno.';
-
-  @override
-  String get dailyAffirmation81 => 'Šaj te na ovel lokho numa ka ovel lačho.';
-
-  @override
-  String get dailyAffirmation82 =>
-      'Nikana na si but palal te aves so šaj te aves.';
-
-  @override
-  String get dailyAffirmation83 => 'Sa so šaj te gindisares si čačes.';
-
-  @override
-  String get dailyAffirmation84 =>
-      'Naj maj bari dukh sar te inkeres jekh na phendi paramič andar tute.';
-
-  @override
-  String get dailyAffirmation85 =>
-      'Ker so astarel tiro ilo, na so astarel tire jakha.';
-
-  @override
-  String get dailyAffirmation86 =>
-      'Dar te aves o maj lačho so šaj. Ande sa e vrama, dar te aves!';
-
-  @override
-  String get dailyAffirmation87 =>
-      'Nikana na xasar o paćape. E balvalja keren e manušen maj zurale thaj či ačhon sajekh.';
-
-  @override
-  String get dailyAffirmation88 =>
-      'Rov. Ertisar. Sikljov. Dža maj dur. Mekav tire jasvin te den e seme vaš tiri avutni bax.';
-
-  @override
-  String get dailyAffirmation89 =>
-      'Kana daras te xasares tut andar o svetlo, numaj astares e vasta e sumnakajesa.';
-
-  @override
-  String get dailyAffirmation90 =>
-      'Kothe kaj e phuv ulavel pes te kerel than, odothe šaj te thoves jekh seme.';
-
-  @override
-  String get dailyAffirmation91 =>
-      'Te na si tut so te kheles, arakh jekh rig te gilabes.';
-
-  @override
-  String get dailyAffirmation92 =>
-      'Varekana o angluno drom te arakhes tut si te xasares tut pherdo.';
-
-  @override
-  String get dailyAffirmation93 =>
-      'Sakofalo si ande tiri zor, thaj tiri zor si ande tute.';
-
-  @override
-  String get dailyAffirmation94 => 'Tiro molipe naj so si tut, numaj kon san.';
-
-  @override
-  String get dailyAffirmation95 => 'Si mišto te na aves mišto.';
-
-  @override
-  String get dailyAffirmation96 => 'Pala i bari balval sagda avel i duga.';
-
-  @override
-  String get dailyAffirmation97 => 'Tehara si nevo đive. Strahininel!';
-
-  @override
-  String get dailyAffirmation98 =>
-      'Le bršindeske kapiće si tikne čumidimata katar o baro paj.';
-
-  @override
-  String get dailyAffirmation99 => 'Sa so keren te kerdiol ande kamlipe.';
-
-  @override
-  String get dailyAffirmation100 => 'O pačape opral o dar.';
-
-  @override
-  String get dailyAffirmation101 =>
-      'Keren maj but thaj maj but maj tikno thaj maj tikno dži kana šaj te keren vareso bi khančesko.';
-
-  @override
-  String get dailyAffirmation102 =>
-      'Te aves o kamipe savo kames te dikhes ki lumja.';
-
-  @override
-  String get dailyAffirmation103 =>
+  String get dailyAffirmation7 =>
       'Si than savo ažukerel tut ko stolura saven ni dikhljan len.';
 
   @override
-  String get dailyAffirmation104 => 'Phiren sar sa ka ovel mišto. Soske si.';
-
-  @override
-  String get dailyAffirmation105 => 'Me sem sajekh arakhlo.';
-
-  @override
-  String get dailyAffirmation106 => 'Tu či ka xasares so si kerdo tuke.';
-
-  @override
-  String get dailyAffirmation107 => 'Khonik naj profesionalno manuš.';
-
-  @override
-  String get dailyAffirmation108 => 'Po šero le nuverengo sagda pekel o kham.';
-
-  @override
-  String get dailyAffirmation109 =>
-      'Te na bistren kon si les pharipe pala tumende.';
-
-  @override
-  String get dailyAffirmation110 => 'Khanči na si importantno, lošaren tumen.';
-
-  @override
-  String get dailyAffirmation111 =>
-      'Te aves bibaxtalo si o čhando so šaj te ašunes maj lačhe đivesa.';
-
-  @override
-  String get dailyAffirmation112 => 'Sar te ovel maj mišto sar so gindisardan?';
-
-  @override
-  String get dailyAffirmation113 => 'Tu san dosta.';
-
-  @override
-  String get dailyAffirmation114 => 'Me kerav muro drom.';
-
-  @override
-  String get dailyAffirmation115 =>
-      'Te aves o paruvipe so kames te dikhes ki lumja.';
-
-  @override
-  String get dailyAffirmation116 =>
-      'Na daran vaš khanči, soske sako tikno bući ka ovel mišto.';
-
-  @override
-  String get dailyAffirmation117 => 'Den importanca so si importantno.';
-
-  @override
-  String get dailyAffirmation118 =>
+  String get dailyAffirmation8 =>
       'Tu šaj te keres sa numaj na trubul te keres.';
 
   @override
-  String get dailyAffirmation119 => 'O kham ando ilo.';
+  String get dailyAffirmation9 =>
+      'Te dukhal kana phenes ačh Devleha, kodo značil kaj nakhlan tiri vrama mišto.';
+
+  @override
+  String get dailyAffirmation10 => 'Na bister kon si les pharipe pala tute.';
+
+  @override
+  String get dailyAffirmation11 => 'Sar te ovel maj mišto sar so gindisardan?';
+
+  @override
+  String get dailyAffirmation12 => 'Tu san dosta.';
+
+  @override
+  String get dailyAffirmation13 => 'Me kerav muro drom.';
+
+  @override
+  String get dailyAffirmation14 => 'Ađive si nevo đive. Sikav tiri svetlost!';
+
+  @override
+  String get dailyAffirmation15 =>
+      'Nikana na xasar o paćape. E balvalja keren e manušen maj zurale thaj či ačhon sajekh.';
+
+  @override
+  String get dailyAffirmation16 =>
+      'Rov. Ertisar. Sikljov. Dža maj dur. Muk tire jasvin te den paj e seme vaš tiri avutni bax.';
+
+  @override
+  String get dailyAffirmation17 => 'Šaj te na ovel lokho numa ka ovel lačho.';
+
+  @override
+  String get dailyAffirmation18 => 'Na bister te fokusiris tut pe lačhe buća.';
+
+  @override
+  String get dailyAffirmation19 => 'Na si egoistikano, si korkoro pharipe.';
+
+  @override
+  String get dailyAffirmation20 => 'Tu san o maj lačho, dža maj dur.';
+
+  @override
+  String get dailyAffirmation21 => 'Paća ande tute. Tu šaj te keres čudimata.';
+
+  @override
+  String get dailyAffirmation22 => 'Sar phirel o džuvdipe, vi akava ka nakhel.';
+
+  @override
+  String get dailyAffirmation23 =>
+      'Sako pharipe savo me arakhav si jekh šansa te barjovav maj zoralo.';
+
+  @override
+  String get dailyAffirmation24 =>
+      'Me astarav e phučhimata ande muro ilo thaj lav e odgovorimata ande lengo vaxt.';
+
+  @override
+  String get dailyAffirmation25 => 'Na trubul te aves perfektno.';
+
+  @override
+  String get dailyAffirmation26 =>
+      'I perfekcia si jekh utopia. Voj numaj kerel bući sar kompas.';
+
+  @override
+  String get dailyAffirmation27 =>
+      'Me uštav thaj marav man te arakhav mire sune.';
+
+  @override
+  String get dailyAffirmation28 => 'Na mukh o aver te decidil tiro avutnipe.';
+
+  @override
+  String get dailyAffirmation29 =>
+      'Me sem fundavno, zoralo thaj putardo te barjovav vi kana e vrame naj sigurne.';
+
+  @override
+  String get dailyAffirmation30 =>
+      'Te o džuvdipe del tut momentura, ker lendar lačhe riparimata.';
+
+  @override
+  String get dailyAffirmation31 => 'Le purane droma na ka putren neve vudara.';
+
+  @override
+  String get dailyAffirmation32 => 'E greške si sikavipe kaj zumaves.';
+
+  @override
+  String get dailyAffirmation33 =>
+      'Numa ker kodo phiramno thaj zumav, dosta si.';
+
+  @override
+  String get dailyAffirmation34 => 'Numa dikh so šaj keras kana avas khetane.';
+
+  @override
+  String get dailyAffirmation35 =>
+      'Kana na džanes karing džas, sa e droma ka anen tut odothe.';
+
+  @override
+  String get dailyAffirmation36 =>
+      'O džuvdipe si jekh đive, thaj kodo si ađive.';
+
+  @override
+  String get dailyAffirmation37 =>
+      'Amen savore sam kerdine kotar o čerainengo praho.';
+
+  @override
+  String get dailyAffirmation38 =>
+      'Suno e zoralipasa, džuvdi e odgovornostjasa.';
+
+  @override
+  String get dailyAffirmation39 =>
+      'Sa ka ovel mišto. Phen les jekhvar maj but.';
+
+  @override
+  String get dailyAffirmation40 => 'Av averčhande, av jekhutno, av tu korkori.';
+
+  @override
+  String get dailyAffirmation41 => 'Zurale gindura barjon ande sigurne thana.';
+
+  @override
+  String get dailyAffirmation42 =>
+      'Sako anglunipe si numaj jekh kotor, palal sa, thaj i lil e eventurengi si sajekh putardi ko maškar.';
+
+  @override
+  String get dailyAffirmation43 =>
+      'Sakofalo si les jekh anglunipe thaj jekh agor, thaj o agor šaj avel šukar, či dikhel pe sode tunjariko dičol akana.';
+
+  @override
+  String get dailyAffirmation44 =>
+      'Jekh aprobacija savi ka trubul man si miri.';
+
+  @override
+  String get dailyAffirmation45 =>
+      'Na trubul te rodas heroja, trubul te rodas lačhe ideje.';
+
+  @override
+  String get dailyAffirmation46 =>
+      'O maj tikno lačho bući si but maj lačho sar o maj baro lačho gindo.';
+
+  @override
+  String get dailyAffirmation47 =>
+      'Katar aves — kodo naj vareso so kerel tut cikno. Kodo si vareso ande soste ačhes zuralo.';
+
+  @override
+  String get dailyAffirmation48 =>
+      'Tiro anav, tiri čhib, i paramiči tire njamoski — sa kodo si tiro, te phiraves les ponosno.';
+
+  @override
+  String get dailyAffirmation49 =>
+      'Na trubul tut dozvola te les tiro than ande akaja lumja.';
+
+  @override
+  String get dailyAffirmation50 =>
+      'Naj san but ande khanči. San čače kodo so trubul — tu.';
+
+  @override
+  String get dailyAffirmation51 =>
+      'Tire korenurja na crden tut palpale — von den tut te barjoves učo.';
+
+  @override
+  String get dailyAffirmation52 =>
+      'Naj numaj jekh drom te pripadis varekaj. Tu šaj te ramosaves tiro drom korkoro.';
+
+  @override
+  String get dailyAffirmation53 =>
+      'Tiri paramiči si vazni — vi e kotora pala save khonik mek na phučlja.';
+
+  @override
+  String get dailyAffirmation54 =>
+      'Tu phiraves maj but sar jekh kher ande tute — kodo naj pharipe, kodo si barvalipe.';
+
+  @override
+  String get dailyAffirmation55 =>
+      'Te aves ponosno kon san, na trubul tut e averengi dozvola.';
+
+  @override
+  String get dailyAffirmation56 =>
+      'Na trubul te theres tiro than akate — već si tut jekh.';
+
+  @override
+  String get dailyAffirmation57 =>
+      'Varekaj si jekh vudar putardo vaš tute, vi ande đivesa kana na dičol gaja.';
+
+  @override
+  String get dailyAffirmation58 =>
+      'Slobodno si tuke te keres kher ande maj but sar jekh than.';
+
+  @override
+  String get dailyAffirmation59 =>
+      'E manuša save si vazne ka keren than vaš tute — na ka roden te keres tut cikno.';
+
+  @override
+  String get dailyAffirmation60 => 'Naj san gosto ande tiro džuvdipe.';
+
+  @override
+  String get dailyAffirmation61 =>
+      'Kaj godi ačhes ađive, si tut sa o čačipe te ačhes odothe.';
+
+  @override
+  String get dailyAffirmation62 =>
+      'O amalipe naj vareso so ažućares — varekana tu san kodo savo počnis les.';
+
+  @override
+  String get dailyAffirmation63 =>
+      'Na trubul te alosares maškar o than katar aves thaj o than kaj san.';
+
+  @override
+  String get dailyAffirmation64 => 'Ađive na trubul te dičol sar tehara.';
+
+  @override
+  String get dailyAffirmation65 =>
+      'Varekaj anglal si jekh džuvdipe savo mek na gindisardan — thaj vov si lačho.';
+
+  @override
+  String get dailyAffirmation66 => 'E phare kotora nakhen. Vi tiro ka nakhel.';
+
+  @override
+  String get dailyAffirmation67 =>
+      'Slobodno si tuke te manges maj but vaš tute — thaj te džas te les kodo.';
+
+  @override
+  String get dailyAffirmation68 =>
+      'O avutnipe naj phanglo. Mek si tut vorba ande leste.';
+
+  @override
+  String get dailyAffirmation69 => 'Vi e tikne phiramne si phiripe angle.';
+
+  @override
+  String get dailyAffirmation70 =>
+      'Naj san palal. San čače odothe kaj andas tut tiro drom.';
+
+  @override
+  String get dailyAffirmation71 =>
+      'Kodo so avel vaš tute mek na sas — muk than te iznenadil tut.';
+
+  @override
+  String get dailyAffirmation72 =>
+      'Katar akate, tu decidis sar ka dičol tiri paramiči.';
+
+  @override
+  String get dailyAffirmation73 =>
+      'Nakhlan sako pharo đive dži akana. Kodo naj bax — kodo san tu.';
+
+  @override
+  String get dailyAffirmation74 =>
+      'Te aves ćhinjo na značil kaj peres. Značil kaj phiravdan but.';
+
+  @override
+  String get dailyAffirmation75 =>
+      'Na trubul te aves biphaglo. Numa trubul te džas maj dur ande tiro tempo.';
+
+  @override
+  String get dailyAffirmation76 =>
+      'O zuralipe naj te na avel tut nikana pharipe. O zuralipe si te aves palem, vi kana si pharo.';
+
+  @override
+  String get dailyAffirmation77 =>
+      'Slobodno si tuke te aves ponosno kaj nakhlan — vi te na sas šukar.';
+
+  @override
+  String get dailyAffirmation78 =>
+      'E maj phare kotora tire paramičake naj len i palutni vorba.';
+
+  @override
+  String get dailyAffirmation79 =>
+      'Nakhlan buća save khonik na dikhlja — thaj kodo si vazno.';
+
+  @override
+  String get dailyAffirmation80 =>
+      'Si mišto te o sastaripe lel maj but vrama nego so gindisardan.';
+
+  @override
+  String get dailyAffirmation81 =>
+      'Na trubul te džanes sa te šaj džas maj dur.';
+
+  @override
+  String get dailyAffirmation82 =>
+      'Sako đive kana aves palem si tromanipe bi čingarako.';
+
+  @override
+  String get dailyAffirmation83 =>
+      'Po krisi, slobodno si tuke te avel tut jekh sar-so đive. Dozvola na trubul.';
+
+  @override
+  String get dailyAffirmation84 =>
+      'Varekana o džuvdipe si numa te decidis so ka xas, trin drom po đive, sajekh. Tu šaj kodo.';
+
+  @override
+  String get dailyAffirmation85 =>
+      'Na trubul sako đive te avel šukar sar slika. Varesave đivesa numa trubul te nakhen.';
+
+  @override
+  String get dailyAffirmation86 =>
+      'Keres maj mišto nego so sikaven e poruke pe tiro telefono.';
+
+  @override
+  String get dailyAffirmation87 =>
+      'Sigurnost si te keres tut kaj džanes karing džas — dži kana jekh đive čače džanes.';
+
+  @override
+  String get dailyAffirmation88 =>
+      'Nakhlan 100% tire maj bilačhe đivesendar. Zuralo rezultato!';
+
+  @override
+  String get dailyAffirmation89 =>
+      'Khonik na džanel sa. Kodola save dičon kaj džanen — von numa maj mišto garaven kodo.';
+
+  @override
+  String get dailyAffirmation90 =>
+      'Na trubul tut ađive plano vaš pandž brš. Dosta si jekh lačho teharinako.';
+
+  @override
+  String get dailyAffirmation91 =>
+      'O barjovipe but droma dičol gaja: peres angle thaj phenes kaj kodo si drom angle.';
+
+  @override
+  String get dailyAffirmation92 =>
+      'Varesave đivesa i pobeda si numa kaj uštilan. Thaj kodo đinel pes.';
+
+  @override
+  String get dailyAffirmation93 =>
+      'Na trubul te phiraves sa korkoro — muk e manušen te žutin tut.';
+
+  @override
+  String get dailyAffirmation94 =>
+      'Vareko si odothe pala tute, vi ande đivesa kana si pharo te haćares kodo.';
+
+  @override
+  String get dailyAffirmation95 =>
+      'Te rodes ažutipe naj bizuralipe. Gaja e manuša keren čačo amalipe.';
+
+  @override
+  String get dailyAffirmation96 =>
+      'E manuša krujal tute trubun tut — čače gaći sar tu trubus len.';
+
+  @override
+  String get dailyAffirmation97 =>
+      'San kotor katar vareso maj baro — vi ande đivesa kana haćares tut bidikhlo.';
+
+  @override
+  String get dailyAffirmation98 =>
+      'Slobodno si tuke te les hodinipe anglal nego so aves pherdo ćhinjardo.';
+
+  @override
+  String get dailyAffirmation99 =>
+      'Te san dukhado ađive, na značil kaj tehara naštine te aves mišto.';
+
+  @override
+  String get dailyAffirmation100 =>
+      'Naj san udžile khanikaske te aves sajekh pozitivno.';
+
+  @override
+  String get dailyAffirmation101 => 'Si mišto te naj tut odgovori akana.';
+
+  @override
+  String get dailyAffirmation102 =>
+      'Te les sama pe tute ađive naj egoistikano — kodo trubul.';
+
+  @override
+  String get dailyAffirmation103 =>
+      'I predrasuda avere manušesći naj sikavipe kon san tu.';
+
+  @override
+  String get dailyAffirmation104 =>
+      'Naj san i paramiči savi e aver manuša mothon pala tute.';
+
+  @override
+  String get dailyAffirmation105 =>
+      'Te paćas kaj zaslužis maj cira — kodo nikana naj čačipe. Tu zaslužis pherdi paćiv.';
+
+  @override
+  String get dailyAffirmation106 =>
+      'Tiro molipe nikana naj phučipe — vi kana vareko kerel tut te haćares averčhande.';
+
+  @override
+  String get dailyAffirmation107 =>
+      'Naj san bidikhlo. Vareko akate dikhel čače kon san.';
+
+  @override
+  String get dailyAffirmation108 =>
+      'Te varesave na dikhen tut, kodo na značil kaj khonik na dikhel tut.';
+
+  @override
+  String get dailyAffirmation109 =>
+      'Tu san vazno, vi ande thana kaj khonik na phenel kodo avri.';
+
+  @override
+  String get dailyAffirmation110 =>
+      'Vareko dikhlja tut. Naj san gaći bidikhlo sar so haćares.';
+
+  @override
+  String get dailyAffirmation111 =>
+      'Na trubul te keres tut cikno te dikhen tut vaš e čače buća.';
+
+  @override
+  String get dailyAffirmation112 =>
+      'Te aves dikhlo počnil gaja sar tu dikhes tut — thaj slobodno si tuke te počnis odothe.';
+
+  @override
+  String get dailyAffirmation113 =>
+      'Naj san ni but ni cira — tu san dikhlo sar so san.';
+
+  @override
+  String get dailyAffirmation114 =>
+      'Si manuša savenge si kuč čače kodo so kerel tut — tu.';
+
+  @override
+  String get dailyAffirmation115 =>
+      'Tiro avipe paruvel o than — vi kana dičol kaj na paruvel khanči.';
+
+  @override
+  String get dailyAffirmation116 =>
+      'Maj but manuša pindžaren tut, pe maj but droma, nego so džanes.';
+
+  @override
+  String get dailyAffirmation117 =>
+      'Naj sa so avel tuke ande tire vasta. Numa sar arakhes les — kodo si ande tire vasta.';
+
+  @override
+  String get dailyAffirmation118 =>
+      'Tu san kodo savo decidis so avel maj dur vaš tute.';
+
+  @override
+  String get dailyAffirmation119 =>
+      'E tikne alosarimata si sajekh tire, vi kana si pharo.';
 
   @override
   String get dailyAffirmation120 =>
-      'Savore si lačhe vaš vareso, khonik naj biparuvdo.';
+      'Naj san putniko ande tiro džuvdipe — tu trades o vordon.';
+
+  @override
+  String get dailyAffirmation121 =>
+      'Te manges kodo so trubul tut — kodo si zor, naj bizuralipe.';
+
+  @override
+  String get dailyAffirmation122 =>
+      'Si tut vorba ande akava — vi kana haćares kaj naj gaja.';
+
+  @override
+  String get dailyAffirmation123 =>
+      'Khonik naštine te ramosarel tiro avutno kotor — numa tu.';
+
+  @override
+  String get dailyAffirmation124 =>
+      'Vi ande sisteme save naj kerde vaš tute, tire alosarimata si vazne.';
+
+  @override
+  String get dailyAffirmation125 =>
+      'Slobodno si tuke te manges e buća te aven averčhande — thaj te keres bući vaš kodo.';
+
+  @override
+  String get dailyAffirmation126 => 'So ka keres ađive — kodo tu decidis.';
+
+  @override
+  String get dailyAffirmation127 =>
+      'Na trubul te paruves kon san — tiro than akate već si tiro.';
+
+  @override
+  String get dailyAffirmation128 =>
+      'Si manuša save ka keren than vaš tute — čače gaja sar so san.';
+
+  @override
+  String get dailyAffirmation129 =>
+      'Pripadis ande maj but sar jekh than, thaj kodo naj problemo.';
+
+  @override
+  String get dailyAffirmation130 =>
+      'O čačo phandipe na rodel te garaves ni jekh kotor tutar.';
+
+  @override
+  String get dailyAffirmation131 =>
+      'Varekaj, vareko si baxtalo kaj tu san ande lumja.';
+
+  @override
+  String get dailyAffirmation132 =>
+      'Na trubul te objasnis tut te šaj pripadis.';
+
+  @override
+  String get dailyAffirmation133 =>
+      'O amalipe naj vareso so trubul te zaslužis — tu već san andre.';
+
+  @override
+  String get dailyAffirmation134 =>
+      'Te san dur katar o than kaj počnisardan, na značil kaj naj tut kher.';
+
+  @override
+  String get dailyAffirmation135 =>
+      'Na trubul te keres akava korkoro, vi kana haćares tut gaja.';
+
+  @override
+  String get dailyAffirmation136 =>
+      'Si manuša save keren džuvdipe paša tute — na numa dikhen avral.';
+
+  @override
+  String get dailyAffirmation137 =>
+      'Tire korenurja phiraven o zuralipe bute kuštikengo — thaj vi tu lijan kodo.';
+
+  @override
+  String get dailyAffirmation138 =>
+      'Tiri čhib, tire siklimata, i paramiči tire njamoski — sa kodo si kuč. Arakh len džuvde.';
+
+  @override
+  String get dailyAffirmation139 =>
+      'So kerel tiro amalipe averčhande — čače kodo kerel les kuč.';
+
+  @override
+  String get dailyAffirmation140 =>
+      'Naj san udžile khanikaske ertipe vaš kodo katar aves.';
+
+  @override
+  String get dailyAffirmation141 =>
+      'Kodo so lijan katar tire phure naj vareso te garaves — si vareso te aves ponosno pe leste.';
+
+  @override
+  String get dailyAffirmation142 =>
+      'Tiri kultura naj problemo. Voj si kotor tire zuralipesko.';
+
+  @override
+  String get dailyAffirmation143 =>
+      'Šaj te aves ponosno kon san — thaj sajekh te džanes sar si i lumja.';
+
+  @override
+  String get dailyAffirmation144 =>
+      'Tiro identiteto naj pharipe savo phiraves. Vov si fundo pe savo ačhes.';
+
+  @override
+  String get dailyAffirmation145 =>
+      'Kodo so dine tut tire phure zaslužinel te des les maj dur.';
+
+  @override
+  String get dailyAffirmation146 =>
+      'Si mišto te o đive haćarel pes čučo. Na trubul te keres tut kaj san mišto.';
+
+  @override
+  String get dailyAffirmation147 =>
+      'Slobodno si tuke te aves ćhinjo kaj sajekh trubul te objasnis tut.';
+
+  @override
+  String get dailyAffirmation148 =>
+      'O dukhadipe na značil kaj san bizuralo. Značil kaj čhuves sama pe vareso čačo.';
+
+  @override
+  String get dailyAffirmation149 =>
+      'Na trubul te avel tut paćape sako đive. Varesave đivesa dosta si numa te nakhes.';
+
+  @override
+  String get dailyAffirmation150 =>
+      'Si mišto te aves xoljariko pe buća save nikana na sas čače.';
+
+  @override
+  String get dailyAffirmation151 =>
+      'Te roves vaš vareso čačo na značil kaj san phaglo.';
+
+  @override
+  String get dailyAffirmation152 =>
+      'Na trubul te objasnis soske vareso dukhada tut. Dukhada — thaj kodo si dosta.';
+
+  @override
+  String get dailyAffirmation153 =>
+      'Varesave đivesa o reslipe si numa kaj čhutan gada pe tute. De paćiv kodoleske.';
+
+  @override
+  String get dailyAffirmation154 => 'Nakhlan 100% tire lujendar. Nikana mardo!';
+
+  @override
+  String get dailyAffirmation155 =>
+      'Khanikasko džuvdipe naj čače sar leske fotografije. Ni tiro na trubul te avel.';
+
+  @override
+  String get dailyAffirmation156 =>
+      'Te aves baro manuš si 10% gođi thaj 90% te keres tut kaj džanes so keres.';
+
+  @override
+  String get dailyAffirmation157 =>
+      'San numa jekh cikno xape dur katar maj lačho haćaripe. Dža, le les!';
+
+  @override
+  String get dailyAffirmation158 =>
+      'Sigurnost si numa te aves andre sar kaj o than si tiro.';
+
+  @override
+  String get dailyAffirmation159 =>
+      'Varekana si mišto te soves cira maškar e haćarimata. E haćarimata džanen te ažućaren.';
+
+  @override
+  String get dailyAffirmation160 =>
+      'Na trubul te kames e teharin — dosta si te nakhes la.';
+
+  @override
+  String get dailyAffirmation161 =>
+      'Vi o but gindisaripe phabarel zor — šaj avel. Zaslužisardan vareso guglo.';
+
+  @override
+  String get dailyAffirmation162 =>
+      'Varesave odluke keren pes gaja: čhudes jekh lovoro opre thaj lošares tut, so god perel.';
+
+  @override
+  String get dailyAffirmation163 =>
+      'Keres but mišto — čače maj mišto sar i cicni ande gošnja.';
+
+  @override
+  String get dailyAffirmation164 =>
+      'Handuke daha si već sasti rutina e sastipeski. Tuke džal, čače, but šukar.';
+
+  @override
+  String get dailyAffirmation165 =>
+      'Te ađive avelas khetani bući, tu kerdanas maj but sar dopaš e manušendar.';
+
+  @override
+  String get dailyAffirmation166 =>
+      'Khanikaske luluđa na ačhen džuvde ko angluno drom. Keres maj mišto nego so gindis.';
+
+  @override
+  String get dailyAffirmation167 =>
+      'Dži akana nakhlan sako maj bilačho đive savo sas tut. Sako jekh.';
+
+  @override
+  String get dailyAffirmation168 =>
+      'O ćhinjipe si numa tiro trupo savo marel vasta vaš tute: nakhlan soro đive!';
+
+  @override
+  String get dailyAffirmation169 =>
+      'Na trubul sako đive vareso baro. Varesave đivesenge trubul numa xape thaj cira sovipe.';
+
+  @override
+  String get dailyAffirmation170 =>
+      'Slobodno si tuke te aves mek na gata — thaj sajekh te aves sasto manuš ađive.';
+
+  @override
+  String get dailyAffirmation171 =>
+      'Kana mukes vaš tehara vareso so daravel tut, tiri gođi si numa lačho amal tuke.';
+
+  @override
+  String get dailyAffirmation172 =>
+      'O džuvdipe na avel e uputstvosa. Čačes phendo — tu improvizuis but šukar.';
+
+  @override
+  String get dailyAffirmation173 =>
+      'Ađive tu san o šoro e paramičako, vi te ađive numa thoves gada.';
+
+  @override
+  String get dailyAffirmation174 =>
+      'Si mišto te naj tut sa ko than. Khonik naj les sa ko than — varesave numa maj šukar sikaven.';
+
+  @override
+  String get dailyAffirmation175 =>
+      'Nakhlan ađive bi uputstvosko. Kodo si, čačes, bari zor.';
+
+  @override
+  String get dailyAffirmation176 =>
+      'Vi e tikne pobede si vazne — vi kodi kana irisardan jekh poruka.';
+
+  @override
+  String get dailyAffirmation177 =>
+      'Na trubul te pobedis o đive. Dosta si te nakhes les — e xapesa paša tute.';
+
+  @override
+  String get dailyAffirmation178 =>
+      'Varesave đivesa san lavo. Varesave đivesa san lavo savo kamel numa jekh ćebe. Liduj si mišto.';
+
+  @override
+  String get dailyAffirmation179 =>
+      'Slobodno si tuke te asas po haosi — but droma kodo si o maj gođaver odgovori.';
+
+  @override
+  String get dailyAffirmation180 =>
+      'Tiro avutno tu ka phenel tuke najis vaš o sovipe savo akana ka les.';
+
+  @override
+  String get dailyAffirmation181 =>
+      'Tu zaslužis kamlipe savo na rodel te paruves tut anglal.';
+
+  @override
+  String get dailyAffirmation182 =>
+      'Tu zaslužis hodinipe — vi ande đivesa kana na zaslužisardan les.';
+
+  @override
+  String get dailyAffirmation183 =>
+      'Tu zaslužis tiro than, čače gaja sar so san.';
+
+  @override
+  String get dailyAffirmation184 =>
+      'Tu zaslužis te aves alosardo, na numa trpime.';
+
+  @override
+  String get dailyAffirmation185 =>
+      'Tu zaslužis lačhipe — vi katar tute korkoro.';
+
+  @override
+  String get dailyAffirmation186 =>
+      'Tu zaslužis lačhe buća, vi kodola save na manglan.';
+
+  @override
+  String get dailyAffirmation187 => 'Tu zaslužis manušen save aven vaš tute.';
+
+  @override
+  String get dailyAffirmation188 =>
+      'Tu zaslužis džuvdipe savo haćares kaj si čače tiro.';
+
+  @override
+  String get dailyAffirmation189 => 'Tu zaslužis te paćan tuke kana vaćares.';
+
+  @override
+  String get dailyAffirmation190 => 'Tu zaslužis kovlipe, vi ande phari lumja.';
+
+  @override
+  String get dailyAffirmation191 =>
+      'Tu zaslužis loš savi na trubul te objasnis.';
+
+  @override
+  String get dailyAffirmation192 => 'Tu zaslužis siguripe, kaj godi san.';
+
+  @override
+  String get dailyAffirmation193 =>
+      'Tu zaslužis te aves kamlo, bi te theres kodo anglal.';
+
+  @override
+  String get dailyAffirmation194 =>
+      'Tu zaslužis than ko sto, na numa than ande soba.';
+
+  @override
+  String get dailyAffirmation195 =>
+      'Tu zaslužis sune save si tire — na line katar aver.';
+
+  @override
+  String get dailyAffirmation196 =>
+      'Tu zaslužis ažućaripe — maj but katar tute korkoro.';
+
+  @override
+  String get dailyAffirmation197 =>
+      'Tu zaslužis te haćaren tut, na numa te trpin tut.';
+
+  @override
+  String get dailyAffirmation198 =>
+      'Tu zaslužis te aven tuke lačhe buća — na numa te nakhes e đivesa.';
+
+  @override
+  String get dailyAffirmation199 =>
+      'Tu zaslužis te slavin tut, na numa te prikhatin tut.';
+
+  @override
+  String get dailyAffirmation200 =>
+      'Tu zaslužis — čače gaja sar so san ađive, vi te mek naj san gata.';
+
+  @override
+  String get dailyAffirmation201 =>
+      'Tu zaslužis avutnipe savo na anel palem tire maj phare đivesa.';
+
+  @override
+  String get dailyAffirmation202 =>
+      'Tu zaslužis te aves ponosno pe tute — bi uslovengo.';
+
+  @override
+  String get dailyAffirmation203 =>
+      'Tu zaslužis manušen save na keren tut cikno.';
+
+  @override
+  String get dailyAffirmation204 =>
+      'Tu zaslužis paćiv katar tute korkoro — maj anglal thaj sajekh.';
+
+  @override
+  String get dailyAffirmation205 =>
+      'Tu zaslužis kovlipe čače ande đivesa kana haćares kaj na zaslužis les.';
+
+  @override
+  String get dailyAffirmation206 =>
+      'Tu zaslužis te aves varekaske o maj kamlo manuš.';
+
+  @override
+  String get dailyAffirmation207 => 'Tu zaslužis džuvdipe savo si maj loko.';
+
+  @override
+  String get dailyAffirmation208 =>
+      'Tu zaslužis — na golese so keres, numa golese kaj egzistis.';
+
+  @override
+  String get dailyAffirmation209 =>
+      'Tu zaslužis te aves manglo, na numa kaj vareko trubul tut.';
+
+  @override
+  String get dailyAffirmation210 => 'Tu zaslužis te paćas palem ande tute.';
 
   @override
   String get pleaseLogInAgain => 'Mangav tut, palem av andre.';

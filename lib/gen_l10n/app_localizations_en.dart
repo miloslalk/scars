@@ -283,439 +283,816 @@ class AppLocalizationsEn extends AppLocalizations {
   String get thereFallback => 'there';
 
   @override
-  String get dailyAffirmation1 =>
-      'Embrace and dance with your demons. They might change in color.';
+  String get dailyAffirmation1 => 'The real miracle is believing in yourself.';
 
   @override
-  String get dailyAffirmation2 =>
-      'When you don\'t know where you are going, all roads will get you there.';
+  String get dailyAffirmation2 => 'Diversity makes the world beautiful.';
 
   @override
-  String get dailyAffirmation3 => 'Laugh now, cry later.';
+  String get dailyAffirmation3 => 'After the rain comes the rainbow.';
 
   @override
-  String get dailyAffirmation4 => 'I have a dream...';
-
-  @override
-  String get dailyAffirmation5 =>
-      'If you think you are late to life, from that moment on you are at your youngest.';
-
-  @override
-  String get dailyAffirmation6 => 'The real miracle is believing in yourself.';
-
-  @override
-  String get dailyAffirmation7 => 'Life is one day and that is today.';
-
-  @override
-  String get dailyAffirmation8 =>
-      'The truth is: the natural world is changing. And we are totally dependent on that world.';
-
-  @override
-  String get dailyAffirmation9 => 'We are all made of stardust.';
-
-  @override
-  String get dailyAffirmation10 =>
-      'Dream with passion, live with responsibility.';
-
-  @override
-  String get dailyAffirmation11 =>
-      'Just look at what we can do when we come together.';
-
-  @override
-  String get dailyAffirmation12 =>
-      'Suffer now and live the rest of your life as a champion.';
-
-  @override
-  String get dailyAffirmation13 =>
-      'It\'s all going to be okay. Say it one more time.';
-
-  @override
-  String get dailyAffirmation14 => 'Just take that step and try, it\'s enough.';
-
-  @override
-  String get dailyAffirmation15 => 'Make a wave of positive changes.';
-
-  @override
-  String get dailyAffirmation16 => 'Old ways won\'t open new doors.';
-
-  @override
-  String get dailyAffirmation17 => 'Mistakes are proof that you are trying.';
-
-  @override
-  String get dailyAffirmation18 =>
-      'Your heart is the size of an ocean. Go find yourself in its hidden depths.';
-
-  @override
-  String get dailyAffirmation19 => 'Be weird, be unique, be yourself.';
-
-  @override
-  String get dailyAffirmation20 => 'Whatever happens, happens for the best.';
-
-  @override
-  String get dailyAffirmation21 => 'Actions can speak louder than words.';
-
-  @override
-  String get dailyAffirmation22 =>
-      'Since we existed, even for a moment, then we exist forever.';
-
-  @override
-  String get dailyAffirmation23 =>
-      'If saying goodbye hurts, it means you spent your time well.';
-
-  @override
-  String get dailyAffirmation24 =>
-      'If life gives you moments, make them good memories.';
-
-  @override
-  String get dailyAffirmation25 => 'What goes around, comes around.';
-
-  @override
-  String get dailyAffirmation26 => 'Diversity makes the world beautiful.';
-
-  @override
-  String get dailyAffirmation27 => 'Everything is OK, no problem.';
-
-  @override
-  String get dailyAffirmation28 =>
-      'What you think, you become. What you feel, you attract. What you imagine, you create.';
-
-  @override
-  String get dailyAffirmation29 => 'Strong minds grow in safe spaces.';
-
-  @override
-  String get dailyAffirmation30 =>
-      'Everything is possible, just try it. You can do it.';
-
-  @override
-  String get dailyAffirmation31 =>
-      'Every beginning is only a sequel, after all, and the book of events is always open halfway through.';
-
-  @override
-  String get dailyAffirmation32 =>
-      'I am grounded, resilient and open to growth even in uncertain times.';
-
-  @override
-  String get dailyAffirmation33 =>
-      'Be the person you needed when you were younger.';
-
-  @override
-  String get dailyAffirmation34 =>
-      'There is a crack in everything, that\'s how the light gets in.';
-
-  @override
-  String get dailyAffirmation35 => 'I stand and fight to find my dreams.';
-
-  @override
-  String get dailyAffirmation36 => 'Don\'t let the other decide your future.';
-
-  @override
-  String get dailyAffirmation37 => 'The world needs more angry women.';
-
-  @override
-  String get dailyAffirmation38 => 'The sun will rise and we will try again.';
-
-  @override
-  String get dailyAffirmation39 =>
-      'Wanderer, there is no path. You make the path while walking.';
-
-  @override
-  String get dailyAffirmation40 => 'You don\'t have to be perfect.';
-
-  @override
-  String get dailyAffirmation41 =>
-      'Perfection is a Utopia. It only serves as compass.';
-
-  @override
-  String get dailyAffirmation42 =>
-      'Everything has a beginning and an ending, and the end can be beautiful, no matter how dark it seems now.';
-
-  @override
-  String get dailyAffirmation43 =>
-      'I raise up my voice — not so that I can shout, but so that those without a voice can be heard.';
-
-  @override
-  String get dailyAffirmation44 =>
-      'Everything that seems it is drowning you is actually just teaching you to swim.';
-
-  @override
-  String get dailyAffirmation45 => 'If you have a goal, you will find a way.';
-
-  @override
-  String get dailyAffirmation46 => 'After the rain comes the rainbow.';
-
-  @override
-  String get dailyAffirmation47 =>
-      'Every challenge I face is an opportunity to grow stronger.';
-
-  @override
-  String get dailyAffirmation48 =>
-      'I embrace the questions in my heart and welcome the answers in their own time.';
-
-  @override
-  String get dailyAffirmation49 =>
-      'The only approval I will ever need is mine.';
-
-  @override
-  String get dailyAffirmation50 =>
-      'Kill the urge to be chosen. Choose yourself.';
-
-  @override
-  String get dailyAffirmation51 =>
-      'In hardships keep smiling. It makes them worry.';
-
-  @override
-  String get dailyAffirmation52 =>
-      'Not everything that is faced can be changed, but nothing can be changed until it is faced.';
-
-  @override
-  String get dailyAffirmation53 =>
-      'We shouldn\'t be looking for heroes, we should be looking for good ideas.';
-
-  @override
-  String get dailyAffirmation54 =>
-      'I see the sun, and if I don\'t see the sun, I know it\'s there.';
-
-  @override
-  String get dailyAffirmation55 =>
-      'Anyone who has never made a mistake has never tried anything new.';
-
-  @override
-  String get dailyAffirmation56 =>
-      'There\'s a whole life in that — in knowing that the sun is there.';
-
-  @override
-  String get dailyAffirmation57 => 'Only fools never change their mind.';
-
-  @override
-  String get dailyAffirmation58 =>
-      'It always seems impossible until it\'s done.';
-
-  @override
-  String get dailyAffirmation59 =>
-      'Never doubt that a small group of thoughtful, committed citizens can change the world; indeed, it\'s the only thing that ever has.';
-
-  @override
-  String get dailyAffirmation60 => 'Just do it already!';
-
-  @override
-  String get dailyAffirmation61 => 'Beat the crying with a deep smile.';
-
-  @override
-  String get dailyAffirmation62 =>
-      'I\'d rather die like a man than live as a coward.';
-
-  @override
-  String get dailyAffirmation63 =>
+  String get dailyAffirmation4 =>
       'Allow yourself to be authentic, even in places where everyone is expected to be the same.';
 
   @override
-  String get dailyAffirmation64 => 'You are best, keep going.';
-
-  @override
-  String get dailyAffirmation65 =>
-      'Believe in yourself. You can make miracles happen.';
-
-  @override
-  String get dailyAffirmation66 =>
-      'If you can worry about it, it means you are alive and it didn\'t and won\'t kill you.';
-
-  @override
-  String get dailyAffirmation67 =>
-      'With the flow of life, this too shall pass.';
-
-  @override
-  String get dailyAffirmation68 => 'Keep going, one day it will be worth it.';
-
-  @override
-  String get dailyAffirmation69 =>
-      'Never be what the other wants you to be, be always yourself.';
-
-  @override
-  String get dailyAffirmation70 => 'Don\'t forget to focus on the good things.';
-
-  @override
-  String get dailyAffirmation71 => 'It\'s not selfish, it\'s self care.';
-
-  @override
-  String get dailyAffirmation72 =>
-      'Fear makes you weak; anger makes you strong.';
-
-  @override
-  String get dailyAffirmation73 =>
-      'When someone is drowning, you don\'t ask if they can swim — you just jump in and help.';
-
-  @override
-  String get dailyAffirmation74 =>
-      'The smallest good deed is far better than the biggest good intention.';
-
-  @override
-  String get dailyAffirmation75 => 'Take the risk or lose the chance.';
-
-  @override
-  String get dailyAffirmation76 =>
-      'Believe that you can and you\'re halfway there.';
-
-  @override
-  String get dailyAffirmation77 =>
-      'Choose the one who makes your world beautiful.';
-
-  @override
-  String get dailyAffirmation78 =>
-      'The smallest act of kindness is worth more than the grandest intention.';
-
-  @override
-  String get dailyAffirmation79 =>
-      'Never regret a day in your life. Good days bring you happiness and bad days bring you experience.';
-
-  @override
-  String get dailyAffirmation80 =>
-      'Every pro was first an amateur. Start your dream now.';
-
-  @override
-  String get dailyAffirmation81 =>
-      'It might not be easy but it\'ll be worth it.';
-
-  @override
-  String get dailyAffirmation82 =>
-      'It is never too late to be what you might have been.';
-
-  @override
-  String get dailyAffirmation83 => 'Everything you can imagine is real.';
-
-  @override
-  String get dailyAffirmation84 =>
-      'There is no greater agony than bearing an untold story inside you.';
-
-  @override
-  String get dailyAffirmation85 =>
-      'Pursue what catches your heart, not what catches your eyes.';
-
-  @override
-  String get dailyAffirmation86 =>
-      'Dare to be the best you can. At all times, Dare to be!';
-
-  @override
-  String get dailyAffirmation87 =>
-      'Never lose hope. Storms make people stronger and never last forever.';
-
-  @override
-  String get dailyAffirmation88 =>
-      'Cry. Forgive. Learn. Move on. Let your tears water the seeds of your future happiness.';
-
-  @override
-  String get dailyAffirmation89 =>
-      'When you\'re scared of losing yourself inside the light, just hold hands with your shadow.';
-
-  @override
-  String get dailyAffirmation90 =>
-      'Where earth separates to create space, there you can plant a seed.';
-
-  @override
-  String get dailyAffirmation91 =>
-      'If you\'ve got nothing to dance about, find a reason to sing.';
-
-  @override
-  String get dailyAffirmation92 =>
-      'Sometimes the only way to ever find yourself is to get completely lost.';
-
-  @override
-  String get dailyAffirmation93 =>
-      'Everything is within your power, and your power is within you.';
-
-  @override
-  String get dailyAffirmation94 =>
+  String get dailyAffirmation5 =>
       'Your worth is not what you have, but who you are.';
 
   @override
-  String get dailyAffirmation95 => 'It\'s ok not to be ok.';
+  String get dailyAffirmation6 => 'It\'s ok not to be ok.';
 
   @override
-  String get dailyAffirmation96 =>
-      'After a thunderstorm there is always a rainbow.';
-
-  @override
-  String get dailyAffirmation97 => 'Tomorrow is a new day. Shine!';
-
-  @override
-  String get dailyAffirmation98 =>
-      'Raindrops are little kisses from the Ocean.';
-
-  @override
-  String get dailyAffirmation99 => 'Let all that you do be done in love.';
-
-  @override
-  String get dailyAffirmation100 => 'Faith over fear.';
-
-  @override
-  String get dailyAffirmation101 =>
-      'Do more and more with less and less until you can do anything with nothing.';
-
-  @override
-  String get dailyAffirmation102 => 'Be the love you want to see in the world.';
-
-  @override
-  String get dailyAffirmation103 =>
+  String get dailyAffirmation7 =>
       'There is a seat waiting for you at tables you haven\'t even seen.';
 
   @override
-  String get dailyAffirmation104 =>
-      'Move like everything is gonna work out. Because it is.';
+  String get dailyAffirmation8 => 'You can do anything but you don\'t have to.';
 
   @override
-  String get dailyAffirmation105 => 'I am always protected.';
+  String get dailyAffirmation9 =>
+      'If saying goodbye hurts, it means you spent your time well.';
+
+  @override
+  String get dailyAffirmation10 => 'Remember who cares about you.';
+
+  @override
+  String get dailyAffirmation11 =>
+      'What if it turns out better than you imagined?';
+
+  @override
+  String get dailyAffirmation12 => 'You are enough';
+
+  @override
+  String get dailyAffirmation13 => 'I make my own path';
+
+  @override
+  String get dailyAffirmation14 => 'Today is a new day. Shine!';
+
+  @override
+  String get dailyAffirmation15 =>
+      'Never lose hope. Storms make people stronger and never last forever.';
+
+  @override
+  String get dailyAffirmation16 =>
+      'Cry. Forgive. Learn. Move on. Let your tears water the seeds of your future happiness.';
+
+  @override
+  String get dailyAffirmation17 =>
+      'It might not be easy but it\'ll be worth it.';
+
+  @override
+  String get dailyAffirmation18 => 'Don\'t forget to focus on the good things.';
+
+  @override
+  String get dailyAffirmation19 => 'It\'s not selfish, it\'s self care.';
+
+  @override
+  String get dailyAffirmation20 => 'You are the best, keep going.';
+
+  @override
+  String get dailyAffirmation21 =>
+      'Believe in yourself. You can make miracles happen';
+
+  @override
+  String get dailyAffirmation22 =>
+      'With the flow of life, this too shall pass.';
+
+  @override
+  String get dailyAffirmation23 =>
+      'Every challenge I face is an opportunity to grow stronger.';
+
+  @override
+  String get dailyAffirmation24 =>
+      'I embrace the questions in my heart and welcome the answers in their own time.';
+
+  @override
+  String get dailyAffirmation25 => 'You don\'t have to be perfect.';
+
+  @override
+  String get dailyAffirmation26 =>
+      'Perfection is a utopia. It only serves as a compass.';
+
+  @override
+  String get dailyAffirmation27 => 'I stand and fight to find my dreams.';
+
+  @override
+  String get dailyAffirmation28 => 'Don\'t let the other decide your future.';
+
+  @override
+  String get dailyAffirmation29 =>
+      'I am grounded, resilient and open to grow even in uncertain times.';
+
+  @override
+  String get dailyAffirmation30 =>
+      'If life gives you moments, make them good memories.';
+
+  @override
+  String get dailyAffirmation31 => 'Old ways won\'t open new doors.';
+
+  @override
+  String get dailyAffirmation32 => 'Mistakes are proof that you are trying.';
+
+  @override
+  String get dailyAffirmation33 => 'Just take that step and try, it\'s enough.';
+
+  @override
+  String get dailyAffirmation34 =>
+      'Just look at what we can do when we come together.';
+
+  @override
+  String get dailyAffirmation35 =>
+      'When you don\'t know where you are going, all roads will get you there.';
+
+  @override
+  String get dailyAffirmation36 => 'Life is one day and that is today.';
+
+  @override
+  String get dailyAffirmation37 => 'We are all made of stardust.';
+
+  @override
+  String get dailyAffirmation38 =>
+      'Dream with passion, live with responsibility.';
+
+  @override
+  String get dailyAffirmation39 =>
+      'It\'s all going to be okay. Say it one more time.';
+
+  @override
+  String get dailyAffirmation40 => 'Be weird, be unique, be yourself.';
+
+  @override
+  String get dailyAffirmation41 => 'Strong minds grow in safe spaces.';
+
+  @override
+  String get dailyAffirmation42 =>
+      'Every beginning is only a sequel, after all, and the book of events is always open halfway through.';
+
+  @override
+  String get dailyAffirmation43 =>
+      'Everything has a beginning and an ending, and the end can be beautiful, no matter how dark it seems now.';
+
+  @override
+  String get dailyAffirmation44 =>
+      'The only approval I will ever need is mine.';
+
+  @override
+  String get dailyAffirmation45 =>
+      'We shouldn\'t be looking for heroes, we should be looking for good ideas.';
+
+  @override
+  String get dailyAffirmation46 =>
+      'The smallest good deed is far better than the biggest good intention.';
+
+  @override
+  String get dailyAffirmation47 =>
+      'Where you come from is not something to shrink — it\'s something to stand inside of.';
+
+  @override
+  String get dailyAffirmation48 =>
+      'Your name, your language, your family\'s story, these are yours to carry with pride.';
+
+  @override
+  String get dailyAffirmation49 =>
+      'You don\'t need permission to take up space in this world.';
+
+  @override
+  String get dailyAffirmation50 =>
+      'You are not \"too much\" of anything. You are exactly the right amount of you.';
+
+  @override
+  String get dailyAffirmation51 =>
+      'Your roots don\'t hold you back, they\'re what let you grow tall.';
+
+  @override
+  String get dailyAffirmation52 =>
+      'There\'s no single way to belong somewhere. You get to write your own way.';
+
+  @override
+  String get dailyAffirmation53 =>
+      'Your story matters, even the parts nobody\'s asked about yet.';
+
+  @override
+  String get dailyAffirmation54 =>
+      'You carry more than one home inside you, and that\'s not a burden, it\'s a richness.';
+
+  @override
+  String get dailyAffirmation55 =>
+      'Being proud of who you are doesn\'t need anyone else\'s approval first.';
+
+  @override
+  String get dailyAffirmation56 =>
+      'You don\'t have to earn your place here. You already have one.';
+
+  @override
+  String get dailyAffirmation57 =>
+      'Somewhere, a door is open for you, even on days it doesn\'t feel like it.';
+
+  @override
+  String get dailyAffirmation58 =>
+      'You are allowed to build a home in more than one place.';
+
+  @override
+  String get dailyAffirmation59 =>
+      'The people who matter will make room for you, not ask you to shrink.';
+
+  @override
+  String get dailyAffirmation60 => 'You are not a guest in your own life.';
+
+  @override
+  String get dailyAffirmation61 =>
+      'Wherever you stand today, you have every right to be standing there.';
+
+  @override
+  String get dailyAffirmation62 =>
+      'Community isn\'t something you wait for, sometimes you\'re the one who starts it.';
+
+  @override
+  String get dailyAffirmation63 =>
+      'You don\'t have to choose between where you\'re from and where you are.';
+
+  @override
+  String get dailyAffirmation64 => 'Today doesn\'t have to look like tomorrow.';
+
+  @override
+  String get dailyAffirmation65 =>
+      'Somewhere ahead, there\'s a version of your life you haven\'t imagined yet, and it\'s a good one.';
+
+  @override
+  String get dailyAffirmation66 => 'Hard chapters end. Yours will too.';
+
+  @override
+  String get dailyAffirmation67 =>
+      'You\'re allowed to want more for yourself, and to go get it.';
+
+  @override
+  String get dailyAffirmation68 =>
+      'The future isn\'t fixed. You still get a say in it.';
+
+  @override
+  String get dailyAffirmation69 => 'Small steps still count as moving forward.';
+
+  @override
+  String get dailyAffirmation70 =>
+      'You are not behind. You are exactly where your path has taken you.';
+
+  @override
+  String get dailyAffirmation71 =>
+      'What\'s coming for you hasn\'t happened yet, leave room for it to surprise you.';
+
+  @override
+  String get dailyAffirmation72 =>
+      'You get to decide what your story looks like from here.';
+
+  @override
+  String get dailyAffirmation73 =>
+      'You\'ve made it through every hard day so far. That\'s not luck, that\'s you.';
+
+  @override
+  String get dailyAffirmation74 =>
+      'Being tired doesn\'t mean you\'re failing. It means you\'ve been carrying a lot.';
+
+  @override
+  String get dailyAffirmation75 =>
+      'You don\'t have to be unbreakable. You just have to keep going at your own pace.';
+
+  @override
+  String get dailyAffirmation76 =>
+      'Strength isn\'t never struggling, it\'s showing up again anyway.';
+
+  @override
+  String get dailyAffirmation77 =>
+      'You\'re allowed to be proud of getting through, even if it wasn\'t pretty.';
+
+  @override
+  String get dailyAffirmation78 =>
+      'The hardest parts of your story don\'t get the final word.';
+
+  @override
+  String get dailyAffirmation79 =>
+      'You\'ve survived things people never see, and that counts for something.';
+
+  @override
+  String get dailyAffirmation80 =>
+      'It\'s okay if healing takes longer than you expected.';
+
+  @override
+  String get dailyAffirmation81 =>
+      'You don\'t need to have it all figured out to keep moving.';
+
+  @override
+  String get dailyAffirmation82 =>
+      'Every day you keep showing up is a quiet kind of courage.';
+
+  @override
+  String get dailyAffirmation83 =>
+      'You are legally allowed to have a mediocre day. No permit needed.';
+
+  @override
+  String get dailyAffirmation84 =>
+      'Sometimes life is just deciding what to eat, three times a day, forever. You\'ve got this.';
+
+  @override
+  String get dailyAffirmation85 =>
+      'Not every day has to be a masterpiece. Some days just have to happen.';
+
+  @override
+  String get dailyAffirmation86 =>
+      'You\'re doing better than your group chat notifications suggest.';
+
+  @override
+  String get dailyAffirmation87 =>
+      'Confidence is just pretending you know where you\'re going until you actually do.';
+
+  @override
+  String get dailyAffirmation88 =>
+      'You\'ve survived 100% of your worst days. Solid track record.';
+
+  @override
+  String get dailyAffirmation89 =>
+      'Nobody has it all figured out. The ones who look like they do are just better at texting back slowly.';
+
+  @override
+  String get dailyAffirmation90 =>
+      'You don\'t need a five-year plan today. A decent breakfast will do.';
+
+  @override
+  String get dailyAffirmation91 =>
+      'Growth looks a lot like tripping forward and calling it progress.';
+
+  @override
+  String get dailyAffirmation92 =>
+      'Some days the win is just: you got up. That counts.';
+
+  @override
+  String get dailyAffirmation93 =>
+      'You don\'t have to carry everything alone, let people help.';
+
+  @override
+  String get dailyAffirmation94 =>
+      'Somebody out there has your back, even on days it\'s hard to feel it.';
+
+  @override
+  String get dailyAffirmation95 =>
+      'Asking for help is not a weakness. It\'s how people build real friendships.';
+
+  @override
+  String get dailyAffirmation96 =>
+      'The people around you need you exactly as much as you need them.';
+
+  @override
+  String get dailyAffirmation97 =>
+      'You are part of something bigger, even on the days you feel invisible.';
+
+  @override
+  String get dailyAffirmation98 =>
+      'You\'re allowed to rest before you\'re completely exhausted.';
+
+  @override
+  String get dailyAffirmation99 =>
+      'Feeling sad today doesn\'t cancel out feeling okay tomorrow.';
+
+  @override
+  String get dailyAffirmation100 =>
+      'You don\'t owe anyone constant positivity.';
+
+  @override
+  String get dailyAffirmation101 =>
+      'It\'s fine to not have an answer right now.';
+
+  @override
+  String get dailyAffirmation102 =>
+      'Taking care of yourself today is not selfish, it\'s necessary.';
+
+  @override
+  String get dailyAffirmation103 =>
+      'Someone else\'s prejudice is not evidence about who you are.';
+
+  @override
+  String get dailyAffirmation104 =>
+      'You are not the story other people tell about you.';
+
+  @override
+  String get dailyAffirmation105 =>
+      'Believing you deserve less is never true. You deserve full respect.';
 
   @override
   String get dailyAffirmation106 =>
-      'You will never miss out on what is meant for you.';
+      'Your worth is never up for debate, no matter who makes you feel otherwise.';
 
   @override
-  String get dailyAffirmation107 => 'Nobody is a professional human.';
+  String get dailyAffirmation107 =>
+      'You are not invisible. Someone here sees exactly who you are.';
 
   @override
   String get dailyAffirmation108 =>
-      'On top of the clouds the sun always shines.';
+      'Being overlooked by some doesn\'t mean you go unseen by all.';
 
   @override
-  String get dailyAffirmation109 => 'Remember who cares about you.';
+  String get dailyAffirmation109 =>
+      'You matter, even in rooms where no one says so out loud.';
 
   @override
-  String get dailyAffirmation110 => 'Nothing matters, enjoy.';
+  String get dailyAffirmation110 =>
+      'Someone noticed. You are not as unseen as it feels.';
 
   @override
   String get dailyAffirmation111 =>
-      'Being unhappy is the reason you can appreciate better days.';
+      'You don\'t have to shrink to be noticed for the right reasons.';
 
   @override
   String get dailyAffirmation112 =>
-      'What if it turns better than you imagined?';
+      'Being seen starts with how you see yourself, and you\'re allowed to start there.';
 
   @override
-  String get dailyAffirmation113 => 'You are enough.';
+  String get dailyAffirmation113 =>
+      'You are not \"too much\" or \"not enough\", you are simply seen.';
 
   @override
-  String get dailyAffirmation114 => 'I make my own path.';
+  String get dailyAffirmation114 =>
+      'There are people who value exactly what makes you, you.';
 
   @override
   String get dailyAffirmation115 =>
-      'Be the change you want to see in the world.';
+      'Your presence changes a room, even when it feels like it doesn\'t.';
 
   @override
   String get dailyAffirmation116 =>
-      'Don\'t worry about a thing, cause every little thing is gonna be alright.';
+      'You are known by more people, in more ways, than you realize.';
 
   @override
-  String get dailyAffirmation117 => 'Give importance to what\'s important.';
+  String get dailyAffirmation117 =>
+      'You don\'t control everything that happens to you. You do control how you meet it.';
 
   @override
   String get dailyAffirmation118 =>
-      'You can do anything but you don\'t have to.';
+      'You get to be the one who decides what happens next for you.';
 
   @override
-  String get dailyAffirmation119 => 'The sun in the heart.';
+  String get dailyAffirmation119 =>
+      'Small choices are still yours to make, even in hard circumstances.';
 
   @override
-  String get dailyAffirmation120 =>
-      'Everyone is useful, no one is indispensable.';
+  String get dailyAffirmation120 => 'You are not a passenger in your own life.';
+
+  @override
+  String get dailyAffirmation121 =>
+      'Asking for what you need is a form of power, not weakness.';
+
+  @override
+  String get dailyAffirmation122 =>
+      'You have a say in this, even when it doesn\'t feel like it.';
+
+  @override
+  String get dailyAffirmation123 =>
+      'Nobody gets to write your next chapter but you.';
+
+  @override
+  String get dailyAffirmation124 =>
+      'Even in systems that weren\'t built for you, your choices still count.';
+
+  @override
+  String get dailyAffirmation125 =>
+      'You are allowed to want things to be different, and to work toward that.';
+
+  @override
+  String get dailyAffirmation126 =>
+      'What you do with today is still yours to decide.';
+
+  @override
+  String get dailyAffirmation127 =>
+      'You don\'t need to change who you are to have earned your place here.';
+
+  @override
+  String get dailyAffirmation128 =>
+      'There are people who will hold space for exactly who you are.';
+
+  @override
+  String get dailyAffirmation129 =>
+      'You belong to more than one place, and that\'s not a contradiction.';
+
+  @override
+  String get dailyAffirmation130 =>
+      'Real connection doesn\'t ask you to hide any part of yourself.';
+
+  @override
+  String get dailyAffirmation131 => 'Somewhere, someone is glad you exist.';
+
+  @override
+  String get dailyAffirmation132 =>
+      'You don\'t have to explain yourself to belong.';
+
+  @override
+  String get dailyAffirmation133 =>
+      'Community isn\'t something you have to qualify for. You\'re already in it.';
+
+  @override
+  String get dailyAffirmation134 =>
+      'Being far from where you started doesn\'t mean you\'re without a home.';
+
+  @override
+  String get dailyAffirmation135 =>
+      'You don\'t have to do this alone, even when it feels that way.';
+
+  @override
+  String get dailyAffirmation136 =>
+      'There are people building a life alongside you, not just watching from outside.';
+
+  @override
+  String get dailyAffirmation137 =>
+      'Your roots carry generations of strength, you inherited that, too.';
+
+  @override
+  String get dailyAffirmation138 =>
+      'Your language, your traditions, your family\'s story, they are worth keeping alive.';
+
+  @override
+  String get dailyAffirmation139 =>
+      'What makes your community different is exactly what makes it worth being part of.';
+
+  @override
+  String get dailyAffirmation140 =>
+      'You don\'t owe anyone an apology for where you come from.';
+
+  @override
+  String get dailyAffirmation141 =>
+      'Your heritage is not something to manage. It\'s something to be proud of.';
+
+  @override
+  String get dailyAffirmation142 =>
+      'Your culture is not a problem to solve. It\'s part of your strength.';
+
+  @override
+  String get dailyAffirmation143 =>
+      'Being proud of who you are is not the same as being naive about the world.';
+
+  @override
+  String get dailyAffirmation144 =>
+      'Your identity is not a burden you carry. It\'s a foundation you stand on.';
+
+  @override
+  String get dailyAffirmation145 =>
+      'What was passed down to you deserves to be passed forward.';
+
+  @override
+  String get dailyAffirmation146 =>
+      'It\'s okay if today feels blank. You don\'t have to perform being fine.';
+
+  @override
+  String get dailyAffirmation147 =>
+      'You\'re allowed to be tired of explaining yourself.';
+
+  @override
+  String get dailyAffirmation148 =>
+      'Sadness doesn\'t mean you\'re weak. It means you\'re paying attention to something real.';
+
+  @override
+  String get dailyAffirmation149 =>
+      'You don\'t have to have hope every single day. Some days, just getting through is enough.';
+
+  @override
+  String get dailyAffirmation150 =>
+      'It\'s okay to be angry about things that were never fair.';
+
+  @override
+  String get dailyAffirmation151 =>
+      'Crying about something real is not the same as falling apart.';
+
+  @override
+  String get dailyAffirmation152 =>
+      'You don\'t need to justify why something hurt. It did. That\'s enough reason.';
+
+  @override
+  String get dailyAffirmation153 =>
+      'Some days the bar is \"got dressed.\" Respect the bar.';
+
+  @override
+  String get dailyAffirmation154 =>
+      'You\'ve made it through 100% of your Mondays. Undefeated.';
+
+  @override
+  String get dailyAffirmation155 =>
+      'Nobody\'s life is actually like their photos. Yours doesn\'t need to be either.';
+
+  @override
+  String get dailyAffirmation156 =>
+      'Being an adult is 10% wisdom, 90% pretending you know how the printer works.';
+
+  @override
+  String get dailyAffirmation157 =>
+      'You are one snack away from feeling like a slightly better person. Go get it.';
+
+  @override
+  String get dailyAffirmation158 =>
+      'Confidence is just walking into a room like you paid rent there.';
+
+  @override
+  String get dailyAffirmation159 =>
+      'It\'s fine to nap through your feelings sometimes. Feelings are patient.';
+
+  @override
+  String get dailyAffirmation160 =>
+      'You don\'t have to be a \"morning person.\" You just have to survive the morning.';
+
+  @override
+  String get dailyAffirmation161 =>
+      'Overthinking burns calories too, probably. You\'ve earned dessert.';
+
+  @override
+  String get dailyAffirmation162 =>
+      'Some decisions are best made by flipping a coin and being relieved either way.';
+
+  @override
+  String get dailyAffirmation163 =>
+      'You are doing great, statistically speaking, compared to a raccoon in a bin.';
+
+  @override
+  String get dailyAffirmation164 =>
+      'Deep breaths count as a whole wellness routine. You\'re basically thriving.';
+
+  @override
+  String get dailyAffirmation165 =>
+      'If today were a group project, you\'d have done more than half the people.';
+
+  @override
+  String get dailyAffirmation166 =>
+      'Nobody\'s plants survive the first try. You\'re doing better than you think.';
+
+  @override
+  String get dailyAffirmation167 =>
+      'You\'ve technically survived every single \"worst day ever\" so far.';
+
+  @override
+  String get dailyAffirmation168 =>
+      'Being tired is just your body applauding you for existing all day.';
+
+  @override
+  String get dailyAffirmation169 =>
+      'Not every day needs a plot twist. Some days just need snacks and a nap.';
+
+  @override
+  String get dailyAffirmation170 =>
+      'You are allowed to be a work in progress and still be a whole person today.';
+
+  @override
+  String get dailyAffirmation171 =>
+      'Procrastinating on something scary is just your brain being a good friend.';
+
+  @override
+  String get dailyAffirmation172 =>
+      'Life doesn\'t come with instructions, so honestly, you\'re improvising beautifully.';
+
+  @override
+  String get dailyAffirmation173 =>
+      'You are the main character today, even if the plot is just laundry.';
+
+  @override
+  String get dailyAffirmation174 =>
+      'It\'s okay to not have your life together. Nobody\'s is, they just have better lighting.';
+
+  @override
+  String get dailyAffirmation175 =>
+      'You\'ve navigated today without a manual, which is basically a superpower.';
+
+  @override
+  String get dailyAffirmation176 =>
+      'Small wins still count, even ones like \"answered that one message.\"';
+
+  @override
+  String get dailyAffirmation177 =>
+      'You don\'t have to win the day. Surviving it with snacks is a legitimate strategy.';
+
+  @override
+  String get dailyAffirmation178 =>
+      'Some days you\'re a lion. Some days you\'re a lion who just wants a blanket. Both are valid.';
+
+  @override
+  String get dailyAffirmation179 =>
+      'You are allowed to laugh at the chaos. It\'s usually the sanest response.';
+
+  @override
+  String get dailyAffirmation180 =>
+      'Your future self will thank you for that nap you\'re about to take.';
+
+  @override
+  String get dailyAffirmation181 =>
+      'You are worthy of love that doesn\'t ask you to change first.';
+
+  @override
+  String get dailyAffirmation182 =>
+      'You are worthy of rest, even on days you haven\'t \"earned\" it.';
+
+  @override
+  String get dailyAffirmation183 =>
+      'You are worthy of taking up space exactly as you are.';
+
+  @override
+  String get dailyAffirmation184 =>
+      'You are worthy of being chosen, not just tolerated.';
+
+  @override
+  String get dailyAffirmation185 =>
+      'You are worthy of kindness, including your own.';
+
+  @override
+  String get dailyAffirmation186 =>
+      'You are worthy of good things, even the ones you haven\'t asked for.';
+
+  @override
+  String get dailyAffirmation187 =>
+      'You are worthy of people who show up for you.';
+
+  @override
+  String get dailyAffirmation188 =>
+      'You are worthy of a life that feels like yours.';
+
+  @override
+  String get dailyAffirmation189 =>
+      'You are worthy of being believed when you speak.';
+
+  @override
+  String get dailyAffirmation190 =>
+      'You are worthy of softness, even in a hard world.';
+
+  @override
+  String get dailyAffirmation191 =>
+      'You are worthy of joy that has no explanation attached.';
+
+  @override
+  String get dailyAffirmation192 =>
+      'You are worthy of safety, wherever you are.';
+
+  @override
+  String get dailyAffirmation193 =>
+      'You are worthy of being loved without earning it first.';
+
+  @override
+  String get dailyAffirmation194 =>
+      'You are worthy of a seat at the table, not just a spot in the room.';
+
+  @override
+  String get dailyAffirmation195 =>
+      'You are worthy of dreams that are yours, not borrowed from anyone else.';
+
+  @override
+  String get dailyAffirmation196 =>
+      'You are worthy of patience, especially your own.';
+
+  @override
+  String get dailyAffirmation197 =>
+      'You are worthy of being understood, not just tolerated.';
+
+  @override
+  String get dailyAffirmation198 =>
+      'You are worthy of good things happening to you, not just surviving.';
+
+  @override
+  String get dailyAffirmation199 =>
+      'You are worthy of being celebrated, not just accepted.';
+
+  @override
+  String get dailyAffirmation200 =>
+      'You are worthy exactly as you are today, unfinished and all.';
+
+  @override
+  String get dailyAffirmation201 =>
+      'You are worthy of a future that doesn\'t repeat your hardest days.';
+
+  @override
+  String get dailyAffirmation202 =>
+      'You are worthy of feeling proud of yourself, without conditions attached.';
+
+  @override
+  String get dailyAffirmation203 =>
+      'You are worthy of people who don\'t make you shrink.';
+
+  @override
+  String get dailyAffirmation204 =>
+      'You are worthy of your own respect, first and always.';
+
+  @override
+  String get dailyAffirmation205 =>
+      'You are worthy of gentleness on the days you feel least deserving of it.';
+
+  @override
+  String get dailyAffirmation206 =>
+      'You are worthy of being someone\'s favorite person.';
+
+  @override
+  String get dailyAffirmation207 =>
+      'You are worthy of a life with more ease in it.';
+
+  @override
+  String get dailyAffirmation208 =>
+      'You are worthy, not because of what you do, but because you exist.';
+
+  @override
+  String get dailyAffirmation209 =>
+      'You are worthy of being wanted, not just needed.';
+
+  @override
+  String get dailyAffirmation210 =>
+      'You are worthy of trusting yourself again.';
 
   @override
   String get pleaseLogInAgain => 'Please log in again.';

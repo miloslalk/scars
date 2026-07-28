@@ -649,722 +649,1262 @@ abstract class AppLocalizations {
   /// No description provided for @dailyAffirmation1.
   ///
   /// In en, this message translates to:
-  /// **'Embrace and dance with your demons. They might change in color.'**
+  /// **'The real miracle is believing in yourself.'**
   String get dailyAffirmation1;
 
   /// No description provided for @dailyAffirmation2.
   ///
   /// In en, this message translates to:
-  /// **'When you don\'t know where you are going, all roads will get you there.'**
+  /// **'Diversity makes the world beautiful.'**
   String get dailyAffirmation2;
 
   /// No description provided for @dailyAffirmation3.
   ///
   /// In en, this message translates to:
-  /// **'Laugh now, cry later.'**
+  /// **'After the rain comes the rainbow.'**
   String get dailyAffirmation3;
 
   /// No description provided for @dailyAffirmation4.
   ///
   /// In en, this message translates to:
-  /// **'I have a dream...'**
+  /// **'Allow yourself to be authentic, even in places where everyone is expected to be the same.'**
   String get dailyAffirmation4;
 
   /// No description provided for @dailyAffirmation5.
   ///
   /// In en, this message translates to:
-  /// **'If you think you are late to life, from that moment on you are at your youngest.'**
+  /// **'Your worth is not what you have, but who you are.'**
   String get dailyAffirmation5;
 
   /// No description provided for @dailyAffirmation6.
   ///
   /// In en, this message translates to:
-  /// **'The real miracle is believing in yourself.'**
+  /// **'It\'s ok not to be ok.'**
   String get dailyAffirmation6;
 
   /// No description provided for @dailyAffirmation7.
   ///
   /// In en, this message translates to:
-  /// **'Life is one day and that is today.'**
+  /// **'There is a seat waiting for you at tables you haven\'t even seen.'**
   String get dailyAffirmation7;
 
   /// No description provided for @dailyAffirmation8.
   ///
   /// In en, this message translates to:
-  /// **'The truth is: the natural world is changing. And we are totally dependent on that world.'**
+  /// **'You can do anything but you don\'t have to.'**
   String get dailyAffirmation8;
 
   /// No description provided for @dailyAffirmation9.
   ///
   /// In en, this message translates to:
-  /// **'We are all made of stardust.'**
+  /// **'If saying goodbye hurts, it means you spent your time well.'**
   String get dailyAffirmation9;
 
   /// No description provided for @dailyAffirmation10.
   ///
   /// In en, this message translates to:
-  /// **'Dream with passion, live with responsibility.'**
+  /// **'Remember who cares about you.'**
   String get dailyAffirmation10;
 
   /// No description provided for @dailyAffirmation11.
   ///
   /// In en, this message translates to:
-  /// **'Just look at what we can do when we come together.'**
+  /// **'What if it turns out better than you imagined?'**
   String get dailyAffirmation11;
 
   /// No description provided for @dailyAffirmation12.
   ///
   /// In en, this message translates to:
-  /// **'Suffer now and live the rest of your life as a champion.'**
+  /// **'You are enough'**
   String get dailyAffirmation12;
 
   /// No description provided for @dailyAffirmation13.
   ///
   /// In en, this message translates to:
-  /// **'It\'s all going to be okay. Say it one more time.'**
+  /// **'I make my own path'**
   String get dailyAffirmation13;
 
   /// No description provided for @dailyAffirmation14.
   ///
   /// In en, this message translates to:
-  /// **'Just take that step and try, it\'s enough.'**
+  /// **'Today is a new day. Shine!'**
   String get dailyAffirmation14;
 
   /// No description provided for @dailyAffirmation15.
   ///
   /// In en, this message translates to:
-  /// **'Make a wave of positive changes.'**
+  /// **'Never lose hope. Storms make people stronger and never last forever.'**
   String get dailyAffirmation15;
 
   /// No description provided for @dailyAffirmation16.
   ///
   /// In en, this message translates to:
-  /// **'Old ways won\'t open new doors.'**
+  /// **'Cry. Forgive. Learn. Move on. Let your tears water the seeds of your future happiness.'**
   String get dailyAffirmation16;
 
   /// No description provided for @dailyAffirmation17.
   ///
   /// In en, this message translates to:
-  /// **'Mistakes are proof that you are trying.'**
+  /// **'It might not be easy but it\'ll be worth it.'**
   String get dailyAffirmation17;
 
   /// No description provided for @dailyAffirmation18.
   ///
   /// In en, this message translates to:
-  /// **'Your heart is the size of an ocean. Go find yourself in its hidden depths.'**
+  /// **'Don\'t forget to focus on the good things.'**
   String get dailyAffirmation18;
 
   /// No description provided for @dailyAffirmation19.
   ///
   /// In en, this message translates to:
-  /// **'Be weird, be unique, be yourself.'**
+  /// **'It\'s not selfish, it\'s self care.'**
   String get dailyAffirmation19;
 
   /// No description provided for @dailyAffirmation20.
   ///
   /// In en, this message translates to:
-  /// **'Whatever happens, happens for the best.'**
+  /// **'You are the best, keep going.'**
   String get dailyAffirmation20;
 
   /// No description provided for @dailyAffirmation21.
   ///
   /// In en, this message translates to:
-  /// **'Actions can speak louder than words.'**
+  /// **'Believe in yourself. You can make miracles happen'**
   String get dailyAffirmation21;
 
   /// No description provided for @dailyAffirmation22.
   ///
   /// In en, this message translates to:
-  /// **'Since we existed, even for a moment, then we exist forever.'**
+  /// **'With the flow of life, this too shall pass.'**
   String get dailyAffirmation22;
 
   /// No description provided for @dailyAffirmation23.
   ///
   /// In en, this message translates to:
-  /// **'If saying goodbye hurts, it means you spent your time well.'**
+  /// **'Every challenge I face is an opportunity to grow stronger.'**
   String get dailyAffirmation23;
 
   /// No description provided for @dailyAffirmation24.
   ///
   /// In en, this message translates to:
-  /// **'If life gives you moments, make them good memories.'**
+  /// **'I embrace the questions in my heart and welcome the answers in their own time.'**
   String get dailyAffirmation24;
 
   /// No description provided for @dailyAffirmation25.
   ///
   /// In en, this message translates to:
-  /// **'What goes around, comes around.'**
+  /// **'You don\'t have to be perfect.'**
   String get dailyAffirmation25;
 
   /// No description provided for @dailyAffirmation26.
   ///
   /// In en, this message translates to:
-  /// **'Diversity makes the world beautiful.'**
+  /// **'Perfection is a utopia. It only serves as a compass.'**
   String get dailyAffirmation26;
 
   /// No description provided for @dailyAffirmation27.
   ///
   /// In en, this message translates to:
-  /// **'Everything is OK, no problem.'**
+  /// **'I stand and fight to find my dreams.'**
   String get dailyAffirmation27;
 
   /// No description provided for @dailyAffirmation28.
   ///
   /// In en, this message translates to:
-  /// **'What you think, you become. What you feel, you attract. What you imagine, you create.'**
+  /// **'Don\'t let the other decide your future.'**
   String get dailyAffirmation28;
 
   /// No description provided for @dailyAffirmation29.
   ///
   /// In en, this message translates to:
-  /// **'Strong minds grow in safe spaces.'**
+  /// **'I am grounded, resilient and open to grow even in uncertain times.'**
   String get dailyAffirmation29;
 
   /// No description provided for @dailyAffirmation30.
   ///
   /// In en, this message translates to:
-  /// **'Everything is possible, just try it. You can do it.'**
+  /// **'If life gives you moments, make them good memories.'**
   String get dailyAffirmation30;
 
   /// No description provided for @dailyAffirmation31.
   ///
   /// In en, this message translates to:
-  /// **'Every beginning is only a sequel, after all, and the book of events is always open halfway through.'**
+  /// **'Old ways won\'t open new doors.'**
   String get dailyAffirmation31;
 
   /// No description provided for @dailyAffirmation32.
   ///
   /// In en, this message translates to:
-  /// **'I am grounded, resilient and open to growth even in uncertain times.'**
+  /// **'Mistakes are proof that you are trying.'**
   String get dailyAffirmation32;
 
   /// No description provided for @dailyAffirmation33.
   ///
   /// In en, this message translates to:
-  /// **'Be the person you needed when you were younger.'**
+  /// **'Just take that step and try, it\'s enough.'**
   String get dailyAffirmation33;
 
   /// No description provided for @dailyAffirmation34.
   ///
   /// In en, this message translates to:
-  /// **'There is a crack in everything, that\'s how the light gets in.'**
+  /// **'Just look at what we can do when we come together.'**
   String get dailyAffirmation34;
 
   /// No description provided for @dailyAffirmation35.
   ///
   /// In en, this message translates to:
-  /// **'I stand and fight to find my dreams.'**
+  /// **'When you don\'t know where you are going, all roads will get you there.'**
   String get dailyAffirmation35;
 
   /// No description provided for @dailyAffirmation36.
   ///
   /// In en, this message translates to:
-  /// **'Don\'t let the other decide your future.'**
+  /// **'Life is one day and that is today.'**
   String get dailyAffirmation36;
 
   /// No description provided for @dailyAffirmation37.
   ///
   /// In en, this message translates to:
-  /// **'The world needs more angry women.'**
+  /// **'We are all made of stardust.'**
   String get dailyAffirmation37;
 
   /// No description provided for @dailyAffirmation38.
   ///
   /// In en, this message translates to:
-  /// **'The sun will rise and we will try again.'**
+  /// **'Dream with passion, live with responsibility.'**
   String get dailyAffirmation38;
 
   /// No description provided for @dailyAffirmation39.
   ///
   /// In en, this message translates to:
-  /// **'Wanderer, there is no path. You make the path while walking.'**
+  /// **'It\'s all going to be okay. Say it one more time.'**
   String get dailyAffirmation39;
 
   /// No description provided for @dailyAffirmation40.
   ///
   /// In en, this message translates to:
-  /// **'You don\'t have to be perfect.'**
+  /// **'Be weird, be unique, be yourself.'**
   String get dailyAffirmation40;
 
   /// No description provided for @dailyAffirmation41.
   ///
   /// In en, this message translates to:
-  /// **'Perfection is a Utopia. It only serves as compass.'**
+  /// **'Strong minds grow in safe spaces.'**
   String get dailyAffirmation41;
 
   /// No description provided for @dailyAffirmation42.
   ///
   /// In en, this message translates to:
-  /// **'Everything has a beginning and an ending, and the end can be beautiful, no matter how dark it seems now.'**
+  /// **'Every beginning is only a sequel, after all, and the book of events is always open halfway through.'**
   String get dailyAffirmation42;
 
   /// No description provided for @dailyAffirmation43.
   ///
   /// In en, this message translates to:
-  /// **'I raise up my voice — not so that I can shout, but so that those without a voice can be heard.'**
+  /// **'Everything has a beginning and an ending, and the end can be beautiful, no matter how dark it seems now.'**
   String get dailyAffirmation43;
 
   /// No description provided for @dailyAffirmation44.
   ///
   /// In en, this message translates to:
-  /// **'Everything that seems it is drowning you is actually just teaching you to swim.'**
+  /// **'The only approval I will ever need is mine.'**
   String get dailyAffirmation44;
 
   /// No description provided for @dailyAffirmation45.
   ///
   /// In en, this message translates to:
-  /// **'If you have a goal, you will find a way.'**
+  /// **'We shouldn\'t be looking for heroes, we should be looking for good ideas.'**
   String get dailyAffirmation45;
 
   /// No description provided for @dailyAffirmation46.
   ///
   /// In en, this message translates to:
-  /// **'After the rain comes the rainbow.'**
+  /// **'The smallest good deed is far better than the biggest good intention.'**
   String get dailyAffirmation46;
 
   /// No description provided for @dailyAffirmation47.
   ///
   /// In en, this message translates to:
-  /// **'Every challenge I face is an opportunity to grow stronger.'**
+  /// **'Where you come from is not something to shrink — it\'s something to stand inside of.'**
   String get dailyAffirmation47;
 
   /// No description provided for @dailyAffirmation48.
   ///
   /// In en, this message translates to:
-  /// **'I embrace the questions in my heart and welcome the answers in their own time.'**
+  /// **'Your name, your language, your family\'s story, these are yours to carry with pride.'**
   String get dailyAffirmation48;
 
   /// No description provided for @dailyAffirmation49.
   ///
   /// In en, this message translates to:
-  /// **'The only approval I will ever need is mine.'**
+  /// **'You don\'t need permission to take up space in this world.'**
   String get dailyAffirmation49;
 
   /// No description provided for @dailyAffirmation50.
   ///
   /// In en, this message translates to:
-  /// **'Kill the urge to be chosen. Choose yourself.'**
+  /// **'You are not \"too much\" of anything. You are exactly the right amount of you.'**
   String get dailyAffirmation50;
 
   /// No description provided for @dailyAffirmation51.
   ///
   /// In en, this message translates to:
-  /// **'In hardships keep smiling. It makes them worry.'**
+  /// **'Your roots don\'t hold you back, they\'re what let you grow tall.'**
   String get dailyAffirmation51;
 
   /// No description provided for @dailyAffirmation52.
   ///
   /// In en, this message translates to:
-  /// **'Not everything that is faced can be changed, but nothing can be changed until it is faced.'**
+  /// **'There\'s no single way to belong somewhere. You get to write your own way.'**
   String get dailyAffirmation52;
 
   /// No description provided for @dailyAffirmation53.
   ///
   /// In en, this message translates to:
-  /// **'We shouldn\'t be looking for heroes, we should be looking for good ideas.'**
+  /// **'Your story matters, even the parts nobody\'s asked about yet.'**
   String get dailyAffirmation53;
 
   /// No description provided for @dailyAffirmation54.
   ///
   /// In en, this message translates to:
-  /// **'I see the sun, and if I don\'t see the sun, I know it\'s there.'**
+  /// **'You carry more than one home inside you, and that\'s not a burden, it\'s a richness.'**
   String get dailyAffirmation54;
 
   /// No description provided for @dailyAffirmation55.
   ///
   /// In en, this message translates to:
-  /// **'Anyone who has never made a mistake has never tried anything new.'**
+  /// **'Being proud of who you are doesn\'t need anyone else\'s approval first.'**
   String get dailyAffirmation55;
 
   /// No description provided for @dailyAffirmation56.
   ///
   /// In en, this message translates to:
-  /// **'There\'s a whole life in that — in knowing that the sun is there.'**
+  /// **'You don\'t have to earn your place here. You already have one.'**
   String get dailyAffirmation56;
 
   /// No description provided for @dailyAffirmation57.
   ///
   /// In en, this message translates to:
-  /// **'Only fools never change their mind.'**
+  /// **'Somewhere, a door is open for you, even on days it doesn\'t feel like it.'**
   String get dailyAffirmation57;
 
   /// No description provided for @dailyAffirmation58.
   ///
   /// In en, this message translates to:
-  /// **'It always seems impossible until it\'s done.'**
+  /// **'You are allowed to build a home in more than one place.'**
   String get dailyAffirmation58;
 
   /// No description provided for @dailyAffirmation59.
   ///
   /// In en, this message translates to:
-  /// **'Never doubt that a small group of thoughtful, committed citizens can change the world; indeed, it\'s the only thing that ever has.'**
+  /// **'The people who matter will make room for you, not ask you to shrink.'**
   String get dailyAffirmation59;
 
   /// No description provided for @dailyAffirmation60.
   ///
   /// In en, this message translates to:
-  /// **'Just do it already!'**
+  /// **'You are not a guest in your own life.'**
   String get dailyAffirmation60;
 
   /// No description provided for @dailyAffirmation61.
   ///
   /// In en, this message translates to:
-  /// **'Beat the crying with a deep smile.'**
+  /// **'Wherever you stand today, you have every right to be standing there.'**
   String get dailyAffirmation61;
 
   /// No description provided for @dailyAffirmation62.
   ///
   /// In en, this message translates to:
-  /// **'I\'d rather die like a man than live as a coward.'**
+  /// **'Community isn\'t something you wait for, sometimes you\'re the one who starts it.'**
   String get dailyAffirmation62;
 
   /// No description provided for @dailyAffirmation63.
   ///
   /// In en, this message translates to:
-  /// **'Allow yourself to be authentic, even in places where everyone is expected to be the same.'**
+  /// **'You don\'t have to choose between where you\'re from and where you are.'**
   String get dailyAffirmation63;
 
   /// No description provided for @dailyAffirmation64.
   ///
   /// In en, this message translates to:
-  /// **'You are best, keep going.'**
+  /// **'Today doesn\'t have to look like tomorrow.'**
   String get dailyAffirmation64;
 
   /// No description provided for @dailyAffirmation65.
   ///
   /// In en, this message translates to:
-  /// **'Believe in yourself. You can make miracles happen.'**
+  /// **'Somewhere ahead, there\'s a version of your life you haven\'t imagined yet, and it\'s a good one.'**
   String get dailyAffirmation65;
 
   /// No description provided for @dailyAffirmation66.
   ///
   /// In en, this message translates to:
-  /// **'If you can worry about it, it means you are alive and it didn\'t and won\'t kill you.'**
+  /// **'Hard chapters end. Yours will too.'**
   String get dailyAffirmation66;
 
   /// No description provided for @dailyAffirmation67.
   ///
   /// In en, this message translates to:
-  /// **'With the flow of life, this too shall pass.'**
+  /// **'You\'re allowed to want more for yourself, and to go get it.'**
   String get dailyAffirmation67;
 
   /// No description provided for @dailyAffirmation68.
   ///
   /// In en, this message translates to:
-  /// **'Keep going, one day it will be worth it.'**
+  /// **'The future isn\'t fixed. You still get a say in it.'**
   String get dailyAffirmation68;
 
   /// No description provided for @dailyAffirmation69.
   ///
   /// In en, this message translates to:
-  /// **'Never be what the other wants you to be, be always yourself.'**
+  /// **'Small steps still count as moving forward.'**
   String get dailyAffirmation69;
 
   /// No description provided for @dailyAffirmation70.
   ///
   /// In en, this message translates to:
-  /// **'Don\'t forget to focus on the good things.'**
+  /// **'You are not behind. You are exactly where your path has taken you.'**
   String get dailyAffirmation70;
 
   /// No description provided for @dailyAffirmation71.
   ///
   /// In en, this message translates to:
-  /// **'It\'s not selfish, it\'s self care.'**
+  /// **'What\'s coming for you hasn\'t happened yet, leave room for it to surprise you.'**
   String get dailyAffirmation71;
 
   /// No description provided for @dailyAffirmation72.
   ///
   /// In en, this message translates to:
-  /// **'Fear makes you weak; anger makes you strong.'**
+  /// **'You get to decide what your story looks like from here.'**
   String get dailyAffirmation72;
 
   /// No description provided for @dailyAffirmation73.
   ///
   /// In en, this message translates to:
-  /// **'When someone is drowning, you don\'t ask if they can swim — you just jump in and help.'**
+  /// **'You\'ve made it through every hard day so far. That\'s not luck, that\'s you.'**
   String get dailyAffirmation73;
 
   /// No description provided for @dailyAffirmation74.
   ///
   /// In en, this message translates to:
-  /// **'The smallest good deed is far better than the biggest good intention.'**
+  /// **'Being tired doesn\'t mean you\'re failing. It means you\'ve been carrying a lot.'**
   String get dailyAffirmation74;
 
   /// No description provided for @dailyAffirmation75.
   ///
   /// In en, this message translates to:
-  /// **'Take the risk or lose the chance.'**
+  /// **'You don\'t have to be unbreakable. You just have to keep going at your own pace.'**
   String get dailyAffirmation75;
 
   /// No description provided for @dailyAffirmation76.
   ///
   /// In en, this message translates to:
-  /// **'Believe that you can and you\'re halfway there.'**
+  /// **'Strength isn\'t never struggling, it\'s showing up again anyway.'**
   String get dailyAffirmation76;
 
   /// No description provided for @dailyAffirmation77.
   ///
   /// In en, this message translates to:
-  /// **'Choose the one who makes your world beautiful.'**
+  /// **'You\'re allowed to be proud of getting through, even if it wasn\'t pretty.'**
   String get dailyAffirmation77;
 
   /// No description provided for @dailyAffirmation78.
   ///
   /// In en, this message translates to:
-  /// **'The smallest act of kindness is worth more than the grandest intention.'**
+  /// **'The hardest parts of your story don\'t get the final word.'**
   String get dailyAffirmation78;
 
   /// No description provided for @dailyAffirmation79.
   ///
   /// In en, this message translates to:
-  /// **'Never regret a day in your life. Good days bring you happiness and bad days bring you experience.'**
+  /// **'You\'ve survived things people never see, and that counts for something.'**
   String get dailyAffirmation79;
 
   /// No description provided for @dailyAffirmation80.
   ///
   /// In en, this message translates to:
-  /// **'Every pro was first an amateur. Start your dream now.'**
+  /// **'It\'s okay if healing takes longer than you expected.'**
   String get dailyAffirmation80;
 
   /// No description provided for @dailyAffirmation81.
   ///
   /// In en, this message translates to:
-  /// **'It might not be easy but it\'ll be worth it.'**
+  /// **'You don\'t need to have it all figured out to keep moving.'**
   String get dailyAffirmation81;
 
   /// No description provided for @dailyAffirmation82.
   ///
   /// In en, this message translates to:
-  /// **'It is never too late to be what you might have been.'**
+  /// **'Every day you keep showing up is a quiet kind of courage.'**
   String get dailyAffirmation82;
 
   /// No description provided for @dailyAffirmation83.
   ///
   /// In en, this message translates to:
-  /// **'Everything you can imagine is real.'**
+  /// **'You are legally allowed to have a mediocre day. No permit needed.'**
   String get dailyAffirmation83;
 
   /// No description provided for @dailyAffirmation84.
   ///
   /// In en, this message translates to:
-  /// **'There is no greater agony than bearing an untold story inside you.'**
+  /// **'Sometimes life is just deciding what to eat, three times a day, forever. You\'ve got this.'**
   String get dailyAffirmation84;
 
   /// No description provided for @dailyAffirmation85.
   ///
   /// In en, this message translates to:
-  /// **'Pursue what catches your heart, not what catches your eyes.'**
+  /// **'Not every day has to be a masterpiece. Some days just have to happen.'**
   String get dailyAffirmation85;
 
   /// No description provided for @dailyAffirmation86.
   ///
   /// In en, this message translates to:
-  /// **'Dare to be the best you can. At all times, Dare to be!'**
+  /// **'You\'re doing better than your group chat notifications suggest.'**
   String get dailyAffirmation86;
 
   /// No description provided for @dailyAffirmation87.
   ///
   /// In en, this message translates to:
-  /// **'Never lose hope. Storms make people stronger and never last forever.'**
+  /// **'Confidence is just pretending you know where you\'re going until you actually do.'**
   String get dailyAffirmation87;
 
   /// No description provided for @dailyAffirmation88.
   ///
   /// In en, this message translates to:
-  /// **'Cry. Forgive. Learn. Move on. Let your tears water the seeds of your future happiness.'**
+  /// **'You\'ve survived 100% of your worst days. Solid track record.'**
   String get dailyAffirmation88;
 
   /// No description provided for @dailyAffirmation89.
   ///
   /// In en, this message translates to:
-  /// **'When you\'re scared of losing yourself inside the light, just hold hands with your shadow.'**
+  /// **'Nobody has it all figured out. The ones who look like they do are just better at texting back slowly.'**
   String get dailyAffirmation89;
 
   /// No description provided for @dailyAffirmation90.
   ///
   /// In en, this message translates to:
-  /// **'Where earth separates to create space, there you can plant a seed.'**
+  /// **'You don\'t need a five-year plan today. A decent breakfast will do.'**
   String get dailyAffirmation90;
 
   /// No description provided for @dailyAffirmation91.
   ///
   /// In en, this message translates to:
-  /// **'If you\'ve got nothing to dance about, find a reason to sing.'**
+  /// **'Growth looks a lot like tripping forward and calling it progress.'**
   String get dailyAffirmation91;
 
   /// No description provided for @dailyAffirmation92.
   ///
   /// In en, this message translates to:
-  /// **'Sometimes the only way to ever find yourself is to get completely lost.'**
+  /// **'Some days the win is just: you got up. That counts.'**
   String get dailyAffirmation92;
 
   /// No description provided for @dailyAffirmation93.
   ///
   /// In en, this message translates to:
-  /// **'Everything is within your power, and your power is within you.'**
+  /// **'You don\'t have to carry everything alone, let people help.'**
   String get dailyAffirmation93;
 
   /// No description provided for @dailyAffirmation94.
   ///
   /// In en, this message translates to:
-  /// **'Your worth is not what you have, but who you are.'**
+  /// **'Somebody out there has your back, even on days it\'s hard to feel it.'**
   String get dailyAffirmation94;
 
   /// No description provided for @dailyAffirmation95.
   ///
   /// In en, this message translates to:
-  /// **'It\'s ok not to be ok.'**
+  /// **'Asking for help is not a weakness. It\'s how people build real friendships.'**
   String get dailyAffirmation95;
 
   /// No description provided for @dailyAffirmation96.
   ///
   /// In en, this message translates to:
-  /// **'After a thunderstorm there is always a rainbow.'**
+  /// **'The people around you need you exactly as much as you need them.'**
   String get dailyAffirmation96;
 
   /// No description provided for @dailyAffirmation97.
   ///
   /// In en, this message translates to:
-  /// **'Tomorrow is a new day. Shine!'**
+  /// **'You are part of something bigger, even on the days you feel invisible.'**
   String get dailyAffirmation97;
 
   /// No description provided for @dailyAffirmation98.
   ///
   /// In en, this message translates to:
-  /// **'Raindrops are little kisses from the Ocean.'**
+  /// **'You\'re allowed to rest before you\'re completely exhausted.'**
   String get dailyAffirmation98;
 
   /// No description provided for @dailyAffirmation99.
   ///
   /// In en, this message translates to:
-  /// **'Let all that you do be done in love.'**
+  /// **'Feeling sad today doesn\'t cancel out feeling okay tomorrow.'**
   String get dailyAffirmation99;
 
   /// No description provided for @dailyAffirmation100.
   ///
   /// In en, this message translates to:
-  /// **'Faith over fear.'**
+  /// **'You don\'t owe anyone constant positivity.'**
   String get dailyAffirmation100;
 
   /// No description provided for @dailyAffirmation101.
   ///
   /// In en, this message translates to:
-  /// **'Do more and more with less and less until you can do anything with nothing.'**
+  /// **'It\'s fine to not have an answer right now.'**
   String get dailyAffirmation101;
 
   /// No description provided for @dailyAffirmation102.
   ///
   /// In en, this message translates to:
-  /// **'Be the love you want to see in the world.'**
+  /// **'Taking care of yourself today is not selfish, it\'s necessary.'**
   String get dailyAffirmation102;
 
   /// No description provided for @dailyAffirmation103.
   ///
   /// In en, this message translates to:
-  /// **'There is a seat waiting for you at tables you haven\'t even seen.'**
+  /// **'Someone else\'s prejudice is not evidence about who you are.'**
   String get dailyAffirmation103;
 
   /// No description provided for @dailyAffirmation104.
   ///
   /// In en, this message translates to:
-  /// **'Move like everything is gonna work out. Because it is.'**
+  /// **'You are not the story other people tell about you.'**
   String get dailyAffirmation104;
 
   /// No description provided for @dailyAffirmation105.
   ///
   /// In en, this message translates to:
-  /// **'I am always protected.'**
+  /// **'Believing you deserve less is never true. You deserve full respect.'**
   String get dailyAffirmation105;
 
   /// No description provided for @dailyAffirmation106.
   ///
   /// In en, this message translates to:
-  /// **'You will never miss out on what is meant for you.'**
+  /// **'Your worth is never up for debate, no matter who makes you feel otherwise.'**
   String get dailyAffirmation106;
 
   /// No description provided for @dailyAffirmation107.
   ///
   /// In en, this message translates to:
-  /// **'Nobody is a professional human.'**
+  /// **'You are not invisible. Someone here sees exactly who you are.'**
   String get dailyAffirmation107;
 
   /// No description provided for @dailyAffirmation108.
   ///
   /// In en, this message translates to:
-  /// **'On top of the clouds the sun always shines.'**
+  /// **'Being overlooked by some doesn\'t mean you go unseen by all.'**
   String get dailyAffirmation108;
 
   /// No description provided for @dailyAffirmation109.
   ///
   /// In en, this message translates to:
-  /// **'Remember who cares about you.'**
+  /// **'You matter, even in rooms where no one says so out loud.'**
   String get dailyAffirmation109;
 
   /// No description provided for @dailyAffirmation110.
   ///
   /// In en, this message translates to:
-  /// **'Nothing matters, enjoy.'**
+  /// **'Someone noticed. You are not as unseen as it feels.'**
   String get dailyAffirmation110;
 
   /// No description provided for @dailyAffirmation111.
   ///
   /// In en, this message translates to:
-  /// **'Being unhappy is the reason you can appreciate better days.'**
+  /// **'You don\'t have to shrink to be noticed for the right reasons.'**
   String get dailyAffirmation111;
 
   /// No description provided for @dailyAffirmation112.
   ///
   /// In en, this message translates to:
-  /// **'What if it turns better than you imagined?'**
+  /// **'Being seen starts with how you see yourself, and you\'re allowed to start there.'**
   String get dailyAffirmation112;
 
   /// No description provided for @dailyAffirmation113.
   ///
   /// In en, this message translates to:
-  /// **'You are enough.'**
+  /// **'You are not \"too much\" or \"not enough\", you are simply seen.'**
   String get dailyAffirmation113;
 
   /// No description provided for @dailyAffirmation114.
   ///
   /// In en, this message translates to:
-  /// **'I make my own path.'**
+  /// **'There are people who value exactly what makes you, you.'**
   String get dailyAffirmation114;
 
   /// No description provided for @dailyAffirmation115.
   ///
   /// In en, this message translates to:
-  /// **'Be the change you want to see in the world.'**
+  /// **'Your presence changes a room, even when it feels like it doesn\'t.'**
   String get dailyAffirmation115;
 
   /// No description provided for @dailyAffirmation116.
   ///
   /// In en, this message translates to:
-  /// **'Don\'t worry about a thing, cause every little thing is gonna be alright.'**
+  /// **'You are known by more people, in more ways, than you realize.'**
   String get dailyAffirmation116;
 
   /// No description provided for @dailyAffirmation117.
   ///
   /// In en, this message translates to:
-  /// **'Give importance to what\'s important.'**
+  /// **'You don\'t control everything that happens to you. You do control how you meet it.'**
   String get dailyAffirmation117;
 
   /// No description provided for @dailyAffirmation118.
   ///
   /// In en, this message translates to:
-  /// **'You can do anything but you don\'t have to.'**
+  /// **'You get to be the one who decides what happens next for you.'**
   String get dailyAffirmation118;
 
   /// No description provided for @dailyAffirmation119.
   ///
   /// In en, this message translates to:
-  /// **'The sun in the heart.'**
+  /// **'Small choices are still yours to make, even in hard circumstances.'**
   String get dailyAffirmation119;
 
   /// No description provided for @dailyAffirmation120.
   ///
   /// In en, this message translates to:
-  /// **'Everyone is useful, no one is indispensable.'**
+  /// **'You are not a passenger in your own life.'**
   String get dailyAffirmation120;
+
+  /// No description provided for @dailyAffirmation121.
+  ///
+  /// In en, this message translates to:
+  /// **'Asking for what you need is a form of power, not weakness.'**
+  String get dailyAffirmation121;
+
+  /// No description provided for @dailyAffirmation122.
+  ///
+  /// In en, this message translates to:
+  /// **'You have a say in this, even when it doesn\'t feel like it.'**
+  String get dailyAffirmation122;
+
+  /// No description provided for @dailyAffirmation123.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody gets to write your next chapter but you.'**
+  String get dailyAffirmation123;
+
+  /// No description provided for @dailyAffirmation124.
+  ///
+  /// In en, this message translates to:
+  /// **'Even in systems that weren\'t built for you, your choices still count.'**
+  String get dailyAffirmation124;
+
+  /// No description provided for @dailyAffirmation125.
+  ///
+  /// In en, this message translates to:
+  /// **'You are allowed to want things to be different, and to work toward that.'**
+  String get dailyAffirmation125;
+
+  /// No description provided for @dailyAffirmation126.
+  ///
+  /// In en, this message translates to:
+  /// **'What you do with today is still yours to decide.'**
+  String get dailyAffirmation126;
+
+  /// No description provided for @dailyAffirmation127.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t need to change who you are to have earned your place here.'**
+  String get dailyAffirmation127;
+
+  /// No description provided for @dailyAffirmation128.
+  ///
+  /// In en, this message translates to:
+  /// **'There are people who will hold space for exactly who you are.'**
+  String get dailyAffirmation128;
+
+  /// No description provided for @dailyAffirmation129.
+  ///
+  /// In en, this message translates to:
+  /// **'You belong to more than one place, and that\'s not a contradiction.'**
+  String get dailyAffirmation129;
+
+  /// No description provided for @dailyAffirmation130.
+  ///
+  /// In en, this message translates to:
+  /// **'Real connection doesn\'t ask you to hide any part of yourself.'**
+  String get dailyAffirmation130;
+
+  /// No description provided for @dailyAffirmation131.
+  ///
+  /// In en, this message translates to:
+  /// **'Somewhere, someone is glad you exist.'**
+  String get dailyAffirmation131;
+
+  /// No description provided for @dailyAffirmation132.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have to explain yourself to belong.'**
+  String get dailyAffirmation132;
+
+  /// No description provided for @dailyAffirmation133.
+  ///
+  /// In en, this message translates to:
+  /// **'Community isn\'t something you have to qualify for. You\'re already in it.'**
+  String get dailyAffirmation133;
+
+  /// No description provided for @dailyAffirmation134.
+  ///
+  /// In en, this message translates to:
+  /// **'Being far from where you started doesn\'t mean you\'re without a home.'**
+  String get dailyAffirmation134;
+
+  /// No description provided for @dailyAffirmation135.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have to do this alone, even when it feels that way.'**
+  String get dailyAffirmation135;
+
+  /// No description provided for @dailyAffirmation136.
+  ///
+  /// In en, this message translates to:
+  /// **'There are people building a life alongside you, not just watching from outside.'**
+  String get dailyAffirmation136;
+
+  /// No description provided for @dailyAffirmation137.
+  ///
+  /// In en, this message translates to:
+  /// **'Your roots carry generations of strength, you inherited that, too.'**
+  String get dailyAffirmation137;
+
+  /// No description provided for @dailyAffirmation138.
+  ///
+  /// In en, this message translates to:
+  /// **'Your language, your traditions, your family\'s story, they are worth keeping alive.'**
+  String get dailyAffirmation138;
+
+  /// No description provided for @dailyAffirmation139.
+  ///
+  /// In en, this message translates to:
+  /// **'What makes your community different is exactly what makes it worth being part of.'**
+  String get dailyAffirmation139;
+
+  /// No description provided for @dailyAffirmation140.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t owe anyone an apology for where you come from.'**
+  String get dailyAffirmation140;
+
+  /// No description provided for @dailyAffirmation141.
+  ///
+  /// In en, this message translates to:
+  /// **'Your heritage is not something to manage. It\'s something to be proud of.'**
+  String get dailyAffirmation141;
+
+  /// No description provided for @dailyAffirmation142.
+  ///
+  /// In en, this message translates to:
+  /// **'Your culture is not a problem to solve. It\'s part of your strength.'**
+  String get dailyAffirmation142;
+
+  /// No description provided for @dailyAffirmation143.
+  ///
+  /// In en, this message translates to:
+  /// **'Being proud of who you are is not the same as being naive about the world.'**
+  String get dailyAffirmation143;
+
+  /// No description provided for @dailyAffirmation144.
+  ///
+  /// In en, this message translates to:
+  /// **'Your identity is not a burden you carry. It\'s a foundation you stand on.'**
+  String get dailyAffirmation144;
+
+  /// No description provided for @dailyAffirmation145.
+  ///
+  /// In en, this message translates to:
+  /// **'What was passed down to you deserves to be passed forward.'**
+  String get dailyAffirmation145;
+
+  /// No description provided for @dailyAffirmation146.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s okay if today feels blank. You don\'t have to perform being fine.'**
+  String get dailyAffirmation146;
+
+  /// No description provided for @dailyAffirmation147.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re allowed to be tired of explaining yourself.'**
+  String get dailyAffirmation147;
+
+  /// No description provided for @dailyAffirmation148.
+  ///
+  /// In en, this message translates to:
+  /// **'Sadness doesn\'t mean you\'re weak. It means you\'re paying attention to something real.'**
+  String get dailyAffirmation148;
+
+  /// No description provided for @dailyAffirmation149.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have to have hope every single day. Some days, just getting through is enough.'**
+  String get dailyAffirmation149;
+
+  /// No description provided for @dailyAffirmation150.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s okay to be angry about things that were never fair.'**
+  String get dailyAffirmation150;
+
+  /// No description provided for @dailyAffirmation151.
+  ///
+  /// In en, this message translates to:
+  /// **'Crying about something real is not the same as falling apart.'**
+  String get dailyAffirmation151;
+
+  /// No description provided for @dailyAffirmation152.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t need to justify why something hurt. It did. That\'s enough reason.'**
+  String get dailyAffirmation152;
+
+  /// No description provided for @dailyAffirmation153.
+  ///
+  /// In en, this message translates to:
+  /// **'Some days the bar is \"got dressed.\" Respect the bar.'**
+  String get dailyAffirmation153;
+
+  /// No description provided for @dailyAffirmation154.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve made it through 100% of your Mondays. Undefeated.'**
+  String get dailyAffirmation154;
+
+  /// No description provided for @dailyAffirmation155.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody\'s life is actually like their photos. Yours doesn\'t need to be either.'**
+  String get dailyAffirmation155;
+
+  /// No description provided for @dailyAffirmation156.
+  ///
+  /// In en, this message translates to:
+  /// **'Being an adult is 10% wisdom, 90% pretending you know how the printer works.'**
+  String get dailyAffirmation156;
+
+  /// No description provided for @dailyAffirmation157.
+  ///
+  /// In en, this message translates to:
+  /// **'You are one snack away from feeling like a slightly better person. Go get it.'**
+  String get dailyAffirmation157;
+
+  /// No description provided for @dailyAffirmation158.
+  ///
+  /// In en, this message translates to:
+  /// **'Confidence is just walking into a room like you paid rent there.'**
+  String get dailyAffirmation158;
+
+  /// No description provided for @dailyAffirmation159.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s fine to nap through your feelings sometimes. Feelings are patient.'**
+  String get dailyAffirmation159;
+
+  /// No description provided for @dailyAffirmation160.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have to be a \"morning person.\" You just have to survive the morning.'**
+  String get dailyAffirmation160;
+
+  /// No description provided for @dailyAffirmation161.
+  ///
+  /// In en, this message translates to:
+  /// **'Overthinking burns calories too, probably. You\'ve earned dessert.'**
+  String get dailyAffirmation161;
+
+  /// No description provided for @dailyAffirmation162.
+  ///
+  /// In en, this message translates to:
+  /// **'Some decisions are best made by flipping a coin and being relieved either way.'**
+  String get dailyAffirmation162;
+
+  /// No description provided for @dailyAffirmation163.
+  ///
+  /// In en, this message translates to:
+  /// **'You are doing great, statistically speaking, compared to a raccoon in a bin.'**
+  String get dailyAffirmation163;
+
+  /// No description provided for @dailyAffirmation164.
+  ///
+  /// In en, this message translates to:
+  /// **'Deep breaths count as a whole wellness routine. You\'re basically thriving.'**
+  String get dailyAffirmation164;
+
+  /// No description provided for @dailyAffirmation165.
+  ///
+  /// In en, this message translates to:
+  /// **'If today were a group project, you\'d have done more than half the people.'**
+  String get dailyAffirmation165;
+
+  /// No description provided for @dailyAffirmation166.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody\'s plants survive the first try. You\'re doing better than you think.'**
+  String get dailyAffirmation166;
+
+  /// No description provided for @dailyAffirmation167.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve technically survived every single \"worst day ever\" so far.'**
+  String get dailyAffirmation167;
+
+  /// No description provided for @dailyAffirmation168.
+  ///
+  /// In en, this message translates to:
+  /// **'Being tired is just your body applauding you for existing all day.'**
+  String get dailyAffirmation168;
+
+  /// No description provided for @dailyAffirmation169.
+  ///
+  /// In en, this message translates to:
+  /// **'Not every day needs a plot twist. Some days just need snacks and a nap.'**
+  String get dailyAffirmation169;
+
+  /// No description provided for @dailyAffirmation170.
+  ///
+  /// In en, this message translates to:
+  /// **'You are allowed to be a work in progress and still be a whole person today.'**
+  String get dailyAffirmation170;
+
+  /// No description provided for @dailyAffirmation171.
+  ///
+  /// In en, this message translates to:
+  /// **'Procrastinating on something scary is just your brain being a good friend.'**
+  String get dailyAffirmation171;
+
+  /// No description provided for @dailyAffirmation172.
+  ///
+  /// In en, this message translates to:
+  /// **'Life doesn\'t come with instructions, so honestly, you\'re improvising beautifully.'**
+  String get dailyAffirmation172;
+
+  /// No description provided for @dailyAffirmation173.
+  ///
+  /// In en, this message translates to:
+  /// **'You are the main character today, even if the plot is just laundry.'**
+  String get dailyAffirmation173;
+
+  /// No description provided for @dailyAffirmation174.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s okay to not have your life together. Nobody\'s is, they just have better lighting.'**
+  String get dailyAffirmation174;
+
+  /// No description provided for @dailyAffirmation175.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve navigated today without a manual, which is basically a superpower.'**
+  String get dailyAffirmation175;
+
+  /// No description provided for @dailyAffirmation176.
+  ///
+  /// In en, this message translates to:
+  /// **'Small wins still count, even ones like \"answered that one message.\"'**
+  String get dailyAffirmation176;
+
+  /// No description provided for @dailyAffirmation177.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have to win the day. Surviving it with snacks is a legitimate strategy.'**
+  String get dailyAffirmation177;
+
+  /// No description provided for @dailyAffirmation178.
+  ///
+  /// In en, this message translates to:
+  /// **'Some days you\'re a lion. Some days you\'re a lion who just wants a blanket. Both are valid.'**
+  String get dailyAffirmation178;
+
+  /// No description provided for @dailyAffirmation179.
+  ///
+  /// In en, this message translates to:
+  /// **'You are allowed to laugh at the chaos. It\'s usually the sanest response.'**
+  String get dailyAffirmation179;
+
+  /// No description provided for @dailyAffirmation180.
+  ///
+  /// In en, this message translates to:
+  /// **'Your future self will thank you for that nap you\'re about to take.'**
+  String get dailyAffirmation180;
+
+  /// No description provided for @dailyAffirmation181.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of love that doesn\'t ask you to change first.'**
+  String get dailyAffirmation181;
+
+  /// No description provided for @dailyAffirmation182.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of rest, even on days you haven\'t \"earned\" it.'**
+  String get dailyAffirmation182;
+
+  /// No description provided for @dailyAffirmation183.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of taking up space exactly as you are.'**
+  String get dailyAffirmation183;
+
+  /// No description provided for @dailyAffirmation184.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of being chosen, not just tolerated.'**
+  String get dailyAffirmation184;
+
+  /// No description provided for @dailyAffirmation185.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of kindness, including your own.'**
+  String get dailyAffirmation185;
+
+  /// No description provided for @dailyAffirmation186.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of good things, even the ones you haven\'t asked for.'**
+  String get dailyAffirmation186;
+
+  /// No description provided for @dailyAffirmation187.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of people who show up for you.'**
+  String get dailyAffirmation187;
+
+  /// No description provided for @dailyAffirmation188.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of a life that feels like yours.'**
+  String get dailyAffirmation188;
+
+  /// No description provided for @dailyAffirmation189.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of being believed when you speak.'**
+  String get dailyAffirmation189;
+
+  /// No description provided for @dailyAffirmation190.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of softness, even in a hard world.'**
+  String get dailyAffirmation190;
+
+  /// No description provided for @dailyAffirmation191.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of joy that has no explanation attached.'**
+  String get dailyAffirmation191;
+
+  /// No description provided for @dailyAffirmation192.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of safety, wherever you are.'**
+  String get dailyAffirmation192;
+
+  /// No description provided for @dailyAffirmation193.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of being loved without earning it first.'**
+  String get dailyAffirmation193;
+
+  /// No description provided for @dailyAffirmation194.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of a seat at the table, not just a spot in the room.'**
+  String get dailyAffirmation194;
+
+  /// No description provided for @dailyAffirmation195.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of dreams that are yours, not borrowed from anyone else.'**
+  String get dailyAffirmation195;
+
+  /// No description provided for @dailyAffirmation196.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of patience, especially your own.'**
+  String get dailyAffirmation196;
+
+  /// No description provided for @dailyAffirmation197.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of being understood, not just tolerated.'**
+  String get dailyAffirmation197;
+
+  /// No description provided for @dailyAffirmation198.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of good things happening to you, not just surviving.'**
+  String get dailyAffirmation198;
+
+  /// No description provided for @dailyAffirmation199.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of being celebrated, not just accepted.'**
+  String get dailyAffirmation199;
+
+  /// No description provided for @dailyAffirmation200.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy exactly as you are today, unfinished and all.'**
+  String get dailyAffirmation200;
+
+  /// No description provided for @dailyAffirmation201.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of a future that doesn\'t repeat your hardest days.'**
+  String get dailyAffirmation201;
+
+  /// No description provided for @dailyAffirmation202.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of feeling proud of yourself, without conditions attached.'**
+  String get dailyAffirmation202;
+
+  /// No description provided for @dailyAffirmation203.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of people who don\'t make you shrink.'**
+  String get dailyAffirmation203;
+
+  /// No description provided for @dailyAffirmation204.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of your own respect, first and always.'**
+  String get dailyAffirmation204;
+
+  /// No description provided for @dailyAffirmation205.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of gentleness on the days you feel least deserving of it.'**
+  String get dailyAffirmation205;
+
+  /// No description provided for @dailyAffirmation206.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of being someone\'s favorite person.'**
+  String get dailyAffirmation206;
+
+  /// No description provided for @dailyAffirmation207.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of a life with more ease in it.'**
+  String get dailyAffirmation207;
+
+  /// No description provided for @dailyAffirmation208.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy, not because of what you do, but because you exist.'**
+  String get dailyAffirmation208;
+
+  /// No description provided for @dailyAffirmation209.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of being wanted, not just needed.'**
+  String get dailyAffirmation209;
+
+  /// No description provided for @dailyAffirmation210.
+  ///
+  /// In en, this message translates to:
+  /// **'You are worthy of trusting yourself again.'**
+  String get dailyAffirmation210;
 
   /// No description provided for @pleaseLogInAgain.
   ///
