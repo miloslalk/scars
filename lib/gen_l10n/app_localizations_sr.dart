@@ -1825,4 +1825,21 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get genericDeleteFailed => 'Couldn\'t delete. Please try again.';
+
+  @override
+  String get reportLabel => 'Report';
+
+  @override
+  String get reportMessageAction => 'Report message';
+
+  @override
+  String get reportMessageConfirmBody =>
+      'Report this message to the moderators?';
+
+  @override
+  String get reportMessageSent => 'Thank you. The message was reported.';
+
+  @override
+  String get reportMessageFailed =>
+      'Couldn\'t send the report. Please try again.';
 }

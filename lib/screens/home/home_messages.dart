@@ -13,6 +13,8 @@ class _MessagesContentState extends State<_MessagesContent>
   final Map<String, DateTime> _poppedAt = {};
   _MessageSpec? _shownMessage;
   bool _saved = false;
+  bool _reported = false;
+  bool _reporting = false;
   bool _hasOpenedToday = false;
   bool _popInFlight = false;
   String _localeCode = 'en';
@@ -277,7 +279,52 @@ class _MessagesContentState extends State<_MessagesContent>
     setState(() {
       _shownMessage = null;
       _saved = false;
+      _reported = false;
     });
+  }
+
+  Future<void> _reportMessage(_MessageSpec message) async {
+    if (_reported || _reporting) return;
+    final l10n = AppLocalizations.of(context)!;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.reportMessageAction),
+        content: Text(l10n.reportMessageConfirmBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.cancelLabel),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l10n.reportLabel),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    setState(() => _reporting = true);
+    try {
+      await FirebaseFunctions.instance.httpsCallable('reportMessage').call({
+        'messageId': message.id,
+        'messageText': message.text,
+      });
+      if (!mounted) return;
+      setState(() => _reported = true);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.reportMessageSent)));
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.reportMessageFailed)));
+    } finally {
+      if (mounted) {
+        setState(() => _reporting = false);
+      }
+    }
   }
 
   Future<void> _saveMessage(_MessageSpec message) async {
@@ -391,6 +438,41 @@ class _MessagesContentState extends State<_MessagesContent>
                                       ),
                                     ),
                                 ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Report button — outside top-left of cloud
+                        Positioned(
+                          left: svgWidth * 0.06,
+                          top: svgHeight * 0.02,
+                          child: GestureDetector(
+                            onTap: _reported || _reporting
+                                ? null
+                                : () => _reportMessage(message),
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.9),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.15),
+                                    blurRadius: 4,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 300),
+                                child: Icon(
+                                  _reported ? Icons.flag : Icons.outlined_flag,
+                                  key: ValueKey(_reported),
+                                  size: 22,
+                                  color: _reported
+                                      ? const Color(0xFFB42318)
+                                      : const Color(0xFF5C4A87),
+                                ),
                               ),
                             ),
                           ),

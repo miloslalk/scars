@@ -1977,6 +1977,55 @@ class _BodyAwarenessContentState extends State<_BodyAwarenessContent> {
             }
           }
         }
+      } else if (_selectedRegion == 'outside') {
+        // The "Reflect" choice at tap time already served as consent, so no
+        // join prompt: play the outside-the-body reflection clip directly.
+        setState(() {
+          _isOpeningMonster = true;
+        });
+        try {
+          final exerciseKey = _selectedActivityKey();
+          final exercisePlan = MonsterManifestService.instance
+              .resolvePlaybackPlan(
+                exerciseKey,
+                platform: Theme.of(context).platform,
+              );
+          if (exercisePlan != null && mounted) {
+            final exerciseUrls = _pathsFromPlan(exercisePlan);
+            await Navigator.of(context, rootNavigator: true).push(
+              MaterialPageRoute(
+                fullscreenDialog: false,
+                builder: (context) => _MonsterPlaybackPage(
+                  activityKey: exerciseKey,
+                  plan: exercisePlan,
+                  urls: exerciseUrls,
+                ),
+              ),
+            );
+            if (mounted) {
+              final feedback = await Navigator.of(context, rootNavigator: true)
+                  .push<String>(
+                    MaterialPageRoute(
+                      builder: (context) => const _MonsterFeedbackPage(),
+                    ),
+                  );
+              if (mounted) {
+                await _recordExperienceFeedback(user.uid, now, feedback);
+              }
+            }
+          }
+        } catch (error) {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l10n.failedToLoadMonsterClip('$error'))),
+          );
+        } finally {
+          if (mounted) {
+            setState(() {
+              _isOpeningMonster = false;
+            });
+          }
+        }
       }
       if (widget.onCompleted != null) {
         await widget.onCompleted!.call();

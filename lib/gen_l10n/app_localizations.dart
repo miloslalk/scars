@@ -3333,6 +3333,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t delete. Please try again.'**
   String get genericDeleteFailed;
+
+  /// No description provided for @reportLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get reportLabel;
+
+  /// No description provided for @reportMessageAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Report message'**
+  String get reportMessageAction;
+
+  /// No description provided for @reportMessageConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Report this message to the moderators?'**
+  String get reportMessageConfirmBody;
+
+  /// No description provided for @reportMessageSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you. The message was reported.'**
+  String get reportMessageSent;
+
+  /// No description provided for @reportMessageFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t send the report. Please try again.'**
+  String get reportMessageFailed;
 }
 
 class _AppLocalizationsDelegate

@@ -659,5 +659,10 @@
   "genericSaveFailed": "Couldn't save. Please try again.",
   "retryLabel": "Retry",
   "careCornerActionReference": "REFERENCE",
-  "genericDeleteFailed": "Couldn't delete. Please try again."
+  "genericDeleteFailed": "Couldn't delete. Please try again.",
+  "reportLabel": "Report",
+  "reportMessageAction": "Report message",
+  "reportMessageConfirmBody": "Report this message to the moderators?",
+  "reportMessageSent": "Thank you. The message was reported.",
+  "reportMessageFailed": "Couldn't send the report. Please try again."
 }
